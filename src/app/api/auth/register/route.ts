@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   const res = await fetch(`${ENV.backendBaseUrl}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify(body), // {name, email, password}
   });
 
   const data = await res.json();
@@ -17,10 +17,10 @@ export async function POST(req: NextRequest) {
 
   response.cookies.set(process.env.JWT_COOKIE_NAME ?? "auth_token", token, {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7, // 1 week
   });
 
   return response;

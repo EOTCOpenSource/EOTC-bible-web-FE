@@ -1,0 +1,7 @@
+# ignore files not to be dockerized
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+.git
+.next/cache

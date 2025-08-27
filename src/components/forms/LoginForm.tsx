@@ -30,10 +30,22 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={onSubmit} className="max-w-sm space-y-4">
-      <input className="w-full border p-2 rounded" placeholder="Email" type="email"
-        value={email} onChange={e => setEmail(e.target.value)} required />
-      <input className="w-full border p-2 rounded" placeholder="Password" type="password"
-        value={password} onChange={e => setPassword(e.target.value)} required />
+      <input
+        className="w-full border p-2 rounded"
+        placeholder="Email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <input
+        className="w-full border p-2 rounded"
+        placeholder="Password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
       {err && <p className="text-red-600 text-sm">{err}</p>}
       <button className="w-full border p-2 rounded" disabled={loading}>
         {loading ? "Signing in..." : "Sign in"}

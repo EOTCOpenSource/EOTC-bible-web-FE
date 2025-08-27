@@ -2,11 +2,11 @@ import { serverApiFetch } from "@/lib/server-fetch";
 import type { UserProfile } from "@/types/api";
 
 export default async function Dashboard() {
-  const me = await serverApiFetch<UserProfile>("/user/me"); // protected route requires Bearer token :contentReference[oaicite:8]{index=8}
+  const me = await serverApiFetch<UserProfile>("/api/profile"); // protected route requires Bearer token :contentReference[oaicite:8]{index=8}
 
 
     { me ? <main className="p-6 space-y-4">
-      <h1 className="text-2xl font-semibold">Welcome, {me.name}</h1>
+      <h1 className="text-2xl text-amber-50 font-semibold">Welcome, {me.name}</h1>
       <div className="space-y-1">
         <p>Email: {me.email}</p>
         <p>Theme: {me.settings.theme}</p>
