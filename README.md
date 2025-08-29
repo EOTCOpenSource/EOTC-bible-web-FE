@@ -1,6 +1,6 @@
-# Bible App Frontend – Auth & Proxy Flow
+# EOTC Bible Frontend
 
-This frontend is built with **Next.js (App Router, TypeScript)** and communicates with the [Bible App Backend API](https://domain.com/api/v1) securely using **JWT authentication** stored in **httpOnly cookies**.
+This is the frontend for the EOTC Bible project, built with **Next.js (App Router, TypeScript)**. It communicates with the [Bible App Backend API](https://github.com/EOTCOpenSource/EOTCbibleBE/api/v1) securely using **JWT authentication** stored in **httpOnly cookies**.
 
 ---
 
@@ -26,14 +26,17 @@ This pattern improves **security**, **code maintainability**, and **CORS handlin
 ## 🔒 Why This Approach?
 
 ### 1. Security
+
 - **httpOnly cookie** means JS running in the browser **cannot** access the token (reduces XSS risk).
 - The token **never** appears in `localStorage`, `sessionStorage`, or browser memory.
 
 ### 2. Centralized Token Handling
+
 - All backend calls requiring a token are handled through `/api/proxy`.
 - If the backend auth format changes, we update only the proxy logic.
 
 ### 3. No CORS Headaches
+
 - The frontend talks only to its **own** domain (`/api/...`).
 - The proxy handles cross-domain communication with the backend.
 
@@ -81,6 +84,7 @@ sequenceDiagram
 ## 🚀 How to Authenticate
 
 ### Login
+
 1. `POST /api/auth/login` with `{ email, password }`.
 2. Next.js route forwards to backend `/auth/login`.
 3. Backend returns `{ token, user }`.
@@ -88,6 +92,7 @@ sequenceDiagram
 5. Browser is redirected or fetch continues.
 
 ### Access Protected Route (Client)
+
 ```ts
 import { clientApiFetch } from "@/lib/proxy-client";
 
@@ -96,6 +101,7 @@ const data = await clientApiFetch("/progress");
 ```
 
 ### Access Protected Route (Server)
+
 ```ts
 import { serverApiFetch } from "@/lib/server-fetch";
 
@@ -103,9 +109,11 @@ const me = await serverApiFetch("/user/me");
 ```
 
 ### Logout
+
 ```ts
 await fetch("/api/auth/logout", { method: "POST" });
 ```
+
 This clears the cookie.
 
 ---
@@ -134,9 +142,9 @@ This video explains the core ideas behind storing JWTs in httpOnly cookies and u
 
 ## ✅ Benefits Recap
 
-| Feature               | Why It Matters |
-|-----------------------|----------------|
-| httpOnly cookies      | Token never exposed to JS (reduces XSS risk) |
-| Proxy-based fetching  | No CORS issues, centralized auth logic |
+| Feature               | Why It Matters                                   |
+| --------------------- | ------------------------------------------------ |
+| httpOnly cookies      | Token never exposed to JS (reduces XSS risk)     |
+| Proxy-based fetching  | No CORS issues, centralized auth logic           |
 | Server + Client usage | Same token works in server and client components |
-| Easy to maintain      | Change auth logic once in proxy |
+| Easy to maintain      | Change auth logic once in proxy                  |
