@@ -1,31 +1,33 @@
-import { StateStorage } from "zustand/middleware";
+import { PersistStorage } from "zustand/middleware";
 
-export const createBrowserStorage = (keyPrefix = ""): StateStorage => {
+export const createBrowserStorage = <T = unknown>(
+  keyPrefix = ""
+): PersistStorage<T> => {
   return {
-    getItem: (name) => {
+    getItem: async (name) => {
       if (typeof window === "undefined") return null;
       try {
-        return Promise.resolve(localStorage.getItem(`${keyPrefix}${name}`));
-      } catch {
-        return Promise.resolve(null);
+        const value = localStorage.getItem(`${keyPrefix}${name}`);
+        return value ? JSON.parse(value) : null;
+      } catch (err) {
+        console.error("Error reading from local storage", err);
+        return null;
       }
     },
-    setItem: (name, value) => {
-      if (typeof window === "undefined") return Promise.resolve();
+    setItem: async (name, value) => {
+      if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(`${keyPrefix}${name}`, value);
-        return Promise.resolve();
-      } catch {
-        return Promise.resolve();
+        localStorage.setItem(`${keyPrefix}${name}`, JSON.stringify(value));
+      } catch (err) {
+        console.error("Error writing to local storage", err);
       }
     },
-    removeItem: (name) => {
-      if (typeof window === "undefined") return Promise.resolve();
+    removeItem: async (name) => {
+      if (typeof window === "undefined") return;
       try {
         localStorage.removeItem(`${keyPrefix}${name}`);
-        return Promise.resolve();
-      } catch {
-        return Promise.resolve();
+      } catch (err) {
+        console.error("Error removing from local storage", err);
       }
     },
   };
