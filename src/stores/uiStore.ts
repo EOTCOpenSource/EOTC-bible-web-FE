@@ -54,6 +54,14 @@ export const useUIStore = create<UIState>()(
       {
         name: "ui",
         storage: createBrowserStorage("eotc-"),
+        partialize: (state) => ({
+          theme: state.theme,
+          fontSize: state.fontSize,
+          isSidebarOpen: state.isSidebarOpen,
+          // I explicitly specified these states because
+          // I wanted to exclude the modal and notification
+          // states from persistence.
+        }),
       }
     )
   )
