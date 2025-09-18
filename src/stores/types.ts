@@ -11,7 +11,7 @@ export interface VerseRef {
 export interface Settings {
   theme: "light" | "dark" | "system";
   fontSize: number;
-  lastRead?: {
+  lastOpenedChapter?: {
     book: BookId;
     chapter: number;
   };
@@ -47,10 +47,14 @@ export interface BookMark {
   createdAt: string;
 }
 
-export interface Progress {
-  chaptersRead: Record<BookId, number[]>;
-}
 export interface Streak {
   current: number;
+  longest: number;
   lastDate?: string;
+}
+
+export interface Progress {
+  chaptersRead: Record<BookId, number[]>;
+  streak: Streak;
+  lastRead?: VerseRef;
 }
