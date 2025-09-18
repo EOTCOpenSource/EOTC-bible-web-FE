@@ -33,4 +33,5 @@ COPY --from=builder /app/package.json ./package.json
 EXPOSE 3000
 
 # Start Next.js
+  ### docker run -p 3000:3000 <my-nextjs-app (or image name)>
 CMD ["npm", "start"]

@@ -1,35 +1,47 @@
-import { ENV } from '@/lib/env';
-import { NextRequest, NextResponse } from 'next/server';
+// app/api/auth/login/route.ts
+import { NextRequest, NextResponse } from "next/server"
+import { ENV } from "@/lib/env"
+import axios from "axios"
 
 export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        // Adjust the backend URL as needed
-        const backendRes = await fetch(`${ENV.backendBaseUrl}/auth/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-          });
-        
+  try {
+    const body = await req.json()
 
-        const data = await backendRes.json();
+    // Call backend login
+    const res = await axios.post(`${ENV.backendBaseUrl}/auth/login`, body, {
+      headers: { "Content-Type": "application/json" },
+      validateStatus: () => true, // allow handling non-2xx responses
+    })
 
-        if (!backendRes.ok) {
-            return NextResponse.json({ error: data.error || 'Login failed' }, { status: backendRes.status });
-        }
-
-        // Assume backend returns a token in data.token
-        const response = NextResponse.json({ success: true, user: data.user });
-        response.cookies.set(process.env.JWT_COOKIE_NAME ?? "auth_token", data.token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            path: '/',
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 24 * 7, // 1 week
-        });
-
-        return response;
-    } catch (error) {
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    if (res.status < 200 || res.status >= 300) {
+      const errorData = res.data
+      return NextResponse.json(
+        { error: errorData?.message || "Login failed" },
+        { status: res.status }
+      )
     }
+
+    const data = res.data
+
+    // Access token and user correctly based on backend response
+    const token = data.data.token
+    const user = data.data.user
+
+
+    // Set cookie in browser
+    const response = NextResponse.json({ success: true, user })
+    response.cookies.set({
+      name: ENV.jwtCookieName,
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV.toLowerCase() === "production",
+      sameSite: "lax",
+      path: "/",
+    })
+
+    return response
+  } catch (error: any) {
+    console.error("Login API error:", error)
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 })
+  }
 }

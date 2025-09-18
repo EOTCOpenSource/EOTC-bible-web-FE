@@ -111,7 +111,7 @@ const me = await serverApiFetch("/user/me");
 ### Logout
 
 ```ts
-await fetch("/api/auth/logout", { method: "POST" });
+await fetch("/api/v1/auth/logout", { method: "POST" });
 ```
 
 This clears the cookie.

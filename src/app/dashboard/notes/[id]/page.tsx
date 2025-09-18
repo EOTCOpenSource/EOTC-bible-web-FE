@@ -1,7 +1,5 @@
- 
 export default function page() {
   return (
-    null
+    <p>note edit dynamic page</p>
   )
 }
-

@@ -1,7 +1,7 @@
- 
 export default function page() {
   return (
-    null
+    <p>
+      highlights page
+    </p>
   )
 }
-

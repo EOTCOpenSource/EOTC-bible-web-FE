@@ -1,7 +1,5 @@
- 
 export default function page() {
   return (
-    null
+    <p>create new note page</p>
   )
 }
-

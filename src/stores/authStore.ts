@@ -1,5 +1,8 @@
+"use client";
+
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import axios from "axios";
 import type { User } from "./types";
 
 interface AuthState {
@@ -31,21 +34,13 @@ export const useAuthStore = create<AuthState>()(
     clearError: () => set({ error: null }),
 
     fetchCurrentUser: async () => {
+      set({ isLoading: true });
       try {
-        set({ isLoading: true });
-        const res = await fetch("https://mylocalbackend/api/v1/auth/me", {
-          credentials: "include",
+        const res = await axios.get("/api/auth/profile", {
+          withCredentials: true,
         });
 
-        if (!res.ok) throw new Error("Not authenticated");
-
-        const data = await res.json();
-        const user: User = {
-          id: data.id,
-          name: data.name,
-          email: data.email,
-        };
-
+        const user: User = res.data.user;
         set({ user, isAuthenticated: true, isLoading: false });
       } catch {
         set({ user: null, isAuthenticated: false, isLoading: false });
@@ -55,18 +50,15 @@ export const useAuthStore = create<AuthState>()(
     register: async ({ name, email, password }) => {
       set({ isLoading: true, error: null });
       try {
-        const res = await fetch("https://mylocalbackend/api/v1/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password }),
-          credentials: "include",
-        });
-
-        if (!res.ok) throw new Error("Registration failed");
+        await axios.post(
+          "/api/auth/register",
+          { name, email, password },
+          { withCredentials: true }
+        );
 
         await get().fetchCurrentUser();
       } catch (err: any) {
-        set({ error: err?.message ?? "Registration failed" });
+        set({ error: err?.response?.data?.error ?? "Registration failed" });
         throw err;
       } finally {
         set({ isLoading: false });
@@ -76,18 +68,15 @@ export const useAuthStore = create<AuthState>()(
     login: async ({ email, password }) => {
       set({ isLoading: true, error: null });
       try {
-        const res = await fetch("https://mylocalbackend/api/v1/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-          credentials: "include",
-        });
-
-        if (!res.ok) throw new Error("Invalid credentials");
+        await axios.post(
+          "/api/auth/login",
+          { email, password },
+          { withCredentials: true }
+        );
 
         await get().fetchCurrentUser();
       } catch (err: any) {
-        set({ error: err?.message ?? "Login failed" });
+        set({ error: err?.response?.data?.error ?? "Login failed" });
         throw err;
       } finally {
         set({ isLoading: false });
@@ -97,18 +86,15 @@ export const useAuthStore = create<AuthState>()(
     loginWithGoogle: async (googleToken: string) => {
       set({ isLoading: true, error: null });
       try {
-        const res = await fetch("https://mylocalbackend/api/v1/auth/google", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: googleToken }),
-          credentials: "include",
-        });
-
-        if (!res.ok) throw new Error("Google authentication failed");
+        await axios.post(
+          "/api/auth/google",
+          { token: googleToken },
+          { withCredentials: true }
+        );
 
         await get().fetchCurrentUser();
       } catch (err: any) {
-        set({ error: err?.message ?? "Google login failed" });
+        set({ error: err?.response?.data?.error ?? "Google login failed" });
         throw err;
       } finally {
         set({ isLoading: false });
@@ -117,10 +103,11 @@ export const useAuthStore = create<AuthState>()(
 
     logout: async () => {
       try {
-        await fetch("https://mylocalbackend/api/v1/auth/logout", {
-          method: "POST",
-          credentials: "include",
-        });
+        await axios.post(
+          "/api/auth/logout",
+          {},
+          { withCredentials: true }
+        );
       } finally {
         set({ user: null, isAuthenticated: false, error: null });
       }

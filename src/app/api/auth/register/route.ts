@@ -1,27 +1,40 @@
-import { NextRequest, NextResponse } from "next/server";
-import { ENV } from "@/lib/env";
+import { type NextRequest, NextResponse } from "next/server"
+import { ENV } from "@/lib/env"
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const res = await fetch(`${ENV.backendBaseUrl}/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body), // {name, email, password}
-  });
+  try {
+    const body = await req.json()
+    const res = await fetch(`${ENV.backendBaseUrl}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body), // {name, email, password}
+    })
 
-  const data = await res.json();
-  if (!res.ok) return NextResponse.json(data, { status: res.status });
+    if (!res.ok) {
+      const text = await res.text()
+      return NextResponse.json({ error: text || "Registration failed" }, { status: res.status })
+    }
 
-  const token: string = data.token; // returned by backend :contentReference[oaicite:4]{index=4}
-  const response = NextResponse.json({ user: data.user });
+    const contentType = res.headers.get("content-type")
+    if (!contentType || !contentType.includes("application/json")) {
+      const text = await res.text()
+      return NextResponse.json({ error: `Backend returned non-JSON response: ${text}` }, { status: 500 })
+    }
 
-  response.cookies.set(process.env.JWT_COOKIE_NAME ?? "auth_token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7, // 1 week
-  });
+    let data
+    try {
+      data = await res.json()
+    } catch (error) {
+      const text = await res.text()
+      return NextResponse.json({ error: `Failed to parse backend response: ${text}` }, { status: 500 })
+    }
 
-  return response;
+    const token: string = data.token // returned by backend
+    const response = NextResponse.json({ user: data.user, message: data.message }, { status: 200 })
+
+    return response
+  } catch (error) {
+    console.error("Registration error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  }
 }

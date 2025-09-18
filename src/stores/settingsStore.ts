@@ -6,7 +6,7 @@ import type { VerseRef } from "./types";
 interface SettingsState {
   preferredTranslation?: string;
   theme?: "light" | "dark" | "system";
-  fontSize?: "sm" | "md" | "lg";
+  fontSize?: "sm" | "md" | "lg"; // font size stored in number, e.g. 14, 16, 18 .. on the backend-api 
   lastRead?: VerseRef;
 
   isLoading: boolean;

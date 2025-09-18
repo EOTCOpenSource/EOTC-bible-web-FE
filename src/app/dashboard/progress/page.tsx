@@ -1,7 +1,5 @@
- 
 export default function page() {
   return (
-    null
+    <h1>prograss page</h1>
   )
 }
-
