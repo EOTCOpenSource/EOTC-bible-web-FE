@@ -87,8 +87,16 @@ export default function LoginForm() {
       {errors.password && (
         <p className="text-red-600 text-sm">{errors.password.message}</p>
       )}
-      
       {err && <p className="text-red-600 text-sm">{err}</p>}
+      <div className="flex justify-between items-center text-gray-700">
+        <div>
+          <input type="checkbox" name="checkbox" id="checkbox" />
+          <label htmlFor="checkbox"> Remember me</label>
+        </div>
+        <a href="" className="text-blue-500 underline">
+          Forgot password?
+        </a>
+      </div>
       <button
         className="w-full bg-[#621B1C] text-white p-3 rounded-lg hover:bg-[#471314] cursor-pointer disabled:opacity-50"
         disabled={loading}
@@ -104,7 +112,12 @@ export default function LoginForm() {
         className="w-full flex justify-center items-center gap-2 bg-[#c9c9c9] cursor-pointer text-gray-700 p-2 rounded-lg hover:bg-gray-400 disabled:bg-gray-400"
         disabled={loading}
       >
-       <img className="w-[30px]" src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png" alt="google logo  image" /> {loading ? "..." : "Continue with Google"}
+        <img
+          className="w-[30px]"
+          src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png"
+          alt="google logo  image"
+        />{" "}
+        {loading ? "..." : "Continue with Google"}
       </button>
     </form>
   );
