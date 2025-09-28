@@ -112,6 +112,7 @@ export default function OtpForm() {
   }
 
   return (
+
     <div className="w-full h-full flex flex-col justify-between items-center text-center gap-[10px]">
      
       <div className="flex flex-col gap-[10px]">
@@ -120,6 +121,7 @@ export default function OtpForm() {
           We’ve sent a verification code to your email:{" "}
           <span className="font-bold">{maskEmail(email)}</span>. Be sure to
           check spam folder, and input the code down below.
+
         </p>
       </div>
 
@@ -147,14 +149,16 @@ export default function OtpForm() {
         {success && <p className="text-green-600 text-sm text-center">{success}</p>}
 
         <button
-          type="button"
+          type="submit"
           onClick={handleSubmit(onSubmit)}
+          className="w-full bg-[#621B1C] text-white p-3 rounded-lg hover:bg-[#461314] cursor-pointer disabled:opacity-50"
           disabled={loading || otpValue.length !== 6}
           className={`w-full h-[48px] py-3 rounded-md text-white text-base font-medium transition-colors
             ${loading || otpValue.length !== 6 ? "bg-gray-300 cursor-not-allowed" : "bg-[#7B1D1D] hover:bg-[#5f1515] cursor-pointer"}`}
         >
           {loading ? "Verifying..." : "Verify Code"}
         </button>
+
 
         <div className="text-center flex items-center justify-center gap-1">
           <p className="text-[14px] text-[#4B5563] pt-3">Didn’t receive the code?</p>
@@ -167,6 +171,7 @@ export default function OtpForm() {
             {resendLoading ? "Sending..." : "Resend OTP"}
           </button>
         </div>
+
       </div>
     </div>
   )
