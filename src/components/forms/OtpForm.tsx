@@ -74,7 +74,7 @@ export default function OtpForm() {
       <div className="flex flex-col gap-[10px]">
         <h2 className="text-[28px] font-semibold text-[#1F2937]">Verify your email</h2>
         <p className="text-[16px] w-[330px] h-[65px] font-normal">
-          We’ve sent a verification code to your email:{" "}
+          We've sent a verification code to your email:{" "}
           <span className="font-bold">{maskEmail(email)}</span>. Be sure to check spam folder, and input the code down below.
         </p>
       </div>
@@ -128,7 +128,7 @@ export default function OtpForm() {
             </p>
           ) : (
             <>
-              <p className="text-[14px] text-[#4B5563]">Didn’t receive the code?</p>
+              <p className="text-[14px] text-[#4B5563]">Didn't receive the code?</p>
               <button
                 type="button"
                 onClick={handleResendOtp}
