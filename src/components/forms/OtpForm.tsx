@@ -6,12 +6,13 @@ import { useAuthStore } from "@/lib/stores/useUserStore"
 import axios from "axios"
 import { useForm, Controller } from "react-hook-form"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
+import React from "react"
 
 type OtpFormData = {
   otp: string
 }
 
-export default function VerifyOtpForm() {
+export default function OtpForm() {
   const router = useRouter()
   const { loadSession } = useAuthStore()
 
@@ -43,26 +44,33 @@ export default function VerifyOtpForm() {
     }
   }, [router])
 
+  const maskEmail = (email: string) => {
+    if (!email) return ""
+    const [user, domain] = email.split("@")
+    if (!domain) return email
+    if (user.length <= 2) return email
+    return `${user.substring(0, 2)}***${user.substring(user.length - 1)}@${domain}`
+  }
+
   const onSubmit = async (data: OtpFormData) => {
     setError(null)
     setSuccess(null)
     setLoading(true)
 
     try {
-      const res = await axios.post(
+      const otpToUse = data.otp
+
+      await axios.post(
         "/api/auth/verify-otp",
-        { email, otp: data.otp },
+        { email, otp: otpToUse },
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       )
 
       await loadSession()
-
-      // Clear stored values after success
       window.localStorage.removeItem("registeredEmail")
       window.localStorage.removeItem("registeredName")
 
       setSuccess("OTP verified successfully! Redirecting...")
-
       setTimeout(() => router.push("/dashboard"), 1000)
     } catch (err: any) {
       if (axios.isAxiosError(err)) {
@@ -104,52 +112,61 @@ export default function VerifyOtpForm() {
   }
 
   return (
-    <div className="max-w-sm space-y-4 text-gray-900">
-      <div className="text-center space-y-2">
-        <h2 className="text-xl font-semibold">Verify Your Email</h2>
-        <p className="text-sm text-gray-600">
-          Enter the OTP sent to <span className="font-medium">{email}</span>
+    <div className="w-full h-full flex flex-col justify-between items-center text-center gap-[10px]">
+     
+      <div className="flex flex-col gap-[10px]">
+        <h2 className="text-[28px] font-semibold text-[#1F2937]">Verify your email</h2>
+        <p className=" text-[16px] w-[330px] h-[65px] font-normal">
+          We’ve sent a verification code to your email:{" "}
+          <span className="font-bold">{maskEmail(email)}</span>. Be sure to
+          check spam folder, and input the code down below.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 flex flex-col items-center">
+      
+      <div className="flex flex-col items-center gap-[10px]">
         <Controller
           control={control}
           name="otp"
           rules={{ required: true, minLength: 6, maxLength: 6 }}
           render={({ field }) => (
-            <InputOTP maxLength={6} {...field}>
-              <InputOTPGroup>
+            <InputOTP maxLength={6} {...field} containerClassName="gap-[10px]">
+              <InputOTPGroup className="gap-[10px]">
                 {[...Array(6)].map((_, i) => (
-                  <InputOTPSlot key={i} index={i} />
+                  <InputOTPSlot key={i} index={i} className="w-[60px] h-[60px] border border-gray-300 rounded-[8px]" />
                 ))}
               </InputOTPGroup>
             </InputOTP>
           )}
         />
+      </div>
 
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        {success && <p className="text-green-600 text-sm">{success}</p>}
+      
+      <div className="flex flex-col items-center w-full gap-[10px]">
+        {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+        {success && <p className="text-green-600 text-sm text-center">{success}</p>}
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-          disabled={loading || otpValue.length !== 6}
-        >
-          {loading ? "Verifying..." : "Verify OTP"}
-        </button>
-      </form>
-
-      <div className="text-center">
-        <p className="text-sm text-gray-600 mb-2">Didn't receive the code?</p>
         <button
           type="button"
-          onClick={handleResendOtp}
-          disabled={resendLoading}
-          className="text-blue-600 hover:text-blue-700 text-sm font-medium disabled:opacity-50"
+          onClick={handleSubmit(onSubmit)}
+          disabled={loading || otpValue.length !== 6}
+          className={`w-full h-[48px] py-3 rounded-md text-white text-base font-medium transition-colors
+            ${loading || otpValue.length !== 6 ? "bg-gray-300 cursor-not-allowed" : "bg-[#7B1D1D] hover:bg-[#5f1515] cursor-pointer"}`}
         >
-          {resendLoading ? "Sending..." : "Resend OTP"}
+          {loading ? "Verifying..." : "Verify Code"}
         </button>
+
+        <div className="text-center flex items-center justify-center gap-1">
+          <p className="text-[14px] text-[#4B5563] pt-3">Didn’t receive the code?</p>
+          <button
+            type="button"
+            onClick={handleResendOtp}
+            disabled={resendLoading}
+            className="text-[#7B1D1D] hover:underline text-sm font-medium disabled:opacity-50 cursor-pointer pt-3"
+          >
+            {resendLoading ? "Sending..." : "Resend OTP"}
+          </button>
+        </div>
       </div>
     </div>
   )
