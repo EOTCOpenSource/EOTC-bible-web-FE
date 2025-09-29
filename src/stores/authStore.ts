@@ -10,18 +10,22 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error?: string | null;
+  success?: string | null;
 
-  register: (data: {
-    name: string;
-    email: string;
-    password: string;
-  }) => Promise<void>;
+  // OTP states
+  otpStatus: "idle" | "pending" | "verified" | "failed";
+  otpCountdown: number;
+
+  // Auth actions
+  register: (data: { name: string; email: string; password: string }) => Promise<void>;
   login: (data: { email: string; password: string }) => Promise<void>;
   loginWithGoogle: (googleToken: string) => Promise<void>;
   logout: () => Promise<void>;
-  clearError: () => void;
-
   fetchCurrentUser: () => Promise<void>;
+  clearError: () => void;
+  verifyOtp: (email: string, otp: string) => Promise<void>;
+  resendOtp: (email: string, name: string) => Promise<void>;
+  startCountdown: (seconds: number) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -30,8 +34,12 @@ export const useAuthStore = create<AuthState>()(
     isAuthenticated: false,
     isLoading: false,
     error: null,
+    success: null,
 
-    clearError: () => set({ error: null }),
+    otpStatus: "idle",
+    otpCountdown: 0,
+
+    clearError: () => set({ error: null, success: null }),
 
     fetchCurrentUser: async () => {
       set({ isLoading: true });
@@ -39,7 +47,6 @@ export const useAuthStore = create<AuthState>()(
         const res = await axios.get("/api/auth/profile", {
           withCredentials: true,
         });
-
         const user: User = res.data.user;
         set({ user, isAuthenticated: true, isLoading: false });
       } catch {
@@ -48,7 +55,7 @@ export const useAuthStore = create<AuthState>()(
     },
 
     register: async ({ name, email, password }) => {
-      set({ isLoading: true, error: null });
+      set({ isLoading: true, error: null, success: null });
       try {
         await axios.post(
           "/api/auth/register",
@@ -56,7 +63,11 @@ export const useAuthStore = create<AuthState>()(
           { withCredentials: true }
         );
 
-        await get().fetchCurrentUser();
+        
+        set({
+          success: "Registration successful, please verify your email.",
+          otpStatus: "idle",
+        });
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? "Registration failed" });
         throw err;
@@ -66,14 +77,13 @@ export const useAuthStore = create<AuthState>()(
     },
 
     login: async ({ email, password }) => {
-      set({ isLoading: true, error: null });
+      set({ isLoading: true, error: null, success: null });
       try {
         await axios.post(
           "/api/auth/login",
           { email, password },
           { withCredentials: true }
         );
-
         await get().fetchCurrentUser();
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? "Login failed" });
@@ -84,14 +94,13 @@ export const useAuthStore = create<AuthState>()(
     },
 
     loginWithGoogle: async (googleToken: string) => {
-      set({ isLoading: true, error: null });
+      set({ isLoading: true, error: null, success: null });
       try {
         await axios.post(
           "/api/auth/google",
           { token: googleToken },
           { withCredentials: true }
         );
-
         await get().fetchCurrentUser();
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? "Google login failed" });
@@ -103,14 +112,73 @@ export const useAuthStore = create<AuthState>()(
 
     logout: async () => {
       try {
-        await axios.post(
-          "/api/auth/logout",
-          {},
+        await axios.post("/api/auth/logout", {}, { withCredentials: true });
+      } finally {
+        set({
+          user: null,
+          isAuthenticated: false,
+          error: null,
+          success: null,
+          otpStatus: "idle",
+          otpCountdown: 0,
+        });
+      }
+    },
+
+    
+    verifyOtp: async (email: string, otp: string) => {
+      set({ otpStatus: "pending", error: null, success: null });
+      try {
+        const res = await axios.post(
+          "/api/auth/verify-otp",
+          { email, otp },
           { withCredentials: true }
         );
-      } finally {
-        set({ user: null, isAuthenticated: false, error: null });
+
+        if (res.data.success) {
+          set({
+            otpStatus: "verified",
+            success: "Email verified successfully!",
+          });
+          await get().fetchCurrentUser();
+        } else {
+          set({
+            otpStatus: "failed",
+            error: res.data.error ?? "Invalid OTP code",
+          });
+        }
+      } catch (err: any) {
+        set({
+          otpStatus: "failed",
+          error: err?.response?.data?.error ?? "OTP verification failed",
+        });
       }
+    },
+
+    resendOtp: async (email: string, name: string) => {
+      try {
+        await axios.post(
+          "/api/auth/resend-otp",
+          { email, name },
+          { withCredentials: true }
+        );
+        set({ success: "OTP resent successfully. Check your email." });
+      } catch (err: any) {
+        set({ error: err?.response?.data?.error ?? "Failed to resend OTP" });
+      }
+    },
+
+    startCountdown: (seconds: number) => {
+      set({ otpCountdown: seconds });
+      const interval = setInterval(() => {
+        set((state) => {
+          if (state.otpCountdown <= 1) {
+            clearInterval(interval);
+            return { otpCountdown: 0 };
+          }
+          return { otpCountdown: state.otpCountdown - 1 };
+        });
+      }, 1000);
     },
   }))
 );
