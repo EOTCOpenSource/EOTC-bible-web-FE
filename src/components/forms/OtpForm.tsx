@@ -104,11 +104,11 @@ export default function VerifyOtpForm() {
   }
 
   return (
-    <div className="max-w-sm space-y-4 text-gray-900">
+    <div className="max-w-sm space-y-4">
       <div className="text-center space-y-2">
         <h2 className="text-xl font-semibold">Verify Your Email</h2>
         <p className="text-sm text-gray-600">
-          Enter the OTP sent to <span className="font-medium">{email}</span>
+          We’ve sent a verification code to your email: <span className="font-medium">{email} Be sure to check spams folder, and input the code down below.</span>
         </p>
       </div>
 
@@ -133,7 +133,7 @@ export default function VerifyOtpForm() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="w-full bg-[#621B1C] text-white p-3 rounded-lg hover:bg-[#461314] cursor-pointer disabled:opacity-50"
           disabled={loading || otpValue.length !== 6}
         >
           {loading ? "Verifying..." : "Verify OTP"}
@@ -146,7 +146,7 @@ export default function VerifyOtpForm() {
           type="button"
           onClick={handleResendOtp}
           disabled={resendLoading}
-          className="text-blue-600 hover:text-blue-700 text-sm font-medium disabled:opacity-50"
+          className="text-blue-600 hover:text-blue-700 text-sm font-medium cursor-pointer disabled:opacity-50"
         >
           {resendLoading ? "Sending..." : "Resend OTP"}
         </button>
