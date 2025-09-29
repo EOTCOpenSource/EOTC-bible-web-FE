@@ -11,16 +11,11 @@ interface AuthState {
   isLoading: boolean;
   error?: string | null;
 
-  register: (data: {
-    name: string;
-    email: string;
-    password: string;
-  }) => Promise<void>;
+  register: (data: { name: string; email: string; password: string }) => Promise<void>;
   login: (data: { email: string; password: string }) => Promise<void>;
   loginWithGoogle: (googleToken: string) => Promise<void>;
   logout: () => Promise<void>;
   clearError: () => void;
-
   fetchCurrentUser: () => Promise<void>;
 }
 
@@ -39,7 +34,6 @@ export const useAuthStore = create<AuthState>()(
         const res = await axios.get("/api/auth/profile", {
           withCredentials: true,
         });
-
         const user: User = res.data.user;
         set({ user, isAuthenticated: true, isLoading: false });
       } catch {
@@ -55,7 +49,6 @@ export const useAuthStore = create<AuthState>()(
           { name, email, password },
           { withCredentials: true }
         );
-
         await get().fetchCurrentUser();
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? "Registration failed" });
@@ -73,7 +66,6 @@ export const useAuthStore = create<AuthState>()(
           { email, password },
           { withCredentials: true }
         );
-
         await get().fetchCurrentUser();
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? "Login failed" });
@@ -91,7 +83,6 @@ export const useAuthStore = create<AuthState>()(
           { token: googleToken },
           { withCredentials: true }
         );
-
         await get().fetchCurrentUser();
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? "Google login failed" });
@@ -103,11 +94,7 @@ export const useAuthStore = create<AuthState>()(
 
     logout: async () => {
       try {
-        await axios.post(
-          "/api/auth/logout",
-          {},
-          { withCredentials: true }
-        );
+        await axios.post("/api/auth/logout", {}, { withCredentials: true });
       } finally {
         set({ user: null, isAuthenticated: false, error: null });
       }
