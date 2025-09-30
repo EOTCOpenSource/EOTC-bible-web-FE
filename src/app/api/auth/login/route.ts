@@ -1,15 +1,13 @@
-// app/api/auth/login/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { ENV } from "@/lib/env"
-import axios from "axios"
+import serverAxiosInstance from "@/lib/server-axios";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
 
     // Call backend login
-    const res = await axios.post(`${ENV.backendBaseUrl}/auth/login`, body, {
-      headers: { "Content-Type": "application/json" },
+    const res = await serverAxiosInstance.post(`/auth/login`, body, {
       validateStatus: () => true, // allow handling non-2xx responses
     })
 

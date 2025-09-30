@@ -1,8 +1,7 @@
-// app/api/auth/logout/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { ENV } from "@/lib/env"
 import { cookies } from "next/headers"
-import axios from "axios"
+import serverAxiosInstance from "@/lib/server-axios";
 
 
 export async function POST(req: NextRequest) {
@@ -13,15 +12,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Call backend logout
-    const backendRes = await axios.post(
-      `${ENV.backendBaseUrl}/auth/logout`,
-      {}, // no body, just an empty object
+    
+    const backendRes = await serverAxiosInstance.post(
+      `/auth/logout`,
+      {}, 
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         validateStatus: () => true,
       }
     )

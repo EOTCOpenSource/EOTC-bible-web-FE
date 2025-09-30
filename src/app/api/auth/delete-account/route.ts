@@ -1,8 +1,7 @@
-// app/api/auth/delete-account/route.ts
 import { NextResponse } from "next/server"
 import { ENV } from "@/lib/env"
 import { cookies } from "next/headers"
-import axios from "axios"
+import serverAxiosInstance from "@/lib/server-axios";
 
 export async function DELETE() {
   const cookieStore: any = cookies()
@@ -14,11 +13,7 @@ export async function DELETE() {
 
   try {
     // Call backend delete account API
-    const backendRes = await axios.delete(`${ENV.backendBaseUrl}/auth/account`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+    const backendRes = await serverAxiosInstance.delete(`/auth/account`, {
       validateStatus: () => true,
     })
 
