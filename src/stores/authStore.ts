@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import axios from "axios";
+import axiosInstance from "@/lib/axios";
 import type { User } from "./types";
 
 interface AuthState {
@@ -44,9 +44,7 @@ export const useAuthStore = create<AuthState>()(
     fetchCurrentUser: async () => {
       set({ isLoading: true });
       try {
-        const res = await axios.get("/api/auth/profile", {
-          withCredentials: true,
-        });
+        const res = await axiosInstance.get("/api/auth/profile");
         const user: User = res.data.user;
         set({ user, isAuthenticated: true, isLoading: false });
       } catch {
@@ -57,10 +55,9 @@ export const useAuthStore = create<AuthState>()(
     register: async ({ name, email, password }) => {
       set({ isLoading: true, error: null, success: null });
       try {
-        await axios.post(
+        await axiosInstance.post(
           "/api/auth/register",
-          { name, email, password },
-          { withCredentials: true }
+          { name, email, password }
         );
 
         
@@ -79,10 +76,9 @@ export const useAuthStore = create<AuthState>()(
     login: async ({ email, password }) => {
       set({ isLoading: true, error: null, success: null });
       try {
-        await axios.post(
+        await axiosInstance.post(
           "/api/auth/login",
-          { email, password },
-          { withCredentials: true }
+          { email, password }
         );
         await get().fetchCurrentUser();
       } catch (err: any) {
@@ -96,10 +92,9 @@ export const useAuthStore = create<AuthState>()(
     loginWithGoogle: async (googleToken: string) => {
       set({ isLoading: true, error: null, success: null });
       try {
-        await axios.post(
+        await axiosInstance.post(
           "/api/auth/google",
-          { token: googleToken },
-          { withCredentials: true }
+          { token: googleToken }
         );
         await get().fetchCurrentUser();
       } catch (err: any) {
@@ -112,7 +107,7 @@ export const useAuthStore = create<AuthState>()(
 
     logout: async () => {
       try {
-        await axios.post("/api/auth/logout", {}, { withCredentials: true });
+        await axiosInstance.post("/api/auth/logout", {});
       } finally {
         set({
           user: null,
@@ -129,10 +124,9 @@ export const useAuthStore = create<AuthState>()(
     verifyOtp: async (email: string, otp: string) => {
       set({ otpStatus: "pending", error: null, success: null });
       try {
-        const res = await axios.post(
+        const res = await axiosInstance.post(
           "/api/auth/verify-otp",
-          { email, otp },
-          { withCredentials: true }
+          { email, otp }
         );
 
         if (res.data.success) {
@@ -157,10 +151,9 @@ export const useAuthStore = create<AuthState>()(
 
     resendOtp: async (email: string, name: string) => {
       try {
-        await axios.post(
+        await axiosInstance.post(
           "/api/auth/resend-otp",
-          { email, name },
-          { withCredentials: true }
+          { email, name }
         );
         set({ success: "OTP resent successfully. Check your email." });
       } catch (err: any) {
