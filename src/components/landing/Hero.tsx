@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 const Hero = () => {
   return (
     <section
-      className="relative w-[1416px] h-[706px] text-white"
+      className="relative w-[1416px] h-[706px] text-white md:w-full md:min-h-screen"
       style={{
         backgroundImage: "url(/hero-image.png)",
         backgroundSize: "cover",
@@ -19,7 +19,7 @@ const Hero = () => {
         }}
       ></div>
       <div className="relative container mx-auto px-4">
-        <div className="absolute top-[319px] left-[48px] w-[554px] h-[228px]">
+        <div className="absolute top-[319px] left-[48px] w-[554px] h-[228px] ">
           <p className="text-sm bg-black/30 rounded-md px-3 py-1 inline-block">
             Developed by EOTCOpenSource &gt;
           </p>
