@@ -1,3 +1,4 @@
+// store/uiStore.ts
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { createBrowserStorage } from "./storage";
@@ -9,6 +10,8 @@ interface UIState {
   fontSize: "sm" | "md" | "lg";
   activeModal: ModalKey;
   isSidebarOpen: boolean;
+  isNavMenuOpen: boolean;
+  isNavSearchOpen: boolean;
   notifications: { id: string; message: string; createdAt: string }[];
 
   setTheme: (t: UIState["theme"]) => void;
@@ -16,6 +19,10 @@ interface UIState {
   openModal: (m: ModalKey) => void;
   closeModal: () => void;
   toggleSidebar: () => void;
+  toggleNavMenu: () => void;
+  toggleNavSearch: () => void;
+  closeNavMenu: () => void;
+  closeNavSearch: () => void;
   pushNotification: (message: string) => void;
   removeNotification: (id: string) => void;
 }
@@ -29,6 +36,8 @@ export const useUIStore = create<UIState>()(
         fontSize: "md",
         activeModal: null,
         isSidebarOpen: false,
+        isNavMenuOpen: false,
+        isNavSearchOpen: false,
         notifications: [],
 
         setTheme: (theme) => set({ theme }),
@@ -36,6 +45,11 @@ export const useUIStore = create<UIState>()(
         openModal: (modal) => set({ activeModal: modal }),
         closeModal: () => set({ activeModal: null }),
         toggleSidebar: () => set((s) => ({ isSidebarOpen: !s.isSidebarOpen })),
+        toggleNavMenu: () => set((s) => ({ isNavMenuOpen: !s.isNavMenuOpen })),
+        toggleNavSearch: () =>
+          set((s) => ({ isNavSearchOpen: !s.isNavSearchOpen })),
+        closeNavMenu: () => set({ isNavMenuOpen: false }),
+        closeNavSearch: () => set({ isNavSearchOpen: false }),
         pushNotification: (message) => {
           const id =
             crypto.randomUUID?.() || Math.random().toString(36).slice(2, 9);
@@ -59,8 +73,8 @@ export const useUIStore = create<UIState>()(
           fontSize: state.fontSize,
           isSidebarOpen: state.isSidebarOpen,
           // I explicitly specified these states because
-          // I wanted to exclude the modal and notification
-          // states from persistence.
+          // I wanted to exclude the modal, notification,
+          // and navbar states from persistence.
         }),
       }
     )
