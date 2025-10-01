@@ -1,21 +1,11 @@
 import React from "react";
-import {
-  Heart,
-  MessageCircle,
-  Share2,
-  Sun,
-  ArrowUpRight,
-  Save,
-  SaveIcon,
-  Bookmark,
-  Send,
-} from "lucide-react";
+import { Heart, Sun, ArrowUpRight, Bookmark, Send } from "lucide-react";
 
 const VerseOfTheDay = () => {
   return (
     <section className="bg-[#FFFBF5] py-20">
-      <div className="container mx-auto px-4 flex items-center">
-        <div className="w-1/2 pr-12">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
+        <div className="w-full md:w-1/2 md:pr-12">
           <div className="flex items-center mb-4">
             <Sun className="text-amber-500 mr-3" size={32} />
             <h2 className="text-3xl font-bold text-amber-900">
@@ -59,7 +49,7 @@ const VerseOfTheDay = () => {
             </button>
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2 mt-8 md:mt-0">
           <img
             src="/verse-of-the-day- image.png"
             alt="Verse of the day"
