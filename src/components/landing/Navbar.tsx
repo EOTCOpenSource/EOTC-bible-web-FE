@@ -1,6 +1,7 @@
 import React from "react";
 import { Search, Moon, Globe, User, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   return (
@@ -13,15 +14,21 @@ const Navbar = () => {
               <span className="font-bold text-xl">EOTCBible</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-black hover:text-gray-900">
-                Bible
-              </a>
-              <a href="#" className="text-black hover:text-gray-900">
-                Plans
-              </a>
-              <a href="#" className="text-black hover:text-gray-900">
-                Notes
-              </a>
+              <Button asChild variant={"outline"}
+                // className="text-black hover:text-gray-900"
+              >
+                <Link href="#">Bible</Link>
+              </Button>
+              <Button asChild variant={"outline"}>
+                <Link href="#" className="text-black hover:text-gray-900">
+                  Plans
+                </Link>
+              </Button>
+              <Button asChild variant={"outline"}>
+                <Link href="#" className="text-black hover:text-gray-900">
+                  Notes
+                </Link>
+              </Button>
             </div>
           </div>
           <div className="flex items-center justify-between space-x-4">

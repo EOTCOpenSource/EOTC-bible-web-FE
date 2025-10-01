@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useAuthStore } from "@/lib/stores/useUserStore";
+import { useUserStore } from "@/lib/stores/useUserStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import axios from "axios";
@@ -13,7 +13,7 @@ type FormData = {
 };
 
 export default function LoginForm() {
-  const { loadSession } = useAuthStore();
+  const { loadSession } = useUserStore();
   const router = useRouter();
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

@@ -14,7 +14,7 @@ import {
 const VerseOfTheDay = () => {
   return (
     <section className="bg-[#FFFBF5] py-20">
-      <div className="container mx-auto px-4 flex items-center">
+      <div className="container mx-auto max-h-[60vh] px-4 flex items-center">
         <div className="w-1/2 pr-12">
           <div className="flex items-center mb-4">
             <Sun className="text-amber-500 mr-3" size={32} />
