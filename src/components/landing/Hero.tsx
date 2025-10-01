@@ -70,33 +70,11 @@ const Hero = () => {
                 Read the Ethiopian bible, explore plans, and seek God every day.
               </p>
               <div className="flex mt-4 space-x-2">
-                <a
-                  href="#"
-                  className="bg-black text-white h-12 px-4 rounded-lg flex items-center space-x-2"
-                >
-                  <img
-                    src="https://www.vectorlogo.zone/logos/googleplay/googleplay-icon.svg"
-                    alt="Google Play"
-                    className="w-6 h-6"
-                  />
-                  <div>
-                    <p className="text-xs">GET IT ON</p>
-                    <p className="text-sm font-semibold">Google Play</p>
-                  </div>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <img src="/google-play-badge.svg" alt="Get it on Google Play" width="128" />
                 </a>
-                <a
-                  href="#"
-                  className="bg-black text-white h-12 px-4 rounded-lg flex items-center space-x-2"
-                >
-                  <img
-                    src="https://www.vectorlogo.zone/logos/apple_appstore/apple_appstore-icon.svg"
-                    alt="App Store"
-                    className="w-6 h-6"
-                  />
-                  <div>
-                    <p className="text-xs">Download on the</p>
-                    <p className="text-sm font-semibold">App Store</p>
-                  </div>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <img src="/app-store-badge.png" alt="Download on the App Store" width="128" />
                 </a>
               </div>
             </div>
