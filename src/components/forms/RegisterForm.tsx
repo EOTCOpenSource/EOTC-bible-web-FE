@@ -82,7 +82,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 p-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 p-2">
       <h2 className="text-3xl font-semibold py-0 my-0">Create an Account</h2>
       <p className="text-sm text-gray-600 mb-4">
         Already have an account?{" "}
@@ -175,7 +175,7 @@ export default function RegisterForm() {
         </div>
       </div>
       {/* Password criteria feedback */}
-      <ul className="text-sm space-y-1 flex flex-wrap  items-center mb-2">
+      <ul className="text-sm flex flex-wrap  items-center mb-1">
         {passwordCriteria.map((c, i) => (
           <li key={i} className={c.valid ? "text-green-600" : "text-gray-500"}>
             {/* {c.valid ? "✔" : "✖"} */}
