@@ -39,8 +39,10 @@ export default function OtpForm() {
     const storedName = localStorage.getItem("registeredName") || "";
     setClientEmail(storedEmail);
     setClientName(storedName);
+    if(clientEmail === "") {
+      router.push("/register");
+    }
   }, []);
-
   useEffect(() => {
     if (otpStatus === "verified") {
       loadSession();
@@ -76,8 +78,8 @@ export default function OtpForm() {
   return (
     <div className="w-full h-full flex flex-col justify-between items-center text-center gap-[10px]">
       <div className="flex flex-col gap-[10px]">
-        <h2 className="text-[28px] font-semibold text-[#1F2937]">Verify your email</h2>
-        <p className="text-[16px] w-[330px] h-[65px] font-normal">
+        <h2 className="text-3xl font-semibold text-[#1F2937]">Verify your email</h2>
+        <p className="text-md w-[330px] h-[65px] font-normal">
           We&apos;ve sent a verification code to your email:{" "}
           <span className="font-bold">
             {clientEmail ? maskEmail(clientEmail) : ""}
