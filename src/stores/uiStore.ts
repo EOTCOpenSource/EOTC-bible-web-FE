@@ -13,6 +13,7 @@ interface UIState {
   isNavMenuOpen: boolean;
   isNavSearchOpen: boolean;
   notifications: { id: string; message: string; createdAt: string }[];
+  aboutScrollRef: HTMLDivElement | null;
 
   setTheme: (t: UIState["theme"]) => void;
   setFontSize: (s: UIState["fontSize"]) => void;
@@ -25,6 +26,9 @@ interface UIState {
   closeNavSearch: () => void;
   pushNotification: (message: string) => void;
   removeNotification: (id: string) => void;
+  setAboutScrollRef: (ref: HTMLDivElement | null) => void;
+  scrollAboutLeft: () => void;
+  scrollAboutRight: () => void;
 }
 
 export const useUIStore = create<UIState>()(
@@ -39,6 +43,7 @@ export const useUIStore = create<UIState>()(
         isNavMenuOpen: false,
         isNavSearchOpen: false,
         notifications: [],
+        aboutScrollRef: null,
 
         setTheme: (theme) => set({ theme }),
         setFontSize: (fontSize) => set({ fontSize }),
@@ -64,7 +69,23 @@ export const useUIStore = create<UIState>()(
           set((s) => ({
             notifications: s.notifications.filter((n) => n.id !== id),
           })),
+        setAboutScrollRef: (ref) => set({ aboutScrollRef: ref }),
+        scrollAboutLeft: () => {
+          const ref = get().aboutScrollRef;
+          if (ref && ref.children[0]) {
+            const cardWidth = ref.children[0].clientWidth;
+            ref.scrollBy({ left: -cardWidth, behavior: "smooth" });
+          }
+        },
+        scrollAboutRight: () => {
+          const ref = get().aboutScrollRef;
+          if (ref && ref.children[0]) {
+            const cardWidth = ref.children[0].clientWidth;
+            ref.scrollBy({ left: cardWidth, behavior: "smooth" });
+          }
+        },
       }),
+
       {
         name: "ui",
         storage: createBrowserStorage("eotc-"),
