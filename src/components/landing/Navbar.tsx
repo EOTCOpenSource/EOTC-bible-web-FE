@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Search, Moon, Globe, User, Menu, X } from "lucide-react";
+import { Search, Moon, Globe, User, Menu, X, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useUIStore } from "@/stores/uiStore";
 
@@ -45,6 +45,17 @@ const Navbar = () => {
                 className="bg-gray-100 py-2 px-4 w-full h-full focus:outline-none"
               />
             </div>
+            <button className="w-fit md:w-fit bg-red-900 text-white pl-6 pr-2 py-2 rounded-lg flex items-center space-x-2 h-[42px]">
+              <span>Get the app</span>
+              <div className="bg-white text-red-900 rounded-sm p-1 flex items-center justify-center w-7 h-7">
+                <ArrowUpRight size={20} />
+              </div>
+            </button>
+            <Link href="/login">
+              <button className="bg-white text-red-900 border border-red-900 px-6 py-2 rounded-lg h-[42px] hover:bg-red-900 hover:text-white">
+                Login
+              </button>
+            </Link>
             <div className="flex items-center space-x-2 border rounded-md p-1 h-[42px]">
               <button className="p-2 rounded-full hover:bg-gray-200">
                 <Moon size={20} />
@@ -100,6 +111,12 @@ const Navbar = () => {
           <a href="#" className="block text-black hover:text-gray-900">
             Notes
           </a>
+          <button className="w-full bg-red-900 text-white pl-6 pr-2 py-2 rounded-lg flex items-center justify-between text-lg h-[42px]">
+            <span>Get the app</span>
+            <div className="bg-white text-red-900 rounded-sm p-1 flex items-center justify-center w-7 h-7">
+              <ArrowUpRight size={20} />
+            </div>
+          </button>
           <Link href="/login">
             <button className="w-full bg-white text-red-900 border border-red-900 px-6 py-2 rounded-lg h-[42px] hover:bg-red-900 hover:text-white">
               Login
