@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Hero from "./Hero";
 import VerseOfTheDay from "./VerseOfTheDay";
 import About from "./About";
+import KeyFeatures from "./KeyFeatures";
 
 const LandingPage = () => {
   return (
@@ -11,6 +12,7 @@ const LandingPage = () => {
       <Hero />
       <VerseOfTheDay />
       <About />
+      <KeyFeatures />
     </div>
   );
 };
