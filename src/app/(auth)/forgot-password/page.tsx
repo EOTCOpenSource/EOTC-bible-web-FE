@@ -10,8 +10,9 @@ type ForgotPasswordForm = {
 };
 
 export default function ForgotPasswordPage() {
-  const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [userEmail, setUserEmail] = useState(""); 
 
   const {
     register,
@@ -20,91 +21,122 @@ export default function ForgotPasswordPage() {
     reset,
   } = useForm<ForgotPasswordForm>();
 
-  const onSubmit = async (data: ForgotPasswordForm) => {
+  const sendEmail = async (email: string) => {
     setIsSubmitting(true);
-    setMessage("");
-
     try {
-      const res = await axios.post("/api/auth/forgot-password", data);
-      setMessage(res.data.message);
-      reset(); // clear the form after success
+      const res = await axios.post("/api/auth/forgot-password", { email });
       if (res.data.success) {
-        //////  navigate to the next page (to announce the user that the email has been sent) that is not separate page actually. you can overlay here.  //////
-        ///See the design here...  https://www.figma.com/design/Wvg2S3xylwA5NJbpRvBurN/Bible-web--APP?node-id=1023-678&t=misqSZlmBoJIGKXq-4  ///
+        setEmailSent(true);
+        setUserEmail(email); 
       }
     } catch (error: any) {
       console.error(error);
-      setMessage(
-        error?.response?.data?.message || "Something went wrong, try again."
-      );
+   
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const onSubmit = async (data: ForgotPasswordForm) => {
+    await sendEmail(data.email);
+    reset();
+  };
+
+  const handleResend = async () => {
+    if (!userEmail) return;
+    await sendEmail(userEmail);
+  };
+
+  const handleChangeEmail = () => {
+    setEmailSent(false);    
+    reset(); 
+  };
+
   return (
     <section className="flex min-h-screen items-center justify-center p-4">
-      <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 shadow-lg">
-        <h1 className="text-2xl font-bold text-center">Forgot Password</h1>
-        <p className="text-center text-sm text-gray-700">
-          To reset your password, enter the email address you used to create the
-          account
-        </p>
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col mt-4 gap-2"
-        >
-          <label
-            htmlFor="email"
-            className="text-gray-700 text-sm font-medium"
-          >
-            Email Address
-          </label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            className="border p-2 rounded focus:outline-none focus:ring-2"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Enter a valid email address",
-              },
-            })}
-          />
-          {errors.email && (
-            <p className="text-red-600 text-sm">{errors.email.message}</p>
-          )}
-
-          {message && (
-            <p
-              className={`mt-2 text-sm ${
-                message.toLowerCase().includes("sent")
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
-            >
-              {message}
+      <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 shadow-lg text-center">
+        {!emailSent ? (
+          <>
+            <h1 className="text-2xl font-bold">Forgot Password</h1>
+            <p className="text-sm text-gray-700 mt-2">
+              To reset your password, enter the email address you used to create the
+              account
             </p>
-          )}
 
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="text-white py-3 my-6 bg-[#621B1C] hover:bg-[#4d1516] cursor-pointer rounded-lg disabled:opacity-70"
-          >
-            {isSubmitting ? "Sending..." : "Send Email"}
-          </Button>
-        </form>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col mt-4 gap-2"
+            >
+              <label
+                htmlFor="email"
+                className="text-gray-700 text-sm font-medium"
+              >
+                Email Address
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                className="border p-2 rounded focus:outline-none focus:ring-2"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Enter a valid email address",
+                  },
+                })}
+              />
+              {errors.email && (
+                <p className="text-red-600 text-sm">{errors.email.message}</p>
+              )}
 
-        <p className="text-center text-gray-700">
-          Remembered password?{" "}
-          <a href="/login" className="underline text-[#621B1C]">
-            Login
-          </a>
-        </p>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="text-white py-3 my-6 bg-[#621B1C] hover:bg-[#4d1516] cursor-pointer rounded-lg disabled:opacity-70"
+              >
+                {isSubmitting ? "Sending..." : "Send Email"}
+              </Button>
+            </form>
+
+            <p className="text-gray-700 mt-4">
+              Remembered password?{" "}
+              <a href="/login" className="underline text-[#621B1C]">
+                Login
+              </a>
+            </p>
+          </>
+        ) : (
+          <>
+
+            <h1 className="text-2xl font-bold">Email Sent</h1>
+            <p className="text-sm text-gray-700 mt-2">
+              We’ve sent you a password reset link to your email: <br />
+              <strong>{userEmail}</strong>.
+              <br />
+              (Be sure to check the spam folder)
+            </p>
+            
+            <p className="mt-10 text-sm text-gray-700 font-bold">
+              Didn’t receive the email?{" "}
+              <button
+                onClick={handleResend}
+                disabled={isSubmitting}
+                className="underline text-[#621B1C] ml-1 disabled:opacity-70"
+              >
+                {isSubmitting ? "Resending..." : "Resend email"}
+              </button>
+              <br />
+              Wrong email address?{" "}
+              <button
+                onClick={handleChangeEmail}
+                className="underline text-[#621B1C] ml-1"
+              >
+                Change email
+              </button>
+            </p>
+          </>
+        )}
       </div>
     </section>
   );

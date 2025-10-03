@@ -38,7 +38,7 @@ export default function ResetPasswordPage() {
       setMessage(res.data.message);
 
       if (res.data.success) {
-        reset(); // clear the form
+        reset(); 
         setTimeout(() => router.push("/login"), 600);
       }
     } catch (error: any) {
@@ -113,8 +113,6 @@ export default function ResetPasswordPage() {
               </p>
             )}
           </div>
-          {/* //////////   check the password stregth and show same ui with "/register" page   ////////// */}
-          {/* //////////   list password criterias here (you can copy the "register" page logic)   ////////// */}
           <Button
             type="submit"
             disabled={isSubmitting}
