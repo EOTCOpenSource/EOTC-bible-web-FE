@@ -14,6 +14,7 @@ interface UIState {
   isNavSearchOpen: boolean;
   notifications: { id: string; message: string; createdAt: string }[];
   aboutScrollRef: HTMLDivElement | null;
+  currentPlanPage: number;
 
   setTheme: (t: UIState["theme"]) => void;
   setFontSize: (s: UIState["fontSize"]) => void;
@@ -29,13 +30,15 @@ interface UIState {
   setAboutScrollRef: (ref: HTMLDivElement | null) => void;
   scrollAboutLeft: () => void;
   scrollAboutRight: () => void;
+  setCurrentPlanPage: (page: number) => void;
+  nextPlanPage: (totalPages: number) => void;
+  prevPlanPage: () => void;
 }
 
 export const useUIStore = create<UIState>()(
   devtools(
     persist(
       (set, get) => ({
-        //I WILL IMPLEMENT THE GET HELPER ON DEMAND HERE AS WELL
         theme: "system",
         fontSize: "md",
         activeModal: null,
@@ -44,6 +47,7 @@ export const useUIStore = create<UIState>()(
         isNavSearchOpen: false,
         notifications: [],
         aboutScrollRef: null,
+        currentPlanPage: 0,
 
         setTheme: (theme) => set({ theme }),
         setFontSize: (fontSize) => set({ fontSize }),
@@ -84,6 +88,18 @@ export const useUIStore = create<UIState>()(
             ref.scrollBy({ left: cardWidth, behavior: "smooth" });
           }
         },
+        setCurrentPlanPage: (page) => set({ currentPlanPage: page }),
+        nextPlanPage: (totalPages) =>
+          set((s) => ({
+            currentPlanPage:
+              s.currentPlanPage < totalPages - 1
+                ? s.currentPlanPage + 1
+                : s.currentPlanPage,
+          })),
+        prevPlanPage: () =>
+          set((s) => ({
+            currentPlanPage: s.currentPlanPage > 0 ? s.currentPlanPage - 1 : 0,
+          })),
       }),
 
       {
@@ -93,9 +109,6 @@ export const useUIStore = create<UIState>()(
           theme: state.theme,
           fontSize: state.fontSize,
           isSidebarOpen: state.isSidebarOpen,
-          // I explicitly specified these states because
-          // I wanted to exclude the modal, notification,
-          // and navbar states from persistence.
         }),
       }
     )
