@@ -13,7 +13,12 @@ const LandingPage = () => {
     <div>
       <Navbar />
       <Hero />
-      <VerseOfTheDay/>
+      <VerseOfTheDay />
+      <About />
+      <KeyFeatures />
+      <DownloadApp />
+      <DiscoverPlans />
+      <Footer />
     </div>
   );
 };
