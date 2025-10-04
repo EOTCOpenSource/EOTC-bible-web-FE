@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import axios from "axios";
+import axiosInstance from "@/lib/axios";
 
 type User = {
   id: string;
@@ -19,7 +19,7 @@ type AuthState = {
   logout: () => void;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useUserStore = create<AuthState>((set) => ({
   user: null,
   isLoggedIn: false,
 
@@ -27,7 +27,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   loadSession: async () => {
     try {
-       const res = await axios.get("/api/auth/profile", { withCredentials: true });
+       const res = await axiosInstance.get("/api/auth/profile");
 
       if (res.status !== 200) {
         if (res.status === 401) {
@@ -46,7 +46,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
   logout: () => {
 
-    axios
+    axiosInstance
       .post("/api/auth/logout", {}, { withCredentials: true })
       .catch((err) => console.error("Logout error:", err));
     set({ user: null, isLoggedIn: false });

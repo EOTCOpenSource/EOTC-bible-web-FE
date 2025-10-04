@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useAuthStore } from "@/lib/stores/useUserStore";
+import { useUserStore } from "@/lib/stores/useUserStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import axios from "axios";
@@ -13,7 +13,7 @@ type FormData = {
 };
 
 export default function LoginForm() {
-  const { loadSession } = useAuthStore();
+  const { loadSession } = useUserStore();
   const router = useRouter();
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -53,7 +53,7 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 min-w-md p-4">
       <h2 className="text-2xl font-semibold py-0 my-0">Welcome Back!</h2>
       <p className="text-sm text-gray-600 mb-4">
         Dont have an account yet?{" "}
@@ -62,7 +62,7 @@ export default function LoginForm() {
         </a>
       </p>{" "}
       <div>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email" className="text-sm text-gray-700">Email</label>
         <input
           className="w-full border p-3 rounded-lg"
           placeholder="Email"
@@ -75,7 +75,7 @@ export default function LoginForm() {
         <p className="text-red-600 text-sm">{errors.email.message}</p>
       )}
       <div>
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password" className="text-sm text-gray-700">Password</label>
         <input
           className="w-full border p-3 rounded-lg"
           placeholder="Password"
@@ -88,12 +88,14 @@ export default function LoginForm() {
         <p className="text-red-600 text-sm">{errors.password.message}</p>
       )}
       {err && <p className="text-red-600 text-sm">{err}</p>}
-      <div className="flex justify-between items-center text-gray-700">
+      <div className="flex justify-between items-center my-3 text-gray-700">
         <div>
           <input type="checkbox" name="checkbox" id="checkbox" />
           <label htmlFor="checkbox"> Remember me</label>
         </div>
-        <a href="" className="text-blue-500 underline">
+        <a href="" onClick={() => {
+          router.push("/forgot-password")
+        }} className="text-blue-500 underline">
           Forgot password?
         </a>
       </div>
