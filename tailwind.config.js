@@ -8,6 +8,9 @@ module.exports = {
       colors: {
         burgundy: "oklch(var(--burgundy))",
       },
+      maxWidth: {
+        '8xl': '1344px',
+      }
     },
   },
 };
