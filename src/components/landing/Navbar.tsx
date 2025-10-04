@@ -3,7 +3,6 @@ import React from "react";
 import { Search, Moon, Globe, User, Menu, X, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useUIStore } from "@/stores/uiStore";
-import { Button } from "../ui/button";
 
 const Navbar = () => {
   const {
@@ -24,23 +23,13 @@ const Navbar = () => {
               <span className="font-bold text-xl">EOTCBible</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <Button
-                asChild
-                variant={"outline"}
-                // className="text-black hover:text-gray-900"
-              >
-                <Link href="#">Bible</Link>
-              </Button>
-              <Button asChild variant={"outline"}>
-                <Link href="#" className="text-black hover:text-gray-900">
-                  Plans
-                </Link>
-              </Button>
-              <Button asChild variant={"outline"}>
-                <Link href="#" className="text-black hover:text-gray-900">
-                  Notes
-                </Link>
-              </Button>
+              <Link href="#">Bible</Link>
+              <Link href="#" className="text-black hover:text-gray-900">
+                Plans
+              </Link>
+              <Link href="#" className="text-black hover:text-gray-900">
+                Notes
+              </Link>
             </div>
           </div>
           <div className="hidden md:flex items-center justify-between space-x-4">
