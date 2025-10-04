@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from 'lucide-react';
+import Subscription from "./Subscription";
 
 
 const Footer = () => {
   return (
+    <div>
+      <Subscription />
         <footer className="bg-[#1a1a19] text-white py-5 m-4 rounded-xl">
       <div className="container mx-auto px-4 max-w-8xl">
         <div className="flex flex-wrap justify-between gap-10">
@@ -68,6 +71,7 @@ const Footer = () => {
           <p className="text-gray-400 text-center">&copy; 2025 EOTCBible. All rights reserved.</p>
       </div>
     </footer>
+    </div>
   );
 };
 
