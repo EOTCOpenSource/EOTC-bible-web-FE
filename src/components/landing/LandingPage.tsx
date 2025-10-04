@@ -6,6 +6,7 @@ import About from "./About";
 import KeyFeatures from "./KeyFeatures";
 import DownloadApp from "./DownloadApp";
 import DiscoverPlans from "./DiscoverPlans";
+import Footer from "./Footer";
 
 const LandingPage = () => {
   return (
@@ -17,6 +18,7 @@ const LandingPage = () => {
       <KeyFeatures />
       <DownloadApp />
       <DiscoverPlans />
+      <Footer />
     </div>
   );
 };
