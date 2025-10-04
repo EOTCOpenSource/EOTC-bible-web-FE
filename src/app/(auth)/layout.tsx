@@ -4,7 +4,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="bg-[#ac1d1d] bg-cover bg-no-repeat min-h-dvh md:p-11">
+    <section className="md:bg-[#ac1d1d] bg-cover bg-no-repeat grid items-center min-h-screen">
       {children}
     </section>
   );

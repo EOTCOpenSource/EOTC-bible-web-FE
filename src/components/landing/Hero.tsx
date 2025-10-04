@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 const Hero = () => {
   return (
     <section
-      className="relative w-full min-h-[766px] text-white"
+      className="relative w-full min-h-screen text-white"
       style={{
         backgroundImage: "url(/hero-image.png)",
         backgroundSize: "cover",

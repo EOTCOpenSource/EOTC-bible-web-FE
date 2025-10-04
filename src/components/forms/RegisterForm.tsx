@@ -82,8 +82,8 @@ export default function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4">
-      <h2 className="text-2xl font-semibold py-0 my-0">Create an Account</h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 p-2">
+      <h2 className="text-3xl font-semibold py-0 my-0">Create an Account</h2>
       <p className="text-sm text-gray-600 mb-4">
         Already have an account?{" "}
         <a className="text-blue-500 underline" href="/login">
@@ -91,7 +91,7 @@ export default function RegisterForm() {
         </a>
       </p>
       <div>
-        <label className="text-gray-700" htmlFor="name">
+        <label className="text-gray-700 text-sm" htmlFor="name">
           Full Name
         </label>
         <input
@@ -106,7 +106,7 @@ export default function RegisterForm() {
         <p className="text-red-600 text-sm">{errors.name.message}</p>
       )}
       <div>
-        <label className="text-gray-700" htmlFor="email">
+        <label className="text-gray-700 text-sm" htmlFor="email">
           Email
         </label>
         {/* Email Field */}
@@ -123,8 +123,8 @@ export default function RegisterForm() {
       )}
       {/* Password Field */}
       <div className="space-y-2 md:flex items-baseline md:gap-2">
-        <div>
-          <label htmlFor="password" className="text-gray-700">
+        <div className="flex-1">
+          <label htmlFor="password" className="text-gray-700 text-sm">
             Password
           </label>
           <div className="relative">
@@ -150,8 +150,8 @@ export default function RegisterForm() {
           )}
         </div>
         {/* Confirm Password Field */}
-        <div>
-          <label className="text-gray-700" htmlFor="confirm-password">
+        <div className="flex-1">
+          <label className="text-gray-700 text-sm" htmlFor="confirm-password">
             Confirm password
           </label>
           <div className="relative">
@@ -175,7 +175,7 @@ export default function RegisterForm() {
         </div>
       </div>
       {/* Password criteria feedback */}
-      <ul className="text-sm space-y-1 flex flex-wrap  items-center mb-2">
+      <ul className="text-sm flex flex-wrap  items-center mb-1">
         {passwordCriteria.map((c, i) => (
           <li key={i} className={c.valid ? "text-green-600" : "text-gray-500"}>
             {/* {c.valid ? "✔" : "✖"} */}
@@ -189,27 +189,29 @@ export default function RegisterForm() {
       {err && <p className="text-red-600 text-sm">{err}</p>}
       {success && <p className="text-green-600 text-sm">{success}</p>}
       {/* i agree checkbox */}
-      <input type="checkbox" name="checkbox" id="checkbox" />
-      <label className="text-sm" htmlFor="checkbox">
-        {" "}
-        i agree to the{" "}
-      </label>{" "}
-      <a href="#" className="text-sm text-red-900 underline">
-        Terms & Conditions
-      </a>
+      <div className="mb-3">
+        <input type="checkbox" name="checkbox" id="checkbox" />
+        <label className="text-sm " htmlFor="checkbox">
+          {" "}
+          i agree to the{" "}
+        </label>{" "}
+        <a href="#" className="text-sm text-red-900 underline">
+          Terms & Conditions
+        </a>
+      </div>
       <button
         className="w-full bg-[#621B1C] cursor-pointer text-white p-2 rounded-lg hover:bg-[#491415] disabled:bg-gray-400"
         disabled={loading}
       >
         {loading ? "Registering..." : "Register"}
       </button>
-      <div className="flex items-center gap-4 my-2">
+      <div className="flex items-center gap-3 my-1">
         <div className="flex-1 border-t border-gray-300"></div>
         <span className="text-gray-500 text-sm">OR</span>
         <div className="flex-1 border-t border-gray-300"></div>
       </div>
       <button
-        className="w-full flex justify-center items-center gap-2 bg-[#c9c9c9] cursor-pointer text-gray-700 p-2 rounded-lg hover:bg-gray-400 disabled:bg-gray-400"
+        className="w-full flex justify-center items-center gap-2 bg-[#c9c9c9] cursor-pointer text-gray-700 p-1 rounded-lg hover:bg-gray-400 disabled:bg-gray-400"
         disabled={loading}
       >
        <img className="w-[30px]" src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png" alt="google logo  image" /> {loading ? "..." : "Continue with Google"}

@@ -39,7 +39,7 @@ export default function ResetPasswordPage() {
 
       if (res.data.success) {
         reset(); // clear the form
-        setTimeout(() => router.push("/login"), 2000);
+        setTimeout(() => router.push("/login"), 600);
       }
     } catch (error: any) {
       setMessage(
