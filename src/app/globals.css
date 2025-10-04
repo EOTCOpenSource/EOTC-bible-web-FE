@@ -120,3 +120,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+.custom-scroll::-webkit-scrollbar {
+  width: 4px;
+  height: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #9A978F;
+  border-radius: 9999px;
+}
+
+.custom-scroll::-webkit-scrollbar-button {
+  display: none;
+}
