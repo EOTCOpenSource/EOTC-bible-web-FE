@@ -21,6 +21,17 @@ export default function ForgotPasswordPage() {
     reset,
   } = useForm<ForgotPasswordForm>();
 
+function maskEmail(email: string) {
+  const [localPart, domain] = email.split("@");
+  if (!domain || localPart.length < 3) return email; // return as-is if invalid or too short
+
+  const start = localPart.slice(0, 2);
+  const end = localPart.slice(-2);
+  const masked = "*".repeat(Math.max(localPart.length - 4, 3)); // at least 3 asterisks
+
+  return `${start}${masked}${end}@${domain}`;
+}
+
   const sendEmail = async (email: string) => {
     setIsSubmitting(true);
     try {
@@ -112,7 +123,7 @@ export default function ForgotPasswordPage() {
             <h1 className="text-2xl font-bold">Email Sent</h1>
             <p className="text-sm text-gray-700 mt-2">
               We’ve sent you a password reset link to your email: <br />
-              <strong>{userEmail}</strong>.
+              <strong>{maskEmail(userEmail)}</strong>.
               <br />
               (Be sure to check the spam folder)
             </p>
