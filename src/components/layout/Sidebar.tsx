@@ -35,66 +35,68 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className="h-screen"
+      className="h-screen flex flex-col w-[300px] overflow-hidden "
       style={
         {
           "--sidebar-width-collapsed": "0px",
           "--sidebar-width": "23rem",
-          "--sidebar-width-mobile": "400px",
+          "--sidebar-width-mobile": "300px",
         } as React.CSSProperties
       }
     >
-      <SidebarHeader className="gap-0 p-0">
-        <SidebarMenu className="flex-row justify-between items-centre gap-0 ">
-          <SidebarMenuItem className="p-0 m-0 w-full">
-            <SidebarMenuButton
-              className={`py-4 px-4 rounded-none font-medium border-y-1 border-[#C8C8C8] text-base
-                              ${
-                                selectedTestament === "old"
-                                  ? "bg-[#392D2D] text-[#FFFDF8]"
-                                  : "bg-[#FFFDF8]  text-[#1A1A19] hover:bg-[#392D2D] hover:text-[#FFFDF8]"
-                              }`}
-              onClick={() => {
-                setSelectedTestament("old");
-                setSelectedBook(1);
-                setSelectedChapter(1);
-              }}
-            >
-              Old Testment
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem className="p-0 m-0 w-full">
-            <SidebarMenuButton
-              className={`py-3 px-3 md:py-4 md:px-4 rounded-none font-medium border border-[#C8C8C8] text-base
-                              ${
-                                selectedTestament === "new"
-                                  ? "bg-[#392D2D] text-[#FFFDF8]"
-                                  : "bg-[#FFFDF8]  text-[#1A1A19] border border-[#C8C8C8] hover:bg-[#392D2D] hover:text-[#FFFDF8]"
-                              }`}
-              onClick={() => {
-                setSelectedTestament("new");
-                setSelectedBook(55); // Matthew
-                setSelectedChapter(1);
-              }}
-            >
-              New Testment
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem className="px-4 m-0 bg-[#FFFDF8] border-y-1 border-[#C8C8C8] font-medium text-[#1A1A19] rounded-none text-sm flex  items-center">
-            Chapters
-          </SidebarMenuItem>
+      <SidebarHeader className=" gap-0 p-0">
+        <SidebarMenu className="w-full">
+          <SidebarGroupContent className="grid grid-cols-[1.1fr_1.15fr_.64fr] w-full">
+            <SidebarMenuItem className="p-0  m-0 w-full">
+              <SidebarMenuButton
+                className={`py-2 px-2 w-max md:py-3 md:px-3 rounded-none hover:bg-[#392D2D] hover:text-[#FFFDF8] font-medium border border-[#C8C8C8] text-sm
+                                ${
+                                  selectedTestament === "old"
+                                    ? "bg-[#392D2D] text-[#FFFDF8]"
+                                    : "bg-[#FFFDF8]  text-[#1A1A19] "
+                                }`}
+                onClick={() => {
+                  setSelectedTestament("old");
+                  setSelectedBook(1);
+                  setSelectedChapter(1);
+                }}
+              >
+                Old Testment
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem className="p-0 m-0 w-full">
+              <SidebarMenuButton
+                className={`py-2 w-max px-2 md:py-3 md:px-3 rounded-none hover:bg-[#392D2D] hover:text-[#FFFDF8] font-medium border border-[#C8C8C8] text-sm
+                                ${
+                                  selectedTestament === "new"
+                                    ? "bg-[#392D2D] text-[#FFFDF8]"
+                                    : "bg-[#FFFDF8]  text-[#1A1A19] border border-[#C8C8C8] "
+                                }`}
+                onClick={() => {
+                  setSelectedTestament("new");
+                  setSelectedBook(55); // Matthew
+                  setSelectedChapter(1);
+                }}
+              >
+                New Testment
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem className="px-2 m-0 bg-[#FFFDF8] border-y-1 border-[#C8C8C8] font-medium text-[#1A1A19] rounded-none text-sm flex items-center">
+              Chapters
+            </SidebarMenuItem>
+          </SidebarGroupContent>
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="flex-1 flex flex-col overflow-hidden bg-[#FFFDF8]">
-        <SidebarGroup className="flex-1 overflow-hidden p-0">
-          <SidebarGroupContent className="grid grid-cols-[2fr_0.67fr] h-full">
-            <div className="custom-scroll h-full overflow-y-auto p-4">
+      <SidebarContent className="  flex flex-col overflow-hidden bg-[#FFFDF8]">
+        <SidebarGroup className="  overflow-hidden p-2"> 
+          <SidebarGroupContent className="grid grid-cols-8 h-full">
+            <div className="custom-scroll col-span-6 pr-2 h-full overflow-y-auto">
               <SidebarMenu>
                 {filteredBooks.map((book) => (
                   <SidebarMenuItem key={book.book_number}>
                     <SidebarMenuButton
-                      className={`rounded-[4px] text-base ${
+                      className={`rounded-none text-base p-4 py-5 ${
                         selectedBook === book.book_number
                           ? "bg-[#F2EFE8] text-[#1A1A19]"
                           : "bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]"
@@ -110,7 +112,7 @@ export function AppSidebar() {
                 ))}
               </SidebarMenu>
             </div>
-            <div className="custom-scroll overflow-y-auto h-full py-4 px-2">
+            <div className="custom-scroll col-span-2 overflow-y-auto h-full">
               <SidebarMenu>
                 {currentBook &&
                   Array.from({ length: currentBook.chapters }, (_, i) => {
@@ -118,9 +120,9 @@ export function AppSidebar() {
                     const isSelected = selectedChapter === chapter;
 
                     return (
-                      <SidebarMenuItem key={chapter}>
+                      <SidebarMenuItem key={chapter} className="mx-1 w-full">
                         <SidebarMenuButton
-                          className={`rounded-[4px] text-base ${
+                          className={`rounded-none text-base p-4 py-5 ${
                             isSelected
                               ? "bg-[#F2EFE8] text-[#1A1A19]"
                               : "bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]"
