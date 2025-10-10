@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import {
@@ -11,26 +11,37 @@ import {
   SidebarMenuItem,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { books } from "@/data/data";
+import { books, type bookType } from "@/data/data";
+import { useRouter } from 'next/navigation';
+import { useBibleStore } from '@/stores/bibleStore';
 
 export function AppSidebar() {
-  const [selectedTestament, setSelectedTestament] = useState<"old" | "new">(
-    "old"
-  );
+  const router = useRouter();
+  const { current, setCurrent } = useBibleStore();
+  const [selectedTestament, setSelectedTestament] = useState<"old" | "new">("old");
 
-  const [selectedBook, setSelectedBook] = useState<number>(() => {
-    return 1;
-  });
+  const handleBookClick = (book: bookType) => {
+    const newRef = { book: book.book_name_en, chapter: 1, verse: 1 };
+    setCurrent(newRef);
+    const bookId = book.book_name_en.toLowerCase().replace(/ /g, '-');
+    router.push(`/read-online/${bookId}/1`);
+  };
 
-  const [selectedChapter, setSelectedChapter] = useState<number>(() => {
-    return 1;
-  });
+  const handleChapterClick = (chapter: number) => {
+    const selectedBook = books.find(b => b.book_name_en === current.book);
+    if (selectedBook) {
+        const bookId = selectedBook.book_name_en.toLowerCase().replace(/ /g, '-');
+        const newRef = { book: selectedBook.book_name_en, chapter: chapter, verse: 1 };
+        setCurrent(newRef);
+        router.push(`/read-online/${bookId}/${chapter}`);
+    }
+  };
 
   const filteredBooks = books.filter(
     (book) => book.testament === selectedTestament
   );
-  const currentBook = filteredBooks.find(
-    (book) => book.book_number === selectedBook
+  const currentBook = books.find(
+    (book) => book.book_name_en === current.book
   );
 
   return (
@@ -57,8 +68,10 @@ export function AppSidebar() {
                                 }`}
                 onClick={() => {
                   setSelectedTestament("old");
-                  setSelectedBook(1);
-                  setSelectedChapter(1);
+                  const firstOldTestamentBook = books.find(b => b.testament === 'old');
+                  if (firstOldTestamentBook) {
+                    handleBookClick(firstOldTestamentBook);
+                  }
                 }}
               >
                 Old Testment
@@ -74,8 +87,10 @@ export function AppSidebar() {
                                 }`}
                 onClick={() => {
                   setSelectedTestament("new");
-                  setSelectedBook(55); // Matthew
-                  setSelectedChapter(1);
+                  const firstNewTestamentBook = books.find(b => b.testament === 'new');
+                  if (firstNewTestamentBook) {
+                    handleBookClick(firstNewTestamentBook);
+                  }
                 }}
               >
                 New Testment
@@ -97,14 +112,11 @@ export function AppSidebar() {
                   <SidebarMenuItem key={book.book_number}>
                     <SidebarMenuButton
                       className={`rounded-none text-base p-4 py-5 ${
-                        selectedBook === book.book_number
+                        current.book === book.book_name_en
                           ? "bg-[#F2EFE8] text-[#1A1A19]"
                           : "bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]"
                       }`}
-                      onClick={() => {
-                        setSelectedBook(book.book_number);
-                        setSelectedChapter(1);
-                      }}
+                      onClick={() => handleBookClick(book)}
                     >
                       {book.book_name_en}
                     </SidebarMenuButton>
@@ -117,7 +129,7 @@ export function AppSidebar() {
                 {currentBook &&
                   Array.from({ length: currentBook.chapters }, (_, i) => {
                     const chapter = i + 1;
-                    const isSelected = selectedChapter === chapter;
+                    const isSelected = current.chapter === chapter;
 
                     return (
                       <SidebarMenuItem key={chapter} className="mx-1 w-full">
@@ -127,7 +139,7 @@ export function AppSidebar() {
                               ? "bg-[#F2EFE8] text-[#1A1A19]"
                               : "bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]"
                           }`}
-                          onClick={() => setSelectedChapter(chapter)}
+                          onClick={() => handleChapterClick(chapter)}
                         >
                           {chapter}
                         </SidebarMenuButton>

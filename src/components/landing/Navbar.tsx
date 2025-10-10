@@ -23,7 +23,7 @@ const Navbar = () => {
               <span className="font-bold text-xl">EOTCBible</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <Link href="#">Bible</Link>
+              <Link href="/read-online">Bible</Link>
               <Link href="#" className="text-black hover:text-gray-900">
                 Plans
               </Link>

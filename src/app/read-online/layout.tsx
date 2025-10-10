@@ -1,29 +1,37 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { AppSidebar } from "@/components/layout/Sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import clsx from "clsx";
+import React, { useState } from 'react';
+import { AppSidebar } from '@/components/layout/Sidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import clsx from 'clsx';
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   return (
     <SidebarProvider onOpenChange={() => setOpen(!open)} open={open}>
       <AppSidebar />
-      <main
+      <div
         className={clsx(
-          "w-full min-h-screen bg-[#FFFDF8]",
-          open && "md:pl-[3.5rem]"
+          "w-full min-h-screen bg-[#FFFDF8] relative",
+          open && "md:pl-[300px]"
         )}
       >
-        <SidebarTrigger className="ml-0" onClick={() => setOpen(!open)}/>
-        {children}
-      </main>
+        <SidebarTrigger 
+          className={clsx(
+            "fixed top-5 left-4 z-10",
+            open && "md:left-[316px]"
+          )}
+          onClick={() => setOpen(!open)} 
+        />
+        <main className="h-full overflow-y-auto">
+            {children}
+        </main>
+      </div>
     </SidebarProvider>
   );
 }
