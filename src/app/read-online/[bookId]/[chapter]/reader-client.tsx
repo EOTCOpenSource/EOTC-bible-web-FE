@@ -29,7 +29,8 @@ export default function ReaderClient({
           href={`/read-online/${bookId}/${prevChapter}`}
           className={clsx(
             "fixed top-1/2 -translate-y-1/2 z-10 p-2 rounded-md bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700",
-            isSidebarOpen ? "left-[474px]" : "left-64"
+            "left-4", // Mobile specific
+            isSidebarOpen ? "md:left-[474px]" : "md:left-64" // Desktop specific
           )}
         >
           <ChevronLeft className="h-6 w-6" />
@@ -38,7 +39,8 @@ export default function ReaderClient({
         <div
           className={clsx(
             "fixed top-1/2 -translate-y-1/2 z-10 p-2 rounded-md bg-gray-200 dark:bg-gray-800 opacity-50 cursor-not-allowed",
-            isSidebarOpen ? "left-[304px]" : "left-4"
+            "left-4", // Default for mobile
+            isSidebarOpen ? "md:left-[474px]" : "md:left-64" // Desktop specific
           )}
         >
           <ChevronLeft className="h-6 w-6" />
@@ -76,12 +78,22 @@ export default function ReaderClient({
       {nextChapter ? (
         <Link
           href={`/read-online/${bookId}/${nextChapter}`}
-          className="fixed top-1/2 -translate-y-1/2 right-4 z-10 p-2 rounded-md bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 mr-64"
+          className={clsx(
+            "fixed top-1/2 -translate-y-1/2 z-10 p-2 rounded-md bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700",
+            "right-4", // Mobile specific
+            "md:right-64" // Desktop specific, always maintain sidebar closed position
+          )}
         >
           <ChevronRight className="h-6 w-6" />
         </Link>
       ) : (
-        <div className="fixed top-1/2 -translate-y-1/2 right-4 z-10 p-2 rounded-md bg-gray-200 dark:bg-gray-800 opacity-50 cursor-not-allowed">
+        <div
+          className={clsx(
+            "fixed top-1/2 -translate-y-1/2 z-10 p-2 rounded-md bg-gray-200 dark:bg-gray-800 opacity-50 cursor-not-allowed",
+            "right-4", // Mobile specific
+            "md:right-64" // Desktop specific, always maintain sidebar closed position
+          )}
+        >
           <ChevronRight className="h-6 w-6" />
         </div>
       )}
