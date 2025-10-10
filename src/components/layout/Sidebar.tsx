@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState } from 'react'
 import {
   Sidebar,
   SidebarContent,
@@ -46,26 +46,25 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className="h-screen flex flex-col w-[300px] overflow-hidden "
+      className="flex h-screen w-[300px] flex-col overflow-hidden"
       style={
         {
-          "--sidebar-width-collapsed": "0px",
-          "--sidebar-width": "23rem",
-          "--sidebar-width-mobile": "300px",
+          '--sidebar-width-collapsed': '0px',
+          '--sidebar-width': '23rem',
+          '--sidebar-width-mobile': '300px',
         } as React.CSSProperties
       }
     >
-      <SidebarHeader className=" gap-0 p-0">
+      <SidebarHeader className="gap-0 p-0">
         <SidebarMenu className="w-full">
-          <SidebarGroupContent className="grid grid-cols-[1.1fr_1.15fr_.64fr] w-full">
-            <SidebarMenuItem className="p-0  m-0 w-full">
+          <SidebarGroupContent className="grid w-full grid-cols-[1.1fr_1.15fr_.64fr]">
+            <SidebarMenuItem className="m-0 w-full p-0">
               <SidebarMenuButton
-                className={`py-2 px-2 w-max md:py-3 md:px-3 rounded-none hover:bg-[#392D2D] hover:text-[#FFFDF8] font-medium border border-[#C8C8C8] text-sm
-                                ${
-                                  selectedTestament === "old"
-                                    ? "bg-[#392D2D] text-[#FFFDF8]"
-                                    : "bg-[#FFFDF8]  text-[#1A1A19] "
-                                }`}
+                className={`w-max rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${
+                  selectedTestament === 'old'
+                    ? 'bg-[#392D2D] text-[#FFFDF8]'
+                    : 'bg-[#FFFDF8] text-[#1A1A19]'
+                }`}
                 onClick={() => {
                   setSelectedTestament("old");
                   const firstOldTestamentBook = books.find(b => b.testament === 'old');
@@ -77,14 +76,13 @@ export function AppSidebar() {
                 Old Testment
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem className="p-0 m-0 w-full">
+            <SidebarMenuItem className="m-0 w-full p-0">
               <SidebarMenuButton
-                className={`py-2 w-max px-2 md:py-3 md:px-3 rounded-none hover:bg-[#392D2D] hover:text-[#FFFDF8] font-medium border border-[#C8C8C8] text-sm
-                                ${
-                                  selectedTestament === "new"
-                                    ? "bg-[#392D2D] text-[#FFFDF8]"
-                                    : "bg-[#FFFDF8]  text-[#1A1A19] border border-[#C8C8C8] "
-                                }`}
+                className={`w-max rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${
+                  selectedTestament === 'new'
+                    ? 'bg-[#392D2D] text-[#FFFDF8]'
+                    : 'border border-[#C8C8C8] bg-[#FFFDF8] text-[#1A1A19]'
+                }`}
                 onClick={() => {
                   setSelectedTestament("new");
                   const firstNewTestamentBook = books.find(b => b.testament === 'new');
@@ -96,17 +94,17 @@ export function AppSidebar() {
                 New Testment
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem className="px-2 m-0 bg-[#FFFDF8] border-y-1 border-[#C8C8C8] font-medium text-[#1A1A19] rounded-none text-sm flex items-center">
+            <SidebarMenuItem className="m-0 flex items-center rounded-none border-y-1 border-[#C8C8C8] bg-[#FFFDF8] px-2 text-sm font-medium text-[#1A1A19]">
               Chapters
             </SidebarMenuItem>
           </SidebarGroupContent>
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="  flex flex-col overflow-hidden bg-[#FFFDF8]">
-        <SidebarGroup className="  overflow-hidden p-2"> 
-          <SidebarGroupContent className="grid grid-cols-8 h-full">
-            <div className="custom-scroll col-span-6 pr-2 h-full overflow-y-auto">
+      <SidebarContent className="flex flex-col overflow-hidden bg-[#FFFDF8]">
+        <SidebarGroup className="overflow-hidden p-2">
+          <SidebarGroupContent className="grid h-full grid-cols-8">
+            <div className="custom-scroll col-span-6 h-full overflow-y-auto pr-2">
               <SidebarMenu>
                 {filteredBooks.map((book) => (
                   <SidebarMenuItem key={book.book_number}>
@@ -124,7 +122,7 @@ export function AppSidebar() {
                 ))}
               </SidebarMenu>
             </div>
-            <div className="custom-scroll col-span-2 overflow-y-auto h-full">
+            <div className="custom-scroll col-span-2 h-full overflow-y-auto">
               <SidebarMenu>
                 {currentBook &&
                   Array.from({ length: currentBook.chapters }, (_, i) => {
@@ -134,17 +132,17 @@ export function AppSidebar() {
                     return (
                       <SidebarMenuItem key={chapter} className="mx-1 w-full">
                         <SidebarMenuButton
-                          className={`rounded-none text-base p-4 py-5 ${
+                          className={`rounded-none p-4 py-5 text-base ${
                             isSelected
-                              ? "bg-[#F2EFE8] text-[#1A1A19]"
-                              : "bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]"
+                              ? 'bg-[#F2EFE8] text-[#1A1A19]'
+                              : 'bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]'
                           }`}
                           onClick={() => handleChapterClick(chapter)}
                         >
                           {chapter}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
-                    );
+                    )
                   })}
               </SidebarMenu>
             </div>
@@ -152,5 +150,5 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  );
+  )
 }

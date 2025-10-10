@@ -94,24 +94,24 @@ sequenceDiagram
 ### Access Protected Route (Client)
 
 ```ts
-import { clientApiFetch } from "@/lib/proxy-client";
+import { clientApiFetch } from '@/lib/proxy-client'
 
 // Example: Fetch reading progress
-const data = await clientApiFetch("/progress");
+const data = await clientApiFetch('/progress')
 ```
 
 ### Access Protected Route (Server)
 
 ```ts
-import { serverApiFetch } from "@/lib/server-fetch";
+import { serverApiFetch } from '@/lib/server-fetch'
 
-const me = await serverApiFetch("/user/me");
+const me = await serverApiFetch('/user/me')
 ```
 
 ### Logout
 
 ```ts
-await fetch("/api/v1/auth/logout", { method: "POST" });
+await fetch('/api/v1/auth/logout', { method: 'POST' })
 ```
 
 This clears the cookie.

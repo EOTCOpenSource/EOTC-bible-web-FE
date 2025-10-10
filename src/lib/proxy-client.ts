@@ -2,16 +2,16 @@ export async function clientApiFetch<T>(path: string, options: RequestInit = {})
   // Calls our Next.js proxy, which attaches Authorization for us
   const res = await fetch(`/api/proxy${path}`, {
     ...options,
-    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
-    cache: "no-store",
+    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    cache: 'no-store',
   })
   if (!res.ok) {
     const text = await res.text()
     throw new Error(`Proxy ${res.status}: ${text}`)
   }
 
-  const contentType = res.headers.get("content-type")
-  if (!contentType || !contentType.includes("application/json")) {
+  const contentType = res.headers.get('content-type')
+  if (!contentType || !contentType.includes('application/json')) {
     const text = await res.text()
     throw new Error(`Expected JSON response but got: ${contentType}. Response: ${text}`)
   }

@@ -1,5 +1,3 @@
 export default function page() {
-  return (
-    <h1>prograss page</h1>
-  )
+  return <h1>prograss page</h1>
 }

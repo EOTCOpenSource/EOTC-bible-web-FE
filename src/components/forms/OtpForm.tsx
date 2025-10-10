@@ -1,89 +1,80 @@
-"use client";
+'use client'
 
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useUserStore } from "@/lib/stores/useUserStore";
-import { useForm, Controller } from "react-hook-form";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { useAuthStore } from "@/stores/authStore";
+import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useUserStore } from '@/lib/stores/useUserStore'
+import { useForm, Controller } from 'react-hook-form'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
+import { useAuthStore } from '@/stores/authStore'
 
-type OtpFormData = { otp: string };
+type OtpFormData = { otp: string }
 
 export default function OtpForm() {
-  const router = useRouter();
-  const { loadSession } = useUserStore();
+  const router = useRouter()
+  const { loadSession } = useUserStore()
 
-  const {
-    otpStatus,
-    otpCountdown,
-    error,
-    success,
-    verifyOtp,
-    resendOtp,
-    startCountdown,
-  } = useAuthStore();
+  const { otpStatus, otpCountdown, error, success, verifyOtp, resendOtp, startCountdown } =
+    useAuthStore()
 
   const { control, handleSubmit, watch } = useForm<OtpFormData>({
-    defaultValues: { otp: "" },
-  });
+    defaultValues: { otp: '' },
+  })
 
-  const otpValue = watch("otp");
-  const inputRefs = useRef<HTMLInputElement[]>([]);
+  const otpValue = watch('otp')
+  const inputRefs = useRef<HTMLInputElement[]>([])
 
-
-  const [clientEmail, setClientEmail] = useState("");
-  const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState('')
+  const [clientName, setClientName] = useState('')
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("registeredEmail") || "";
-    const storedName = localStorage.getItem("registeredName") || "";
-    setClientEmail(storedEmail);
-    setClientName(storedName);
-    if(clientEmail === "") {
-      router.push("/register");
-    }
-  }, []);
+    const storedEmail = localStorage.getItem('registeredEmail') || ''
+    const storedName = localStorage.getItem('registeredName') || ''
+    setClientEmail(storedEmail)
+    setClientName(storedName)
+    // if(clientEmail === "") {
+    //   router.push("/register");
+    // }
+  }, [])
   useEffect(() => {
-    if (otpStatus === "verified") {
-      loadSession();
-      localStorage.removeItem("registeredEmail");
-      localStorage.removeItem("registeredName");
-      setTimeout(() => router.push("/dashboard"), 1000);
+    if (otpStatus === 'verified') {
+      loadSession()
+      localStorage.removeItem('registeredEmail')
+      localStorage.removeItem('registeredName')
+      setTimeout(() => router.push('/dashboard'), 1000)
     }
-  }, [otpStatus, loadSession, router]);
+  }, [otpStatus, loadSession, router])
 
   const onSubmit = async (data: OtpFormData) => {
-    await verifyOtp(clientEmail, data.otp);
-  };
+    await verifyOtp(clientEmail, data.otp)
+  }
 
   const handleResendOtp = async () => {
-    await resendOtp(clientEmail, clientName);
-    startCountdown(60);
-  };
+    await resendOtp(clientEmail, clientName)
+    startCountdown(60)
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-    if (e.key === "Backspace" && !otpValue[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
+    if (e.key === 'Backspace' && !otpValue[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus()
     }
-  };
+  }
 
   const maskEmail = (email: string) => {
-    if (!email) return "";
-    const [user, domain] = email.split("@");
-    if (!domain) return email;
-    if (user.length <= 2) return email;
-    return `${user.substring(0, 2)}***${user.substring(user.length - 1)}@${domain}`;
-  };
+    if (!email) return ''
+    const [user, domain] = email.split('@')
+    if (!domain) return email
+    if (user.length <= 2) return email
+    return `${user.substring(0, 2)}***${user.substring(user.length - 1)}@${domain}`
+  }
 
   return (
-    <div className="w-full h-full flex flex-col justify-between items-center text-center gap-[10px]">
+    <div className="flex h-full w-full flex-col items-center justify-between gap-[10px] text-center">
       <div className="flex flex-col gap-[10px]">
         <h2 className="text-3xl font-semibold text-[#1F2937]">Verify your email</h2>
-        <p className="text-md w-[330px] h-[65px] font-normal">
-          We&apos;ve sent a verification code to your email:{" "}
-          <span className="font-bold">
-            {clientEmail ? maskEmail(clientEmail) : ""}
-          </span>. Be sure to check spam folder, and input the code down below.
+        <p className="text-md h-[65px] w-[330px] font-normal">
+          We&apos;ve sent a verification code to your email:{' '}
+          <span className="font-bold">{clientEmail ? maskEmail(clientEmail) : ''}</span>. Be sure to
+          check spam folder, and input the code down below.
         </p>
       </div>
 
@@ -99,10 +90,10 @@ export default function OtpForm() {
                   <InputOTPSlot
                     key={i}
                     index={i}
-                    className="w-[60px] h-[60px] border border-gray-300 rounded-[8px]"
+                    className="h-[60px] w-[60px] rounded-[8px] border border-gray-300"
                     onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, i)}
                     ref={(el) => {
-                      inputRefs.current[i] = el as HTMLInputElement;
+                      inputRefs.current[i] = el as HTMLInputElement
                     }}
                   />
                 ))}
@@ -111,27 +102,27 @@ export default function OtpForm() {
           )}
         />
 
-        {error && <p className="text-red-600 text-sm text-center">{error}</p>}
-        {success && <p className="text-green-600 text-sm text-center">{success}</p>}
+        {error && <p className="text-center text-sm text-red-600">{error}</p>}
+        {success && <p className="text-center text-sm text-green-600">{success}</p>}
 
         <button
           type="submit"
-          disabled={otpStatus === "pending" || otpValue.length !== 6}
-          className={`w-full h-[48px] py-3 rounded-md text-white text-base font-medium transition-colors
-            ${
-              otpStatus === "pending" || otpValue.length !== 6
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#7B1D1D] hover:bg-[#5f1515] cursor-pointer"
-            }`}
+          disabled={otpStatus === 'pending' || otpValue.length !== 6}
+          className={`h-[48px] w-full rounded-md py-3 text-base font-medium text-white transition-colors ${
+            otpStatus === 'pending' || otpValue.length !== 6
+              ? 'cursor-not-allowed bg-gray-300'
+              : 'cursor-pointer bg-[#7B1D1D] hover:bg-[#5f1515]'
+          }`}
         >
-          {otpStatus === "pending" ? "Verifying..." : "Verify Code"}
+          {otpStatus === 'pending' ? 'Verifying...' : 'Verify Code'}
         </button>
       </form>
 
-      <div className="text-center flex items-center justify-center gap-1 pt-3">
+      <div className="flex items-center justify-center gap-1 pt-3 text-center">
         {otpCountdown > 0 ? (
           <p className="text-[14px] text-[#4B5563]">
-            Resend available in <span className="font-semibold text-[#7B1D1D]">{otpCountdown}s</span>
+            Resend available in{' '}
+            <span className="font-semibold text-[#7B1D1D]">{otpCountdown}s</span>
           </p>
         ) : (
           <>
@@ -139,7 +130,7 @@ export default function OtpForm() {
             <button
               type="button"
               onClick={handleResendOtp}
-              className="text-[#7B1D1D] hover:underline text-sm font-medium cursor-pointer"
+              className="cursor-pointer text-sm font-medium text-[#7B1D1D] hover:underline"
             >
               Resend OTP
             </button>
@@ -147,5 +138,5 @@ export default function OtpForm() {
         )}
       </div>
     </div>
-  );
+  )
 }

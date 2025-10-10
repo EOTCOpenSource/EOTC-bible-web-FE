@@ -1,29 +1,29 @@
-import React from "react";
+import React from 'react'
 
 const DownloadApp = () => {
   return (
-    <section className="py-20 bg-gray-50 relative overflow-hidden">
+    <section className="relative overflow-hidden bg-gray-50 py-20">
       <div
-        className="absolute inset-0 bg-cover bg-center transform -rotate-33 md:rotate-0"
+        className="absolute inset-0 -rotate-33 transform bg-cover bg-center md:rotate-0"
         style={{ backgroundImage: "url('/download-app-card-bg.png')" }}
       ></div>
-      <div className="container mx-auto px-4 flex justify-center items-center relative">
-        <div className="w-full max-w-[1449px] h-auto md:h-[410px] flex justify-center items-center">
-          <div className="w-full max-w-[859px] h-auto md:h-[386px] flex justify-center items-center relative">
+      <div className="relative container mx-auto flex items-center justify-center px-4">
+        <div className="flex h-auto w-full max-w-[1449px] items-center justify-center md:h-[410px]">
+          <div className="relative flex h-auto w-full max-w-[859px] items-center justify-center md:h-[386px]">
             <div
-              className="w-full max-w-[859px] h-auto md:h-[305px] rounded-[15px] bg-cover bg-center flex flex-col md:flex-row justify-between items-center md:justify-start items-start p-4 md:p-0 pb-0"
+              className="flex h-auto w-full max-w-[859px] flex-col items-center items-start justify-between rounded-[15px] bg-cover bg-center p-4 pb-0 md:h-[305px] md:flex-row md:justify-start md:p-0"
               style={{ backgroundImage: "url('/download-bg.png')" }}
             >
-              <div className="w-full md:w-[455px] h-auto md:h-[158px] md:ml-[32px] md:mt-[46px] md:text-left">
-                <h2 className="text-2xl md:text-3xl font-bold text-white">
+              <div className="h-auto w-full md:mt-[46px] md:ml-[32px] md:h-[158px] md:w-[455px] md:text-left">
+                <h2 className="text-2xl font-bold text-white md:text-3xl">
                   Download the EOTCBible App Now!
                 </h2>
-                <p className="mt-4 text-white text-sm md:text-base">
-                  Explore your spiritual journey and engage with scriptures.
-                  Discover insights that resonate with your faith and connect
-                  deeply with teachings that have shaped beliefs.
+                <p className="mt-4 text-sm text-white md:text-base">
+                  Explore your spiritual journey and engage with scriptures. Discover insights that
+                  resonate with your faith and connect deeply with teachings that have shaped
+                  beliefs.
                 </p>
-                <div className="flex mt-8 space-x-4 justify-center md:justify-start">
+                <div className="mt-8 flex justify-center space-x-4 md:justify-start">
                   <a href="#" target="_blank" rel="noopener noreferrer">
                     <img
                       src="/google-play-badge.svg"
@@ -40,19 +40,15 @@ const DownloadApp = () => {
                   </a>
                 </div>
               </div>
-              <div className="md:absolute md:right-0 md:-top-12 mt-8 md:mt-0 md:pb-0">
-                <img
-                  src="/mobile-hand.png"
-                  alt="Mobile in hand"
-                  className="w-[292px] h-[386px]"
-                />
+              <div className="mt-8 md:absolute md:-top-12 md:right-0 md:mt-0 md:pb-0">
+                <img src="/mobile-hand.png" alt="Mobile in hand" className="h-[386px] w-[292px]" />
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default DownloadApp;
+export default DownloadApp

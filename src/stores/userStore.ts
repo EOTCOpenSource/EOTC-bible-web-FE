@@ -1,16 +1,16 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import type { User } from "./types";
+import { create } from 'zustand'
+import { devtools } from 'zustand/middleware'
+import type { User } from './types'
 
 interface UserState {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  error?: string | null;
+  user: User | null
+  isAuthenticated: boolean
+  isLoading: boolean
+  error?: string | null
 
-  setUser: (u: User | null) => void;
-  loadUser: () => Promise<void>;
-  clearError: () => void;
+  setUser: (u: User | null) => void
+  loadUser: () => Promise<void>
+  clearError: () => void
 }
 
 export const useUserStore = create<UserState>()(
@@ -24,20 +24,20 @@ export const useUserStore = create<UserState>()(
     clearError: () => set({ error: null }),
 
     loadUser: async () => {
-      set({ isLoading: true, error: null });
+      set({ isLoading: true, error: null })
       try {
-        const res = await fetch("https://mylocalbackend/api/v1/user/me");
-        if (!res.ok) throw new Error("Failed to fetch the user info");
-        const data = (await res.json()) as User;
-        set({ user: data, isAuthenticated: true, isLoading: false });
+        const res = await fetch('https://mylocalbackend/api/v1/user/me')
+        if (!res.ok) throw new Error('Failed to fetch the user info')
+        const data = (await res.json()) as User
+        set({ user: data, isAuthenticated: true, isLoading: false })
       } catch (err: any) {
         set({
           user: null,
           isAuthenticated: false,
           isLoading: false,
-          error: err?.message ?? "Unknown",
-        });
+          error: err?.message ?? 'Unknown',
+        })
       }
     },
-  }))
-);
+  })),
+)
