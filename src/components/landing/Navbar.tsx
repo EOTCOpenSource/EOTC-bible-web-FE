@@ -17,8 +17,8 @@ const Navbar = () => {
               <img src="/logo.png" alt="EOTCBible Logo" className="h-8 w-8" />
               <span className="text-xl font-bold">EOTCBible</span>
             </div>
-            <div className="hidden items-center space-x-8 md:flex">
-              <Link href="#">Bible</Link>
+            <div className="hidden md:flex items-center space-x-8">
+              <Link href="/read-online">Bible</Link>
               <Link href="#" className="text-black hover:text-gray-900">
                 Plans
               </Link>
