@@ -63,7 +63,7 @@ export const useAuthStore = create<AuthState>()(
         
         set({
           success: "Registration successful, please verify your email.",
-          otpStatus: "idle",
+          otpStatus: "pending",
         });
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? "Registration failed" });
