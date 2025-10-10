@@ -1,6 +1,6 @@
 "use client"
-import { useAuthStore } from "@/lib/stores/useUserStore"
-import axios from "axios"
+
+import { useAuthStore } from "@/stores/authStore"
 import { useRouter } from "next/navigation"
 
 export default function LogoutButton() {
@@ -8,13 +8,10 @@ export default function LogoutButton() {
   const router = useRouter()
   const handleLogout = async () => {
     try {
-      await axios.post("/api/auth/logout", {}, { withCredentials: true })
-      logout()
-      router.push("/login")
+       await logout()
+       router.push("/login")
     } catch (error) {
       console.error("Logout error:", error)
-      // Still logout locally even if server request fails
-      logout()
       router.push("/login")
     }
   }
