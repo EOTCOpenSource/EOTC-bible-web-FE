@@ -1,5 +1,3 @@
 export default function page() {
-  return (
-    <p>note edit dynamic page</p>
-  )
+  return <p>note edit dynamic page</p>
 }

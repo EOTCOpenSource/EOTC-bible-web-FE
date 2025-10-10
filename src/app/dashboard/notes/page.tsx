@@ -1,5 +1,3 @@
 export default function page() {
-  return (
-    <p>notes page</p>
-  )
+  return <p>notes page</p>
 }

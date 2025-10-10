@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server"
-import { ENV } from "@/lib/env"
-import serverAxiosInstance from "@/lib/server-axios";
+import { NextRequest, NextResponse } from 'next/server'
+import { ENV } from '@/lib/env'
+import serverAxiosInstance from '@/lib/server-axios'
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
     if (res.status < 200 || res.status >= 300) {
       const errorData = res.data
       return NextResponse.json(
-        { error: errorData?.message || "Login failed" },
-        { status: res.status }
+        { error: errorData?.message || 'Login failed' },
+        { status: res.status },
       )
     }
 
@@ -25,21 +25,20 @@ export async function POST(req: NextRequest) {
     const token = data.data.token
     const user = data.data.user
 
-
     // Set cookie in browser
     const response = NextResponse.json({ success: true, user })
     response.cookies.set({
       name: ENV.jwtCookieName,
       value: token,
       httpOnly: true,
-      secure: process.env.NODE_ENV.toLowerCase() === "production",
-      sameSite: "lax",
-      path: "/",
+      secure: process.env.NODE_ENV.toLowerCase() === 'production',
+      sameSite: 'lax',
+      path: '/',
     })
 
     return response
   } catch (error: any) {
-    console.error("Login API error:", error)
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 })
+    console.error('Login API error:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }

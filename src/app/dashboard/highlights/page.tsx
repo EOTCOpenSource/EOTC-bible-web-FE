@@ -1,7 +1,3 @@
 export default function page() {
-  return (
-    <p>
-      highlights page
-    </p>
-  )
+  return <p>highlights page</p>
 }

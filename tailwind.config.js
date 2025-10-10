@@ -6,11 +6,11 @@ module.exports = {
         auth: "url('/assets/images/auth-bg.jpg')",
       },
       colors: {
-        burgundy: "oklch(var(--burgundy))",
+        burgundy: 'oklch(var(--burgundy))',
       },
       maxWidth: {
         '8xl': '1344px',
-      }
+      },
     },
   },
-};
+}
