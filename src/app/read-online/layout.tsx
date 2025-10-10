@@ -17,8 +17,7 @@ export default function AuthLayout({
       <AppSidebar />
       <div
         className={clsx(
-          "w-full min-h-screen bg-[#FFFDF8] relative",
-          open && "md:pl-[300px]"
+          "w-full min-h-screen bg-[#FFFDF8] relative"
         )}
       >
         <SidebarTrigger 
@@ -28,7 +27,7 @@ export default function AuthLayout({
           )}
           onClick={() => setOpen(!open)} 
         />
-        <main className="h-full overflow-y-auto">
+        <main className={clsx("h-full overflow-y-auto", open && "md:pl-[300px] md:w-[calc(100%-300px)]")}>
             {children}
         </main>
       </div>
