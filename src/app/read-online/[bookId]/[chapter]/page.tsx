@@ -24,7 +24,9 @@ export default async function ReaderPage({
 }: {
   params: { bookId: string; chapter: string };
 }) {
-  const { bookId, chapter } = params;
+  const awaitedParams = await params;
+  const bookId = awaitedParams.bookId;
+  const chapter = awaitedParams.chapter;
   const bookData = await getBookData(bookId);
 
   if (!bookData) {
