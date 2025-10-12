@@ -110,19 +110,19 @@ export function AppSidebar() {
                   <SidebarMenuItem key={book.book_number}>
                     <SidebarMenuButton
                       className={`rounded-none text-base p-4 py-5 ${
-                        current.book === book.book_name_en
+                        current.book === book.book_name_am
                           ? "bg-[#F2EFE8] text-[#1A1A19]"
                           : "bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]"
                       }`}
                       onClick={() => handleBookClick(book)}
                     >
-                      {book.book_name_en}
+                      {book.book_name_am}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
             </div>
-            <div className="custom-scroll col-span-2 h-full overflow-y-auto">
+            <div className="custom-scroll col-span-2 h-full overflow-hidden overflow-y-auto">
               <SidebarMenu>
                 {currentBook &&
                   Array.from({ length: currentBook.chapters }, (_, i) => {
