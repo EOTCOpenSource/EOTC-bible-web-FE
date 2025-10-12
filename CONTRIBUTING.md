@@ -59,15 +59,24 @@ For detailed frontend architecture, authentication flow, and proxy usage, see th
    ```bash
    npm test
    ```
-4. Commit with descriptive messages:
+4. Make sure to check code formatting before you commit changes
+   - #### check the files need formatting 
+   ```bash
+   npm run format:check
+   ```
+   - #### format the entire files you checked
+   ```bash
+   npm run format
+   ``` 
+5. Commit with descriptive messages:
    ```bash
    git commit -m "feat: add [feature description]"
    ```
-5. Push to your fork:
+6. Push to your fork:
    ```bash
    git push origin feature/your-feature-name
    ```
-6. Open a Pull Request to the main branch
+7. Open a Pull Request to the main branch
 
 > **Note:** You don't need to open an issue before submitting a PR, but feel free to do so if you want feedback on an idea.
 
