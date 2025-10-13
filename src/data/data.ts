@@ -1,4 +1,4 @@
-type bookType = {
+export type bookType = {
   book_number: number
   book_name_am: string
   book_short_name_am: string
@@ -164,7 +164,7 @@ export const books: bookType[] = [
   },
   {
     book_number: 18,
-    book_name_am: 'መጽሐፈ ነህምያ',
+    book_name_am: 'መጽሐፈ ነሐምያ',
     book_short_name_am: 'ነህ',
     book_name_en: 'Nehemiah',
     book_short_name_en: 'Neh',
@@ -220,7 +220,7 @@ export const books: bookType[] = [
     book_number: 24,
     book_name_am: 'መጽሐፈ መቃብያን ቀዳማዊ',
     book_short_name_am: '1 መቃ',
-    book_name_en: '1 Maccabees',
+    book_name_en: '1 Meqabyan',
     book_short_name_en: '1 Meqa',
     testament: 'old',
     chapters: 36,
@@ -229,7 +229,7 @@ export const books: bookType[] = [
     book_number: 25,
     book_name_am: 'መጽሐፈ መቃብያን ካልእ',
     book_short_name_am: '2 መቃ',
-    book_name_en: '2 Maccabees',
+    book_name_en: '2 Meqabyan',
     book_short_name_en: '2 Meqa',
     testament: 'old',
     chapters: 21,
@@ -238,7 +238,7 @@ export const books: bookType[] = [
     book_number: 26,
     book_name_am: 'መጽሐፈ መቃብያን ሳልስ',
     book_short_name_am: '3 መቃ',
-    book_name_en: '3 Maccabees',
+    book_name_en: '3 Meqabyan',
     book_short_name_en: '3 Meqa',
     testament: 'old',
     chapters: 10,
