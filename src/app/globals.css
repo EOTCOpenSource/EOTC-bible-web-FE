@@ -48,8 +48,8 @@
   --radius: 0.625rem;
 
   /* Neutrals */
-  --background: oklch(0.99 0 0); /* near white */
-  --foreground: oklch(0.17 0.02 265); /* near black */
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.17 0.02 265);
   --border: oklch(0.92 0.006 264.5);
   --input: var(--border);
   --ring: oklch(0.7 0.02 261);
