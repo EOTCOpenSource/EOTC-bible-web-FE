@@ -10,6 +10,7 @@ interface UIState {
   fontSize: 'sm' | 'md' | 'lg'
   activeModal: ModalKey
   isSidebarOpen: boolean
+  isReadOnlineSidebarOpen: boolean
   isNavMenuOpen: boolean
   isNavSearchOpen: boolean
   notifications: { id: string; message: string; createdAt: string }[]
@@ -21,6 +22,7 @@ interface UIState {
   openModal: (m: ModalKey) => void
   closeModal: () => void
   toggleSidebar: () => void
+  toggleReadOnlineSidebar: () => void
   toggleNavMenu: () => void
   toggleNavSearch: () => void
   closeNavMenu: () => void
@@ -43,6 +45,7 @@ export const useUIStore = create<UIState>()(
         fontSize: 'md',
         activeModal: null,
         isSidebarOpen: false,
+        isReadOnlineSidebarOpen: true,
         isNavMenuOpen: false,
         isNavSearchOpen: false,
         notifications: [],
@@ -54,6 +57,8 @@ export const useUIStore = create<UIState>()(
         openModal: (modal) => set({ activeModal: modal }),
         closeModal: () => set({ activeModal: null }),
         toggleSidebar: () => set((s) => ({ isSidebarOpen: !s.isSidebarOpen })),
+        toggleReadOnlineSidebar: () =>
+          set((s) => ({ isReadOnlineSidebarOpen: !s.isReadOnlineSidebarOpen })),
         toggleNavMenu: () => set((s) => ({ isNavMenuOpen: !s.isNavMenuOpen })),
         toggleNavSearch: () => set((s) => ({ isNavSearchOpen: !s.isNavSearchOpen })),
         closeNavMenu: () => set({ isNavMenuOpen: false }),
@@ -105,6 +110,7 @@ export const useUIStore = create<UIState>()(
           theme: state.theme,
           fontSize: state.fontSize,
           isSidebarOpen: state.isSidebarOpen,
+          isReadOnlineSidebarOpen: state.isReadOnlineSidebarOpen,
         }),
       },
     ),
