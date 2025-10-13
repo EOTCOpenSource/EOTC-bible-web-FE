@@ -1,0 +1,24 @@
+review:
+  enabled: true
+  auto_review_on:
+    - pull_request_opened
+    - pull_request_synchronized
+  patch_size_limit: 1200
+  paths:
+    include:
+      - "src/**"
+      - "app/**"
+    exclude:
+      - "public/**"
+      - "**/*.lock"
+  languages:
+    - typescript
+    - javascript
+    - css
+  suggestions:
+    enabled: true
+  tests:
+    prefer: true
+style:
+  tone: constructive
+  detail: balanced
