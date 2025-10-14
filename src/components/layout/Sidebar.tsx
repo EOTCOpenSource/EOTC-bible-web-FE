@@ -60,7 +60,7 @@ export function AppSidebar() {
           <SidebarGroupContent className="grid w-full grid-cols-[1.1fr_1.15fr_.64fr]">
             <SidebarMenuItem className="m-0 w-full p-0">
               <SidebarMenuButton
-                className={`w-max rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${
+                className={`w-max rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 cursor-pointer ${
                   selectedTestament === 'old'
                     ? 'bg-[#392D2D] text-[#FFFDF8]'
                     : 'bg-[#FFFDF8] text-[#1A1A19]'
@@ -78,7 +78,7 @@ export function AppSidebar() {
             </SidebarMenuItem>
             <SidebarMenuItem className="m-0 w-full p-0">
               <SidebarMenuButton
-                className={`w-max rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${
+                className={`w-max rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 cursor-pointer ${
                   selectedTestament === 'new'
                     ? 'bg-[#392D2D] text-[#FFFDF8]'
                     : 'border border-[#C8C8C8] bg-[#FFFDF8] text-[#1A1A19]'

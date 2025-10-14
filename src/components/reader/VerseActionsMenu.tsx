@@ -1,6 +1,6 @@
 "use client";
 
-import { MoreHorizontal, Bookmark, MessageSquare, Share2, Copy } from "lucide-react";
+import { Bookmark, MessageSquare, Share2, Copy, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import React from "react";
@@ -12,12 +12,12 @@ interface VerseActionsMenuProps {
 
 export const VerseActionsMenu = ({ verseNumber: _verseNumber, verseText: _verseText }: VerseActionsMenuProps) => {
   return (
-    <div className="inline-flex items-center align-middle">
-      <TooltipProvider delayDuration={200}>
-        <div className="relative inline-flex items-center gap-1">
+    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ml-2">
+      <div className="inline-flex items-center gap-1 bg-background border border-border rounded-md shadow-sm p-1">
+        <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-6 w-6 p-0 cursor-pointer hover:bg-[#9B2C2C]">
+              <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/10 cursor-pointer">
                 <Bookmark className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -28,7 +28,7 @@ export const VerseActionsMenu = ({ verseNumber: _verseNumber, verseText: _verseT
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-6 w-6 p-0 cursor-pointer hover:bg-[#9B2C2C]">
+              <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/10 cursor-pointer">
                 <MessageSquare className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -39,7 +39,7 @@ export const VerseActionsMenu = ({ verseNumber: _verseNumber, verseText: _verseT
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-6 w-6 p-0 cursor-pointer hover:bg-[#9B2C2C]">
+              <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/10 cursor-pointer">
                 <Copy className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -50,7 +50,7 @@ export const VerseActionsMenu = ({ verseNumber: _verseNumber, verseText: _verseT
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-6 w-6 p-0 cursor-pointer hover:bg-[#9B2C2C]">
+              <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/10 cursor-pointer">
                 <Share2 className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -59,17 +59,18 @@ export const VerseActionsMenu = ({ verseNumber: _verseNumber, verseText: _verseT
             </TooltipContent>
           </Tooltip>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-6 w-6 p-0 md:opacity-0 md:group-hover:inline-flex md:group-hover:opacity-100 cursor-pointer hover:bg-[#9B2C2C]"
-          >
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </div>
-      </TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/10 cursor-pointer ">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>More</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
     </div>
   );
 }
-
-

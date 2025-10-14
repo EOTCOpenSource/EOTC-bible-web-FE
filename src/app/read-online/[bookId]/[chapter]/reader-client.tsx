@@ -63,14 +63,12 @@ export default function ReaderClient({
               )}
               <div className="text-base sm:text-lg text-center">
                 {section.verses.map((verse: any) => (
-                  <span key={verse.verse} className="inline-flex items-start gap-1 group">
+                  <span key={verse.verse} className="relative inline-block group">
                     <sup className="text-xs sm:text-xs md:text-xs mr-1">
                       {verse.verse}
                     </sup>
                     <span>{verse.text} </span>
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                      <VerseActionsMenu verseNumber={verse.verse} verseText={verse.text} />
-                    </span>
+                    <VerseActionsMenu verseNumber={verse.verse} verseText={verse.text} />
                   </span>
                 ))}
               </div>
