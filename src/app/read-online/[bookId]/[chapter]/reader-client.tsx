@@ -63,7 +63,7 @@ export default function ReaderClient({
               )}
               <div className="text-base sm:text-lg text-center">
                 {section.verses.map((verse: any) => (
-                  <span key={verse.verse} className="relative inline-block group">
+                  <span key={verse.verse} className="relative inline group ">
                     <sup className="text-xs sm:text-xs md:text-xs mr-1">
                       {verse.verse}
                     </sup>
