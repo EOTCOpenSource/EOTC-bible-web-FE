@@ -17,7 +17,7 @@ const Navbar = () => {
               <img src="/logo.png" alt="EOTCBible Logo" className="h-8 w-8" />
               <span className="text-xl font-bold">EOTCBible</span>
             </div>
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden items-center space-x-8 md:flex">
               <Link href="/read-online">Bible</Link>
               <Link href="#" className="text-black hover:text-gray-900">
                 Plans
@@ -92,7 +92,7 @@ const Navbar = () => {
       )}
       {isNavMenuOpen && (
         <div className="mt-2 space-y-4 rounded-md bg-white p-4 md:hidden">
-          <a href="#" className="block text-black hover:text-gray-900">
+          <a href="/read-online" className="block text-black hover:text-gray-900">
             Bible
           </a>
           <a href="#" className="block text-black hover:text-gray-900">
