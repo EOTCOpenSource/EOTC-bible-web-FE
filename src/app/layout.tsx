@@ -40,7 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
         <ThemeProvider>
-          <Navbar className='md:-top-2 sm:w-4/2'/>
+          <Navbar />
           <main className="pt-20">
             {children}
           </main>
