@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
 import clsx from "clsx";
+import { VerseActionsMenu } from "@/components/reader/VerseActionMenu";
 
 interface ReaderClientProps {
   bookData: any;
@@ -62,11 +63,12 @@ export default function ReaderClient({
               )}
               <div className="text-base sm:text-lg text-center">
                 {section.verses.map((verse: any) => (
-                  <span key={verse.verse}>
+                  <span key={verse.verse} className="relative inline group ">
                     <sup className="text-xs sm:text-xs md:text-xs mr-1">
                       {verse.verse}
                     </sup>
                     <span>{verse.text} </span>
+                    <VerseActionsMenu verseNumber={verse.verse} verseText={verse.text} />
                   </span>
                 ))}
               </div>
