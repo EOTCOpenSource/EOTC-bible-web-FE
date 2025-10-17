@@ -419,5 +419,36 @@
         "slug": "believers-journey"
       }
     ]
+  },
+  "Bookmarks": {
+    "title": "this is bookmarks page"
+  },
+  "Highlights": {
+    "title": "highlights page"
+  },
+  "Notes": {
+    "title": "notes page",
+    "Create": {
+      "title": "create new note page"
+    }
+  },
+  "Dashboard": {
+    "loading": "Loading...",
+    "welcome": "Welcome, {{name}}",
+    "errors": {
+      "title": "Error",
+      "fetchProfile": "Failed to fetch profile"
+    },
+    "unauthorized": {
+      "message": "You are not authorized to view this page.",
+      "loginButton": "Login",
+      "registerButton": "Register"
+    },
+    "profile": {
+      "title": "Profile Information",
+      "email": "Email",
+      "theme": "Theme",
+      "fontSize": "Font Size"
+    }
   }
 }

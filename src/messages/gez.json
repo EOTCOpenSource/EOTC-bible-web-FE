@@ -419,5 +419,36 @@
         "slug": "believers-journey"
       }
     ]
+  },
+  "Bookmarks": {
+    "title": "ዛዕባ መጽሓፍ ምልክት እዚ እዩ"
+  },
+  "Highlights": {
+    "title": "ገጽ ንቡር ክፍልታት"
+  },
+  "Notes": {
+    "title": "ገጽ ናይ ማህደር",
+    "Create": {
+      "title": "ገጽ ሓድሽ ማህደር ምፍጣር"
+    }
+  },
+  "Dashboard": {
+    "loading": "ይጽዕን...",
+    "welcome": "እንቋዕ ብደሓን መጻእኩም፣ {{name}}",
+    "errors": {
+      "title": "ጌጋ",
+      "fetchProfile": "መግለጺ ምምጻእ ኣይከኣለን"
+    },
+    "unauthorized": {
+      "message": "ነዛ ገጽ ክትርእይዋ ኣይተፈቕደልካን።",
+      "loginButton": "እተው",
+      "registerButton": "ተመዝገብ"
+    },
+    "profile": {
+      "title": "ሓበሬታ መግለጺ",
+      "email": "ኢመይል",
+      "theme": "ጭብጥ",
+      "fontSize": "ዓቐን ፊደል"
+    }
   }
 }

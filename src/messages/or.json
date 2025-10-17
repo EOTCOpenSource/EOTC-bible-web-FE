@@ -419,5 +419,36 @@
         "slug": "believers-journey"
       }
     ]
+  },
+  "Bookmarks": {
+    "title": "kun fuula mallattoo kitaabaa dha"
+  },
+  "Highlights": {
+    "title": "fuula qoodota mul'atan"
+  },
+  "Notes": {
+    "title": "fuula yaadannoo",
+    "Create": {
+      "title": "fuula yaadannoo haaraa uumuu"
+    }
+  },
+  "Dashboard": {
+    "loading": "Oofamaa jira...",
+    "welcome": "Baga nagaan dhuftan, {{name}}",
+    "errors": {
+      "title": "Dogoggora",
+      "fetchProfile": "Profaayilii fiduun hin dandeenye"
+    },
+    "unauthorized": {
+      "message": "Fuula kana ilaaluuf hin hayyamamne.",
+      "loginButton": "Seeni",
+      "registerButton": "Galmeessi"
+    },
+    "profile": {
+      "title": "Odeeffannoo Profaayilii",
+      "email": "Imeelii",
+      "theme": "Malli",
+      "fontSize": "Guddina Qormaata"
+    }
   }
 }

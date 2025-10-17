@@ -419,5 +419,36 @@
         "slug": "believers-journey"
       }
     ]
+  },
+  "Bookmarks": {
+    "title": "ይህ የመጽሐፍ ምልክቶች ገጽ ነው"
+  },
+  "Highlights": {
+    "title": "የተመለከቱት ክፍሎች ገጽ"
+  },
+  "Notes": {
+    "title": "የማስታወሻዎች ገጽ",
+    "Create": {
+      "title": "አዲስ ማስታወሻ የመፍጠር ገጽ"
+    }
+  },
+  "Dashboard": {
+    "loading": "በመጫን ላይ...",
+    "welcome": "እንኳን ደህና መጡ፣ {{name}}",
+    "errors": {
+      "title": "ስህተት",
+      "fetchProfile": "መገለጫ ማምጣት አልተቻለም"
+    },
+    "unauthorized": {
+      "message": "ይህን ገጽ ለማየት አልተፈቀደልዎትም።",
+      "loginButton": "ግባ",
+      "registerButton": "ተመዝገብ"
+    },
+    "profile": {
+      "title": "የመገለጫ መረጃ",
+      "email": "ኢሜል",
+      "theme": "ገጽታ",
+      "fontSize": "የፊደል መጠን"
+    }
   }
 }
