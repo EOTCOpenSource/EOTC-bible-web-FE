@@ -1,19 +1,19 @@
 'use client'
 
-import React from 'react'
-import { MoveRight, MoveLeft, ArrowUpRight } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
-import { useLocale } from 'next-intl'
+import { ArrowUpRight, MoveLeft, MoveRight } from 'lucide-react'
+import React from 'react'
 
+import { useLocalizedContent } from '@/hooks/use-localized-context'
 import amLocale from '../../messages/am.json'
 import enLocale from '../../messages/en.json'
 import gezLocale from '../../messages/gez.json'
-import tiLocale from '../../messages/tg.json'
 import omLocale from '../../messages/or.json'
+import tiLocale from '../../messages/tg.json'
 
 type AboutContent = typeof amLocale.About
 
-const localeMap: Record<string, AboutContent> = {
+const aboutMap: Record<string, AboutContent> = {
   am: amLocale.About,
   en: enLocale.About,
   gez: gezLocale.About,
@@ -23,8 +23,7 @@ const localeMap: Record<string, AboutContent> = {
 
 const About: React.FC = () => {
   const { setAboutScrollRef, scrollAboutLeft, scrollAboutRight } = useUIStore()
-  const locale = useLocale()
-  const about = localeMap[locale] || amLocale.About
+  const about = useLocalizedContent(aboutMap)
   const allCards = [...about.cards, ...about.cards]
 
   return (
