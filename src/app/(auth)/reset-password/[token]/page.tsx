@@ -39,10 +39,17 @@ export default function ResetPasswordPage() {
       label: 'At least 1 special character',
       valid: /[!@#$%^&*]/.test(passwordValue || ''),
     },
-    { label: 'Minimum 8 characters', valid: passwordValue?.length >= 8 },
+    { label: 'Minimum 8 characters', valid: (passwordValue || '').length >= 8 },
   ]
 
+  const allCriteriaValid = passwordCriteria.every((c) => c.valid)
+
   const onSubmit = async (data: ResetPasswordForm) => {
+    if (!allCriteriaValid) {
+      setMessage('Password does not meet all requirements.')
+      return
+    }
+
     setIsSubmitting(true)
     setMessage('')
 
@@ -137,14 +144,13 @@ export default function ResetPasswordPage() {
           <ul className="mb-1 flex flex-wrap items-center text-sm">
             {passwordCriteria.map((c, i) => (
               <li key={i} className={c.valid ? 'text-green-600' : 'text-gray-500'}>
-                {/* {c.valid ? "✔" : "✖"} */}
                 <DotIcon className="-mr-2 inline" /> {c.label}
               </li>
             ))}
           </ul>
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !allCriteriaValid}
             className="rounded bg-[#621B1C] py-2 text-white disabled:opacity-70"
           >
             {isSubmitting ? 'Resetting...' : 'Reset Password'}

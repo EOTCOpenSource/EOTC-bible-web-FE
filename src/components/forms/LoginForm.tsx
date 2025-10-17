@@ -94,10 +94,7 @@ export default function LoginForm() {
           <label htmlFor="checkbox"> Remember me</label>
         </div>
         <a
-          href=""
-          onClick={() => {
-            router.push('/forgot-password')
-          }}
+          href="/forgot-password"
           className="text-blue-500 underline"
         >
           Forgot password?
