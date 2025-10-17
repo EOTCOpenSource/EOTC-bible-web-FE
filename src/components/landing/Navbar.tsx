@@ -165,15 +165,15 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isNavMenuOpen && (
         <div className="mt-2 space-y-4 rounded-md bg-white p-4 md:hidden">
-          <a href="/read-online" className="block text-black hover:text-gray-900">
+          <Link href="/read-online" className="block text-black hover:text-gray-900">
             {t('bible')}
-          </a>
-          <a href="#" className="block text-black hover:text-gray-900">
+          </Link>
+          <Link href="#" className="block text-black hover:text-gray-900">
             {t('plans')}
-          </a>
-          <a href="#" className="block text-black hover:text-gray-900">
+          </Link>
+          <Link href="#" className="block text-black hover:text-gray-900">
             {t('notes')}
-          </a>
+          </Link>
 
           {/* Mobile Language Switcher */}
           <div className="space-y-2">
@@ -202,9 +202,11 @@ const Navbar = () => {
             </div>
           </button>
           <Link href="/login">
-            <button className="h-[42px] w-full rounded-lg border border-red-900 bg-white px-6 py-2 text-red-900 hover:bg-red-900 hover:text-white">
-              {t('login')}
-            </button>
+            <a className="block">
+              <button className="h-[42px] w-full rounded-lg border border-red-900 bg-white px-6 py-2 text-red-900 hover:bg-red-900 hover:text-white">
+                {t('login')}
+              </button>
+            </a>
           </Link>
         </div>
       )}
