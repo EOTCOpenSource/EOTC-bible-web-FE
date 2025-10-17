@@ -1,32 +1,27 @@
-'use client';
+'use client'
 
-import { formatGeez } from '@onesamket/geez-number';
-import { useLocale } from 'next-intl';
+import { formatGeez } from '@onesamket/geez-number'
+import { useLocale } from 'next-intl'
 
 type FormatOptions = {
-  prefix?: string;
-  separator?: string;
-  suffix?: string;
-};
+  prefix?: string
+  separator?: string
+  suffix?: string
+}
 
 export function useLocalizedNumber() {
-  const locale = useLocale();
+  const locale = useLocale()
 
-  const formatNumber = (
-    number: number,
-    options: FormatOptions = {}
-  ): number | string => {
-    if (locale === 'en'|| locale=='or') {
-      return number;
-    } 
+  const formatNumber = (number: number, options: FormatOptions = {}): number | string => {
+    if (locale === 'en' || locale == 'or') {
+      return number
+    }
     return formatGeez(number, {
       prefix: options.prefix,
       separator: options.separator,
-      suffix: options.suffix ,
-    });
-  };
+      suffix: options.suffix,
+    })
+  }
 
-  
-
-  return { formatNumber };
+  return { formatNumber }
 }

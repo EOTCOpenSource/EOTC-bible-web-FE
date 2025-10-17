@@ -1,7 +1,7 @@
 import { getRequestConfig } from 'next-intl/server'
 import { supportedLocales } from './routing'
 
-type SupportedLocale = 'en' | 'am' |"gez"|'tg'|'or'
+type SupportedLocale = 'en' | 'am' | 'gez' | 'tg' | 'or'
 
 const isSupportedLocale = (locale: string | undefined): locale is SupportedLocale => {
   return !!locale && supportedLocales.locales.includes(locale as SupportedLocale)
@@ -9,7 +9,9 @@ const isSupportedLocale = (locale: string | undefined): locale is SupportedLocal
 
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale
-  const locale: SupportedLocale = isSupportedLocale(requested) ? requested : supportedLocales.defaultLocale
+  const locale: SupportedLocale = isSupportedLocale(requested)
+    ? requested
+    : supportedLocales.defaultLocale
 
   return {
     locale,
