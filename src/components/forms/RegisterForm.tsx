@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { DotIcon, Eye, EyeOff } from 'lucide-react'
+import { toast } from 'sonner'
 
 type FormData = {
   name: string
@@ -80,7 +81,10 @@ export default function RegisterForm() {
       setLoading(false)
     }
   }
-
+  useEffect(() => { 
+    {err && toast.error(JSON.parse(err).message)}
+      {success && toast.success(JSON.parse(success).message)}
+  }, [err, success])
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 p-2">
       <h2 className="my-0 py-0 text-3xl font-semibold">Create an Account</h2>
@@ -178,11 +182,8 @@ export default function RegisterForm() {
         ))}
       </ul>
       {errors.confirmPassword && (
-        <p className="text-sm text-red-600">{errors.confirmPassword.message}</p>
+        <p className="text-sm text-red-600">{toast.error(errors.confirmPassword.message)}</p>
       )}
-      {err && <p className="text-sm text-red-600">{err}</p>}
-      {success && <p className="text-sm text-green-600">{success}</p>}
-      {/* i agree checkbox */}
       <div className="mb-3">
         <input type="checkbox" name="checkbox" id="checkbox" />
         <label className="text-sm" htmlFor="checkbox">
