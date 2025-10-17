@@ -1,7 +1,7 @@
 
 import { cookies } from "next/headers";
 
-const SUPPORTED_LOCALES = ['en', 'am', 'geez', 'tigrigna', 'oromigna'] as const;
+const SUPPORTED_LOCALES = ['en', 'am', 'gez', 'tg', 'or'] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 export async function getLocaleFromCookie(): Promise<Locale> {
   const cookieStore = await cookies();

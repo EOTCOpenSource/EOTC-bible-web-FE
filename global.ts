@@ -1,5 +1,5 @@
 
-const locales = ['en', 'am', 'geez', 'tigrigna', 'oromigna'] as const;
+const locales = ['en', 'am', 'gez', 'tg', 'or'] as const;
 import messages from '@/messages/en.json';
 declare module 'next-intl' {
   interface AppConfig {

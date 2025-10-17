@@ -8,9 +8,9 @@ import { Globe, Check } from 'lucide-react';
 const languageNames: Record<string, string> = {
     en: 'English',
     am: 'አማርኛ',
-    geez: 'ግዕዝ',
-    tigrigna: 'ትግርኛ',
-    oromigna: 'Afaan Oromoo',
+    gez: 'ግዕዝ',
+    tg: 'ትግርኛ',
+    or: 'Afaan Oromoo',
 };
 
 export function LanguageSelector() {
@@ -70,7 +70,7 @@ export function LanguageSelector() {
                         </div>
                     </div>
 
-                    {/* overlay to close dropdown */}
+
                     <div
                         className="fixed inset-0 z-40"
                         onClick={() => setIsDropdownOpen(false)}

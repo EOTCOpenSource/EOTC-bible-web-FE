@@ -16,14 +16,14 @@ export function useLocalizedNumber() {
     number: number,
     options: FormatOptions = {}
   ): number | string => {
-    if (locale === 'am') {
-      return formatGeez(number, {
-        prefix: options.prefix,
-        separator: options.separator,
-        suffix: options.suffix ,
-      });
-    }
-    return number;
+    if (locale === 'en'|| locale=='or') {
+      return number;
+    } 
+    return formatGeez(number, {
+      prefix: options.prefix,
+      separator: options.separator,
+      suffix: options.suffix ,
+    });
   };
 
   

@@ -61,7 +61,7 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
 
 
 
-const SUPPORTED_LOCALES = ['en', 'am', 'geez', 'tigrigna', 'oromigna'] as const;
+const SUPPORTED_LOCALES = ['en', 'am', 'gez', 'tg', 'or'] as const;
 type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
 export default async function LocaleLayout({ children }: Props) {
@@ -71,7 +71,7 @@ export default async function LocaleLayout({ children }: Props) {
         ? (locale as SupportedLocale)
         : 'en';
 
-    if (['en', 'am', 'geez', 'tigrigna', 'oromigna'].includes(resolvedLocale)) {
+    if (['en', 'am', 'gez', 'tg', 'or'].includes(resolvedLocale)) {
         setRequestLocale(resolvedLocale);
     }
 

@@ -1,6 +1,6 @@
 
 export const supportedLocales = {
-  locales: ['en', 'am', 'geez', 'tigrigna', 'oromigna'] as const,
+  locales: ['en', 'am', 'gez', 'tg', 'or'] as const,
   defaultLocale: 'en',
 } as const
 
