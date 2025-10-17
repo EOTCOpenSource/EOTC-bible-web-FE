@@ -1,7 +1,7 @@
 import { getRequestConfig } from 'next-intl/server'
 import { supportedLocales } from './routing'
 
-type SupportedLocale = 'en' | 'am' 
+type SupportedLocale = 'en' | 'am' |"geez"|'tigrigna'|'oromigna'
 
 const isSupportedLocale = (locale: string | undefined): locale is SupportedLocale => {
   return !!locale && supportedLocales.locales.includes(locale as SupportedLocale)

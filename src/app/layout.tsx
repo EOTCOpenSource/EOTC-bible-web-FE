@@ -58,57 +58,70 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
     }
 }
 
-export default async function LocaleLayout(props: Props) {
-    const { children } = props
-    const locale = await getLocaleFromCookie();
 
-    // Only setRequestLocale if locale is a supported type
-    if (locale === 'en' || locale === 'am') {
-        setRequestLocale(locale ?? 'en')
-    } else {
-        // Handle 'gez' or fallback case gracefully; do not call setRequestLocale
+
+
+const SUPPORTED_LOCALES = ['en', 'am', 'geez', 'tigrigna', 'oromigna'] as const;
+type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
+
+export default async function LocaleLayout({ children }: Props) {
+    const locale = await getLocaleFromCookie();
+    // Validate locale or fallback
+    const resolvedLocale: SupportedLocale = SUPPORTED_LOCALES.includes(locale as SupportedLocale)
+        ? (locale as SupportedLocale)
+        : 'en';
+
+    if (['en', 'am', 'geez', 'tigrigna', 'oromigna'].includes(resolvedLocale)) {
+        setRequestLocale(resolvedLocale);
     }
 
-    // Safe message loading with error handling
-    let messages
+    // Safely load translation messages
+    let messages;
     try {
-        messages = (await import(`@/messages/${locale}.json`)).default
+        messages = (await import(`@/messages/${resolvedLocale}.json`)).default;
     } catch (error) {
-        console.error(`Failed to load messages for locale: ${locale}`, error)
-        // Fallback to English if the locale file doesn't exist
-        messages = (await import('@/messages/en.json')).default
+        console.error(`⚠️ Failed to load messages for locale: ${resolvedLocale}`, error);
+        messages = (await import('@/messages/en.json')).default;
     }
 
     return (
-        <html lang={locale}>
+        <html lang={resolvedLocale}>
             <body
-                className={cn('bg-background min-h-screen font-sans antialiased', abyssinicaFont.variable)}
+                className={cn(
+                    'bg-background min-h-screen font-sans antialiased',
+                    abyssinicaFont.variable
+                )}
             >
-                <NextIntlClientProvider locale={locale} messages={messages}>
+                <NextIntlClientProvider locale={resolvedLocale} messages={messages}>
                     {children}
                 </NextIntlClientProvider>
+
                 <Script id="schema-script" type="application/ld+json">
-                    {`
-            {
-              "@context": "https://schema.org",
-              "@type": "ReligiousOrganization",
-              "name": "Ethiopian Orthodox Tewahedo Church Bible",
-              "alternateName": "EOTC Bible",
-              "url": "https://eotcbible.org",
-              "description": "Digital Bible platform for the Ethiopian Orthodox Tewahedo Church",
-              "foundingDate": "2024",
-              "sameAs": [
-                "https://github.com/eotcbible",
-                "https://x.com/eotc_bible",
-                "https://www.facebook.com/eotcbible",
-                "https://instagram.com/eotc_bible"
-              ],
-              "areaServed": "Worldwide",
-              "keywords": "bible, ethiopian orthodox, tewahedo, scripture, ge'ez, amharic"
-            }
-          `}
+                    {JSON.stringify(
+                        {
+                            '@context': 'https://schema.org',
+                            '@type': 'ReligiousOrganization',
+                            name: 'Ethiopian Orthodox Tewahedo Church Bible',
+                            alternateName: 'EOTC Bible',
+                            url: 'https://eotcbible.org',
+                            description:
+                                'Digital Bible platform for the Ethiopian Orthodox Tewahedo Church',
+                            foundingDate: '2024',
+                            sameAs: [
+                                'https://github.com/eotcbible',
+                                'https://x.com/eotc_bible',
+                                'https://www.facebook.com/eotcbible',
+                                'https://instagram.com/eotc_bible',
+                            ],
+                            areaServed: 'Worldwide',
+                            keywords:
+                                "bible, ethiopian orthodox, tewahedo, scripture, ge'ez, amharic, tigrigna, oromigna",
+                        },
+                        null,
+                        2
+                    )}
                 </Script>
             </body>
         </html>
-    )
+    );
 }
