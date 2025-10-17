@@ -357,5 +357,67 @@
       "title": "ማስታወሻዎች እና እይታዎች",
       "description": "በመጽሐፍ ቅዱስ እንቅስቃሴዎ ላይ ማስታወሻዎችን ይጽፉ። እነዚህን በግል መማሪያ ጉዞዎ ውስጥ ያከትሉ።"
     }
+  },
+  "DiscoverPlans": {
+    "title": "የኢኦተቤ መጽሐፍ ቅዱስን ለማንበብ <br /> የተለያዩ እቅዶችን ያግኙ።",
+    "planDetailsCta": "የእቅድ ዝርዝሮች",
+    "error": {
+      "message": "እቅዶችን ለማምጣት አልተቻለም:",
+      "retryButton": "እንደገና ይሞክሩ"
+    },
+    "footer": {
+      "title": "ለመንፈሳዊ ጉዟችሁ እቅድ ያግኙ።",
+      "description": "ከመጽሐፍ ቅዱስ ጋር እንዲተሳሰሩ የሚያግዙዎትን እቅድ ለማግኘት የእኛን ቤተ-መጽሐፍት ያስሱ።",
+      "ctaButton": "ተጨማሪ እቅዶችን ያግኙ"
+    },
+    "pagination": {
+      "previousPage": "የቀድሞ ገጽ",
+      "nextPage": "ቀጣይ ገጽ",
+      "goToPage": "ወደ ገጽ {{pageNumber}} ይሂዱ"
+    },
+    "fallbackPlans": [
+      {
+        "id": "1",
+        "title": "መዝሙር በ30 ቀናት",
+        "description": "በ30-ቀናት የመዝሙር ጥርቀት ይቀላቀሉ። ተስፋ እና እምነት ያስቡ።",
+        "image": "/plans/plan1.png",
+        "slug": "psalms-30-days"
+      },
+      {
+        "id": "2",
+        "title": "የክርስቶስ ሰውነት",
+        "description": "የምእምናን ማህበረሰብ አካል ማለት ምን ማለት እንደሆነ ጥልቀት ያለው ጥናት።",
+        "image": "/plans/plan2.png",
+        "slug": "body-of-christ"
+      },
+      {
+        "id": "3",
+        "title": "መቻቻልን መገንባት",
+        "description": "መንፈሳዊ ጥንካሬ ለመገንባት እና ችግሮችን ለማሸነፍ መመሪያ።",
+        "image": "/plans/plan3.png",
+        "slug": "becoming-resilient"
+      },
+      {
+        "id": "4",
+        "title": "መልካሙ እረኛ",
+        "description": "በ23ኛው መዝሙር ውስጥ በሚገኘው መመሪያ እና ጥበቃ ያስቡ።",
+        "image": "/plans/plan4.png",
+        "slug": "good-shepherd"
+      },
+      {
+        "id": "5",
+        "title": "በእምነት መቀጠል",
+        "description": "የእግዚአብሔርን እቅድ መታመን እና ወደማይታወቅ መሄድ በሚሉ ተከታታይ ርዕሶች።",
+        "image": "/plans/plan5.png",
+        "slug": "moving-forward"
+      },
+      {
+        "id": "6",
+        "title": "የምእምናን ጉዞ",
+        "description": "የመንፈሳዊ እድገት እና የተከታይነት መንገድ ላይ ያለ 30-ቀን ጥርቀት።",
+        "image": "/plans/plan6.png",
+        "slug": "believers-journey"
+      }
+    ]
   }
 }

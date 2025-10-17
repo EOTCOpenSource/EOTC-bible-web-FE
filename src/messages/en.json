@@ -357,5 +357,67 @@
       "title": "Notes & Reflections",
       "description": "Write down your insights and reflections while studying scripture. Keep them organized like a personal spiritual journal within the app."
     }
+  },
+  "DiscoverPlans": {
+    "title": "Discover Various Plans For <br /> Reading The EOTC Bible.",
+    "planDetailsCta": "Plan Details",
+    "error": {
+      "message": "Failed to load plans:",
+      "retryButton": "Try Again"
+    },
+    "footer": {
+      "title": "Discover a Plan for Your Spiritual Journey.",
+      "description": "Explore our library of plans to find one that helps you connect with scripture.",
+      "ctaButton": "Discover More Plans"
+    },
+    "pagination": {
+      "previousPage": "Previous page",
+      "nextPage": "Next page",
+      "goToPage": "Go to page {{pageNumber}}"
+    },
+    "fallbackPlans": [
+      {
+        "id": "1",
+        "title": "Psalms in 30 days",
+        "description": "Join our 30-day Psalms meditation. Reflect on hope and faith.",
+        "image": "/plans/plan1.png",
+        "slug": "psalms-30-days"
+      },
+      {
+        "id": "2",
+        "title": "The Body of Christ",
+        "description": "A deep dive into what it means to be part of the community of believers.",
+        "image": "/plans/plan2.png",
+        "slug": "body-of-christ"
+      },
+      {
+        "id": "3",
+        "title": "Becoming Resilient",
+        "description": "A guide to building spiritual strength and overcoming adversity.",
+        "image": "/plans/plan3.png",
+        "slug": "becoming-resilient"
+      },
+      {
+        "id": "4",
+        "title": "The Good Shepherd",
+        "description": "Reflect on the guidance and protection found in the 23rd Psalm.",
+        "image": "/plans/plan4.png",
+        "slug": "good-shepherd"
+      },
+      {
+        "id": "5",
+        "title": "Moving Forward in Faith",
+        "description": "A series on trusting God's plan and taking steps into the unknown.",
+        "image": "/plans/plan5.png",
+        "slug": "moving-forward"
+      },
+      {
+        "id": "6",
+        "title": "The Believer's Journey",
+        "description": "A 30-day meditation on the path of spiritual growth and discipleship.",
+        "image": "/plans/plan6.png",
+        "slug": "believers-journey"
+      }
+    ]
   }
 }

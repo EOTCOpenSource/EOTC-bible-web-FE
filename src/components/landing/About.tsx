@@ -17,7 +17,7 @@ const aboutMap: Record<string, AboutContent> = {
   am: amLocale.About,
   en: enLocale.About,
   gez: gezLocale.About,
-  ti: tiLocale.About,
+  tg: tiLocale.About,
   or: omLocale.About,
 }
 

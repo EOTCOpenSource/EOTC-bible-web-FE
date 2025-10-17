@@ -357,5 +357,67 @@
       "title": "Galmeewwan fi Yaad-rimeewwan",
       "description": "Yaadawwan kee barreessi, sirnaan gulaali. Galmee dhuunfaa akka app keessatti qabdu gochaa."
     }
+  },
+  "DiscoverPlans": {
+    "title": "Kaartota Garagaraa Kitaaba EOTC Dubbisuu <br /> Barsiisaa.",
+    "planDetailsCta": "Ga'ii Kaartaa",
+    "error": {
+      "message": "Kaartota fiduun hin dandeenye:",
+      "retryButton": "Irra Deebi'i"
+    },
+    "footer": {
+      "title": "Kaartaa Imala Fayyisaa Keessanif Barsiisaa.",
+      "description": "Mana kitaabaa keenya keessaa kaartaa kamiifuu kitaaba waliin walqunnamtii gochuuf isin gargaaru barsiisaa.",
+      "ctaButton": "Kaartota Daddarbaa Barsiisaa"
+    },
+    "pagination": {
+      "previousPage": "Fuula durii",
+      "nextPage": "Fuula itti aanu",
+      "goToPage": "Fuula {{pageNumber}} geessii"
+    },
+    "fallbackPlans": [
+      {
+        "id": "1",
+        "title": "Saalmooyyii guyyoota 30 keessatti",
+        "description": "Yeroo xiqqaa guyyoota 30 Saalmooyyii nu waliin hirmaadhaa. Kajeelaa fi amantaa yaadadhaa.",
+        "image": "/plans/plan1.png",
+        "slug": "psalms-30-days"
+      },
+      {
+        "id": "2",
+        "title": "Qaama Kiristos",
+        "description": "Gadi fagoo qofa amantoota keessatti hirmaachuu maal akka ta'e irratti xiinxala gadi fagoo.",
+        "image": "/plans/plan2.png",
+        "slug": "body-of-christ"
+      },
+      {
+        "id": "3",
+        "title": "Cimina Uumuu",
+        "description": "Qindoomina imalaa ijaaruu fi rakkoo danda'uu qopheessuu.",
+        "image": "/plans/plan3.png",
+        "slug": "becoming-resilient"
+      },
+      {
+        "id": "4",
+        "title": "Reeffi Gaarii",
+        "description": "Qajeelfamaafi eegumsa Saalmii 23ffaa keessatti argamtu irratti yaadadhaa.",
+        "image": "/plans/plan4.png",
+        "slug": "good-shepherd"
+      },
+      {
+        "id": "5",
+        "title": "Amantaan Itti Fufuu",
+        "description": "Dura-duressa kaartaa Waaqayyoo amanuu fi gara beekamuu hin ta'in deemuun irratti xinxala.",
+        "image": "/plans/plan5.png",
+        "slug": "moving-forward"
+      },
+      {
+        "id": "6",
+        "title": "Deemsa Amantaa",
+        "description": "Yeroo xiqqaa guyyoota 30 gara guddina imalaa fi hordoftummaa deemuun irratti xiinxala.",
+        "image": "/plans/plan6.png",
+        "slug": "believers-journey"
+      }
+    ]
   }
 }

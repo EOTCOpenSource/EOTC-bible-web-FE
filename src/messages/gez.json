@@ -357,5 +357,67 @@
       "title": "ማስታወሻዎች እና እይታዎች",
       "description": "በመጽሐፍ ቅዱስ ላይ ማስታወሻዎችን ይጽፉ።"
     }
+  },
+  "DiscoverPlans": {
+    "title": "የኢኦተቤ መጽሓፍ ቅዱስ ንምንባብ <br /> ዝተፈላለየ ውጥንታት ርኸብ።",
+    "planDetailsCta": "ደረቓት ውጥን",
+    "error": {
+      "message": "ውጥንታት ክመጽእ ኣይከኣለን:",
+      "retryButton": "ደጊም ፈትን"
+    },
+    "footer": {
+      "title": "ንመንፈሳዊ ጕዕዞኻ ውጥን ርኸብ።",
+      "description": "ምስ መጽሓፍ ቅዱስ ንኽትተሓሓዝ እትሕግዘካ ውጥን ንምርካብ ቤተ-መጻሕፍትና ኣርእስ።",
+      "ctaButton": "ዝያዳ ውጥንታት ርኸብ"
+    },
+    "pagination": {
+      "previousPage": "ዝሓለፈ ገጽ",
+      "nextPage": "ዝቕጽል ገጽ",
+      "goToPage": "ናብ ገጽ {{pageNumber}} ኪድ"
+    },
+    "fallbackPlans": [
+      {
+        "id": "1",
+        "title": "መዝሙር ኣብ 30 መዓልታት",
+        "description": "ኣብ 30-መዓልታት ዕልወት መዝሙር ተጸንበሩ። ተስፋን እምነትን ኣስተብህል።",
+        "image": "/plans/plan1.png",
+        "slug": "psalms-30-days"
+      },
+      {
+        "id": "2",
+        "title": "ጾም ክርስቶስ",
+        "description": "ኣብ ማሕበር ኣማን ክትከውን እንታይ ማለት ከም ዝኸውን ዕሙቅ መጽናዕቲ።",
+        "image": "/plans/plan2.png",
+        "slug": "body-of-christ"
+      },
+      {
+        "id": "3",
+        "title": "ጽንዓት ምግባር",
+        "description": "መንፈሳዊ ሓይሊ ንምህናጽን ተጸጋማት ንምስጢርን መምርሒ።",
+        "image": "/plans/plan3.png",
+        "slug": "becoming-resilient"
+      },
+      {
+        "id": "4",
+        "title": "ሰኒሕ ጓሳይ",
+        "description": "ኣብ 23ይ መዝሙር እትርከብ መምርሒን ሕግእን ኣስተብህል።",
+        "image": "/plans/plan4.png",
+        "slug": "good-shepherd"
+      },
+      {
+        "id": "5",
+        "title": "ብእምነት ምቕጻል",
+        "description": "ኣብ ውጥን ኣምላኽ ምትግባርን ናብ ዘይፍለጥ ምኻድን ዝብል ሰልፍ ርእሰ-ሓሳባት።",
+        "image": "/plans/plan5.png",
+        "slug": "moving-forward"
+      },
+      {
+        "id": "6",
+        "title": "ጕዕዞ ኣማን",
+        "description": "ኣብ መንገዲ መንፈሳዊ ዕብየትን ተኸታተልነትን ዘሎ 30-መዓልታት ዕልወት።",
+        "image": "/plans/plan6.png",
+        "slug": "believers-journey"
+      }
+    ]
   }
 }
