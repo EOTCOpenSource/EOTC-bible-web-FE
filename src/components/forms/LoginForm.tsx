@@ -1,52 +1,46 @@
 'use client'
 
-import type React from 'react'
-import { useUserStore } from '@/lib/stores/useUserStore'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-
-type FormData = {
-  email: string
-  password: string
-}
+import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
+import { useUserStore } from '@/lib/stores/useUserStore'
+import { loginFormSchema, type LoginFormSchema } from '@/lib/form-validation'
 
 export default function LoginForm() {
-  const { loadSession } = useUserStore()
   const router = useRouter()
-  const [err, setErr] = useState<string | null>(null)
+  const { loadSession } = useUserStore()
   const [loading, setLoading] = useState(false)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>()
+  } = useForm<LoginFormSchema>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
 
-  const onSubmit = async (data: FormData) => {
-    setErr(null)
+  const onSubmit = async (data: LoginFormSchema) => {
     setLoading(true)
-
     try {
       const res = await axios.post('/api/auth/login', data, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       })
 
-      if (!res.data) {
-        setErr('Empty response from server')
-        return
-      }
-
+      toast.success('Login successful')
       await loadSession()
       router.push('/dashboard')
     } catch (error: any) {
-      if (error.response) {
-        setErr(error.response.data?.error || 'Login failed')
-      } else {
-        setErr(error.message || 'Login failed')
-      }
+      const msg =
+        error?.response?.data?.error || error?.message || 'Login failed'
+      toast.error(msg)
     } finally {
       setLoading(false)
     }
@@ -54,75 +48,87 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="min-w-md space-y-1 p-4">
-      <h2 className="my-0 py-0 text-2xl font-semibold">Welcome Back!</h2>
+      <h2 className="text-2xl font-semibold">Welcome Back!</h2>
       <p className="mb-4 text-sm text-gray-600">
-        Dont have an account yet?{' '}
+        Don’t have an account yet?{' '}
         <a className="text-blue-500 underline" href="/register">
           Signup
         </a>
-      </p>{' '}
+      </p>
+
+      {/* Email */}
       <div>
         <label htmlFor="email" className="text-sm text-gray-700">
           Email
         </label>
         <input
-          className="w-full rounded-lg border p-3"
-          placeholder="Email"
           id="email"
           type="email"
-          {...register('email', { required: 'Email is required' })}
+          placeholder="Email"
+          className="w-full rounded-lg border p-3"
+          {...register('email')}
         />
+        {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
       </div>
-      {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
+
+      {/* Password */}
       <div>
         <label htmlFor="password" className="text-sm text-gray-700">
           Password
         </label>
         <input
-          className="w-full rounded-lg border p-3"
-          placeholder="Password"
-          type="password"
           id="password"
-          {...register('password', { required: 'Password is required' })}
+          type="password"
+          placeholder="Password"
+          className="w-full rounded-lg border p-3"
+          {...register('password')}
         />
+        {errors.password && (
+          <p className="text-sm text-red-600">{errors.password.message}</p>
+        )}
       </div>
-      {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
-      {err && <p className="text-sm text-red-600">{err}</p>}
+
+      {/* Remember me + Forgot password */}
       <div className="my-3 flex items-center justify-between text-gray-700">
         <div>
-          <input type="checkbox" name="checkbox" id="checkbox" />
-          <label htmlFor="checkbox"> Remember me</label>
+          <input type="checkbox" id="remember" />
+          <label htmlFor="remember" className="ml-1">
+            Remember me
+          </label>
         </div>
-        <a
-          href=""
-          onClick={() => {
-            router.push('/forgot-password')
-          }}
+        <button
+          type="button"
+          onClick={() => router.push('/forgot-password')}
           className="text-blue-500 underline"
         >
           Forgot password?
-        </a>
+        </button>
       </div>
+
+      {/* Submit */}
       <button
-        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-3 text-white hover:bg-[#471314] disabled:opacity-50"
         disabled={loading}
+        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-3 text-white hover:bg-[#471314] disabled:opacity-50"
       >
         {loading ? 'Signing in...' : 'Sign in'}
       </button>
+
       <div className="my-2 flex items-center gap-4">
         <div className="flex-1 border-t border-gray-300"></div>
         <span className="text-sm text-gray-500">OR</span>
         <div className="flex-1 border-t border-gray-300"></div>
       </div>
+
+      {/* Google Login */}
       <button
-        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#c9c9c9] p-2 text-gray-700 hover:bg-gray-400 disabled:bg-gray-400"
         disabled={loading}
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9c9c9] p-2 text-gray-700 hover:bg-gray-400 disabled:bg-gray-400"
       >
         <img
-          className="w-[30px]"
           src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png"
-          alt="google logo  image"
-        />{' '}
+          alt="google logo"
+          className="w-[30px]"
+        />
         {loading ? '...' : 'Continue with Google'}
       </button>
     </form>
