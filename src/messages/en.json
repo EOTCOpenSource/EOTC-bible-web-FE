@@ -42,14 +42,6 @@
     "getApp": "Get the app",
     "login": "Login"
   },
-  "HomePage": {
-    "title": "Welcome to Our Platform",
-    "description": "Building amazing experiences for everyone, everywhere.",
-    "cta": "Get Started",
-    "learnMore": "Learn More",
-    "features": "Features",
-    "testimonials": "Testimonials"
-  },
   "Common": {
     "loading": "Loading...",
     "submit": "Submit",
@@ -285,5 +277,19 @@
     "continueReading": "Continue Reading",
     "archive": "VOTD Archive",
     "alt": "Verse of the day"
+  },
+  "Hero": {
+    "developedBy": "Developed by EOTCOpenSource >",
+    "title": "Open Source Ethiopian Bible Project",
+    "description": "Explore the Ethiopian Bible's heritage. Dive into scriptures and connect with your faith.",
+    "button": "Read Online",
+    "appCard": {
+      "mobileTitle": "Get the EOTCBible mobile app",
+      "mobileDescription": "Read the Ethiopian bible, explore plans, and seek God every day.",
+      "googlePlayAlt": "Get it on Google Play",
+      "appStoreAlt": "Download on the App Store",
+      "qrAlt": "QR Code",
+      "appIconAlt": "App Icon"
+    }
   }
 }

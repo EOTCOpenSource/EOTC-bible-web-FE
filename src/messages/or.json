@@ -42,14 +42,6 @@
     "getApp": "App Sobaadha",
     "login": "Seeni"
   },
-  "HomePage": {
-    "title": "Baga Nagaan Dhuftan Gara Platform Keenyaa",
-    "description": "Muuxannoo ajaaʼibaa ijaarrachuuf hundumtuu, iddoo hundatti.",
-    "cta": "Mee Ejja",
-    "learnMore": "Hubadhu Dabalata",
-    "features": "Faayidaalee",
-    "testimonials": "Himoota Namoota"
-  },
   "Common": {
     "loading": "Olkaʼaa…",
     "submit": "Ergaa",
@@ -285,5 +277,19 @@
     "continueReading": "Akkasitti Dubbisu",
     "archive": "VOTD Archive",
     "alt": "Ayyaana Guyyaa"
+  },
+  "Hero": {
+    "developedBy": "EOTCOpenSource dhaan misoomfame >",
+    "title": "Projektii Macaafa Qulqulluu Itoophiyaa Open Source",
+    "description": "Seenaa Macaafa Qulqulluu Itoophiyaa qoradhu. Barreessota keessatti seenuu fi amantii kee waliin wal qunnami.",
+    "button": "Onlaayinii dubbisi",
+    "appCard": {
+      "mobileTitle": "Appii EOTCBible bilbilaa argadhu",
+      "mobileDescription": "Macaafa Qulqulluu Itoophiyaa dubbisi, karoorota qoradhu, Waaqayyo guyyaa guyyaa barbaadi.",
+      "googlePlayAlt": "Google Play irratti argadhu",
+      "appStoreAlt": "App Store irraa buufadhu",
+      "qrAlt": "QR Code",
+      "appIconAlt": "Appii Aangocha"
+    }
   }
 }

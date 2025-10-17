@@ -42,14 +42,6 @@
     "getApp": "አፕሉን ያውርዱ",
     "login": "ግባ"
   },
-  "HomePage": {
-    "title": "ወደ መድረኳችን እንኳን በደህና መጡ",
-    "description": "ለሁሉም ሰው እና በሁሉም ቦታ አስደናቂ ተሞክሮዎችን መገንባት።",
-    "cta": "ጀምር",
-    "learnMore": "ተጨማሪ ይወቁ",
-    "features": "የባህሪያት",
-    "testimonials": "ምስክርነቶች"
-  },
   "Common": {
     "loading": "በማቅረብ ላይ...",
     "submit": "አስገባ",
@@ -285,5 +277,19 @@
     "continueReading": "መቀጠል ለመንቀሳቀስ",
     "archive": "የቀን እትም አርኪቭ",
     "alt": "የቀን እትም"
+  },
+  "Hero": {
+    "developedBy": "በEOTCOpenSource የተሰራ >",
+    "title": "ክፍት ምንጭ የኢትዮጵያ መጽሐፍ ቅዱስ ፕሮጀክት",
+    "description": "የኢትዮጵያ መጽሐፍ ቅዱስ ቅድሚያን ያስፈልጋሉ። ወደ መጽሐፍ ቅዱስ ይገቡና ከእምነትዎ ጋር ይገናኙ።",
+    "button": "መምረት ከኦንላይን",
+    "appCard": {
+      "mobileTitle": "የEOTCBible ሞባይል መተግበሪያ ይውሰዱ",
+      "mobileDescription": "ኢትዮጵያ መጽሐፍ ቅዱስ ይነቁ, እቅዶችን ያግኙ, እና እግዚአብሔርን በየቀኑ ይፈልጉ።",
+      "googlePlayAlt": "በGoogle Play ይውሰዱ",
+      "appStoreAlt": "በApp Store ይጫኑ",
+      "qrAlt": "QR ኮድ",
+      "appIconAlt": "መተግበሪያ አዶ"
+    }
   }
 }

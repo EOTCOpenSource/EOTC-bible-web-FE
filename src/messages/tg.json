@@ -42,14 +42,6 @@
     "getApp": "መተግበሪያ ኣግእዝብ",
     "login": "ኣምቡእል"
   },
-  "HomePage": {
-    "title": "እንቋዕ ወደ መድረኽ",
-    "description": "ዝኽእል ተሞክሮታት ለኩሉ፣ ኣብርት ግዜኻ ሰብ።",
-    "cta": "ጀምር",
-    "learnMore": "ተረድብ",
-    "features": "ባህሪታት",
-    "testimonials": "ምሕላፋታት"
-  },
   "Common": {
     "loading": "ጸውዓ…",
     "submit": "ሓቂ",
@@ -285,5 +277,19 @@
     "continueReading": "ቀጽል ንንቀሳቀስ",
     "archive": "ዕትም መዓልቲ ኣርኪቭ",
     "alt": "ዕትም መዓልቲ"
+  },
+  "Hero": {
+    "developedBy": "ብEOTCOpenSource ተሰር዗ >",
+    "title": "ክፍት ምንጭ ኢትዮጵያ መጽሐፍ ቅዱስ ፕሮጀክት",
+    "description": "ብኣንደ ኢትዮጵያ መጽሐፍ ቅዱስ ቅድሚያ ይፈልጡ። ወደ መጽሐፍ ቅዱስ ይገቡና ኣብ እምነትካ ጋር ይገናኡ።",
+    "button": "ንንቀሳቀስ ኣብ ኦንላይን",
+    "appCard": {
+      "mobileTitle": "EOTCBible ሞባይል መተግበሪያ ይውሰዱ",
+      "mobileDescription": "ኢትዮጵያ መጽሐፍ ቅዱስ ይነቁ, እቅዶችን ያግኙ, እና እግዚአብሔርን በየቀኑ ይፈልጉ።",
+      "googlePlayAlt": "ብGoogle Play ይውሰዱ",
+      "appStoreAlt": "ብApp Store ይጫኑ",
+      "qrAlt": "QR ኮድ",
+      "appIconAlt": "መተግበሪያ ኣዶ"
+    }
   }
 }
