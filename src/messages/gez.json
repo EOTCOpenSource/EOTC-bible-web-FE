@@ -268,5 +268,11 @@
     "address": "አዲስ አበባ፣ ኢትዮጵያ",
     "contactUs": "ንነጋዲብም።",
     "copyright": "© {year} ዘቤተአርብዕያዊት መጽሐፍ። ኩሎም መንገዲ ተብዐል።"
+  },
+  "Subscription": {
+    "title": "ወደ ዜናን እና ሐሳብ ዘመናት ለመምዝገብ ይምዝገቡ ስለ EOTCBible!",
+    "subtitle": "ኢሜይልዎን ኣስገባ ለመምዝገብ",
+    "button": "ምዝገብ",
+    "placeholder": "example@email.com"
   }
 }

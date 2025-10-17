@@ -268,5 +268,11 @@
     "address": "አዲስ አበባ፣ ኢትዮጵያ",
     "contactUs": "አግኙን",
     "copyright": "© {year} ኢኦተቤ. ሁሉም መብቶች የተጠበቁ ናቸው።"
+  },
+  "Subscription": {
+    "title": "ወደ ኢትዮጵያ ቅዱስ መጽሐፍ ዜና እና ማሳወቂያ ለማግኘት ይመዝገቡ!",
+    "subtitle": "ለማመዝገብ ኢሜይልዎን ያስገቡ",
+    "button": "ማመዝገብ",
+    "placeholder": "example@email.com"
   }
 }

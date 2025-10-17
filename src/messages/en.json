@@ -268,5 +268,11 @@
     "address": "Addis Ababa, Ethiopia",
     "contactUs": "Contact Us",
     "copyright": "© {year} EOTCBible. All rights reserved."
+  },
+  "Subscription": {
+    "title": "Subscribe to our newsletter for updates and news about EOTCBible!",
+    "subtitle": "Enter your email to subscribe",
+    "button": "Subscribe",
+    "placeholder": "example@email.com"
   }
 }

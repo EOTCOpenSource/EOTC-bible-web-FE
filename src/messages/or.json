@@ -268,5 +268,11 @@
     "address": "Finfinnee, Itiyoophiyaa",
     "contactUs": "Nu qunnami",
     "copyright": "© {year} Macaaffaa EOTC. Mirgi Hundumtuu Kabajamoodha."
+  },
+  "Subscription": {
+    "title": "EOTCBible irratti odeeffannoo fi haala haaraya argachuuf galmaa'aa!",
+    "subtitle": "Galmaahuuf imeelii kee galchii",
+    "button": "Galmaa'i",
+    "placeholder": "example@email.com"
   }
 }

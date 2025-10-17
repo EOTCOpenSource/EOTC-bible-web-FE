@@ -268,5 +268,11 @@
     "address": "ኣዲስ አበባ፣ ኢትዮጵያ",
     "contactUs": "ንገናኝናት",
     "copyright": "© {year} EOTC መጽሐፍ። መላእክት መብታ ይሰግድ።"
+  },
+  "Subscription": {
+    "title": "ለ EOTCBible እዩ ዝንባሌን ዜናን ለማዘጋጀት ይመዝገቡ!",
+    "subtitle": "ኢሜይልኩን ለመመዝገብ ኣስገባ",
+    "button": "መመዝገብ",
+    "placeholder": "example@email.com"
   }
 }
