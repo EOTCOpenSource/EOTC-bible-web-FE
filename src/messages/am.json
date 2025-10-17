@@ -110,11 +110,26 @@
     "goHome": "ወደ መነሻ ተመለስ",
     "tryAgain": "እንደገና ሞክር"
   },
-  "Footer": {
-    "copyright": "© {year} ሁሉም መብቶች የተጠበቁ ናቸው።",
-    "privacy": "የግላዊነት ፖሊሲ",
-    "terms": "የአገልግሎት ውሎች",
-    "cookies": "የኩኪ ፖሊሲ"
+    "Footer": {
+      "siteName": "ኢኦተቤ",
+      "description": "የኢኦተቤ አፕን ለጥልቅ መንፈሳዊ ጉዞ ያግኙ። አሁን ያውርዱ እና መጽሐፍ ቅዱስን በጣት አጋዥ ያስሱ!",
+      "googlePlay": "ጉግል ፕሌይ",
+      "appStore": "አፕ ስቶር",
+      "menu": "ምናሌ",
+      "home": "መነሻ",
+      "bible": "መጽሐፍ ቅዱስ",
+      "about": "ስለኛ",
+      "features": "የባህሪያት",
+      "plans": "ፕላኖች",
+      "socials": "ማህበራዊ ሚዲያ",
+      "telegram": "ቴሌግራም",
+      "instagram": "ኢንስታግራም",
+      "tiktok": "ቲክቶክ",
+      "facebook": "ፌስቡክ",
+      "contactInfo": "የመገኛ መረጃ",
+      "address": "አዲስ አበባ፣ ኢትዮጵያ",
+      "contactUs": "አግኙን",
+      "copyright": "© {year} ኢኦተቤ. ሁሉም መብቶች የተጠበቁ ናቸው።"
   }
 }
 

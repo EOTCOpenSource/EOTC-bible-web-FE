@@ -110,10 +110,26 @@
     "goHome": "Go Back Home",
     "tryAgain": "Try Again"
   },
-  "Footer": {
-    "copyright": "© {year} All rights reserved.",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "cookies": "Cookie Policy"
+    "Footer": {
+      "siteName": "EOTCBible",
+      "description": "Discover the EOTCBible app for a deeper spiritual journey. Download now and explore the scriptures at your fingertips!",
+      "googlePlay": "Google Play",
+      "appStore": "App Store",
+      "menu": "Menu",
+      "home": "Home",
+      "bible": "Bible",
+      "about": "About",
+      "features": "Features",
+      "plans": "Plans",
+      "socials": "Socials",
+      "telegram": "Telegram",
+      "instagram": "Instagram",
+      "tiktok": "Tiktok",
+      "facebook": "Facebook",
+      "contactInfo": "Contact Info",
+      "address": "Addis Ababa, Ethiopia",
+      "contactUs": "Contact Us",
+      "copyright": "© {year} EOTCBible. All rights reserved."
+
   }
 }
