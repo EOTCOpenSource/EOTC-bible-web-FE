@@ -101,7 +101,6 @@
     "rememberMe": "አስታውሱኝ",
     "noAccount": "መለያ የለዎትም?",
     "hasAccount": "መለያ አለዎት?",
-    "resetPassword": "የውስጥ ቃል አምጣ",
     "verifyOtp": "OTP ያረጋግጡ",
     "resendCode": "ኮድ እንደገና ይላኩ",
     "backToLogin": "ወደ መግቢያ ተመለስ",
@@ -204,24 +203,32 @@
         "wrongEmail": "የተሳሳተ ኢሜይል አድራሻ?"
       }
     },
-    "reset": {
-      "title": "የውስጥ ቃልዎን ዳግም አምጣ",
-      "subtitle": "እባክዎ የውስጥ ቃልዎን ያስገቡ",
+    "resetPassword": {
+      "title": "አዲስ የይለፍ ቃል ይፍጠሩ",
+      "description": "እባክዎ ለአካውንትዎ አዲስ የይለፍ ቃል ያስገቡ።",
       "fields": {
-        "password": "አዲስ የውስጥ ቃል",
-        "confirmPassword": "አዲስ የውስጥ ቃል አረጋግጥ"
+        "newPassword": "አዲስ የይለፍ ቃል",
+        "confirmPassword": "የይለፍ ቃል ያረጋግጡ"
       },
       "validation": {
-        "passwordRequired": "የውስጥ ቃል ያስፈልጋል",
-        "confirmPasswordRequired": "እባክዎ የውስጥ ቃል እንደገና ያረጋግጡ",
-        "passwordMismatch": "የውስጥ ቃሎች አይደለቁም"
+        "newPasswordRequired": "አዲስ የይለፍ ቃል ያስፈልጋል",
+        "passwordMinLength": "የይለፍ ቃል ቢያንስ {count} ቁምፊዎች መሆን አለበት",
+        "confirmPasswordRequired": "የይለፍ ቃል ማረጋገጥ ያስፈልጋል",
+        "passwordMismatch": "የይለፍ ቃሎች አይዛመዱም"
+      },
+      "passwordCriteria": {
+        "uppercase": "ቢያንስ 1 ትልቅ ፊደል",
+        "number": "ቢያንስ 1 ቁጥር",
+        "special": "ቢያንስ 1 ልዩ ቁምፊ",
+        "minLength": "ቢያንስ 8 ቁምፊዎች"
       },
       "buttons": {
-        "submit": "የውስጥ ቃል አምጣ"
+        "resetting": "በማስጀመር ላይ...",
+        "resetPassword": "የይለፍ ቃል ዳግም አስጀምር"
       },
-      "success": "የውስጥ ቃል ተገናኝቷል",
-      "error": "የውስጥ ቃል ማድረግ አልቻለም",
-      "loading": "በማድረግ…"
+      "errors": {
+        "somethingWentWrong": "ስህተት ተከስቷል፣ እንደገና ይሞክሩ።"
+      }
     },
     "verify": {
       "title": "ኢሜይልዎን ያረጋግጡ",

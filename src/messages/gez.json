@@ -101,7 +101,6 @@
     "rememberMe": "አስታውስኒ",
     "noAccount": "መለያ የየብይ?",
     "hasAccount": "መለያ አለኒ?",
-    "resetPassword": "ውስጥ ቃል ዳግመጽውዒ",
     "verifyOtp": "OTP አረጋግጥ",
     "resendCode": "ኮድ ደጊም ልክ",
     "backToLogin": "ወደ ግበ ተመለስ",
@@ -204,24 +203,32 @@
         "wrongEmail": "የተሳሳተ ኢሜይል አድራሻ?"
       }
     },
-    "reset": {
-      "title": "ውስጥ ቃልዎን ዳግመጽውዒ",
-      "subtitle": "አዲስ ቃል ያስገቡ",
+    "resetPassword": {
+      "title": "አዲስ ምስጢር ቃል ፍጠር",
+      "description": "እባክህ ለመለያህ አዲስ ምስጢር ቃል አስገባ።",
       "fields": {
-        "password": "አዲስ ውስጥ ቃል",
-        "confirmPassword": "አዲስ ውስጥ ቃል አረጋግጥ"
+        "newPassword": "አዲስ ምስጢር ቃል",
+        "confirmPassword": "ምስጢር ቃል አረጋግጥ"
       },
       "validation": {
-        "passwordRequired": "ውስጥ ቃል ያስፈልጋል",
-        "confirmPasswordRequired": "ቃልዎን እንደገና ያረጋግጡ",
-        "passwordMismatch": "ቃሎት አይደለቁም"
+        "newPasswordRequired": "አዲስ ምስጢር ቃል ያስፈልጋል",
+        "passwordMinLength": "ምስጢር ቃል ቢያንስ {count} ቁምፊዎች መሆን አለበት",
+        "confirmPasswordRequired": "ምስጢር ቃል ማረጋገጥ ያስፈልጋል",
+        "passwordMismatch": "ምስጢር ቃሎች አይዛመዱም"
+      },
+      "passwordCriteria": {
+        "uppercase": "ቢያንስ 1 ትልቅ ፊደል",
+        "number": "ቢያንስ 1 ቁጥር",
+        "special": "ቢያንስ 1 ልዩ ቁምፊ",
+        "minLength": "ቢያንስ 8 ቁምፊዎች"
       },
       "buttons": {
-        "submit": "ውስጥ ቃል ዳግመጽውዒ"
+        "resetting": "በማስጀመር ላይ...",
+        "resetPassword": "ምስጢር ቃል ዳግም አስጀምር"
       },
-      "success": "ቃልዎ ተዳግመውለት",
-      "error": "ማድረግ አልቻለም",
-      "loading": "በማድረግ…"
+      "errors": {
+        "somethingWentWrong": "ስህተት ተከስቷል፣ እንደገና ሞክር።"
+      }
     },
     "verify": {
       "title": "ኢሜይልካ ያረጋግጥ",

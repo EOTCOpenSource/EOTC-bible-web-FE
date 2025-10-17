@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
-import { useTranslations } from 'next-intl' // Add this import
+import { useTranslations } from 'next-intl' 
 
 type ForgotPasswordForm = {
   email: string

@@ -101,7 +101,6 @@
     "rememberMe": "Na yaadadhu",
     "noAccount": "Akaawuntii hin qabda?",
     "hasAccount": "Akaawuntii jirta?",
-    "resetPassword": "Jecha Iccitii Haaromsi",
     "verifyOtp": "OTP Sirreessi",
     "resendCode": "Lakk. deebisi",
     "backToLogin": "Deebi'i Gara Seensaa",
@@ -204,24 +203,32 @@
         "wrongEmail": "Teessoo imeelii dogoggoraa?"
       }
     },
-    "reset": {
-      "title": "Jecha Iccitii Haaromsi",
-      "subtitle": "Jecha iccitii haaraa galchi",
+    "resetPassword": {
+      "title": "Jecha Iccitii Haaraa Uumi",
+      "description": "Maaloo herrega keetiif jecha iccitii haaraa galchi.",
       "fields": {
-        "password": "Jecha Iccitii Haaraa",
-        "confirmPassword": "Jecha Iccitii Haaraa Mirkanneessi"
+        "newPassword": "Jecha iccitii haaraa",
+        "confirmPassword": "Jecha iccitii mirkaneessi"
       },
       "validation": {
-        "passwordRequired": "Jecha iccitii barbaachisaa dha",
-        "confirmPasswordRequired": "Mirkaneessi jecha iccitii barbaachisaa dha",
-        "passwordMismatch": "Jecha iccitii wal hin faana"
+        "newPasswordRequired": "Jechi iccitii haaraan barbaachisaa dha",
+        "passwordMinLength": "Jechi iccitii yoo xiqqaate qubee {count} qabaachuu qaba",
+        "confirmPasswordRequired": "Jecha iccitii mirkaneessuun barbaachisaa dha",
+        "passwordMismatch": "Jechi iccitii wal hin fakkaatu"
+      },
+      "passwordCriteria": {
+        "uppercase": "Yoo xiqqaate qubee guddaa 1",
+        "number": "Yoo xiqqaate lakkoofsa 1",
+        "special": "Yoo xiqqaate mallattoo addaa 1",
+        "minLength": "Yoo xiqqaate qubee 8"
       },
       "buttons": {
-        "submit": "Haaromsi Jecha Iccitii"
+        "resetting": "Deebisaa jira...",
+        "resetPassword": "Jecha Iccitii Deebisi"
       },
-      "success": "Jechi iccitii haaromfameera",
-      "error": "Haaromsuun hin danda’amne",
-      "loading": "Haaromsa…"
+      "errors": {
+        "somethingWentWrong": "Wanti tokko dogoggoreera, irra deebi'ii yaali."
+      }
     },
     "verify": {
       "title": "Imeelii kee mirkaneessi",

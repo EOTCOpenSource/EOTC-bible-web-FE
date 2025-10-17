@@ -101,7 +101,6 @@
     "rememberMe": "Remember Me",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
-    "resetPassword": "Reset Password",
     "verifyOtp": "Verify OTP",
     "resendCode": "Resend Code",
     "backToLogin": "Back to Login",
@@ -204,24 +203,32 @@
         "wrongEmail": "Wrong email address?"
       }
     },
-    "reset": {
-      "title": "Reset Your Password",
-      "subtitle": "Enter your new password below",
+    "resetPassword": {
+      "title": "Create a new password",
+      "description": "Please enter a new password for your EOTCBible account.",
       "fields": {
-        "password": "New Password",
-        "confirmPassword": "Confirm New Password"
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password"
       },
       "validation": {
-        "passwordRequired": "Password is required",
-        "confirmPasswordRequired": "Please confirm your password",
+        "newPasswordRequired": "New password is required",
+        "passwordMinLength": "Password must be at least {count} characters",
+        "confirmPasswordRequired": "Confirm password is required",
         "passwordMismatch": "Passwords do not match"
       },
-      "buttons": {
-        "submit": "Reset Password"
+      "passwordCriteria": {
+        "uppercase": "At least 1 Uppercase letter",
+        "number": "At least 1 Number",
+        "special": "At least 1 special character",
+        "minLength": "Minimum 8 characters"
       },
-      "success": "Password reset successfully",
-      "error": "Failed to reset password",
-      "loading": "Resetting..."
+      "buttons": {
+        "resetting": "Resetting...",
+        "resetPassword": "Reset Password"
+      },
+      "errors": {
+        "somethingWentWrong": "Something went wrong, try again."
+      }
     },
     "verify": {
       "title": "Verify your email",

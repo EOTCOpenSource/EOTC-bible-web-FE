@@ -101,7 +101,6 @@
     "rememberMe": "ኣስታሓስለኒ",
     "noAccount": "መለያ የብሎካ?",
     "hasAccount": "መለያ ኣሎካ?",
-    "resetPassword": "ቃል ዳግመጽውዒ",
     "verifyOtp": "OTP ይርከብ",
     "resendCode": "ኮድ እንተስልካ",
     "backToLogin": "ወዲ ግባ",
@@ -204,24 +203,32 @@
         "wrongEmail": "ጌጋ ኢሜይል ኣድራሻ?"
       }
     },
-    "reset": {
-      "title": "ቃልካ ዳግመጽውዒ",
-      "subtitle": "አዲስ ቃል ያስገቡ",
+    "resetPassword": {
+      "title": "ሓድሽ ፓስወርድ ፍጠር",
+      "description": "በጃኻ ንኣካውንትካ ሓድሽ ፓስወርድ ኣእቱ።",
       "fields": {
-        "password": "አዲስ ቃል",
-        "confirmPassword": "አዲስ ቃል ምስሓብ"
+        "newPassword": "ሓድሽ ፓስወርድ",
+        "confirmPassword": "ፓስወርድ ኣረጋግጽ"
       },
       "validation": {
-        "passwordRequired": "ቃል ይፈልጋል",
-        "confirmPasswordRequired": "እባክካ ቃልካ ምስሓብ ያድርጉ",
-        "passwordMismatch": "ቃሎት ኣይደለቁም"
+        "newPasswordRequired": "ሓድሽ ፓስወርድ የድሊ",
+        "passwordMinLength": "ፓስወርድ ቢያንስ {count} ፊደላት ክኸውን ኣለዎ",
+        "confirmPasswordRequired": "ፓስወርድ ምርግጋጽ የድሊ",
+        "passwordMismatch": "ፓስወርድታት ኣይመሳሰሉን"
+      },
+      "passwordCriteria": {
+        "uppercase": "ቢያንስ 1 ዓቢ ፊደል",
+        "number": "ቢያንስ 1 ቁጽሪ",
+        "special": "ቢያንስ 1 ፍሉይ ምልክት",
+        "minLength": "ቢያንስ 8 ፊደላት"
       },
       "buttons": {
-        "submit": "ቃል ዳግመጽውዒ"
+        "resetting": "እናኣስጀመረ...",
+        "resetPassword": "ፓስወርድ ዳግም ኣስጀምር"
       },
-      "success": "ቃልካ ተዳግመውም",
-      "error": "ማድረግ ኣይቻለን",
-      "loading": "ብማድረግ…"
+      "errors": {
+        "somethingWentWrong": "ጌጋ ተፈጢሩ፣ እንደገና ፈትን።"
+      }
     },
     "verify": {
       "title": "ኢሜይልካ ኣረጋግጥ",
