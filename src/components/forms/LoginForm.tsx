@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
+import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 
 type FormData = {
   email: string
@@ -17,7 +19,7 @@ export default function LoginForm() {
   const router = useRouter()
   const [err, setErr] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-
+  const t = useTranslations('Auth.login');
   const {
     register,
     handleSubmit,
@@ -35,7 +37,7 @@ export default function LoginForm() {
       })
 
       if (!res.data) {
-        setErr('Empty response from server')
+        setErr(t('errors.emptyResponse')) 
         return
       }
 
@@ -43,9 +45,9 @@ export default function LoginForm() {
       router.push('/dashboard')
     } catch (error: any) {
       if (error.response) {
-        setErr(error.response.data?.error || 'Login failed')
+        setErr(error.response.data?.error || t('errors.loginFailed')) 
       } else {
-        setErr(error.message || 'Login failed')
+        setErr(error.message || t('errors.loginFailed')) 
       }
     } finally {
       setLoading(false)
@@ -54,36 +56,36 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="min-w-md space-y-1 p-4">
-      <h2 className="my-0 py-0 text-2xl font-semibold">Welcome Back!</h2>
+      <h2 className="my-0 py-0 text-2xl font-semibold">{t('title')}</h2>
       <p className="mb-4 text-sm text-gray-600">
-        Dont have an account yet?{' '}
+        {t('noAccount')}{' '}
         <a className="text-blue-500 underline" href="/register">
-          Signup
+          {t('signup')}
         </a>
-      </p>{' '}
+      </p>
       <div>
         <label htmlFor="email" className="text-sm text-gray-700">
-          Email
+          {t('fields.email')}
         </label>
         <input
           className="w-full rounded-lg border p-3"
-          placeholder="Email"
+          placeholder={t('placeholders.email')}
           id="email"
           type="email"
-          {...register('email', { required: 'Email is required' })}
+          {...register('email', { required: t('validation.emailRequired') })}
         />
       </div>
       {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
       <div>
         <label htmlFor="password" className="text-sm text-gray-700">
-          Password
+          {t('fields.password')}
         </label>
         <input
           className="w-full rounded-lg border p-3"
-          placeholder="Password"
+          placeholder={t('placeholders.password')}
           type="password"
           id="password"
-          {...register('password', { required: 'Password is required' })}
+          {...register('password', { required: t('validation.passwordRequired') })}
         />
       </div>
       {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
@@ -91,27 +93,24 @@ export default function LoginForm() {
       <div className="my-3 flex items-center justify-between text-gray-700">
         <div>
           <input type="checkbox" name="checkbox" id="checkbox" />
-          <label htmlFor="checkbox"> Remember me</label>
+          <label htmlFor="checkbox"> {t('rememberMe')}</label>
         </div>
-        <a
-          href=""
-          onClick={() => {
-            router.push('/forgot-password')
-          }}
+        <Link
+          href="/forgot-password"
           className="text-blue-500 underline"
         >
-          Forgot password?
-        </a>
+          {t('forgotPassword')}
+        </Link>
       </div>
       <button
         className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-3 text-white hover:bg-[#471314] disabled:opacity-50"
         disabled={loading}
       >
-        {loading ? 'Signing in...' : 'Sign in'}
+        {loading ? t('loading') : t('submit')}
       </button>
       <div className="my-2 flex items-center gap-4">
         <div className="flex-1 border-t border-gray-300"></div>
-        <span className="text-sm text-gray-500">OR</span>
+        <span className="text-sm text-gray-500">{t('or')}</span>
         <div className="flex-1 border-t border-gray-300"></div>
       </div>
       <button
@@ -121,9 +120,9 @@ export default function LoginForm() {
         <img
           className="w-[30px]"
           src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png"
-          alt="google logo  image"
-        />{' '}
-        {loading ? '...' : 'Continue with Google'}
+          alt={t('googleLogoAlt')}
+        />
+        {loading ? t('loading') : t('continueWithGoogle')}
       </button>
     </form>
   )

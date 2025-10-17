@@ -1,16 +1,14 @@
-'use client';
+'use client'
 
-import { useUIStore } from '@/stores/uiStore';
-import { ArrowUpRight, Menu, Moon, Search, User, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import Link from 'next/link';
-import { LanguageSelector } from '../shared/language-selector';
-
+import { useUIStore } from '@/stores/uiStore'
+import { ArrowUpRight, Menu, Moon, Search, User, X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import { LanguageSelector } from '../shared/language-selector'
 
 const Navbar = () => {
-  const { isNavMenuOpen, isNavSearchOpen, toggleNavMenu, toggleNavSearch } =
-    useUIStore();
-  const t = useTranslations('Navigation');
+  const { isNavMenuOpen, isNavSearchOpen, toggleNavMenu, toggleNavSearch } = useUIStore()
+  const t = useTranslations('Navigation')
 
   return (
     <div className="fixed top-4 left-1/2 z-10 w-full max-w-7xl -translate-x-1/2 px-4">
@@ -87,7 +85,7 @@ const Navbar = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
