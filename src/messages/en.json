@@ -27,7 +27,7 @@
     "language": "Language"
   },
   "Navigation": {
-  "home": "Home",
+    "home": "Home",
     "bible": "Bible",
     "siteName": "EOTC Bible",
     "prayers": "Prayers",
@@ -98,11 +98,142 @@
   "Auth": {
     "signIn": "Sign In",
     "signUp": "Sign Up",
-    "forgotPassword": "Forgot Password?",
     "rememberMe": "Remember Me",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
-    "resetPassword": "Reset Password"
+    "resetPassword": "Reset Password",
+    "verifyOtp": "Verify OTP",
+    "resendCode": "Resend Code",
+    "backToLogin": "Back to Login",
+    "register": {
+      "title": "Create an Account",
+      "haveAccount": "Already have an account?",
+      "login": "Login",
+      "fields": {
+        "name": "Full Name",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "placeholders": {
+        "name": "Your full name",
+        "email": "you@example.com",
+        "password": "Enter your password",
+        "confirmPassword": "Re-enter your password"
+      },
+      "password": {
+        "uppercase": "At least 1 uppercase letter",
+        "number": "At least 1 number",
+        "special": "At least 1 special character",
+        "minLength": "Minimum 8 characters"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "passwordRequired": "Password is required",
+        "confirmPasswordRequired": "Confirm Password is required"
+      },
+      "errors": {
+        "passwordMismatch": "Passwords do not match",
+        "emptyResponse": "Empty response from server",
+        "failed": "Registration failed"
+      },
+      "success": "Registration successful",
+      "agreeTo": "I agree to the",
+      "terms": "Terms & Conditions",
+      "register": "Register",
+      "loading": "Registering...",
+      "or": "OR",
+      "google": "Continue with Google"
+    },
+    "login": {
+      "title": "Sign In",
+      "noAccount": "Don't have an account yet?",
+      "signup": "Sign up",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholders": {
+        "email": "Enter your email",
+        "password": "Enter your password"
+      },
+      "validation": {
+        "emailRequired": "Email is required",
+        "passwordRequired": "Password is required"
+      },
+      "errors": {
+        "emptyResponse": "Empty response from server",
+        "loginFailed": "Login failed. Please try again."
+      },
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "loading": "Signing in...",
+      "or": "OR",
+      "continueWithGoogle": "Continue with Google",
+      "googleLogoAlt": "Google logo"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "description": "To reset your password, enter the email address you used to create the account",
+      "fields": {
+        "emailAddress": "Email Address"
+      },
+      "placeholders": {
+        "email": "Enter your email"
+      },
+      "validation": {
+        "emailRequired": "Email is required",
+        "invalidEmail": "Enter a valid email address"
+      },
+      "buttons": {
+        "sending": "Sending...",
+        "sendEmail": "Send Email",
+        "login": "Login",
+        "resending": "Resending...",
+        "resendEmail": "Resend email",
+        "changeEmail": "Change email"
+      },
+      "rememberedPassword": "Remembered password?",
+      "emailSent": {
+        "title": "Email Sent",
+        "description": "We’ve sent you a password reset link to your email",
+        "checkSpam": "(Be sure to check the spam folder)",
+        "didNotReceive": "Didn’t receive the email?",
+        "wrongEmail": "Wrong email address?"
+      }
+    },
+    "reset": {
+      "title": "Reset Your Password",
+      "subtitle": "Enter your new password below",
+      "fields": {
+        "password": "New Password",
+        "confirmPassword": "Confirm New Password"
+      },
+      "validation": {
+        "passwordRequired": "Password is required",
+        "confirmPasswordRequired": "Please confirm your password",
+        "passwordMismatch": "Passwords do not match"
+      },
+      "buttons": {
+        "submit": "Reset Password"
+      },
+      "success": "Password reset successfully",
+      "error": "Failed to reset password",
+      "loading": "Resetting..."
+    },
+    "verify": {
+      "title": "Verify your email",
+      "subtitle": "We've sent a verification code to your email. Be sure to check spam folder, and input the code down below.",
+      "didNotReceive": "Didn't receive the code?",
+      "resendCountdown": "Resend available in {seconds}s",
+      "buttons": {
+        "verify": "Verify Code",
+        "resend": "Resend OTP"
+      },
+      "loading": "Verifying..."
+    }
   },
   "Error": {
     "404": "Page Not Found",
@@ -110,26 +241,25 @@
     "goHome": "Go Back Home",
     "tryAgain": "Try Again"
   },
-    "Footer": {
-      "siteName": "EOTCBible",
-      "description": "Discover the EOTCBible app for a deeper spiritual journey. Download now and explore the scriptures at your fingertips!",
-      "googlePlay": "Google Play",
-      "appStore": "App Store",
-      "menu": "Menu",
-      "home": "Home",
-      "bible": "Bible",
-      "about": "About",
-      "features": "Features",
-      "plans": "Plans",
-      "socials": "Socials",
-      "telegram": "Telegram",
-      "instagram": "Instagram",
-      "tiktok": "Tiktok",
-      "facebook": "Facebook",
-      "contactInfo": "Contact Info",
-      "address": "Addis Ababa, Ethiopia",
-      "contactUs": "Contact Us",
-      "copyright": "© {year} EOTCBible. All rights reserved."
-
+  "Footer": {
+    "siteName": "EOTCBible",
+    "description": "Discover the EOTCBible app for a deeper spiritual journey. Download now and explore the scriptures at your fingertips!",
+    "googlePlay": "Google Play",
+    "appStore": "App Store",
+    "menu": "Menu",
+    "home": "Home",
+    "bible": "Bible",
+    "about": "About",
+    "features": "Features",
+    "plans": "Plans",
+    "socials": "Socials",
+    "telegram": "Telegram",
+    "instagram": "Instagram",
+    "tiktok": "Tiktok",
+    "facebook": "Facebook",
+    "contactInfo": "Contact Info",
+    "address": "Addis Ababa, Ethiopia",
+    "contactUs": "Contact Us",
+    "copyright": "© {year} EOTCBible. All rights reserved."
   }
 }

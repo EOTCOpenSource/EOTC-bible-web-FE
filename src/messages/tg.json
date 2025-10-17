@@ -1,135 +1,265 @@
 {
-    "Index": {
-      "title": "መጽሓፍ ቤተ ክርስትያን ኢትዮጵያውያን (EOTC) መጽሐፍ",
-      "description": "ዲጂታል መጽሐፋት በግዕዝ፣ ኣማርኛን English ትርጉምታት።",
-      "siteName": "EOTC መጽሐፍ",
-      "heroTitle": "መጽሐፍ ቤተ ክርስትያን ኢትዮጵያውያን",
-      "heroSubtitle": "ቅዱሳት መጽሐፋት በግዕዝ፣ ኣማርኛን እንግሊዝኛ",
-      "heroButton": "መጽሐፋት ክትርክት",
-      "featuredBible": "ዝተቓለሰ መጽሐፋት",
-      "dailyReading": "ዕለታዊ ንበርላስ",
-      "prayers": "ጸሎታትን መዝሙራት",
-      "saints": "ቅዱሳን ዕለት",
-      "calendar": "ቀዳማይ ገዳም",
-      "aboutTitle": "ብዙኃኑ መግለጺ ቤተ ክርስትያን",
-      "aboutDescription": "ቤተ ክርስትያኑ እዚ ከመይ ዝተጠቀመ ዝኸበረ መልእኽቲ መጽሐፍን ተስፋማትን ያህል።",
-      "contact": "ንገናኝ",
-      "copyright": "© {year} EOTC መጽሐፍ። መላእክት መብታ ይሰግድ።",
-      "version": "ስም ርእይቶ",
-      "book": "መጽሐፍ",
-      "chapter": "ምዕራፍ",
-      "verse": "ንጥል",
-      "search": "ፈልጊ መጻሕፍቲ…",
-      "oldTestament": "ዕንግዶት ፀነስ",
-      "newTestament": "አዲስ መጽሐፍ",
-      "deuterocanonical": "መጸግሮም መጽሐፋት",
-      "bibleVersions": "ተለዋዋጭ ትርጉምታት",
-      "language": "ቋንቋ"
+  "Index": {
+    "title": "መጽሓፍ ቤተ ክርስትያን ኢትዮጵያውያን (EOTC) መጽሐፍ",
+    "description": "ዲጂታል መጽሐፋት በግዕዝ፣ ኣማርኛን English ትርጉምታት።",
+    "siteName": "EOTC መጽሐፍ",
+    "heroTitle": "መጽሐፍ ቤተ ክርስትያን ኢትዮጵያውያን",
+    "heroSubtitle": "ቅዱሳት መጽሐፋት በግዕዝ፣ ኣማርኛን እንግሊዝኛ",
+    "heroButton": "መጽሐፋት ክትርክት",
+    "featuredBible": "ዝተቓለሰ መጽሐፋት",
+    "dailyReading": "ዕለታዊ ንበርላስ",
+    "prayers": "ጸሎታትን መዝሙራት",
+    "saints": "ቅዱሳን ዕለት",
+    "calendar": "ቀዳማይ ገዳም",
+    "aboutTitle": "ብዙኃኑ መግለጺ ቤተ ክርስትያን",
+    "aboutDescription": "ቤተ ክርስትያኑ እዚ ከመይ ዝተጠቀመ ዝኸበረ መልእኽቲ መጽሐፍን ተስፋማትን ያህል።",
+    "contact": "ንገናኝ",
+    "copyright": "© {year} EOTC መጽሐፍ። መላእክት መብታ ይሰግድ።",
+    "version": "ስም ርእይቶ",
+    "book": "መጽሐፍ",
+    "chapter": "ምዕራፍ",
+    "verse": "ንጥል",
+    "search": "ፈልጊ መጻሕፍቲ…",
+    "oldTestament": "ዕንግዶት ፀነስ",
+    "newTestament": "አዲስ መጽሐፍ",
+    "deuterocanonical": "መጸግሮም መጽሐፋት",
+    "bibleVersions": "ተለዋዋጭ ትርጉምታት",
+    "language": "ቋንቋ"
+  },
+  "Navigation": {
+    "home": "መንገዲ ቤት",
+    "bible": "መጽሐፍ",
+    "siteName": "EOTC መጽሐፍ",
+    "prayers": "ጸሎታት",
+    "saints": "ቅዱሳን",
+    "calendar": "ቀዳማይ ገዳም",
+    "about": "መግለጺ",
+    "language": "ቋንቋ",
+    "contact": "መገናኝ",
+    "plans": "እቅዶታት",
+    "notes": "ማስታወሻታት",
+    "search": "ፈልጊ",
+    "getApp": "መተግበሪያ ኣግእዝብ",
+    "login": "ኣምቡእል"
+  },
+  "HomePage": {
+    "title": "እንቋዕ ወደ መድረኽ",
+    "description": "ዝኽእል ተሞክሮታት ለኩሉ፣ ኣብርት ግዜኻ ሰብ።",
+    "cta": "ጀምር",
+    "learnMore": "ተረድብ",
+    "features": "ባህሪታት",
+    "testimonials": "ምሕላፋታት"
+  },
+  "Common": {
+    "loading": "ጸውዓ…",
+    "submit": "ሓቂ",
+    "cancel": "ኣታው",
+    "save": "ኣስቅል",
+    "delete": "ኣውፍቅ",
+    "edit": "ኣምሓር",
+    "create": "ፍጥር",
+    "update": "ተፅዕኖም",
+    "confirm": "ሓስብ",
+    "back": "ድሕሪት",
+    "next": "ቀጺሉ",
+    "previous": "ቅድሚ",
+    "close": "ዕብዚ",
+    "open": "ክፍቕል",
+    "search": "ፈልጊ",
+    "filter": "ውልቂት",
+    "sort": "ቅደም ተኸተል",
+    "view": "ሓውስተት",
+    "readMore": "ተመልከት ብዙሓት",
+    "download": "ኣስርእይ",
+    "upload": "ከብደን",
+    "success": "ብሩህ!",
+    "error": "ትኸውን!",
+    "warning": "ኣሰናኽንቲ!",
+    "info": "መረጃ",
+    "required": "ይፈልጋስቲ",
+    "invalidEmail": "ኢሜይል ኣይግተውዕዎን",
+    "passwordLength": "ፓስወርድ ቆልዑ 8 ፊደላት እዩ"
+  },
+  "Forms": {
+    "firstName": "ሽም ፍርያት",
+    "lastName": "ሽም መጨረሻ",
+    "email": "ኢሜይል",
+    "phone": "ስልኪ",
+    "message": "መልእኽቲ",
+    "subject": "ብዙሓትሰብዓት",
+    "password": "ፓስወርድ",
+    "confirmPassword": "ፓስወርድ እወቀት",
+    "company": "ኩምፓኒ",
+    "address": "ኣድራሻ",
+    "city": "ከተማ",
+    "country": "መንግስቲ",
+    "postalCode": "ኮድ ፖስታ"
+  },
+  "Auth": {
+    "signIn": "ግባ",
+    "signUp": "መመዝገቢያ",
+    "rememberMe": "ኣስታሓስለኒ",
+    "noAccount": "መለያ የብሎካ?",
+    "hasAccount": "መለያ ኣሎካ?",
+    "resetPassword": "ቃል ዳግመጽውዒ",
+    "verifyOtp": "OTP ይርከብ",
+    "resendCode": "ኮድ እንተስልካ",
+    "backToLogin": "ወዲ ግባ",
+    "register": {
+      "title": "መመዝገቢያ ፍጠር",
+      "haveAccount": "መለያ ኣሎካ?",
+      "login": "ግባ",
+      "fields": {
+        "name": "ሙሉ ስም",
+        "email": "ኢሜይል",
+        "password": "ቃል ምልክታ",
+        "confirmPassword": "ቃል ምስሓብ"
+      },
+      "placeholders": {
+        "name": "ሙሉ ስምካ ያስገቡ",
+        "email": "you@example.com",
+        "password": "ቃልካ ያስገቡ",
+        "confirmPassword": "ቃልካ ደግመው ያስገቡ"
+      },
+      "password": {
+        "uppercase": "ቢያንስ 1 ወለድ ፊደል",
+        "number": "ቢያንስ 1 ቁጽሪ",
+        "special": "ቢያንስ 1 ልዩ ፊደል",
+        "minLength": "አነስተኛ 8 ፊደል"
+      },
+      "validation": {
+        "nameRequired": "ስም ይፈልጋል",
+        "emailRequired": "ኢሜይል ይፈልጋል",
+        "passwordRequired": "ቃል ይፈልጋል",
+        "confirmPasswordRequired": "ቃል ምስሓብ ይፈልጋል"
+      },
+      "errors": {
+        "passwordMismatch": "ቃሎት ኣይደለቁም",
+        "emptyResponse": "ካብ አገልግሎት ባዶ መልስ ተቐባ",
+        "failed": "መመዝገቢያ ኣይተሳነ"
+      },
+      "success": "መመዝገቢያ ተሳክቶ",
+      "agreeTo": "መፍቀድካ አሎኒ",
+      "terms": "መደብታት & ፍተሻታት",
+      "register": "መመዝገብ",
+      "loading": "ብምመዝገብ…",
+      "or": "ወይስ",
+      "google": "ከ Google ጋር ቀጥል"
     },
-    "Navigation": {
-      "home": "መንገዲ ቤት",
-      "bible": "መጽሐፍ",
-      "siteName": "EOTC መጽሐፍ",
-      "prayers": "ጸሎታት",
-      "saints": "ቅዱሳን",
-      "calendar": "ቀዳማይ ገዳም",
-      "about": "መግለጺ",
-      "language": "ቋንቋ",
-      "contact": "መገናኝ",
-      "plans": "እቅዶታት",
-      "notes": "ማስታወሻታት",
-      "search": "ፈልጊ",
-      "getApp": "መተግበሪያ ኣግእዝብ",
-      "login": "ኣምቡእል"
+    "login": {
+      "title": "ኣቲ",
+      "noAccount": "ኣካውንት የብልካን?",
+      "signup": "ተመዝገብ",
+      "fields": {
+        "email": "ኢሜይል",
+        "password": "ፓስወርድ"
+      },
+      "placeholders": {
+        "email": "ኢሜይልካ ኣእቱ",
+        "password": "ፓስወርድካ ኣእቱ"
+      },
+      "validation": {
+        "emailRequired": "ኢሜይል የድሊ",
+        "passwordRequired": "ፓስወርድ የድሊ"
+      },
+      "errors": {
+        "emptyResponse": "ካብ ኣገልጋሊ ባዶ ምላሽ",
+        "loginFailed": "ምእታው ኣይተዓወተን። በጃኻ እንደገና ፈትን።"
+      },
+      "rememberMe": "ዘክረኒ",
+      "forgotPassword": "ፓስወርድ ረሲዕካ?",
+      "submit": "ኣቲ",
+      "loading": "እናኣተወ...",
+      "or": "ወይ",
+      "continueWithGoogle": "ብGoogle ቀጽል",
+      "googleLogoAlt": "ሎጎ Google"
     },
-    "HomePage": {
-      "title": "እንቋዕ ወደ መድረኽ",
-      "description": "ዝኽእል ተሞክሮታት ለኩሉ፣ ኣብርት ግዜኻ ሰብ።",
-      "cta": "ጀምር",
-      "learnMore": "ተረድብ",
-      "features": "ባህሪታት",
-      "testimonials": "ምሕላፋታት"
+    "forgotPassword": {
+      "title": "ፓስወርድ ረሲዕካ",
+      "description": "ፓስወርድካ ዳግም ንምቕናዕ፣ ኣካውንትካ ንምፍጣር ዝተጠቀምካሉ ኢሜይል ኣድራሻ ኣእቱ",
+      "fields": {
+        "emailAddress": "ኢሜይል ኣድራሻ"
+      },
+      "placeholders": {
+        "email": "ኢሜይልካ ኣእቱ"
+      },
+      "validation": {
+        "emailRequired": "ኢሜይል የድሊ",
+        "invalidEmail": "ቅኑዕ ኢሜይል ኣድራሻ ኣእቱ"
+      },
+      "buttons": {
+        "sending": "እናሰደደ...",
+        "sendEmail": "ኢሜይል ስደድ",
+        "login": "ኣቲ",
+        "resending": "እንደገና እናሰደደ...",
+        "resendEmail": "ኢሜይል እንደገና ስደድ",
+        "changeEmail": "ኢሜይል ቀይር"
+      },
+      "rememberedPassword": "ፓስወርድካ ትዝ ኢልካካ?",
+      "emailSent": {
+        "title": "ኢሜይል ተሰዲዱ",
+        "description": "ሊንክ ዳግም ምቕናዕ ፓስወርድ ናብ ኢሜይልካ ሰዲድናልካ ኣለና",
+        "checkSpam": "(ኣብ ስፓም ፎልደርካ ምምርማርካ ኣይትረስዕ)",
+        "didNotReceive": "ኢሜይሉ ኣይበጽሓካን?",
+        "wrongEmail": "ጌጋ ኢሜይል ኣድራሻ?"
+      }
     },
-    "Common": {
-      "loading": "ጸውዓ…",
-      "submit": "ሓቂ",
-      "cancel": "ኣታው",
-      "save": "ኣስቅል",
-      "delete": "ኣውፍቅ",
-      "edit": "ኣምሓር",
-      "create": "ፍጥር",
-      "update": "ተፅዕኖም",
-      "confirm": "ሓስብ",
-      "back": "ድሕሪት",
-      "next": "ቀጺሉ",
-      "previous": "ቅድሚ",
-      "close": "ዕብዚ",
-      "open": "ክፍቕል",
-      "search": "ፈልጊ",
-      "filter": "ውልቂት",
-      "sort": "ቅደም ተኸተል",
-      "view": "ሓውስተት",
-      "readMore": "ተመልከት ብዙሓት",
-      "download": "ኣስርእይ",
-      "upload": "ከብደን",
-      "success": "ብሩህ!",
-      "error": "ትኸውን!",
-      "warning": "ኣሰናኽንቲ!",
-      "info": "መረጃ",
-      "required": "ይፈልጋስቲ",
-      "invalidEmail": "ኢሜይል ኣይግተውዕዎን",
-      "passwordLength": "ፓስወርድ ቆልዑ 8 ፊደላት እዩ"
+    "reset": {
+      "title": "ቃልካ ዳግመጽውዒ",
+      "subtitle": "አዲስ ቃል ያስገቡ",
+      "fields": {
+        "password": "አዲስ ቃል",
+        "confirmPassword": "አዲስ ቃል ምስሓብ"
+      },
+      "validation": {
+        "passwordRequired": "ቃል ይፈልጋል",
+        "confirmPasswordRequired": "እባክካ ቃልካ ምስሓብ ያድርጉ",
+        "passwordMismatch": "ቃሎት ኣይደለቁም"
+      },
+      "buttons": {
+        "submit": "ቃል ዳግመጽውዒ"
+      },
+      "success": "ቃልካ ተዳግመውም",
+      "error": "ማድረግ ኣይቻለን",
+      "loading": "ብማድረግ…"
     },
-    "Forms": {
-      "firstName": "ሽም ፍርያት",
-      "lastName": "ሽም መጨረሻ",
-      "email": "ኢሜይል",
-      "phone": "ስልኪ",
-      "message": "መልእኽቲ",
-      "subject": "ብዙሓትሰብዓት",
-      "password": "ፓስወርድ",
-      "confirmPassword": "ፓስወርድ እወቀት",
-      "company": "ኩምፓኒ",
-      "address": "ኣድራሻ",
-      "city": "ከተማ",
-      "country": "መንግስቲ",
-      "postalCode": "ኮድ ፖስታ"
-    },
-    "Auth": {
-      "signIn": "ተቐበል",
-      "signUp": "ምዝገባ",
-      "forgotPassword": "ፓስወርድ ረሲዕቶ?",
-      "rememberMe": "ኣረስዎ እነኣ?",
-      "noAccount": "ሒዙ ሓላፊነት የለን?",
-      "hasAccount": "ሓላፊነት የብልካ?",
-      "resetPassword": "ፓስወርድ ዳግም ቀውዕ"
-    },
-    "Error": {
-      "404": "ገጽ ኣብቐል ዘይብሉ",
-      "500": "ግፍዕ ጉዲፍነት",
-      "goHome": "ወዲ ቤት",
-      "tryAgain": "ከም ቀደም ኣብጽዓ"
-    },
-    "Footer": {
-      "siteName": "EOTC መጽሐፍ",
-      "description": "መተግበሪያታት ተሳትፎ ዝኻፈለ ገበር።",
-      "googlePlay": "Google Play",
-      "appStore": "App Store",
-      "menu": "መናዊ ምድላው",
-      "home": "መንገዲ ቤት",
-      "bible": "መጽሐፍ",
-      "about": "መግለጺ",
-      "features": "ባህሪታት",
-      "plans": "እቅዶታት",
-      "socials": "መለኪያታት ማሕበራዊ",
-      "telegram": "ቴሌግራም",
-      "instagram": "ኢንስታግራም",
-      "tiktok": "ቲክቶክ",
-      "facebook": "ፌስቡክ",
-      "contactInfo": "መረጃ ተገናኽብ",
-      "address": "ኣዲስ አበባ፣ ኢትዮጵያ",
-      "contactUs": "ንገናኝናት",
-      "copyright": "© {year} EOTC መጽሐፍ። መላእክት መብታ ይሰግድ።"
+    "verify": {
+      "title": "ኢሜይልካ ኣረጋግጥ",
+      "subtitle": "ናይ ምርግጋጽ ኮድ ናብ ኢሜይልካ ሰዲድናልካ። በጃኻ ናይ ስፓም ፎልደር ርአ እሞ ኮድ ኣብ ታሕቲ ኣእቱ።",
+      "didNotReceive": "ኮድ ኣይበጽሓካን?",
+      "resendCountdown": "እንደገና ምልኣኽ ኣብ {seconds} ሰከንድ",
+      "buttons": {
+        "verify": "ኮድ ኣረጋግጥ",
+        "resend": "እንደገና ልኣኽ"
+      },
+      "loading": "የረጋግጥ ኣሎ..."
     }
+  },
+  "Error": {
+    "404": "ገጽ ኣብቐል ዘይብሉ",
+    "500": "ግፍዕ ጉዲፍነት",
+    "goHome": "ወዲ ቤት",
+    "tryAgain": "ከም ቀደም ኣብጽዓ"
+  },
+  "Footer": {
+    "siteName": "EOTC መጽሐፍ",
+    "description": "መተግበሪያታት ተሳትፎ ዝኻፈለ ገበር።",
+    "googlePlay": "Google Play",
+    "appStore": "App Store",
+    "menu": "መናዊ ምድላው",
+    "home": "መንገዲ ቤት",
+    "bible": "መጽሐፍ",
+    "about": "መግለጺ",
+    "features": "ባህሪታት",
+    "plans": "እቅዶታት",
+    "socials": "መለኪያታት ማሕበራዊ",
+    "telegram": "ቴሌግራም",
+    "instagram": "ኢንስታግራም",
+    "tiktok": "ቲክቶክ",
+    "facebook": "ፌስቡክ",
+    "contactInfo": "መረጃ ተገናኽብ",
+    "address": "ኣዲስ አበባ፣ ኢትዮጵያ",
+    "contactUs": "ንገናኝናት",
+    "copyright": "© {year} EOTC መጽሐፍ። መላእክት መብታ ይሰግድ።"
   }
-  
+}

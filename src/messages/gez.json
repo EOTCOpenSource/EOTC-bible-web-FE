@@ -1,135 +1,265 @@
 {
-    "Index": {
-      "title": "መጽሐፈወታደስ ዘቤተአርብዕያዊት እግዚአብሄር መጽሐፍ",
-      "description": "ዘድግዝ መጽሐፍ መድረክ በግዕዝ፣ አማርኛና እንግሊዝኛ ትርጓሜታት።",
-      "siteName": "ዘቤተአርብዕያዊት መጽሐፍ",
-      "heroTitle": "ዘቤተአርብዕያዊት መጽሐፍ",
-      "heroSubtitle": "ቅዱሳት ጽሑፈት በግዕዝ፣ አማርኛና እንግሊዝኛ",
-      "heroButton": "ጽሑፈት ተነብቡ",
-      "featuredBible": "ዝተምረዉ የመጽሐፍ ክፍሎች",
-      "dailyReading": "ዕለታዊ ንባብ",
-      "prayers": "ጸሎታት፣ መዝሙራት",
-      "saints": "ቅዱሳን ዕለቱ",
-      "calendar": "መዓልቲ ሕብረት",
-      "aboutTitle": "ብዙኃኑ ገለጸቡ ዘቤተአርብዕያዊት ቤተክርስቲያን",
-      "aboutDescription": "ቤተክርስቲያኑ ዘቤተአርብዕያዊት ዝንባሌ ዘድርባ ድሕነት ዘመናዊ",
-      "contact": "ሚገናኝ።",
-      "copyright": "© {year} ዘቤተአርብዕያዊት መጽሐፍ። ኩሎም መንገዲ ተብዐል።",
-      "version": "ቅድሚያ",
-      "book": "መጽሐፍ",
-      "chapter": "በዓለም",
-      "verse": "ንጥል",
-      "search": "መፈለጥ ፈልግ።…",
-      "oldTestament": "ዕንግዶት ሆድናዊት",
-      "newTestament": "ብሄላዊት አዲስ",
-      "deuterocanonical": "መጻሕፍቲ ተክልቲ ድሕሪያት ዘዘልተው",
-      "bibleVersions": "ትርጓሜታት መጽሐፍ",
-      "language": "ቋንቋ"
+  "Index": {
+    "title": "መጽሐፈወታደስ ዘቤተአርብዕያዊት እግዚአብሄር መጽሐፍ",
+    "description": "ዘድግዝ መጽሐፍ መድረክ በግዕዝ፣ አማርኛና እንግሊዝኛ ትርጓሜታት።",
+    "siteName": "ዘቤተአርብዕያዊት መጽሐፍ",
+    "heroTitle": "ዘቤተአርብዕያዊት መጽሐፍ",
+    "heroSubtitle": "ቅዱሳት ጽሑፈት በግዕዝ፣ አማርኛና እንግሊዝኛ",
+    "heroButton": "ጽሑፈት ተነብቡ",
+    "featuredBible": "ዝተምረዉ የመጽሐፍ ክፍሎች",
+    "dailyReading": "ዕለታዊ ንባብ",
+    "prayers": "ጸሎታት፣ መዝሙራት",
+    "saints": "ቅዱሳን ዕለቱ",
+    "calendar": "መዓልቲ ሕብረት",
+    "aboutTitle": "ብዙኃኑ ገለጸቡ ዘቤተአርብዕያዊት ቤተክርስቲያን",
+    "aboutDescription": "ቤተክርስቲያኑ ዘቤተአርብዕያዊት ዝንባሌ ዘድርባ ድሕነት ዘመናዊ",
+    "contact": "ሚገናኝ።",
+    "copyright": "© {year} ዘቤተአርብዕያዊት መጽሐፍ። ኩሎም መንገዲ ተብዐል።",
+    "version": "ቅድሚያ",
+    "book": "መጽሐፍ",
+    "chapter": "በዓለም",
+    "verse": "ንጥል",
+    "search": "መፈለጥ ፈልግ።…",
+    "oldTestament": "ዕንግዶት ሆድናዊት",
+    "newTestament": "ብሄላዊት አዲስ",
+    "deuterocanonical": "መጻሕፍቲ ተክልቲ ድሕሪያት ዘዘልተው",
+    "bibleVersions": "ትርጓሜታት መጽሐፍ",
+    "language": "ቋንቋ"
+  },
+  "Navigation": {
+    "home": "ቤት",
+    "bible": "መጽሐፍ",
+    "siteName": "መጽሐፈወታደስ",
+    "prayers": "ጸሎታት",
+    "saints": "ቅዱሳን",
+    "calendar": "መዓልቲ",
+    "about": "ገለጸቡ",
+    "language": "ቋንቋ",
+    "contact": "ሚገናኝ።",
+    "plans": "እቅዶታት",
+    "notes": "ውስጢ ርእይቶታት",
+    "search": "መፈለጥ",
+    "getApp": "መተግበሪያ ተቅርብ",
+    "login": "ግባካይ።"
+  },
+  "HomePage": {
+    "title": "ወደ መድረክና መውጫ",
+    "description": "ኣገኘ ጽኑ ተሞክሮታት ለኩልፍል፣ በድሕነት።",
+    "cta": "ጀምር።",
+    "learnMore": "ተረድብ።",
+    "features": "ባህሪታት",
+    "testimonials": "ምስልታት ምስ ሰውነት"
+  },
+  "Common": {
+    "loading": "ተመልከት…",
+    "submit": "ልክ።",
+    "cancel": "አቁመ።",
+    "save": "ፍርድ።",
+    "delete": "ሰውራ።",
+    "edit": "ለውጥ።",
+    "create": "ፍጠር።",
+    "update": "ዝተለዋዋጠ።",
+    "confirm": "እወቅ።",
+    "back": "ወገት።",
+    "next": "ቀጣይ።",
+    "previous": "ቀድሞ።",
+    "close": "ዝረዘም።",
+    "open": "ትንሽ ግነ።",
+    "search": "መፈለጥ",
+    "filter": "ውጭ።",
+    "sort": "ፍሰኛ።",
+    "view": "ለመየይ።",
+    "readMore": "ተደጋጋሚ ተነብቢ።",
+    "download": "አከናይ።",
+    "upload": "ውሂብ አስገብር።",
+    "success": "ስኬት።!",
+    "error": "ድሕነት ተከሳ።!",
+    "warning": "ጥቃም።!",
+    "info": "መረጃ።",
+    "required": "ዋጋ አስፈላጊ።",
+    "invalidEmail": "እንተፈላጊ ኢሜይል አይደለም።",
+    "passwordLength": "የውስጥ መንትር 8 ፊደላት ይካብድ።"
+  },
+  "Forms": {
+    "firstName": "ሽም ዋና",
+    "lastName": "ሽም መጨረሻ",
+    "email": "ኢሜይል አድራሻ",
+    "phone": "ስልክ ቁጽሪ",
+    "message": "መልእክት",
+    "subject": "ርዕሰ ጉዳት",
+    "password": "ምስጢር ቃል",
+    "confirmPassword": "ምስጢር ቃል ድጋፍ",
+    "company": "መንግስቲት",
+    "address": "መዓፀፊያ",
+    "city": "ከተማ",
+    "country": "መዓለም",
+    "postalCode": "የፖስታ ኮድ"
+  },
+  "Auth": {
+    "signIn": "ግበ",
+    "signUp": "መመዝገቢያ",
+    "rememberMe": "አስታውስኒ",
+    "noAccount": "መለያ የየብይ?",
+    "hasAccount": "መለያ አለኒ?",
+    "resetPassword": "ውስጥ ቃል ዳግመጽውዒ",
+    "verifyOtp": "OTP አረጋግጥ",
+    "resendCode": "ኮድ ደጊም ልክ",
+    "backToLogin": "ወደ ግበ ተመለስ",
+    "register": {
+      "title": "መመዝገቢያ ፍጥር",
+      "haveAccount": "መለያ አለኒ?",
+      "login": "ግበ",
+      "fields": {
+        "name": "ሙሉ ስም",
+        "email": "ኢሜይል",
+        "password": "ውስጥ ቃል",
+        "confirmPassword": "ውስጥ ቃል አረጋግጥ"
+      },
+      "placeholders": {
+        "name": "ሙሉ ስምዎን ያስገቡ",
+        "email": "you@example.com",
+        "password": "ውስጥ ቃልዎን ያስገቡ",
+        "confirmPassword": "ውስጥ ቃልዎን ደግመው ያስገቡ"
+      },
+      "password": {
+        "uppercase": "ቢያንስ 1 ላልተገበረ ፊደል",
+        "number": "ቢያንስ 1 ቁጥር",
+        "special": "ቢያንስ 1 ልዩ ፊደል",
+        "minLength": "ግንዛቤ 8 ቁጥር"
+      },
+      "validation": {
+        "nameRequired": "ስም ያስፈልጋል",
+        "emailRequired": "ኢሜይል ያስፈልጋል",
+        "passwordRequired": "ውስጥ ቃል ያስፈልጋል",
+        "confirmPasswordRequired": "ውስጥ ቃል አረጋግጥ ያስፈልጋል"
+      },
+      "errors": {
+        "passwordMismatch": "ውስጥ ቃሎት አይደለቁም",
+        "emptyResponse": "ከአገልጋዩ ባዶ መልስ",
+        "failed": "መመዝገቢያ አልተሳካም"
+      },
+      "success": "መመዝገቢያ ተሳክቷል",
+      "agreeTo": "እወቅዳለሁ",
+      "terms": "መመሪያዎች እና ውሎች",
+      "register": "መመዝገብ",
+      "loading": "በመመዝገብ ላይ…",
+      "or": "ወይም",
+      "google": "ከ Google ጋር ግና"
     },
-    "Navigation": {
-      "home": "ቤት",
-      "bible": "መጽሐፍ",
-      "siteName": "መጽሐፈወታደስ",
-      "prayers": "ጸሎታት",
-      "saints": "ቅዱሳን",
-      "calendar": "መዓልቲ",
-      "about": "ገለጸቡ",
-      "language": "ቋንቋ",
-      "contact": "ሚገናኝ።",
-      "plans": "እቅዶታት",
-      "notes": "ውስጢ ርእይቶታት",
-      "search": "መፈለጥ",
-      "getApp": "መተግበሪያ ተቅርብ",
-      "login": "ግባካይ።"
+    "login": {
+      "title": "ግባ",
+      "noAccount": "መለያ የለህም?",
+      "signup": "ተመዝገብ",
+      "fields": {
+        "email": "ኢሜይል",
+        "password": "ምስጢር ቃል"
+      },
+      "placeholders": {
+        "email": "ኢሜይልህን አስገባ",
+        "password": "ምስጢር ቃልህን አስገባ"
+      },
+      "validation": {
+        "emailRequired": "ኢሜይል ያስፈልጋል",
+        "passwordRequired": "ምስጢር ቃል ያስፈልጋል"
+      },
+      "errors": {
+        "emptyResponse": "ከአገልጋይ ባዶ ምላሽ",
+        "loginFailed": "መግባት አልተሳካም። እባክህ እንደገና ሞክር።"
+      },
+      "rememberMe": "አስታውሰኝ",
+      "forgotPassword": "ምስጢር ቃል ረሳህ?",
+      "submit": "ግባ",
+      "loading": "በመግባት ላይ...",
+      "or": "ወይም",
+      "continueWithGoogle": "በGoogle ቀጥል",
+      "googleLogoAlt": "የGoogle ምልክት"
     },
-    "HomePage": {
-      "title": "ወደ መድረክና መውጫ",
-      "description": "ኣገኘ ጽኑ ተሞክሮታት ለኩልፍል፣ በድሕነት።",
-      "cta": "ጀምር።",
-      "learnMore": "ተረድብ።",
-      "features": "ባህሪታት",
-      "testimonials": "ምስልታት ምስ ሰውነት"
+    "forgotPassword": {
+      "title": "ምስጢር ቃል ረሳህ",
+      "description": "ምስጢር ቃልህን ዳግም ለማስጀመር፣ መለያህን ለመፍጠር የተጠቀምክበትን ኢሜይል አድራሻ አስገባ",
+      "fields": {
+        "emailAddress": "ኢሜይል አድራሻ"
+      },
+      "placeholders": {
+        "email": "ኢሜይልህን አስገባ"
+      },
+      "validation": {
+        "emailRequired": "ኢሜይል ያስፈልጋል",
+        "invalidEmail": "ትክክለኛ ኢሜይል አድራሻ አስገባ"
+      },
+      "buttons": {
+        "sending": "በመላክ ላይ...",
+        "sendEmail": "ኢሜይል ላክ",
+        "login": "ግባ",
+        "resending": "በድጋሚ በመላክ ላይ...",
+        "resendEmail": "ኢሜይል በድጋሚ ላክ",
+        "changeEmail": "ኢሜይል ቀይር"
+      },
+      "rememberedPassword": "ምስጢር ቃልህን አስታወስክ?",
+      "emailSent": {
+        "title": "ኢሜይል ተልኳል",
+        "description": "የይለፍ ቃል ዳግም ማስጀመሪያ ሊንክ ወደ ኢሜይልህ ልከናል",
+        "checkSpam": "(የስፓም ማህደርህን ማረጋገጥህን አትዘንጋ)",
+        "didNotReceive": "ኢሜይሉ አልደረሰህም?",
+        "wrongEmail": "የተሳሳተ ኢሜይል አድራሻ?"
+      }
     },
-    "Common": {
-      "loading": "ተመልከት…",
-      "submit": "ልክ።",
-      "cancel": "አቁመ።",
-      "save": "ፍርድ።",
-      "delete": "ሰውራ።",
-      "edit": "ለውጥ።",
-      "create": "ፍጠር።",
-      "update": "ዝተለዋዋጠ።",
-      "confirm": "እወቅ።",
-      "back": "ወገት።",
-      "next": "ቀጣይ።",
-      "previous": "ቀድሞ።",
-      "close": "ዝረዘም።",
-      "open": "ትንሽ ግነ።",
-      "search": "መፈለጥ",
-      "filter": "ውጭ።",
-      "sort": "ፍሰኛ።",
-      "view": "ለመየይ።",
-      "readMore": "ተደጋጋሚ ተነብቢ።",
-      "download": "አከናይ።",
-      "upload": "ውሂብ አስገብር።",
-      "success": "ስኬት።!",
-      "error": "ድሕነት ተከሳ።!",
-      "warning": "ጥቃም።!",
-      "info": "መረጃ።",
-      "required": "ዋጋ አስፈላጊ።",
-      "invalidEmail": "እንተፈላጊ ኢሜይል አይደለም።",
-      "passwordLength": "የውስጥ መንትር 8 ፊደላት ይካብድ።"
+    "reset": {
+      "title": "ውስጥ ቃልዎን ዳግመጽውዒ",
+      "subtitle": "አዲስ ቃል ያስገቡ",
+      "fields": {
+        "password": "አዲስ ውስጥ ቃል",
+        "confirmPassword": "አዲስ ውስጥ ቃል አረጋግጥ"
+      },
+      "validation": {
+        "passwordRequired": "ውስጥ ቃል ያስፈልጋል",
+        "confirmPasswordRequired": "ቃልዎን እንደገና ያረጋግጡ",
+        "passwordMismatch": "ቃሎት አይደለቁም"
+      },
+      "buttons": {
+        "submit": "ውስጥ ቃል ዳግመጽውዒ"
+      },
+      "success": "ቃልዎ ተዳግመውለት",
+      "error": "ማድረግ አልቻለም",
+      "loading": "በማድረግ…"
     },
-    "Forms": {
-      "firstName": "ሽም ዋና",
-      "lastName": "ሽም መጨረሻ",
-      "email": "ኢሜይል አድራሻ",
-      "phone": "ስልክ ቁጽሪ",
-      "message": "መልእክት",
-      "subject": "ርዕሰ ጉዳት",
-      "password": "ምስጢር ቃል",
-      "confirmPassword": "ምስጢር ቃል ድጋፍ",
-      "company": "መንግስቲት",
-      "address": "መዓፀፊያ",
-      "city": "ከተማ",
-      "country": "መዓለም",
-      "postalCode": "የፖስታ ኮድ"
-    },
-    "Auth": {
-      "signIn": "ግባካይ",
-      "signUp": "መይዘውር",
-      "forgotPassword": "የውስጢ ቃል ዘይረስር?",
-      "rememberMe": "እንደምን አስመልክትኒ",
-      "noAccount": "መድረክ መልኦት የየብይ?",
-      "hasAccount": "መድረክ ቀድሞ አለኝ?",
-      "resetPassword": "ውስጢ ቃል ተማርሐ"
-    },
-    "Error": {
-      "404": "ግዛት የተጠፋ።",
-      "500": "ድሕረ ፍርድ ውደቅ።",
-      "goHome": "ወደ ቤት።",
-      "tryAgain": "እንደገና ሞክር።"
-    },
-    "Footer": {
-      "siteName": "መጽሐፈወታደስ",
-      "description": "ዘቤተአርብዕያዊት መጽሐፍ መተግበሪያ ኣብ ነፍሲና ጸጋ ሞላ።",
-      "googlePlay": "Google Play", 
-      "appStore": "App Store",
-      "menu": "መማሪያ ቅድሚ",
-      "home": "ቤት",
-      "bible": "መጽሐፍ",
-      "about": "ገለጸቡ",
-      "features": "ባህሪታት",
-      "plans": "እቅዶታት",
-      "socials": "መለኪያ ማሕበራዊ",
-      "telegram": "ቴሌግራም",
-      "instagram": "ኢንስታግራም",
-      "tiktok": "ቲክቶክ",
-      "facebook": "ፌስቡክ",
-      "contactInfo": "መረጃ ሚገናኝ",
-      "address": "አዲስ አበባ፣ ኢትዮጵያ",
-      "contactUs": "ንነጋዲብም።",
-    "copyright": "© {year} ዘቤተአርብዕያዊት መጽሐፍ። ኩሎም መንገዲ ተብዐል።"
+    "verify": {
+      "title": "ኢሜይልካ ያረጋግጥ",
+      "subtitle": "ኮድ ናብ ኢሜይልካ ልኢኽናልካ። ናይ ስፓም ፎልደር ርአ እሞ ኮድ ኣብ ታሕቲ ኣእቱ።",
+      "didNotReceive": "ኮድ ኣይበጽሓካን?",
+      "resendCountdown": "እንደገና ምልኣኽ ኣብ {seconds} ሰከንድ",
+      "buttons": {
+        "verify": "ኮድ ኣረጋግጥ",
+        "resend": "እንደገና ልኣኽ"
+      },
+      "loading": "የረጋግጥ ኣሎ..."
     }
+  },
+  "Error": {
+    "404": "ግዛት የተጠፋ።",
+    "500": "ድሕረ ፍርድ ውደቅ።",
+    "goHome": "ወደ ቤት።",
+    "tryAgain": "እንደገና ሞክር።"
+  },
+  "Footer": {
+    "siteName": "መጽሐፈወታደስ",
+    "description": "ዘቤተአርብዕያዊት መጽሐፍ መተግበሪያ ኣብ ነፍሲና ጸጋ ሞላ።",
+    "googlePlay": "Google Play",
+    "appStore": "App Store",
+    "menu": "መማሪያ ቅድሚ",
+    "home": "ቤት",
+    "bible": "መጽሐፍ",
+    "about": "ገለጸቡ",
+    "features": "ባህሪታት",
+    "plans": "እቅዶታት",
+    "socials": "መለኪያ ማሕበራዊ",
+    "telegram": "ቴሌግራም",
+    "instagram": "ኢንስታግራም",
+    "tiktok": "ቲክቶክ",
+    "facebook": "ፌስቡክ",
+    "contactInfo": "መረጃ ሚገናኝ",
+    "address": "አዲስ አበባ፣ ኢትዮጵያ",
+    "contactUs": "ንነጋዲብም።",
+    "copyright": "© {year} ዘቤተአርብዕያዊት መጽሐፍ። ኩሎም መንገዲ ተብዐል።"
   }
-  
+}

@@ -1,135 +1,265 @@
 {
-    "Index": {
-      "title": "Macaaffaa Kitaabaa EOTC — Macaafa Qulqulluu",
-      "description": "Platform dijitaalaa kan barreessitoota seenaa Kiristaanaa Geʿez, Afaan Oromoo fi English keessatti",
-      "siteName": "Macaaffaa EOTC",
-      "heroTitle": "Macaaffaa Qulqulluu EOTC",
-      "heroSubtitle": "Barreessitoota qulqulluu Geʿez, Afaan Oromoo fi Ingiliffaan",
-      "heroButton": "Barreessitoota Dubbisi",
-      "featuredBible": "Qooda Macaafa Filatamaa",
-      "dailyReading": "Dubbisa Guyyaa",
-      "prayers": "Sagalee Amantii fi Waaqeffannaa",
-      "saints": "Qulqulleewwan Guyyaa",
-      "calendar": "Kalandara Waajjira",
-      "aboutTitle": "Waaʼee Kanneessa Ortodoksii Itiyoophiyaa",
-      "aboutDescription": "Kanneessi Ortodoksii Itiyoophiyaa amantii durii kan seenaa barreessaa fi Macaafa Qulqulluu eeguu dha.",
-      "contact": "Walqunnamtii",
-      "copyright": "© {year} Macaaffaa EOTC. Mirgi Hundumtuu Kabajamoodha.",
-      "version": "Gosa",
-      "book": "Kitaaba",
-      "chapter": "Boqonnaa",
-      "verse": "Lakk. Qubee",
-      "search": "Macaafa Barbaadi…",
-      "oldTestament": "Seenaa Dura",
-      "newTestament": "Seenaa Haaraa",
-      "deuterocanonical": "Kitaabota Deuterokanoniikaa",
-      "bibleVersions": "Hiikaawwan Macaafa",
-      "language": "Afaan"
+  "Index": {
+    "title": "Macaaffaa Kitaabaa EOTC — Macaafa Qulqulluu",
+    "description": "Platform dijitaalaa kan barreessitoota seenaa Kiristaanaa Geʿez, Afaan Oromoo fi English keessatti",
+    "siteName": "Macaaffaa EOTC",
+    "heroTitle": "Macaaffaa Qulqulluu EOTC",
+    "heroSubtitle": "Barreessitoota qulqulluu Geʿez, Afaan Oromoo fi Ingiliffaan",
+    "heroButton": "Barreessitoota Dubbisi",
+    "featuredBible": "Qooda Macaafa Filatamaa",
+    "dailyReading": "Dubbisa Guyyaa",
+    "prayers": "Sagalee Amantii fi Waaqeffannaa",
+    "saints": "Qulqulleewwan Guyyaa",
+    "calendar": "Kalandara Waajjira",
+    "aboutTitle": "Waaʼee Kanneessa Ortodoksii Itiyoophiyaa",
+    "aboutDescription": "Kanneessi Ortodoksii Itiyoophiyaa amantii durii kan seenaa barreessaa fi Macaafa Qulqulluu eeguu dha.",
+    "contact": "Walqunnamtii",
+    "copyright": "© {year} Macaaffaa EOTC. Mirgi Hundumtuu Kabajamoodha.",
+    "version": "Gosa",
+    "book": "Kitaaba",
+    "chapter": "Boqonnaa",
+    "verse": "Lakk. Qubee",
+    "search": "Macaafa Barbaadi…",
+    "oldTestament": "Seenaa Dura",
+    "newTestament": "Seenaa Haaraa",
+    "deuterocanonical": "Kitaabota Deuterokanoniikaa",
+    "bibleVersions": "Hiikaawwan Macaafa",
+    "language": "Afaan"
+  },
+  "Navigation": {
+    "home": "Mana",
+    "bible": "Macaafa",
+    "siteName": "Macaaffaa EOTC",
+    "prayers": "Sagalee Amantii",
+    "saints": "Qulqulleewwan",
+    "calendar": "Kalandara",
+    "about": "Waaʼee",
+    "language": "Afaan",
+    "contact": "Walqunnamtii",
+    "plans": "Karoorawwan",
+    "notes": "Yaadota",
+    "search": "Barbaadi",
+    "getApp": "App Sobaadha",
+    "login": "Seeni"
+  },
+  "HomePage": {
+    "title": "Baga Nagaan Dhuftan Gara Platform Keenyaa",
+    "description": "Muuxannoo ajaaʼibaa ijaarrachuuf hundumtuu, iddoo hundatti.",
+    "cta": "Mee Ejja",
+    "learnMore": "Hubadhu Dabalata",
+    "features": "Faayidaalee",
+    "testimonials": "Himoota Namoota"
+  },
+  "Common": {
+    "loading": "Olkaʼaa…",
+    "submit": "Ergaa",
+    "cancel": "Haquu",
+    "save": "Kuusaa",
+    "delete": "Haquu/Balleessi",
+    "edit": "Gulaali",
+    "create": "Uumi",
+    "update": "Fooyyessi",
+    "confirm": "Mirkaneessi",
+    "back": "Deebiʼi",
+    "next": "Kan itti aanu",
+    "previous": "Dura",
+    "close": "Cufi",
+    "open": "Bani",
+    "search": "Barbaadi",
+    "filter": "Filadhu",
+    "sort": "Waliigaltee qopheessi",
+    "view": "Mulʼisi",
+    "readMore": "Dabalata Dubbisi",
+    "download": "Buusu",
+    "upload": "Olkaaʼi",
+    "success": "Milkaaʼe!",
+    "error": "Dogoggora!",
+    "warning": "Yeroo Hubachiisa!",
+    "info": "Odeeffannoo",
+    "required": "Kun barbaachisaa dha",
+    "invalidEmail": "Imeeli sirrii galchaa",
+    "passwordLength": "Jecha iccitii (password) hanga akka 8 dhumaa qabaachuu qaba"
+  },
+  "Forms": {
+    "firstName": "Maqaa Durii",
+    "lastName": "Maqaa Xumuraa",
+    "email": "Adaa Imeeli",
+    "phone": "Lak. Bilbila",
+    "message": "Ergaa",
+    "subject": "Mata Duree",
+    "password": "Jecha Iccitii",
+    "confirmPassword": "Jecha Iccitii Mirkanneessi",
+    "company": "Kompanii",
+    "address": "Teessoo",
+    "city": "Magaalaa",
+    "country": "Biyyoota",
+    "postalCode": "Lak. Pooosta"
+  },
+  "Auth": {
+    "signIn": "Seeni",
+    "signUp": "Galmaa'i",
+    "rememberMe": "Na yaadadhu",
+    "noAccount": "Akaawuntii hin qabda?",
+    "hasAccount": "Akaawuntii jirta?",
+    "resetPassword": "Jecha Iccitii Haaromsi",
+    "verifyOtp": "OTP Sirreessi",
+    "resendCode": "Lakk. deebisi",
+    "backToLogin": "Deebi'i Gara Seensaa",
+    "register": {
+      "title": "Akaawuntii Haaraa Uumi",
+      "haveAccount": "Akaawuntii qabda?",
+      "login": "Seeni",
+      "fields": {
+        "name": "Maqaa Guutuu",
+        "email": "Imeeli",
+        "password": "Jecha Iccitii",
+        "confirmPassword": "Jecha Iccitii Mirkanneessi"
+      },
+      "placeholders": {
+        "name": "Maqaa guutuu keetiin galchi",
+        "email": "you@example.com",
+        "password": "Jecha iccitii galchi",
+        "confirmPassword": "Jecha iccitii deebisii galchi"
+      },
+      "password": {
+        "uppercase": "Xurree tokko Guddaa qabaachuu qaba",
+        "number": "Lakkoofsa tokko qabaachuu qaba",
+        "special": "Mallattoo adda tokko qabaachuu qaba",
+        "minLength": "Dheerinni 8 ta'uu qaba"
+      },
+      "validation": {
+        "nameRequired": "Maqaan barbaachisaa dha",
+        "emailRequired": "Imeelin barbaachisaa dha",
+        "passwordRequired": "Jecha iccitii barbaachisaa dha",
+        "confirmPasswordRequired": "Jecha iccitii deebi'amee mirkanaa’uu qaba"
+      },
+      "errors": {
+        "passwordMismatch": "Jecha iccitii wal hin faana",
+        "emptyResponse": "Deebiin adeemsa irraa hin jiru",
+        "failed": "Galmeen irratti kufe"
+      },
+      "success": "Galmeen milkaa’eera",
+      "agreeTo": "Ani waliigaleera",
+      "terms": "Shuruudota & Haqaalee",
+      "register": "Galmaa’i",
+      "loading": "Galmee…",
+      "or": "YKN",
+      "google": "Waliin Google itti fufi"
     },
-    "Navigation": {
-      "home": "Mana",
-      "bible": "Macaafa",
-      "siteName": "Macaaffaa EOTC",
-      "prayers": "Sagalee Amantii",
-      "saints": "Qulqulleewwan",
-      "calendar": "Kalandara",
-      "about": "Waaʼee",
-      "language": "Afaan",
-      "contact": "Walqunnamtii",
-      "plans": "Karoorawwan",
-      "notes": "Yaadota",
-      "search": "Barbaadi",
-      "getApp": "App Sobaadha",
-      "login": "Seeni"
-    },
-    "HomePage": {
-      "title": "Baga Nagaan Dhuftan Gara Platform Keenyaa",
-      "description": "Muuxannoo ajaaʼibaa ijaarrachuuf hundumtuu, iddoo hundatti.",
-      "cta": "Mee Ejja",
-      "learnMore": "Hubadhu Dabalata",
-      "features": "Faayidaalee",
-      "testimonials": "Himoota Namoota"
-    },
-    "Common": {
-      "loading": "Olkaʼaa…",
-      "submit": "Ergaa",
-      "cancel": "Haquu",
-      "save": "Kuusaa",
-      "delete": "Haquu/Balleessi",
-      "edit": "Gulaali",
-      "create": "Uumi",
-      "update": "Fooyyessi",
-      "confirm": "Mirkaneessi",
-      "back": "Deebiʼi",
-      "next": "Kan itti aanu",
-      "previous": "Dura",
-      "close": "Cufi",
-      "open": "Bani",
-      "search": "Barbaadi",
-      "filter": "Filadhu",
-      "sort": "Waliigaltee qopheessi",
-      "view": "Mulʼisi",
-      "readMore": "Dabalata Dubbisi",
-      "download": "Buusu",
-      "upload": "Olkaaʼi",
-      "success": "Milkaaʼe!",
-      "error": "Dogoggora!",
-      "warning": "Yeroo Hubachiisa!",
-      "info": "Odeeffannoo",
-      "required": "Kun barbaachisaa dha",
-      "invalidEmail": "Imeeli sirrii galchaa",
-      "passwordLength": "Jecha iccitii (password) hanga akka 8 dhumaa qabaachuu qaba"
-    },
-    "Forms": {
-      "firstName": "Maqaa Durii",
-      "lastName": "Maqaa Xumuraa",
-      "email": "Adaa Imeeli",
-      "phone": "Lak. Bilbila",
-      "message": "Ergaa",
-      "subject": "Mata Duree",
-      "password": "Jecha Iccitii",
-      "confirmPassword": "Jecha Iccitii Mirkanneessi",
-      "company": "Kompanii",
-      "address": "Teessoo",
-      "city": "Magaalaa",
-      "country": "Biyyoota",
-      "postalCode": "Lak. Pooosta"
-    },
-    "Auth": {
-      "signIn": "Seeni",
-      "signUp": "Galmaaʼi",
-      "forgotPassword": "Jecha Iccitii Dagatte?",
+    "login": {
+      "title": "Seeni",
+      "noAccount": "Herrega hin qabdu?",
+      "signup": "Galmaa'i",
+      "fields": {
+        "email": "Imeelii",
+        "password": "Jecha Iccitii"
+      },
+      "placeholders": {
+        "email": "Imeelii kee galchi",
+        "password": "Jecha iccitii kee galchi"
+      },
+      "validation": {
+        "emailRequired": "Imeeliin barbaachisaa dha",
+        "passwordRequired": "Jecha iccitiin barbaachisaa dha"
+      },
+      "errors": {
+        "emptyResponse": "Deebii duwwaa server irraa",
+        "loginFailed": "Seensuun hin milkoofne. Maaloo irra deebi'ii yaali."
+      },
       "rememberMe": "Na yaadadhu",
-      "noAccount": "Akaawuntii hin qabu?",
-      "hasAccount": "Akaawuntii qabaataa?",
-      "resetPassword": "Jecha Iccitii Haqaʼi"
+      "forgotPassword": "Jecha iccitii dagatte?",
+      "submit": "Seeni",
+      "loading": "Seenaa jira...",
+      "or": "YOOKIIN",
+      "continueWithGoogle": "Google'n itti fufi",
+      "googleLogoAlt": "Mallattoo Google"
     },
-    "Error": {
-      "404": "Fuula geenyee hin argamne",
-      "500": "Dogoggora Sirrii hin taane",
-      "goHome": "Deebiʼi Mana",
-      "tryAgain": "Irra deebiʼi yaali"
+    "forgotPassword": {
+      "title": "Jecha Iccitii Dagatte",
+      "description": "Jecha iccitii kee deebisuuf, teessoo imeelii herrega uumuuf itti fayyadamte galchi",
+      "fields": {
+        "emailAddress": "Teessoo Imeelii"
+      },
+      "placeholders": {
+        "email": "Imeelii kee galchi"
+      },
+      "validation": {
+        "emailRequired": "Imeeliin barbaachisaa dha",
+        "invalidEmail": "Teessoo imeelii sirrii galchi"
+      },
+      "buttons": {
+        "sending": "Ergaa jira...",
+        "sendEmail": "Imeelii Ergi",
+        "login": "Seeni",
+        "resending": "Irra deebi'ee ergaa jira...",
+        "resendEmail": "Imeelii irra deebi'ii ergi",
+        "changeEmail": "Imeelii jijjiiri"
+      },
+      "rememberedPassword": "Jecha iccitii yaadatte?",
+      "emailSent": {
+        "title": "Imeelii Ergameera",
+        "description": "Link deebii jecha iccitii gara imeelii keetti ergineerra",
+        "checkSpam": "(Folder spam kee ilaaluu hin dagatin)",
+        "didNotReceive": "Imeelii hin arganne?",
+        "wrongEmail": "Teessoo imeelii dogoggoraa?"
+      }
     },
-    "Footer": {
-      "siteName": "Macaaffaa EOTC",
-      "description": "App keenya download godhi, imala amantii kee gara balʼinaan taasisuuf!",
-      "googlePlay": "Google Play",
-      "appStore": "App Store",
-      "menu": "Menu",
-      "home": "Mana",
-      "bible": "Macaafa",
-      "about": "Waaʼee",
-      "features": "Faayidaalee",
-      "plans": "Karoorawwan",
-      "socials": "Himatoota Hawaasaa",
-      "telegram": "Telegram",
-      "instagram": "Instagram",
-      "tiktok": "Tiktok",
-      "facebook": "Facebook",
-      "contactInfo": "Odeeffannoo Walqunnamtii",
-      "address": "Finfinnee, Itiyoophiyaa",
-      "contactUs": "Nu qunnami",
-      "copyright": "© {year} Macaaffaa EOTC. Mirgi Hundumtuu Kabajamoodha."
+    "reset": {
+      "title": "Jecha Iccitii Haaromsi",
+      "subtitle": "Jecha iccitii haaraa galchi",
+      "fields": {
+        "password": "Jecha Iccitii Haaraa",
+        "confirmPassword": "Jecha Iccitii Haaraa Mirkanneessi"
+      },
+      "validation": {
+        "passwordRequired": "Jecha iccitii barbaachisaa dha",
+        "confirmPasswordRequired": "Mirkaneessi jecha iccitii barbaachisaa dha",
+        "passwordMismatch": "Jecha iccitii wal hin faana"
+      },
+      "buttons": {
+        "submit": "Haaromsi Jecha Iccitii"
+      },
+      "success": "Jechi iccitii haaromfameera",
+      "error": "Haaromsuun hin danda’amne",
+      "loading": "Haaromsa…"
+    },
+    "verify": {
+      "title": "Imeelii kee mirkaneessi",
+      "subtitle": "Koodii mirkaneessaa gara imeelii keetii ergineerra. Maaloo folder spam ilaalaa, koodii gadi galchi.",
+      "didNotReceive": "Koodii hin arganne?",
+      "resendCountdown": "Irra deebi'ee erguu {seconds} sekandiitti",
+      "buttons": {
+        "verify": "Koodii Mirkaneessi",
+        "resend": "Irra deebi'ii ergi"
+      },
+      "loading": "Mirkaneessaa jira..."
     }
+  },
+  "Error": {
+    "404": "Fuula geenyee hin argamne",
+    "500": "Dogoggora Sirrii hin taane",
+    "goHome": "Deebiʼi Mana",
+    "tryAgain": "Irra deebiʼi yaali"
+  },
+  "Footer": {
+    "siteName": "Macaaffaa EOTC",
+    "description": "App keenya download godhi, imala amantii kee gara balʼinaan taasisuuf!",
+    "googlePlay": "Google Play",
+    "appStore": "App Store",
+    "menu": "Menu",
+    "home": "Mana",
+    "bible": "Macaafa",
+    "about": "Waaʼee",
+    "features": "Faayidaalee",
+    "plans": "Karoorawwan",
+    "socials": "Himatoota Hawaasaa",
+    "telegram": "Telegram",
+    "instagram": "Instagram",
+    "tiktok": "Tiktok",
+    "facebook": "Facebook",
+    "contactInfo": "Odeeffannoo Walqunnamtii",
+    "address": "Finfinnee, Itiyoophiyaa",
+    "contactUs": "Nu qunnami",
+    "copyright": "© {year} Macaaffaa EOTC. Mirgi Hundumtuu Kabajamoodha."
   }
-  
+}

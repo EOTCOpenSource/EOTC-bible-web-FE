@@ -96,13 +96,144 @@
     "postalCode": "የፖስታ ኮድ"
   },
   "Auth": {
-    "signIn": "ግባ",
-    "signUp": "ተመዝገብ",
-    "forgotPassword": "የይለፍ ቃል ረሳኽሁ?",
-    "rememberMe": "አስታውሰኛለሁ",
-    "noAccount": "መለያ የሎትም?",
-    "hasAccount": "ቀድሞ መለያ አለዎት?",
-    "resetPassword": "የይለፍ ቃል ዳግም አስጀምር"
+    "signIn": "እንደገና ግባ",
+    "signUp": "መመዝገቢያ",
+    "rememberMe": "አስታውሱኝ",
+    "noAccount": "መለያ የለዎትም?",
+    "hasAccount": "መለያ አለዎት?",
+    "resetPassword": "የውስጥ ቃል አምጣ",
+    "verifyOtp": "OTP ያረጋግጡ",
+    "resendCode": "ኮድ እንደገና ይላኩ",
+    "backToLogin": "ወደ መግቢያ ተመለስ",
+    "register": {
+      "title": "መመዝገቢያ ፍጠሩ",
+      "haveAccount": "መለያ አለዎት?",
+      "login": "ግባ",
+      "fields": {
+        "name": "ሙሉ ስም",
+        "email": "ኢሜይል",
+        "password": "የውስጥ ቃል",
+        "confirmPassword": "የውስጥ ቃል አረጋግጥ"
+      },
+      "placeholders": {
+        "name": "ሙሉ ስምዎን ያስገቡ",
+        "email": "you@example.com",
+        "password": "የውስጥ ቃልዎን ያስገቡ",
+        "confirmPassword": "የውስጥ ቃልዎን ደግመው ያስገቡ"
+      },
+      "password": {
+        "uppercase": "ቢያንስ 1 ታዋቂ ፊደል",
+        "number": "ቢያንስ 1 ቁጥር",
+        "special": "ቢያንስ 1 ልዩ ቦታ ፊደል",
+        "minLength": "አነስተኛው 8 ቁጥር"
+      },
+      "validation": {
+        "nameRequired": "ስም ያስፈልጋል",
+        "emailRequired": "ኢሜይል ያስፈልጋል",
+        "passwordRequired": "የውስጥ ቃል ያስፈልጋል",
+        "confirmPasswordRequired": "የውስጥ ቃል አረጋግጥ ያስፈልጋል"
+      },
+      "errors": {
+        "passwordMismatch": "የውስጥ ቃሎች አይደለቁም",
+        "emptyResponse": "ከአገልጋዩ ባዶ መልስ ተቀብሏል",
+        "failed": "መመዝገቢያ አልተሳካም"
+      },
+      "success": "መመዝገቢያ ተሳክቷል",
+      "agreeTo": "እርስዎ ይፈቅዱታል",
+      "terms": "መመሪያዎች & ውሎች",
+      "register": "መመዝገብ",
+      "loading": "በመመዝገብ ላይ…",
+      "or": "ወይም",
+      "google": "ከ Google ጋር ይቀጥላሉ"
+    },
+    "login": {
+      "title": "ግባ",
+      "noAccount": "መለያ የለዎትም?",
+      "signup": "ይመዝገቡ",
+      "fields": {
+        "email": "ኢሜይል",
+        "password": "የይለፍ ቃል"
+      },
+      "placeholders": {
+        "email": "ኢሜይልዎን ያስገቡ",
+        "password": "የይለፍ ቃልዎን ያስገቡ"
+      },
+      "validation": {
+        "emailRequired": "ኢሜይል ያስፈልጋል",
+        "passwordRequired": "የይለፍ ቃል ያስፈልጋል"
+      },
+      "errors": {
+        "emptyResponse": "ከአገልጋይ ባዶ ምላሽ",
+        "loginFailed": "መግባት አልተሳካም። እባክዎ እንደገና ይሞክሩ።"
+      },
+      "rememberMe": "አስታውሰኝ",
+      "forgotPassword": "የይለፍ ቃል ረሱ",
+      "submit": "ግባ",
+      "loading": "በመግባት ላይ...",
+      "or": "ወይም",
+      "continueWithGoogle": "በGoogle ይቀጥሉ",
+      "googleLogoAlt": "የGoogle ምልክት"
+    },
+    "forgotPassword": {
+      "title": "የይለፍ ቃል ረሱ",
+      "description": "የይለፍ ቃልዎን ዳግም ለማስጀመር፣ አካውንትዎን ለመፍጠር የተጠቀሙበትን ኢሜይል አድራሻ ያስገቡ",
+      "fields": {
+        "emailAddress": "ኢሜይል አድራሻ"
+      },
+      "placeholders": {
+        "email": "ኢሜይልዎን ያስገቡ"
+      },
+      "validation": {
+        "emailRequired": "ኢሜይል ያስፈልጋል",
+        "invalidEmail": "ትክክለኛ ኢሜይል አድራሻ ያስገቡ"
+      },
+      "buttons": {
+        "sending": "በመላክ ላይ...",
+        "sendEmail": "ኢሜይል ይላኩ",
+        "login": "ግባ",
+        "resending": "በድጋሚ በመላክ ላይ...",
+        "resendEmail": "ኢሜይል በድጋሚ ይላኩ",
+        "changeEmail": "ኢሜይል ይቀይሩ"
+      },
+      "rememberedPassword": "የይለፍ ቃልዎን አስታወሱ?",
+      "emailSent": {
+        "title": "ኢሜይል ተልኳል",
+        "description": "የይለፍ ቃል ዳግም ማስጀመሪያ ሊንክ ወደ ኢሜይልዎ ልከናል",
+        "checkSpam": "(የስፓም ማህደርዎን ማረጋገጥዎን አይርሱ)",
+        "didNotReceive": "ኢሜይሉን አልደረሰዎትም?",
+        "wrongEmail": "የተሳሳተ ኢሜይል አድራሻ?"
+      }
+    },
+    "reset": {
+      "title": "የውስጥ ቃልዎን ዳግም አምጣ",
+      "subtitle": "እባክዎ የውስጥ ቃልዎን ያስገቡ",
+      "fields": {
+        "password": "አዲስ የውስጥ ቃል",
+        "confirmPassword": "አዲስ የውስጥ ቃል አረጋግጥ"
+      },
+      "validation": {
+        "passwordRequired": "የውስጥ ቃል ያስፈልጋል",
+        "confirmPasswordRequired": "እባክዎ የውስጥ ቃል እንደገና ያረጋግጡ",
+        "passwordMismatch": "የውስጥ ቃሎች አይደለቁም"
+      },
+      "buttons": {
+        "submit": "የውስጥ ቃል አምጣ"
+      },
+      "success": "የውስጥ ቃል ተገናኝቷል",
+      "error": "የውስጥ ቃል ማድረግ አልቻለም",
+      "loading": "በማድረግ…"
+    },
+    "verify": {
+      "title": "ኢሜይልዎን ያረጋግጡ",
+      "subtitle": "የማረጋገጫ ኮድ ወደ ኢሜይልዎ ልከናል። እባክዎ የስፓም ፎልደርዎን ያチኩ እና ኮዱን ከታች ያስገቡ።",
+      "didNotReceive": "ኮዱን አልተቀበሉም?",
+      "resendCountdown": "እንደገና መላክ በ {seconds} ሰከንድ",
+      "buttons": {
+        "verify": "ኮድ ያረጋግጡ",
+        "resend": "እንደገና ይላኩ"
+      },
+      "loading": "በማረጋገጥ ላይ..."
+    }
   },
   "Error": {
     "404": "ገጹ አልተገኘም",
@@ -110,28 +241,25 @@
     "goHome": "ወደ መነሻ ተመለስ",
     "tryAgain": "እንደገና ሞክር"
   },
-    "Footer": {
-      "siteName": "ኢኦተቤ",
-      "description": "የኢኦተቤ አፕን ለጥልቅ መንፈሳዊ ጉዞ ያግኙ። አሁን ያውርዱ እና መጽሐፍ ቅዱስን በጣት አጋዥ ያስሱ!",
-      "googlePlay": "ጉግል ፕሌይ",
-      "appStore": "አፕ ስቶር",
-      "menu": "ምናሌ",
-      "home": "መነሻ",
-      "bible": "መጽሐፍ ቅዱስ",
-      "about": "ስለኛ",
-      "features": "የባህሪያት",
-      "plans": "ፕላኖች",
-      "socials": "ማህበራዊ ሚዲያ",
-      "telegram": "ቴሌግራም",
-      "instagram": "ኢንስታግራም",
-      "tiktok": "ቲክቶክ",
-      "facebook": "ፌስቡክ",
-      "contactInfo": "የመገኛ መረጃ",
-      "address": "አዲስ አበባ፣ ኢትዮጵያ",
-      "contactUs": "አግኙን",
-      "copyright": "© {year} ኢኦተቤ. ሁሉም መብቶች የተጠበቁ ናቸው።"
+  "Footer": {
+    "siteName": "ኢኦተቤ",
+    "description": "የኢኦተቤ አፕን ለጥልቅ መንፈሳዊ ጉዞ ያግኙ። አሁን ያውርዱ እና መጽሐፍ ቅዱስን በጣት አጋዥ ያስሱ!",
+    "googlePlay": "ጉግል ፕሌይ",
+    "appStore": "አፕ ስቶር",
+    "menu": "ምናሌ",
+    "home": "መነሻ",
+    "bible": "መጽሐፍ ቅዱስ",
+    "about": "ስለኛ",
+    "features": "የባህሪያት",
+    "plans": "ፕላኖች",
+    "socials": "ማህበራዊ ሚዲያ",
+    "telegram": "ቴሌግራም",
+    "instagram": "ኢንስታግራም",
+    "tiktok": "ቲክቶክ",
+    "facebook": "ፌስቡክ",
+    "contactInfo": "የመገኛ መረጃ",
+    "address": "አዲስ አበባ፣ ኢትዮጵያ",
+    "contactUs": "አግኙን",
+    "copyright": "© {year} ኢኦተቤ. ሁሉም መብቶች የተጠበቁ ናቸው።"
   }
 }
-
-
-
