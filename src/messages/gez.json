@@ -274,5 +274,16 @@
     "subtitle": "ኢሜይልዎን ኣስገባ ለመምዝገብ",
     "button": "ምዝገብ",
     "placeholder": "example@email.com"
+  },
+  "VerseOfTheDay": {
+    "title": "ዕትም ዕለት",
+    "verse": "ነገር ግን በጌታ ተስፋ የሚያደርጉ ኃይላቸውን ይደግፋሉ፤ እነርሱ እንደ ኦርሮች በክንፎቻቸው ይነፋሉ፤ ይሮጣሉና አይደክሙም፤ ይሄዱና አይጠናቀቁም።",
+    "reference": "— ኢሳይያስ 40:31 (NIV)",
+    "likes": "105.3ሺ",
+    "shares": "12.8ሺ",
+    "bookmarks": "45.9ሺ",
+    "continueReading": "ቀጥለህ ንቀሳቀስ",
+    "archive": "ዕትም ዕለት አርኪቭ",
+    "alt": "ዕትም ዕለት"
   }
 }

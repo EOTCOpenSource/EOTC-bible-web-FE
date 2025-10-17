@@ -274,5 +274,16 @@
     "subtitle": "Enter your email to subscribe",
     "button": "Subscribe",
     "placeholder": "example@email.com"
+  },
+  "VerseOfTheDay": {
+    "title": "Verse of The Day",
+    "verse": "But those who hope in the LORD will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
+    "reference": "— Isaiah 40:31 (NIV)",
+    "likes": "105.3k",
+    "shares": "12.8k",
+    "bookmarks": "45.9k",
+    "continueReading": "Continue Reading",
+    "archive": "VOTD Archive",
+    "alt": "Verse of the day"
   }
 }

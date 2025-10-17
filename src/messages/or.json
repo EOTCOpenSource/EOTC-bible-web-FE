@@ -274,5 +274,16 @@
     "subtitle": "Galmaahuuf imeelii kee galchii",
     "button": "Galmaa'i",
     "placeholder": "example@email.com"
+  },
+  "VerseOfTheDay": {
+    "title": "Ayyaana Guyyaa",
+    "verse": "Garuu warri Waaqa irratti abdatan humna isaanii ni haaromsu; akka simbirroota balali'aniitti ni ka'u; ni fiigu hin dadhabani; ni deemu hin dadhabani.",
+    "reference": "— Isaayyaas 40:31 (NIV)",
+    "likes": "105.3k",
+    "shares": "12.8k",
+    "bookmarks": "45.9k",
+    "continueReading": "Akkasitti Dubbisu",
+    "archive": "VOTD Archive",
+    "alt": "Ayyaana Guyyaa"
   }
 }

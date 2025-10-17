@@ -274,5 +274,16 @@
     "subtitle": "ኢሜይልኩን ለመመዝገብ ኣስገባ",
     "button": "መመዝገብ",
     "placeholder": "example@email.com"
+  },
+  "VerseOfTheDay": {
+    "title": "ዕትም ሓደ መዓልቲ",
+    "verse": "ነገር ግን ኣብ ጌታ ተስፋ ዘሎት ኃይላታቸውን ይደግፋሉ፤ እነርሱ እንደ ኦርሮች በክንፎቻቸው ይነፋሉ፤ ይሮጣሉና አይደክሙም፤ ይሄዱና አይጠናቀቁም።",
+    "reference": "— ኢሳይያስ 40:31 (NIV)",
+    "likes": "105.3ሺ",
+    "shares": "12.8ሺ",
+    "bookmarks": "45.9ሺ",
+    "continueReading": "ቀጽል ንንቀሳቀስ",
+    "archive": "ዕትም መዓልቲ ኣርኪቭ",
+    "alt": "ዕትም መዓልቲ"
   }
 }
