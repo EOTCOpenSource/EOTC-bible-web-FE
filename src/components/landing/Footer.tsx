@@ -4,9 +4,11 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import Subscription from './Subscription'
 import { useTranslations } from 'next-intl';
+import { useLocalizedNumber } from '@/hooks/use-localized-number';
 
 const Footer = () => {
   const t = useTranslations('Footer')
+  const { formatNumber } = useLocalizedNumber();
   return (
     <div>
       <Subscription />
@@ -112,7 +114,7 @@ const Footer = () => {
               </button>
             </div>
           </div>
-          <p className="text-center text-gray-400">  {t('copyright', { year: 2025 })}</p>
+          <p className="text-center text-gray-400">  {t('copyright', { year: formatNumber(2025,) })}</p>
         </div>
       </footer>
     </div>
