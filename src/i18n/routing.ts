@@ -1,5 +1,5 @@
 
 export const supportedLocales = {
-  locales: ['en', 'am'],
+  locales: ['en', 'am'] as const, 
   defaultLocale: 'en',
-}
+} as const
