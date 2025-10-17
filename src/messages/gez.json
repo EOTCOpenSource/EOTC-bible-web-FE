@@ -291,5 +291,71 @@
       "qrAlt": "QR ኮድ",
       "appIconAlt": "መተግበሪያ አዶ"
     }
+  },
+  "About": {
+    "hero": {
+      "title": {
+        "line1": "ዘጥንታዊ ምስክር",
+        "line2": "ዘእምነት,",
+        "line3": "ይዛ",
+        "highlight": "መጽሐፍ ቅዱሳን ተለየ።"
+      },
+      "imageAlt": "መጽሐፍ ቅዱሳን ተለየ",
+      "description": "ኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስትያን የቅዱሳን መጽሐፍ ዘጥንታዊ እና ሙሉ የሆነውን ትርኢት ትቀጥቃለች። በግዕዝ ተጻፎ ነው።",
+      "ctaText": "አግኙን"
+    },
+    "cards": [
+      {
+        "title": "81 መጽሐፍ ቅዱሳን",
+        "description": "EOTC መጽሐፍ ቅዱሳን በክርስቲያንነት ውስጥ ትልቁ ነው።"
+      },
+      {
+        "title": "መጽሐፍ ቅዱሳን ተለየ",
+        "description": "ከሌላ ቦታ አልተገኘም ጽሑፎችን ይዟል።"
+      },
+      {
+        "title": "ተካፋይ ቅርንጫፍ",
+        "description": "ኢትዮጵያና ኤርትራ ቤተክርስትያን የተከበረ ነው።"
+      }
+    ],
+    "navigation": {
+      "buttonColor": "bg-yellow-400",
+      "buttonTextColor": "text-red-900"
+    }
+  },
+  "DownloadApp": {
+    "title": "አሁን መተግበሪያ ዘEOTCBible ያውርዱ!",
+    "description": "መንገደ መንፈሳዊ ያውቁ እና ቅዱሳን ተገናኝ። ከእምነት ጋር የሚዛመዱ ማስተላለፊያዎች ይገኙ።",
+    "googlePlayAlt": "በGoogle Play ይውሰዱ",
+    "appStoreAlt": "በApp Store ይውሰዱ",
+    "mobileAlt": "በእጅ ሞባይል"
+  },
+  "KeyFeatures": {
+    "sectionTitle": "ኣማካሪ ስራዎች ለEOTCBible መተግበሪያ",
+    "tryNow": "አሁን ይሞክሩ",
+    "feature1": {
+      "title": "መልእክት ማሳያ፣ ማስታወሻ እና መካፈል",
+      "description": "ኣንቀጾችን ምልክት ያድርጉ፣ ማስታወሻ ያክሉ፣ እና ቀላል ለማካፈል ያድርጉ።"
+    },
+    "feature2": {
+      "title": "የመጽሐፍ ቅዱስ ንባብ እቅዶች",
+      "description": "በመምሪያ የተዘጋጀ እቅድ ተከተሉ። የርዕሶች አማካሪዎችን ይምረጡ።"
+    },
+    "feature3": {
+      "title": "በመሳሪያዎች መካከል ዝግጅት",
+      "description": "በተለያዩ መሳሪያዎች የመጽሐፍ ቅዱስ እንቅስቃሴዎን ቀጥሉ።"
+    },
+    "feature4": {
+      "title": "በመስመር ውስጥ ያልሆነ መዳረሻ",
+      "description": "መስመር ውስጥ ሳይኖር መጽሐፍ ቅዱስን ያገኙ።"
+    },
+    "feature5": {
+      "title": "ምስጢራዊ ማሳሰቢያ",
+      "description": "በቀጥታ እንቅስቃሴዎን ይማሩ።"
+    },
+    "feature6": {
+      "title": "ማስታወሻዎች እና እይታዎች",
+      "description": "በመጽሐፍ ቅዱስ ላይ ማስታወሻዎችን ይጽፉ።"
+    }
   }
 }

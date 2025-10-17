@@ -291,5 +291,71 @@
       "qrAlt": "QR Code",
       "appIconAlt": "App Icon"
     }
+  },
+  "About": {
+    "hero": {
+      "title": {
+        "line1": "Ancient Witness of",
+        "line2": "Faith,",
+        "line3": "Holding",
+        "highlight": "Unique Scriptures."
+      },
+      "imageAlt": "Unique Scriptures",
+      "description": "The Ethiopian Orthodox Tewahedo Church (EOTC) preserves one of the most ancient and complete biblical canons globally. Written in Ge'ez, Ethiopia's classical language, it reflects a living tradition that has been faithfully maintained for centuries.",
+      "ctaText": "Contact Us"
+    },
+    "cards": [
+      {
+        "title": "81 Canonical Books",
+        "description": "The EOTC Bible has the largest biblical canon in Christianity, containing 81 books compared to the 66 found in most Western Bibles."
+      },
+      {
+        "title": "Unique Scriptures",
+        "description": "Includes texts not found elsewhere, such as the Book of Enoch, Jubilees, Sirach (Ecclesiasticus), and more."
+      },
+      {
+        "title": "Shared Heritage",
+        "description": "Respected by the Ethiopian and Eritrean Orthodox Churches, as it continues to guide worship and tradition."
+      }
+    ],
+    "navigation": {
+      "buttonColor": "bg-yellow-400",
+      "buttonTextColor": "text-red-900"
+    }
+  },
+  "DownloadApp": {
+    "title": "Download the EOTCBible App Now!",
+    "description": "Explore your spiritual journey and engage with scriptures. Discover insights that resonate with your faith and connect deeply with teachings that have shaped beliefs.",
+    "googlePlayAlt": "Get it on Google Play",
+    "appStoreAlt": "Download on the App Store",
+    "mobileAlt": "Mobile in hand"
+  },
+  "KeyFeatures": {
+    "sectionTitle": "Key Features of the EOTCBible Application",
+    "tryNow": "Try it now",
+    "feature1": {
+      "title": "Highlight, Bookmark & Share",
+      "description": "Mark verses that resonate with you. Highlight passages, add bookmarks, and easily share scripture with friends on social media or messaging apps."
+    },
+    "feature2": {
+      "title": "Bible Reading Plans",
+      "description": "Stay consistent with guided reading plans. Choose from themes, set durations, or create your own plan to strengthen your spiritual journey."
+    },
+    "feature3": {
+      "title": "Sync Progress Across Devices",
+      "description": "Seamlessly continue your Bible study across multiple devices. Your highlights, notes, and progress automatically stay in sync."
+    },
+    "feature4": {
+      "title": "Offline Access",
+      "description": "Access the Bible anywhere, even without the internet. Download versions for offline reading—perfect for traveling, commuting, or remote areas."
+    },
+    "feature5": {
+      "title": "Gentle Reminders",
+      "description": "Stay engaged with customizable notifications that encourage you to read at your preferred time every day."
+    },
+    "feature6": {
+      "title": "Notes & Reflections",
+      "description": "Write down your insights and reflections while studying scripture. Keep them organized like a personal spiritual journal within the app."
+    }
   }
 }

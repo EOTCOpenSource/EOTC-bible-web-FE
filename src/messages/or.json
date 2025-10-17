@@ -291,5 +291,71 @@
       "qrAlt": "QR Code",
       "appIconAlt": "Appii Aangocha"
     }
+  },
+  "About": {
+    "hero": {
+      "title": {
+        "line1": "Dubbii Durii Ragaa",
+        "line2": "Amantii,",
+        "line3": "Qabuun",
+        "highlight": "Barreeffamoota Addaa."
+      },
+      "imageAlt": "Barreeffamoota Addaa",
+      "description": "Manni Kiristaanaa Ortodoksii Itoophiyaa (EOTC) keniinii Kitaabota Qulqulluu durii fi guutuu addunyaa irratti argaman tokko eega tiksaa jira. Afaan Ge’eziin barreeffame, aadaa jiraataa fi eegamaa ta’e ibsa.",
+      "ctaText": "Nu qunnamaa"
+    },
+    "cards": [
+      {
+        "title": "Kitaabota 81",
+        "description": "Kitaaba EOTC keessaa kitaabota 81 qabdi kanneen gara 66 keessa jiranii Westren Bibles irraa ol ta’ani."
+      },
+      {
+        "title": "Barreeffamoota Addaa",
+        "description": "Barruuwwan iddoo biraa hin argamne of keessaa qaba, fakkeenyaaf Kitaaba Enoch, Jubilees, Sirach fi kkf."
+      },
+      {
+        "title": "Aadaa Waliigalaa",
+        "description": "Mana Kiristaanaa Ortodoksii Itoophiyaa fi Ertraa biratti kabajamaa dha, amantii fi aadaa gaggeessuu itti fufa."
+      }
+    ],
+    "navigation": {
+      "buttonColor": "bg-yellow-400",
+      "buttonTextColor": "text-red-900"
+    }
+  },
+  "DownloadApp": {
+    "title": "Amma App EOTCBible Buufadhaa!",
+    "description": "Daandii amantii kee qoradhuu fi barreeffamoota qulqulluu waliin hirmaadhu. Hubannoo amantii kee waliin wal simatu argadhuu fi barsiifata amantii kee ijaare waliin hidhadhu.",
+    "googlePlayAlt": "Google Play irra argadhu",
+    "appStoreAlt": "App Store irra argadhu",
+    "mobileAlt": "Mobaayili harkaa"
+  },
+  "KeyFeatures": {
+    "sectionTitle": "Karooraa Ittiin Fayyadamaa EOTCBible",
+    "tryNow": "Amma yaali",
+    "feature1": {
+      "title": "Hammaachuu, Kaasuu fi Qooduu",
+      "description": "Ayyaanni si qunnamu keessaa yeroo barbaaddu calaqqisiisi, kaa'ii, fi walitti qoodu salphisaa."
+    },
+    "feature2": {
+      "title": "Karoora Dubbisuu Macaafa Qulqulluu",
+      "description": "Karoora qajeelfama qabu hordofaa. Mata-duree filadhu, yeroo kaa'i, ykn karoora kee tolchi."
+    },
+    "feature3": {
+      "title": "Hirmaannaa Meeshaalee Garaagaraa",
+      "description": "Barumsa kee meeshaalee garaagaraa irratti itti fufi. Hammaachuu fi galmeewwan kee akka wal-simatu gochaa."
+    },
+    "feature4": {
+      "title": "Hirmaannaa Offline",
+      "description": "Macaafa Qulqulluu iddoo kam iyyuu, interneetii malee dubbisi. Gara offline download gochuu dandeessa."
+    },
+    "feature5": {
+      "title": "Yaadachiisa Laaftuu",
+      "description": "Yaadachiisa si kakaasu bakka fi yeroo barbaaddeetti qindeessi."
+    },
+    "feature6": {
+      "title": "Galmeewwan fi Yaad-rimeewwan",
+      "description": "Yaadawwan kee barreessi, sirnaan gulaali. Galmee dhuunfaa akka app keessatti qabdu gochaa."
+    }
   }
 }
