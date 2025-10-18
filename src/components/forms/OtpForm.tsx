@@ -6,6 +6,7 @@ import { useUserStore } from '@/lib/stores/useUserStore'
 import { useForm, Controller } from 'react-hook-form'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import { useAuthStore } from '@/stores/authStore'
+import { toast } from 'sonner'
 
 type OtpFormData = { otp: string }
 
@@ -44,6 +45,11 @@ export default function OtpForm() {
     }
   }, [otpStatus, loadSession, router])
 
+   useEffect(() => {
+      if (success) toast.success(success)
+      if (error) toast.error(error)
+    }, [success, error])
+  
   const onSubmit = async (data: OtpFormData) => {
     await verifyOtp(clientEmail, data.otp)
   }
@@ -101,10 +107,7 @@ export default function OtpForm() {
             </InputOTP>
           )}
         />
-
-        {error && <p className="text-center text-sm text-red-600">{error}</p>}
-        {success && <p className="text-center text-sm text-green-600">{success}</p>}
-
+        
         <button
           type="submit"
           disabled={otpStatus === 'pending' || otpValue.length !== 6}
