@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useState } from 'react'
 import { DotIcon, Eye, EyeOff } from 'lucide-react'
+import { toast } from 'sonner'
 
 type ResetPasswordForm = {
   newPassword: string
@@ -53,13 +54,17 @@ export default function ResetPasswordPage() {
       })
 
       setMessage(res.data.message)
-
+      res.status == 200 && toast.success(res.data.message || 'Password reset successful')
       if (res.data.success) {
         reset()
         setTimeout(() => router.push('/login'), 600)
       }
     } catch (error: any) {
-      setMessage(error?.response?.data?.message || 'Something went wrong, try again.')
+      const msg =
+        error?.response?.data?.error || error?.message || 'Password reset failed'
+      setMessage(msg)
+      toast.error(msg)
+      console.error(error)
     } finally {
       setIsSubmitting(false)
     }
@@ -151,15 +156,6 @@ export default function ResetPasswordPage() {
           </Button>
         </form>
 
-        {message && (
-          <p
-            className={`mt-4 text-center ${
-              message.toLowerCase().includes('successful') ? 'text-green-600' : 'text-red-600'
-            }`}
-          >
-            {message}
-          </p>
-        )}
       </div>
     </section>
   )
