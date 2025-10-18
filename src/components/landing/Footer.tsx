@@ -1,9 +1,14 @@
+'use client'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import Subscription from './Subscription'
+import { useTranslations } from 'next-intl'
+import { useLocalizedNumber } from '@/hooks/use-localized-number'
 
 const Footer = () => {
+  const t = useTranslations('Footer')
+  const { formatNumber } = useLocalizedNumber()
   return (
     <div>
       <Subscription />
@@ -13,12 +18,9 @@ const Footer = () => {
             <div className="flex max-w-sm flex-col gap-4">
               <div className="flex items-center gap-2">
                 <Image src="/footer-logo.png" alt="EOTC Bible" width={32.4} height={39} />
-                <span className="text-lg font-bold">EOTCBible</span>
+                <span className="text-lg font-bold">{t('siteName')}</span>
               </div>
-              <p className="text-gray-400">
-                Discover the EOTCBible app for a deeper spiritual journey. Download now and explore
-                the scriptures at your fingertips!
-              </p>
+              <p className="text-gray-400">{t('description')}</p>
               <div className="mt-4 flex gap-4">
                 <Link href="#">
                   <Image src="/google-play-badge.svg" alt="Google Play" width={135} height={40} />
@@ -30,57 +32,57 @@ const Footer = () => {
             </div>
             <div>
               <div className="flex flex-col gap-4">
-                <h3 className="text-lg font-bold">Menu</h3>
+                <h3 className="text-lg font-bold">{t('menu')}</h3>
                 <ul className="flex gap-4">
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      Home
+                      {t('home')}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      Bible
+                      {t('bible')}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      About
+                      {t('about')}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      Features
+                      {t('features')}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      Plans
+                      {t('plans')}
                     </Link>
                   </li>
                 </ul>
               </div>
 
               <div className="flex flex-col gap-4">
-                <h3 className="text-lg font-bold">Socials</h3>
+                <h3 className="text-lg font-bold"> {t('socials')}</h3>
                 <ul className="flex gap-4">
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      Telegram
+                      {t('telegram')}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      Instagram
+                      {t('instagram')}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      Tiktok
+                      {t('tiktok')}
                     </Link>
                   </li>
                   <li>
                     <Link href="#" className="text-gray-400 hover:text-white">
-                      Facebook
+                      {t('facebook')}
                     </Link>
                   </li>
                 </ul>
@@ -95,7 +97,7 @@ const Footer = () => {
               <button
                 className={`mt-2 mb-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-red-900 md:mt-8`}
               >
-                <span>Contact Us</span>
+                <span>{t('contactUs')}</span>
                 <div
                   className={`flex h-7 w-7 items-center justify-center rounded-sm bg-red-900 p-1 text-white`}
                 >
@@ -104,7 +106,10 @@ const Footer = () => {
               </button>
             </div>
           </div>
-          <p className="text-center text-gray-400">&copy; 2025 EOTCBible. All rights reserved.</p>
+          <p className="text-center text-gray-400">
+            {' '}
+            {t('copyright', { year: formatNumber(2025) })}
+          </p>
         </div>
       </footer>
     </div>

@@ -55,11 +55,12 @@ For detailed frontend architecture, authentication flow, and proxy usage, see th
 
 1. Make your changes following existing code patterns
 2. Add tests for new functionality
-3. Verify all tests pass:
+3. Make sure the page is localized  with EN, AM, GEEZ, TG and OR if your are deleoping page  or component
+4. Verify all tests pass:
    ```bash
    npm test
    ```
-4. Make sure to check code formatting before you commit changes
+5. Make sure to check code formatting before you commit changes
    - #### check the files need formatting 
    ```bash
    npm run format:check
@@ -68,22 +69,21 @@ For detailed frontend architecture, authentication flow, and proxy usage, see th
    ```bash
    npm run format
    ``` 
-5. Commit with descriptive messages:
+6. Commit with descriptive messages:
    ```bash
    git commit -m "feat: add [feature description]"
    ```
-6. Push to your fork:
+7. Push to your fork:
    ```bash
    git push origin feature/your-feature-name
    ```
-7. Open a Pull Request to the main branch
+8. Open a Pull Request to the main branch
 
 > **Note:** You don't need to open an issue before submitting a PR, but feel free to do so if you want feedback on an idea.
 
 ## 🎯 How You Can Help
 
 - **Features:** Search, bookmarks, parallel view
-- **Languages:** Amharic, Ge'ez, English, other Ethiopian languages
 - **Testing:** Unit, integration, E2E tests
 - **UI/UX:** Design improvements with Tailwind CSS
 - **Bugs:** Fixing issues and optimizing performance

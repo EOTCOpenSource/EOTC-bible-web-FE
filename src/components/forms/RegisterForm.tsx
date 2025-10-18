@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { Eye, EyeOff, DotIcon } from 'lucide-react'
+import { DotIcon, Eye, EyeOff } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { registerFormSchema, type RegisterFormSchema } from '@/lib/form-validation'
@@ -11,12 +12,13 @@ import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'next/navigation'
 
 export default function RegisterForm() {
+  const t = useTranslations('Auth.register')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const { register: authRegister, success, error } = useAuthStore()
-
   const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -35,12 +37,11 @@ export default function RegisterForm() {
 
   const passwordValue = watch('password') || ''
 
-  // Password criteria feedback
   const passwordCriteria = [
-    { label: 'At least 1 Uppercase letter', valid: /[A-Z]/.test(passwordValue) },
-    { label: 'At least 1 Number', valid: /\d/.test(passwordValue) },
-    { label: 'At least 1 special character', valid: /[!@#$%^&*]/.test(passwordValue) },
-    { label: 'Minimum 8 characters', valid: passwordValue.length >= 8 },
+    { label: t('password.uppercase'), valid: /[A-Z]/.test(passwordValue) },
+    { label: t('password.number'), valid: /\d/.test(passwordValue) },
+    { label: t('password.special'), valid: /[!@#$%^&*]/.test(passwordValue) },
+    { label: t('password.minLength'), valid: passwordValue.length >= 8 },
   ]
 
   const onSubmit = async (data: RegisterFormSchema) => {
@@ -52,7 +53,7 @@ export default function RegisterForm() {
       reset()
       router.push('/verify-otp')
     } catch (err: any) {
-      const msg = err?.response?.data?.error || err?.message || 'Registration failed'
+      const msg = err?.response?.data?.error || err?.message || t('errors.failed')
       toast.error(msg)
     } finally {
       setLoading(false)
@@ -66,23 +67,24 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 p-2">
-      <h2 className="text-3xl font-semibold">Create an Account</h2>
+      <h2 className="my-0 py-0 text-3xl font-semibold">{t('title')}</h2>
       <p className="mb-4 text-sm text-gray-600">
-        Already have an account?{' '}
+        {t('haveAccount')}{' '}
         <a className="text-blue-500 underline" href="/login">
-          Login
+          {t('login')}
         </a>
       </p>
 
       {/* Name */}
       <div>
-        <label htmlFor="name" className="text-sm text-gray-700">
-          Full Name
+        <label className="text-sm text-gray-700" htmlFor="name">
+          {t('fields.name')}
         </label>
         <input
-          id="name"
           className="w-full rounded border p-2"
-          placeholder="Your name"
+          placeholder={t('placeholders.name')}
+          id="name"
+          type="text"
           {...register('name')}
         />
         {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
@@ -90,14 +92,14 @@ export default function RegisterForm() {
 
       {/* Email */}
       <div>
-        <label htmlFor="email" className="text-sm text-gray-700">
-          Email
+        <label className="text-sm text-gray-700" htmlFor="email">
+          {t('fields.email')}
         </label>
         <input
+          className="w-full rounded border p-2"
+          placeholder={t('placeholders.email')}
           id="email"
           type="email"
-          className="w-full rounded border p-2"
-          placeholder="you@example.com"
           {...register('email')}
         />
         {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
@@ -106,16 +108,16 @@ export default function RegisterForm() {
       {/* Password */}
       <div className="items-baseline space-y-2 md:flex md:gap-2">
         <div className="flex-1">
-          <label htmlFor="password" className="text-sm text-gray-700">
-            Password
+          <label className="text-sm text-gray-700" htmlFor="password">
+            {t('fields.password')}
           </label>
           <div className="relative">
             <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
               className="w-full rounded border p-2"
-              placeholder="Enter password"
+              placeholder={t('placeholders.password')}
+              id="password"
               autoComplete="off"
+              type={showPassword ? 'text' : 'password'}
               {...register('password')}
             />
             <button
@@ -131,15 +133,15 @@ export default function RegisterForm() {
 
         {/* Confirm Password */}
         <div className="flex-1">
-          <label htmlFor="confirm-password" className="text-sm text-gray-700">
-            Confirm Password
+          <label className="text-sm text-gray-700" htmlFor="confirm-password">
+            {t('fields.confirmPassword')}
           </label>
           <div className="relative">
             <input
+              className="w-full rounded border p-2"
+              placeholder={t('placeholders.confirmPassword')}
               id="confirm-password"
               type={showConfirmPassword ? 'text' : 'password'}
-              className="w-full rounded border p-2"
-              placeholder="Re-enter password"
               {...register('confirmPassword')}
             />
             <button
@@ -168,25 +170,25 @@ export default function RegisterForm() {
       {/* Terms */}
       <div className="mb-3 flex items-center gap-2">
         <input type="checkbox" id="checkbox" />
-        <label htmlFor="checkbox" className="text-sm">
-          I agree to the{' '}
-          <a href="#" className="text-red-900 underline">
-            Terms & Conditions
-          </a>
+        <label className="text-sm" htmlFor="checkbox">
+          {t('agreeTo')}{' '}
         </label>
+        <a href="#" className="text-sm text-red-900 underline">
+          {t('terms')}
+        </a>
       </div>
 
-      {/* Submit */}
+      {/* Submit Button */}
       <button
         disabled={loading}
         className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#491415] disabled:bg-gray-400"
       >
-        {loading ? 'Registering...' : 'Register'}
+        {loading ? t('loading') : t('register')}
       </button>
 
       <div className="my-1 flex items-center gap-3">
         <div className="flex-1 border-t border-gray-300"></div>
-        <span className="text-sm text-gray-500">OR</span>
+        <span className="text-sm text-gray-500">{t('or')}</span>
         <div className="flex-1 border-t border-gray-300"></div>
       </div>
 
@@ -200,7 +202,7 @@ export default function RegisterForm() {
           alt="google logo"
           className="w-[30px]"
         />
-        {loading ? '...' : 'Continue with Google'}
+        {loading ? '...' : t('google')}
       </button>
     </form>
   )

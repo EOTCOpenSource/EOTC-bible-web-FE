@@ -1,0 +1,454 @@
+{
+  "Index": {
+    "title": "EOTC Bible - Ethiopian Orthodox Tewahedo Church Bible",
+    "description": "Digital Bible platform featuring scriptures in Ge'ez, Amharic, and English translations of the Ethiopian Orthodox Tewahedo Church",
+    "siteName": "EOTC Bible",
+    "heroTitle": "Ethiopian Orthodox Tewahedo Church Bible",
+    "heroSubtitle": "Discover the sacred scriptures in Ge'ez, Amharic, and English",
+    "heroButton": "Read Scriptures",
+    "featuredBible": "Featured Bible Passages",
+    "dailyReading": "Daily Reading",
+    "prayers": "Prayers & Hymns",
+    "saints": "Saints of the Day",
+    "calendar": "Church Calendar",
+    "aboutTitle": "About the Ethiopian Orthodox Tewahedo Church",
+    "aboutDescription": "The Ethiopian Orthodox Tewahedo Church is one of the oldest Christian churches in the world, preserving ancient biblical traditions and scriptures.",
+    "contact": "Contact",
+    "copyright": "© {year} EOTC Bible. All rights reserved.",
+    "version": "Version",
+    "book": "Book",
+    "chapter": "Chapter",
+    "verse": "Verse",
+    "search": "Search Scriptures...",
+    "oldTestament": "Old Testament",
+    "newTestament": "New Testament",
+    "deuterocanonical": "Deuterocanonical Books",
+    "bibleVersions": "Bible Versions",
+    "language": "Language"
+  },
+  "Navigation": {
+    "home": "Home",
+    "bible": "Bible",
+    "siteName": "EOTC Bible",
+    "prayers": "Prayers",
+    "saints": "Saints",
+    "calendar": "Church Calendar",
+    "about": "About EOTC",
+    "language": "Language",
+    "contact": "Contact",
+    "plans": "Plans",
+    "notes": "Notes",
+    "search": "Search",
+    "getApp": "Get the app",
+    "login": "Login"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "open": "Open",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "readMore": "Read More",
+    "download": "Download",
+    "upload": "Upload",
+    "success": "Success!",
+    "error": "Error!",
+    "warning": "Warning!",
+    "info": "Information",
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email",
+    "passwordLength": "Password must be at least 8 characters"
+  },
+  "Forms": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "message": "Message",
+    "subject": "Subject",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "company": "Company",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "postalCode": "Postal Code"
+  },
+  "Auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "rememberMe": "Remember Me",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "verifyOtp": "Verify OTP",
+    "resendCode": "Resend Code",
+    "backToLogin": "Back to Login",
+    "register": {
+      "title": "Create an Account",
+      "haveAccount": "Already have an account?",
+      "login": "Login",
+      "fields": {
+        "name": "Full Name",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "placeholders": {
+        "name": "Your full name",
+        "email": "you@example.com",
+        "password": "Enter your password",
+        "confirmPassword": "Re-enter your password"
+      },
+      "password": {
+        "uppercase": "At least 1 uppercase letter",
+        "number": "At least 1 number",
+        "special": "At least 1 special character",
+        "minLength": "Minimum 8 characters"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "passwordRequired": "Password is required",
+        "confirmPasswordRequired": "Confirm Password is required"
+      },
+      "errors": {
+        "passwordMismatch": "Passwords do not match",
+        "emptyResponse": "Empty response from server",
+        "failed": "Registration failed"
+      },
+      "success": "Registration successful",
+      "agreeTo": "I agree to the",
+      "terms": "Terms & Conditions",
+      "register": "Register",
+      "loading": "Registering...",
+      "or": "OR",
+      "google": "Continue with Google"
+    },
+    "login": {
+      "title": "Sign In",
+      "noAccount": "Don't have an account yet?",
+      "signup": "Sign up",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholders": {
+        "email": "Enter your email",
+        "password": "Enter your password"
+      },
+      "validation": {
+        "emailRequired": "Email is required",
+        "passwordRequired": "Password is required"
+      },
+      "errors": {
+        "emptyResponse": "Empty response from server",
+        "loginFailed": "Login failed. Please try again."
+      },
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "loading": "Signing in...",
+      "or": "OR",
+      "continueWithGoogle": "Continue with Google",
+      "googleLogoAlt": "Google logo"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "description": "To reset your password, enter the email address you used to create the account",
+      "fields": {
+        "emailAddress": "Email Address"
+      },
+      "placeholders": {
+        "email": "Enter your email"
+      },
+      "validation": {
+        "emailRequired": "Email is required",
+        "invalidEmail": "Enter a valid email address"
+      },
+      "buttons": {
+        "sending": "Sending...",
+        "sendEmail": "Send Email",
+        "login": "Login",
+        "resending": "Resending...",
+        "resendEmail": "Resend email",
+        "changeEmail": "Change email"
+      },
+      "rememberedPassword": "Remembered password?",
+      "emailSent": {
+        "title": "Email Sent",
+        "description": "We’ve sent you a password reset link to your email",
+        "checkSpam": "(Be sure to check the spam folder)",
+        "didNotReceive": "Didn’t receive the email?",
+        "wrongEmail": "Wrong email address?"
+      }
+    },
+    "resetPassword": {
+      "title": "Create a new password",
+      "description": "Please enter a new password for your EOTCBible account.",
+      "fields": {
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password"
+      },
+      "validation": {
+        "newPasswordRequired": "New password is required",
+        "passwordMinLength": "Password must be at least {count} characters",
+        "confirmPasswordRequired": "Confirm password is required",
+        "passwordMismatch": "Passwords do not match"
+      },
+      "passwordCriteria": {
+        "uppercase": "At least 1 Uppercase letter",
+        "number": "At least 1 Number",
+        "special": "At least 1 special character",
+        "minLength": "Minimum 8 characters"
+      },
+      "buttons": {
+        "resetting": "Resetting...",
+        "resetPassword": "Reset Password"
+      },
+      "errors": {
+        "somethingWentWrong": "Something went wrong, try again."
+      }
+    },
+    "verify": {
+      "title": "Verify your email",
+      "subtitle": "We've sent a verification code to your email. Be sure to check spam folder, and input the code down below.",
+      "didNotReceive": "Didn't receive the code?",
+      "resendCountdown": "Resend available in {seconds}s",
+      "buttons": {
+        "verify": "Verify Code",
+        "resend": "Resend OTP"
+      },
+      "loading": "Verifying..."
+    }
+  },
+  "Error": {
+    "404": "Page Not Found",
+    "500": "Server Error",
+    "goHome": "Go Back Home",
+    "tryAgain": "Try Again"
+  },
+  "Footer": {
+    "siteName": "EOTCBible",
+    "description": "Discover the EOTCBible app for a deeper spiritual journey. Download now and explore the scriptures at your fingertips!",
+    "googlePlay": "Google Play",
+    "appStore": "App Store",
+    "menu": "Menu",
+    "home": "Home",
+    "bible": "Bible",
+    "about": "About",
+    "features": "Features",
+    "plans": "Plans",
+    "socials": "Socials",
+    "telegram": "Telegram",
+    "instagram": "Instagram",
+    "tiktok": "Tiktok",
+    "facebook": "Facebook",
+    "contactInfo": "Contact Info",
+    "address": "Addis Ababa, Ethiopia",
+    "contactUs": "Contact Us",
+    "copyright": "© {year} EOTCBible. All rights reserved."
+  },
+  "Subscription": {
+    "title": "Subscribe to our newsletter for updates and news about EOTCBible!",
+    "subtitle": "Enter your email to subscribe",
+    "button": "Subscribe",
+    "placeholder": "example@email.com"
+  },
+  "VerseOfTheDay": {
+    "title": "Verse of The Day",
+    "verse": "But those who hope in the LORD will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
+    "reference": "— Isaiah 40:31 (NIV)",
+    "likes": "105.3k",
+    "shares": "12.8k",
+    "bookmarks": "45.9k",
+    "continueReading": "Continue Reading",
+    "archive": "VOTD Archive",
+    "alt": "Verse of the day"
+  },
+  "Hero": {
+    "developedBy": "Developed by EOTCOpenSource >",
+    "title": "Open Source Ethiopian Bible Project",
+    "description": "Explore the Ethiopian Bible's heritage. Dive into scriptures and connect with your faith.",
+    "button": "Read Online",
+    "appCard": {
+      "mobileTitle": "Get the EOTCBible mobile app",
+      "mobileDescription": "Read the Ethiopian bible, explore plans, and seek God every day.",
+      "googlePlayAlt": "Get it on Google Play",
+      "appStoreAlt": "Download on the App Store",
+      "qrAlt": "QR Code",
+      "appIconAlt": "App Icon"
+    }
+  },
+  "About": {
+    "hero": {
+      "title": {
+        "line1": "Ancient Witness of",
+        "line2": "Faith,",
+        "line3": "Holding",
+        "highlight": "Unique Scriptures."
+      },
+      "imageAlt": "Unique Scriptures",
+      "description": "The Ethiopian Orthodox Tewahedo Church (EOTC) preserves one of the most ancient and complete biblical canons globally. Written in Ge'ez, Ethiopia's classical language, it reflects a living tradition that has been faithfully maintained for centuries.",
+      "ctaText": "Contact Us"
+    },
+    "cards": [
+      {
+        "title": "81 Canonical Books",
+        "description": "The EOTC Bible has the largest biblical canon in Christianity, containing 81 books compared to the 66 found in most Western Bibles."
+      },
+      {
+        "title": "Unique Scriptures",
+        "description": "Includes texts not found elsewhere, such as the Book of Enoch, Jubilees, Sirach (Ecclesiasticus), and more."
+      },
+      {
+        "title": "Shared Heritage",
+        "description": "Respected by the Ethiopian and Eritrean Orthodox Churches, as it continues to guide worship and tradition."
+      }
+    ],
+    "navigation": {
+      "buttonColor": "bg-yellow-400",
+      "buttonTextColor": "text-red-900"
+    }
+  },
+  "DownloadApp": {
+    "title": "Download the EOTCBible App Now!",
+    "description": "Explore your spiritual journey and engage with scriptures. Discover insights that resonate with your faith and connect deeply with teachings that have shaped beliefs.",
+    "googlePlayAlt": "Get it on Google Play",
+    "appStoreAlt": "Download on the App Store",
+    "mobileAlt": "Mobile in hand"
+  },
+  "KeyFeatures": {
+    "sectionTitle": "Key Features of the EOTCBible Application",
+    "tryNow": "Try it now",
+    "feature1": {
+      "title": "Highlight, Bookmark & Share",
+      "description": "Mark verses that resonate with you. Highlight passages, add bookmarks, and easily share scripture with friends on social media or messaging apps."
+    },
+    "feature2": {
+      "title": "Bible Reading Plans",
+      "description": "Stay consistent with guided reading plans. Choose from themes, set durations, or create your own plan to strengthen your spiritual journey."
+    },
+    "feature3": {
+      "title": "Sync Progress Across Devices",
+      "description": "Seamlessly continue your Bible study across multiple devices. Your highlights, notes, and progress automatically stay in sync."
+    },
+    "feature4": {
+      "title": "Offline Access",
+      "description": "Access the Bible anywhere, even without the internet. Download versions for offline reading—perfect for traveling, commuting, or remote areas."
+    },
+    "feature5": {
+      "title": "Gentle Reminders",
+      "description": "Stay engaged with customizable notifications that encourage you to read at your preferred time every day."
+    },
+    "feature6": {
+      "title": "Notes & Reflections",
+      "description": "Write down your insights and reflections while studying scripture. Keep them organized like a personal spiritual journal within the app."
+    }
+  },
+  "DiscoverPlans": {
+    "title": "Discover Various Plans For <br /> Reading The EOTC Bible.",
+    "planDetailsCta": "Plan Details",
+    "error": {
+      "message": "Failed to load plans:",
+      "retryButton": "Try Again"
+    },
+    "footer": {
+      "title": "Discover a Plan for Your Spiritual Journey.",
+      "description": "Explore our library of plans to find one that helps you connect with scripture.",
+      "ctaButton": "Discover More Plans"
+    },
+    "pagination": {
+      "previousPage": "Previous page",
+      "nextPage": "Next page",
+      "goToPage": "Go to page {{pageNumber}}"
+    },
+    "fallbackPlans": [
+      {
+        "id": "1",
+        "title": "Psalms in 30 days",
+        "description": "Join our 30-day Psalms meditation. Reflect on hope and faith.",
+        "image": "/plans/plan1.png",
+        "slug": "psalms-30-days"
+      },
+      {
+        "id": "2",
+        "title": "The Body of Christ",
+        "description": "A deep dive into what it means to be part of the community of believers.",
+        "image": "/plans/plan2.png",
+        "slug": "body-of-christ"
+      },
+      {
+        "id": "3",
+        "title": "Becoming Resilient",
+        "description": "A guide to building spiritual strength and overcoming adversity.",
+        "image": "/plans/plan3.png",
+        "slug": "becoming-resilient"
+      },
+      {
+        "id": "4",
+        "title": "The Good Shepherd",
+        "description": "Reflect on the guidance and protection found in the 23rd Psalm.",
+        "image": "/plans/plan4.png",
+        "slug": "good-shepherd"
+      },
+      {
+        "id": "5",
+        "title": "Moving Forward in Faith",
+        "description": "A series on trusting God's plan and taking steps into the unknown.",
+        "image": "/plans/plan5.png",
+        "slug": "moving-forward"
+      },
+      {
+        "id": "6",
+        "title": "The Believer's Journey",
+        "description": "A 30-day meditation on the path of spiritual growth and discipleship.",
+        "image": "/plans/plan6.png",
+        "slug": "believers-journey"
+      }
+    ]
+  },
+  "Bookmarks": {
+    "title": "this is bookmarks page"
+  },
+  "Highlights": {
+    "title": "highlights page"
+  },
+  "Notes": {
+    "title": "notes page",
+    "Create": {
+      "title": "create new note page"
+    }
+  },
+  "Dashboard": {
+    "loading": "Loading...",
+    "welcome": "Welcome, {{name}}",
+    "errors": {
+      "title": "Error",
+      "fetchProfile": "Failed to fetch profile"
+    },
+    "unauthorized": {
+      "message": "You are not authorized to view this page.",
+      "loginButton": "Login",
+      "registerButton": "Register"
+    },
+    "profile": {
+      "title": "Profile Information",
+      "email": "Email",
+      "theme": "Theme",
+      "fontSize": "Font Size"
+    }
+  }
+}

@@ -1,7 +1,11 @@
+"use client";
 import React from 'react'
 import { ArrowUpRight } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 const Hero = () => {
+  const t = useTranslations('Hero')
+
   return (
     <section
       className="relative min-h-screen w-full text-white"
@@ -21,18 +25,16 @@ const Hero = () => {
       <div className="relative container mx-auto flex h-full min-h-[766px] flex-col justify-center px-4">
         <div className="mt-48 w-full text-left md:absolute md:top-[319px] md:left-[48px] md:mt-0 md:w-[554px]">
           <p className="inline-block rounded-full bg-red-900/30 px-3 text-sm text-red-100">
-            Developed by EOTCOpenSource &gt;
+            {t('developedBy')} &gt;
           </p>
           <h1 className="mt-2 text-4xl font-bold md:text-6xl">
-            Open Source <span className="text-yellow-400 italic">Ethiopian</span> <br />
-            Bible Project
+            {t('title')}
           </h1>
           <p className="mt-4 text-lg">
-            Explore the Ethiopian Bible's heritage. Dive into scriptures and connect with your
-            faith.
+            {t('description')}
           </p>
           <button className="mt-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-red-900">
-            <span>Read Online</span>
+            <span>{t('button')}</span>
             <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-red-900 p-1 text-white">
               <ArrowUpRight size={20} />
             </div>
@@ -44,18 +46,16 @@ const Hero = () => {
           {/* MOBILE LAYOUT */}
           <div className="block text-center md:hidden">
             <div className="flex items-center justify-center">
-              <img src="/app-icon.png" alt="App Icon" className="mr-3 h-10 w-10" />
-              <h3 className="text-lg font-bold">Get the EOTCBible mobile app</h3>
+              <img src="/app-icon.png" alt={t('appCard.appIconAlt')} className="mr-3 h-10 w-10" />
+              <h3 className="text-lg font-bold">{t('appCard.mobileTitle')}</h3>
             </div>
-            <p className="mt-2 text-sm">
-              Read the Ethiopian bible, explore plans, and seek God every day.
-            </p>
+            <p className="mt-2 text-sm">{t('appCard.mobileDescription')}</p>
             <div className="mt-4 flex justify-center space-x-2">
               <a href="#" target="_blank" rel="noopener noreferrer">
-                <img src="/google-play-badge.svg" alt="Get it on Google Play" width="128" />
+                <img src="/google-play-badge.svg" alt={t('appCard.googlePlayAlt')} width="128" />
               </a>
               <a href="#" target="_blank" rel="noopener noreferrer">
-                <img src="/app-store-badge.png" alt="Download on the App Store" width="128" />
+                <img src="/app-store-badge.png" alt={t('appCard.appStoreAlt')} width="128" />
               </a>
             </div>
           </div>
@@ -66,24 +66,22 @@ const Hero = () => {
               <div className="relative flex h-56 w-full items-start justify-center rounded-2xl border-4 border-gray-900 bg-white p-2 pt-4 shadow-lg">
                 <div className="absolute top-2 h-2 w-8 rounded-full bg-gray-800"></div>
                 <div className="mt-6 flex h-auto w-full items-center justify-center rounded-lg bg-white p-1">
-                  <img src="/qr-code.png" alt="QR Code" className="h-full w-full object-contain" />
+                  <img src="/qr-code.png" alt={t('appCard.qrAlt')} className="h-full w-full object-contain" />
                 </div>
               </div>
             </div>
             <div className="flex-1">
               <div className="flex items-center">
-                <img src="/app-icon.png" alt="App Icon" className="mr-3 h-10 w-10" />
-                <h3 className="text-lg font-bold">Get the EOTCBible mobile app</h3>
+                <img src="/app-icon.png" alt={t('appCard.appIconAlt')} className="mr-3 h-10 w-10" />
+                <h3 className="text-lg font-bold">{t('appCard.mobileTitle')}</h3>
               </div>
-              <p className="mt-2 text-sm">
-                Read the Ethiopian bible, explore plans, and seek God every day.
-              </p>
+              <p className="mt-2 text-sm">{t('appCard.mobileDescription')}</p>
               <div className="mt-4 flex space-x-2">
                 <a href="#" target="_blank" rel="noopener noreferrer">
-                  <img src="/google-play-badge.svg" alt="Get it on Google Play" width="128" />
+                  <img src="/google-play-badge.svg" alt={t('appCard.googlePlayAlt')} width="128" />
                 </a>
                 <a href="#" target="_blank" rel="noopener noreferrer">
-                  <img src="/app-store-badge.png" alt="Download on the App Store" width="128" />
+                  <img src="/app-store-badge.png" alt={t('appCard.appStoreAlt')} width="128" />
                 </a>
               </div>
             </div>

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
+import { useTranslations } from 'next-intl' 
 import { toast } from 'sonner'
 
 type ForgotPasswordForm = {
@@ -14,6 +15,7 @@ export default function ForgotPasswordPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
   const [userEmail, setUserEmail] = useState('')
+  const t = useTranslations('Auth.forgotPassword')
 
   const {
     register,
@@ -24,11 +26,11 @@ export default function ForgotPasswordPage() {
 
   function maskEmail(email: string) {
     const [localPart, domain] = email.split('@')
-    if (!domain || localPart.length < 3) return email // return as-is if invalid or too short
+    if (!domain || localPart.length < 3) return email 
 
     const start = localPart.slice(0, 2)
     const end = localPart.slice(-2)
-    const masked = '*'.repeat(Math.max(localPart.length - 4, 3)) // at least 3 asterisks
+    const masked = '*'.repeat(Math.max(localPart.length - 4, 3)) 
 
     return `${start}${masked}${end}@${domain}`
   }
@@ -72,25 +74,25 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 text-center shadow-lg">
         {!emailSent ? (
           <>
-            <h1 className="text-2xl font-bold">Forgot Password</h1>
+            <h1 className="text-2xl font-bold">{t('title')}</h1>
             <p className="mt-2 text-sm text-gray-700">
-              To reset your password, enter the email address you used to create the account
+              {t('description')}
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-2">
               <label htmlFor="email" className="text-sm font-medium text-gray-700">
-                Email Address
+                {t('fields.emailAddress')}
               </label>
               <Input
                 id="email"
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('placeholders.email')}
                 className="rounded border p-2 focus:ring-2 focus:outline-none"
                 {...register('email', {
-                  required: 'Email is required',
+                  required: t('validation.emailRequired'),
                   pattern: {
                     value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: 'Enter a valid email address',
+                    message: t('validation.invalidEmail'),
                   },
                 })}
               />
@@ -101,40 +103,40 @@ export default function ForgotPasswordPage() {
                 disabled={isSubmitting}
                 className="my-6 cursor-pointer rounded-lg bg-[#621B1C] py-3 text-white hover:bg-[#4d1516] disabled:opacity-70"
               >
-                {isSubmitting ? 'Sending...' : 'Send Email'}
+                {isSubmitting ? t('buttons.sending') : t('buttons.sendEmail')}
               </Button>
             </form>
 
             <p className="mt-4 text-gray-700">
-              Remembered password?{' '}
+              {t('rememberedPassword')}{' '}
               <a href="/login" className="text-[#621B1C] underline">
-                Login
+                {t('buttons.login')}
               </a>
             </p>
           </>
         ) : (
           <>
-            <h1 className="text-2xl font-bold">Email Sent</h1>
+            <h1 className="text-2xl font-bold">{t('emailSent.title')}</h1>
             <p className="mt-2 text-sm text-gray-700">
-              We’ve sent you a password reset link to your email: <br />
+              {t('emailSent.description')}: <br />
               <strong>{maskEmail(userEmail)}</strong>.
               <br />
-              (Be sure to check the spam folder)
+              {t('emailSent.checkSpam')}
             </p>
 
             <p className="mt-10 text-sm font-bold text-gray-700">
-              Didn’t receive the email?{' '}
+              {t('emailSent.didNotReceive')}{' '}
               <button
                 onClick={handleResend}
                 disabled={isSubmitting}
                 className="ml-1 text-[#621B1C] underline disabled:opacity-70"
               >
-                {isSubmitting ? 'Resending...' : 'Resend email'}
+                {isSubmitting ? t('buttons.resending') : t('buttons.resendEmail')}
               </button>
               <br />
-              Wrong email address?{' '}
+              {t('emailSent.wrongEmail')}{' '}
               <button onClick={handleChangeEmail} className="ml-1 text-[#621B1C] underline">
-                Change email
+                {t('buttons.changeEmail')}
               </button>
             </p>
           </>

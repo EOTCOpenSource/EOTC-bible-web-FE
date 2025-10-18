@@ -1,19 +1,20 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import axios from 'axios'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
-import { useUserStore } from '@/lib/stores/useUserStore'
 import { loginFormSchema, type LoginFormSchema } from '@/lib/form-validation'
-
+import { useUserStore } from '@/lib/stores/useUserStore'
+import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
+import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 export default function LoginForm() {
   const router = useRouter()
   const { loadSession } = useUserStore()
   const [loading, setLoading] = useState(false)
-
+  const t = useTranslations('Auth.login');
   const {
     register,
     handleSubmit,
@@ -48,25 +49,23 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="min-w-md space-y-1 p-4">
-      <h2 className="text-2xl font-semibold">Welcome Back!</h2>
+      <h2 className="my-0 py-0 text-2xl font-semibold">{t('title')}</h2>
       <p className="mb-4 text-sm text-gray-600">
-        Don’t have an account yet?{' '}
+        {t('noAccount')}{' '}
         <a className="text-blue-500 underline" href="/register">
-          Signup
+          {t('signup')}
         </a>
       </p>
-
-      {/* Email */}
       <div>
         <label htmlFor="email" className="text-sm text-gray-700">
-          Email
+          {t('fields.email')}
         </label>
         <input
+          className="w-full rounded-lg border p-3"
+          placeholder={t('placeholders.email')}
           id="email"
           type="email"
-          placeholder="Email"
-          className="w-full rounded-lg border p-3"
-          {...register('email')}
+          {...register('email', { required: t('validation.emailRequired') })}
         />
         {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
       </div>
@@ -74,14 +73,14 @@ export default function LoginForm() {
       {/* Password */}
       <div>
         <label htmlFor="password" className="text-sm text-gray-700">
-          Password
+          {t('fields.password')}
         </label>
         <input
-          id="password"
-          type="password"
-          placeholder="Password"
           className="w-full rounded-lg border p-3"
-          {...register('password')}
+          placeholder={t('placeholders.password')}
+          type="password"
+          id="password"
+          {...register('password', { required: t('validation.passwordRequired') })}
         />
         {errors.password && (
           <p className="text-sm text-red-600">{errors.password.message}</p>
@@ -91,18 +90,15 @@ export default function LoginForm() {
       {/* Remember me + Forgot password */}
       <div className="my-3 flex items-center justify-between text-gray-700">
         <div>
-          <input type="checkbox" id="remember" />
-          <label htmlFor="remember" className="ml-1">
-            Remember me
-          </label>
+          <input type="checkbox" name="checkbox" id="checkbox" />
+          <label htmlFor="checkbox"> {t('rememberMe')}</label>
         </div>
-        <button
-          type="button"
-          onClick={() => router.push('/forgot-password')}
+        <Link
+          href="/forgot-password"
           className="text-blue-500 underline"
         >
-          Forgot password?
-        </button>
+          {t('forgotPassword')}
+        </Link>
       </div>
 
       {/* Submit */}
@@ -110,26 +106,26 @@ export default function LoginForm() {
         disabled={loading}
         className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-3 text-white hover:bg-[#471314] disabled:opacity-50"
       >
-        {loading ? 'Signing in...' : 'Sign in'}
+        {loading ? t('loading') : t('submit')}
       </button>
 
       <div className="my-2 flex items-center gap-4">
         <div className="flex-1 border-t border-gray-300"></div>
-        <span className="text-sm text-gray-500">OR</span>
+        <span className="text-sm text-gray-500">{t('or')}</span>
         <div className="flex-1 border-t border-gray-300"></div>
       </div>
 
       {/* Google Login */}
       <button
         disabled={loading}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9c9c9] p-2 text-gray-700 hover:bg-gray-400 disabled:bg-gray-400"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9c9c9] p-1 text-gray-700 hover:bg-gray-400 disabled:bg-gray-400"
       >
         <img
           src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png"
           alt="google logo"
           className="w-[30px]"
         />
-        {loading ? '...' : 'Continue with Google'}
+        {loading ? t('loading') : t('continueWithGoogle')}
       </button>
     </form>
   )
