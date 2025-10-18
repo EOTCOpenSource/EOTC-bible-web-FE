@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { DotIcon, Eye, EyeOff } from 'lucide-react'
 import { useTranslations } from 'next-intl' 
+import { toast } from 'sonner'
 
 type ResetPasswordForm = {
   newPassword: string
@@ -44,7 +45,14 @@ export default function ResetPasswordPage() {
     { label: t('passwordCriteria.minLength'), valid: passwordValue?.length >= 8 },
   ]
 
+  const allCriteriaValid = passwordCriteria.every((c) => c.valid)
+
   const onSubmit = async (data: ResetPasswordForm) => {
+    if (!allCriteriaValid) {
+      setMessage('Password does not meet all requirements.')
+      return
+    }
+
     setIsSubmitting(true)
     setMessage('')
 
@@ -55,13 +63,17 @@ export default function ResetPasswordPage() {
       })
 
       setMessage(res.data.message)
-
+      res.status == 200 && toast.success(res.data.message || 'Password reset successful')
       if (res.data.success) {
         reset()
         setTimeout(() => router.push('/login'), 600)
       }
     } catch (error: any) {
-      setMessage(error?.response?.data?.message || t('errors.somethingWentWrong')) 
+      const msg =
+        error?.response?.data?.error || error?.message || 'Password reset failed'
+      setMessage(msg)
+      toast.error(msg)
+      console.error(error)
     } finally {
       setIsSubmitting(false)
     }
@@ -139,29 +151,19 @@ export default function ResetPasswordPage() {
           <ul className="mb-1 flex flex-wrap items-center text-sm">
             {passwordCriteria.map((c, i) => (
               <li key={i} className={c.valid ? 'text-green-600' : 'text-gray-500'}>
-                {/* {c.valid ? "✔" : "✖"} */}
                 <DotIcon className="-mr-2 inline" /> {c.label}
               </li>
             ))}
           </ul>
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !allCriteriaValid}
             className="rounded bg-[#621B1C] py-2 text-white disabled:opacity-70"
           >
             {isSubmitting ? t('buttons.resetting') : t('buttons.resetPassword')}
           </Button>
         </form>
 
-        {message && (
-          <p
-            className={`mt-4 text-center ${
-              message.toLowerCase().includes('successful') ? 'text-green-600' : 'text-red-600'
-            }`}
-          >
-            {message}
-          </p>
-        )}
       </div>
     </section>
   )

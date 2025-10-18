@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { useTranslations } from 'next-intl' 
+import { toast } from 'sonner'
 
 type ForgotPasswordForm = {
   email: string
@@ -40,9 +41,13 @@ export default function ForgotPasswordPage() {
       const res = await axios.post('/api/auth/forgot-password', { email })
       if (res.data.success) {
         setEmailSent(true)
+        toast.success('Password reset email sent successfully')
         setUserEmail(email)
       }
     } catch (error: any) {
+      const msg =
+        error?.response?.data?.error || error?.message || 'Failed to send password reset email'
+      toast.error(msg)
       console.error(error)
     } finally {
       setIsSubmitting(false)
