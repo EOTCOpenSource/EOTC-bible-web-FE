@@ -202,7 +202,7 @@ export default function RegisterForm() {
           alt="google logo"
           className="w-[30px]"
         />
-        {loading ? '...' : t('google')}
+        {loading ? '...' : t('continueWithGoogle')}
       </button>
     </form>
   )
