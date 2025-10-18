@@ -61,7 +61,7 @@ export default function LoginForm() {
           {t('fields.email')}
         </label>
         <input
-          className="w-full rounded-lg border p-3"
+          className="w-full rounded-lg border p-2"
           placeholder={t('placeholders.email')}
           id="email"
           type="email"
@@ -76,7 +76,7 @@ export default function LoginForm() {
           {t('fields.password')}
         </label>
         <input
-          className="w-full rounded-lg border p-3"
+          className="w-full rounded-lg border p-2"
           placeholder={t('placeholders.password')}
           type="password"
           id="password"
@@ -104,7 +104,7 @@ export default function LoginForm() {
       {/* Submit */}
       <button
         disabled={loading}
-        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-3 text-white hover:bg-[#471314] disabled:opacity-50"
+        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#471314] disabled:opacity-50"
       >
         {loading ? t('loading') : t('submit')}
       </button>
