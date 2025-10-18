@@ -5,9 +5,11 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Abyssinica_SIL } from 'next/font/google'
 import Script from 'next/script'
 import { ReactNode } from 'react'
-
 import './globals.css'
+import { ThemeProvider } from '@/components/theme-provider'
+import Navbar from '@/components/landing/Navbar'
 import { supportedLocales } from '@/i18n/routing'
+
 
 const abyssinicaFont = Abyssinica_SIL({
   subsets: ['ethiopic'],
@@ -26,6 +28,18 @@ export function generateStaticParams() {
 export async function generateMetadata(props: Omit<Props, 'children'>) {
   const locale = await getLocaleFromCookie()
 
+
+export const metadata: Metadata = {
+  title: 'EOTCBible',
+  description: 'Read and study the Ethiopian Holy Bible online',
+  icons: {
+    icon: [
+      { url: '/logo.png', type: 'image/png' },
+    ],
+    shortcut: ['/logo.png'],
+    apple: [{ url: '/logo.png', type: 'image/png' }],
+  },
+=======
   // Specify the namespace for translations
   const t = await getTranslations('Index')
 
@@ -56,6 +70,7 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
       images: ['/logo.png'],
     },
   }
+
 }
 
 const SUPPORTED_LOCALES = ['en', 'am', 'gez', 'tg', 'or'] as const
@@ -82,6 +97,18 @@ export default async function LocaleLayout({ children }: Props) {
   }
 
   return (
+
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
+      >
+        <ThemeProvider>
+          <Navbar className="top-2 sm:top-4 sm:ml-23 sm:px-4 max-w-full sm:max-w-6xl" />
+          <main className="pt-16 sm:pt-20">
+            {children}
+          </main>
+        </ThemeProvider>
+
     <html lang={resolvedLocale}>
       <body
         className={cn('bg-background min-h-screen font-sans antialiased', abyssinicaFont.variable)}
@@ -114,6 +141,7 @@ export default async function LocaleLayout({ children }: Props) {
             2,
           )}
         </Script>
+n
       </body>
     </html>
   )
