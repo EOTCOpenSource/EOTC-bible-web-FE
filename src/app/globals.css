@@ -123,13 +123,17 @@
 }
 
 .custom-scroll::-webkit-scrollbar {
-  width: 4px;
-  height: 10px;
+  width: 2px;
+  height: 4px;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  background: #9a978f;
+  background: transparent;
   border-radius: 9999px;
+}
+
+.custom-scroll.scrolling::-webkit-scrollbar-thumb {
+  background: #9a978f;
 }
 
 .custom-scroll::-webkit-scrollbar-button {
