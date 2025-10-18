@@ -5,15 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import React from "react";
 
-interface VerseActionsMenuProps {
+interface VerseActionMenuProps {
   verseNumber: number | string;
   verseText: string;
 }
 
-export const VerseActionsMenu = ({
+export const VerseActionMenu = ({
   verseNumber: _verseNumber,
   verseText: _verseText,
-}: VerseActionsMenuProps) => {
+}: VerseActionMenuProps) => {
   return (
     <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[2.5rem] opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto z-50">
       <div className="inline-flex items-center gap-1 bg-background border border-border rounded-md shadow-lg p-1 whitespace-nowrap">

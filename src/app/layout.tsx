@@ -2,10 +2,8 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Toaster } from '@/components/ui/toaster'
 import Navbar from '@/components/landing/Navbar'
-import DownloadApp from '@/components/landing/DownloadApp'
-import Footer from '@/components/landing/Footer'
+
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -40,13 +38,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
         <ThemeProvider>
-          <Navbar />
-          <main className="pt-20">
+          <Navbar className="top-2 sm:top-4 sm:ml-23 sm:px-4 max-w-full sm:max-w-6xl" />
+          <main className="pt-16 sm:pt-20">
             {children}
           </main>
-          <DownloadApp />
-          <Footer/>
-          <Toaster />
         </ThemeProvider>
       </body>
     </html>

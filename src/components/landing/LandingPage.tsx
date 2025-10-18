@@ -4,6 +4,8 @@ import VerseOfTheDay from './VerseOfTheDay'
 import About from './About'
 import KeyFeatures from './KeyFeatures'
 import DiscoverPlans from './DiscoverPlans'
+import DownloadApp from './DownloadApp'
+import Footer from './Footer'
 
 const LandingPage = () => {
   return (
@@ -13,6 +15,8 @@ const LandingPage = () => {
       <About />
       <KeyFeatures />
       <DiscoverPlans />
+      <DownloadApp />
+      <Footer/>  
     </>
   )
 }

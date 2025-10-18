@@ -4,12 +4,16 @@ import { Search, Moon, Globe, User, Menu, X, ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import { useUIStore } from '@/stores/uiStore'
 
-const Navbar = () => {
+interface NavbarProps {
+  className?: string;
+}
+
+const Navbar = ({ className }: NavbarProps) => {
   const { isNavMenuOpen, isNavSearchOpen, toggleNavMenu, toggleNavSearch, closeNavSearch } =
     useUIStore()
 
   return (
-    <div className="fixed top-4 left-1/2 z-10 w-full max-w-6xl -translate-x-1/2 px-4">
+    <div className={`fixed top-4 left-1/2 z-10 w-full max-w-6xl -translate-x-1/2 px-4 ${className}`}>
       <div className="h-14 rounded-md bg-white px-4 py-2 shadow-lg backdrop-blur-sm md:px-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
@@ -17,7 +21,7 @@ const Navbar = () => {
               <img src="/logo.png" alt="EOTCBible Logo" className="h-8 w-8" />
               <span className="text-xl font-bold">EOTCBible</span>
             </div>
-            <div className="hidden items-center space-x-8 md:flex">
+            <div className="hidden md:flex items-center space-x-8">
               <Link href="/read-online">Bible</Link>
               <Link href="#" className="text-black hover:text-gray-900">
                 Plans
@@ -92,7 +96,7 @@ const Navbar = () => {
       )}
       {isNavMenuOpen && (
         <div className="mt-2 space-y-4 rounded-md bg-white p-4 md:hidden">
-          <a href="/read-online" className="block text-black hover:text-gray-900">
+          <a href="#" className="block text-black hover:text-gray-900">
             Bible
           </a>
           <a href="#" className="block text-black hover:text-gray-900">
