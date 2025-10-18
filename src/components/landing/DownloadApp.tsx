@@ -1,6 +1,10 @@
+'use client'
 import React from 'react'
+import { useTranslations } from 'next-intl'
 
 const DownloadApp = () => {
+  const t = useTranslations('DownloadApp')
+
   return (
     <section className="relative overflow-hidden bg-gray-50 py-20">
       <div
@@ -16,32 +20,34 @@ const DownloadApp = () => {
             >
               <div className="h-auto w-full md:mt-[46px] md:ml-[32px] md:h-[158px] md:w-[455px] md:text-left">
                 <h2 className="text-2xl font-bold text-white md:text-3xl">
-                  Download the EOTCBible App Now!
+                  {t('title')}
                 </h2>
                 <p className="mt-4 text-sm text-white md:text-base">
-                  Explore your spiritual journey and engage with scriptures. Discover insights that
-                  resonate with your faith and connect deeply with teachings that have shaped
-                  beliefs.
+                  {t('description')}
                 </p>
                 <div className="mt-8 flex justify-center space-x-4 md:justify-start">
                   <a href="#" target="_blank" rel="noopener noreferrer">
                     <img
                       src="/google-play-badge.svg"
-                      alt="Get it on Google Play"
+                      alt={t('googlePlayAlt')}
                       className="w-32 md:w-32"
                     />
                   </a>
                   <a href="#" target="_blank" rel="noopener noreferrer">
                     <img
                       src="/app-store-badge.png"
-                      alt="Download on the App Store"
+                      alt={t('appStoreAlt')}
                       className="w-32 md:w-32"
                     />
                   </a>
                 </div>
               </div>
               <div className="mt-8 md:absolute md:-top-12 md:right-0 md:mt-0 md:pb-0">
-                <img src="/mobile-hand.png" alt="Mobile in hand" className="h-[386px] w-[292px]" />
+                <img
+                  src="/mobile-hand.png"
+                  alt={t('mobileAlt')}
+                  className="h-[386px] w-[292px]"
+                />
               </div>
             </div>
           </div>

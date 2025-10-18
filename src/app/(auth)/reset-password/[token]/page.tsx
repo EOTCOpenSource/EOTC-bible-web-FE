@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useState } from 'react'
 import { DotIcon, Eye, EyeOff } from 'lucide-react'
+import { useTranslations } from 'next-intl' 
+import { toast } from 'sonner'
 
 type ResetPasswordForm = {
   newPassword: string
@@ -19,6 +21,7 @@ export default function ResetPasswordPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
+  const t = useTranslations('Auth.resetPassword') 
   const {
     register,
     handleSubmit,
@@ -31,18 +34,25 @@ export default function ResetPasswordPage() {
 
   const passwordCriteria = [
     {
-      label: 'At least 1 Uppercase letter',
+      label: t('passwordCriteria.uppercase'),
       valid: /[A-Z]/.test(passwordValue || ''),
     },
-    { label: 'At least 1 Number', valid: /\d/.test(passwordValue || '') },
+    { label: t('passwordCriteria.number'), valid: /\d/.test(passwordValue || '') },
     {
-      label: 'At least 1 special character',
+      label: t('passwordCriteria.special'),
       valid: /[!@#$%^&*]/.test(passwordValue || ''),
     },
-    { label: 'Minimum 8 characters', valid: passwordValue?.length >= 8 },
+    { label: t('passwordCriteria.minLength'), valid: passwordValue?.length >= 8 },
   ]
 
+  const allCriteriaValid = passwordCriteria.every((c) => c.valid)
+
   const onSubmit = async (data: ResetPasswordForm) => {
+    if (!allCriteriaValid) {
+      setMessage('Password does not meet all requirements.')
+      return
+    }
+
     setIsSubmitting(true)
     setMessage('')
 
@@ -53,13 +63,17 @@ export default function ResetPasswordPage() {
       })
 
       setMessage(res.data.message)
-
+      res.status == 200 && toast.success(res.data.message || 'Password reset successful')
       if (res.data.success) {
         reset()
         setTimeout(() => router.push('/login'), 600)
       }
     } catch (error: any) {
-      setMessage(error?.response?.data?.message || 'Something went wrong, try again.')
+      const msg =
+        error?.response?.data?.error || error?.message || 'Password reset failed'
+      setMessage(msg)
+      toast.error(msg)
+      console.error(error)
     } finally {
       setIsSubmitting(false)
     }
@@ -68,16 +82,16 @@ export default function ResetPasswordPage() {
   return (
     <section className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 shadow-lg">
-        <h1 className="text-center text-2xl font-bold">Create a new password</h1>
+        <h1 className="text-center text-2xl font-bold">{t('title')}</h1>
         <p className="text-center text-sm text-gray-700">
-          Please enter a new password for your EOTCBible account.
+          {t('description')}
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4">
           {/* 🔹 New Password */}
           <div className="flex flex-col">
             <label htmlFor="newPassword" className="m-0 p-0 text-sm text-gray-700">
-              New password
+              {t('fields.newPassword')}
             </label>
             <div className="relative">
               <Input
@@ -85,10 +99,10 @@ export default function ResetPasswordPage() {
                 id="newPassword"
                 className="rounded border border-gray-500 p-2"
                 {...register('newPassword', {
-                  required: 'New password is required',
+                  required: t('validation.newPasswordRequired'),
                   minLength: {
                     value: 6,
-                    message: 'Password must be at least 6 characters',
+                    message: t('validation.passwordMinLength', { count: 6 }),
                   },
                 })}
               />
@@ -108,7 +122,7 @@ export default function ResetPasswordPage() {
           {/* 🔹 Confirm Password */}
           <div className="flex flex-col">
             <label htmlFor="confirmPassword" className="m-0 p-0 text-sm text-gray-700">
-              Confirm password
+              {t('fields.confirmPassword')}
             </label>
 
             <div className="relative">
@@ -117,8 +131,8 @@ export default function ResetPasswordPage() {
                 id="confirmPassword"
                 className="rounded border p-2"
                 {...register('confirmPassword', {
-                  required: 'Confirm password is required',
-                  validate: (val) => val === watch('newPassword') || 'Passwords do not match',
+                  required: t('validation.confirmPasswordRequired'),
+                  validate: (val) => val === watch('newPassword') || t('validation.passwordMismatch'),
                 })}
               />
               <button
@@ -137,29 +151,19 @@ export default function ResetPasswordPage() {
           <ul className="mb-1 flex flex-wrap items-center text-sm">
             {passwordCriteria.map((c, i) => (
               <li key={i} className={c.valid ? 'text-green-600' : 'text-gray-500'}>
-                {/* {c.valid ? "✔" : "✖"} */}
                 <DotIcon className="-mr-2 inline" /> {c.label}
               </li>
             ))}
           </ul>
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !allCriteriaValid}
             className="rounded bg-[#621B1C] py-2 text-white disabled:opacity-70"
           >
-            {isSubmitting ? 'Resetting...' : 'Reset Password'}
+            {isSubmitting ? t('buttons.resetting') : t('buttons.resetPassword')}
           </Button>
         </form>
 
-        {message && (
-          <p
-            className={`mt-4 text-center ${
-              message.toLowerCase().includes('successful') ? 'text-green-600' : 'text-red-600'
-            }`}
-          >
-            {message}
-          </p>
-        )}
       </div>
     </section>
   )

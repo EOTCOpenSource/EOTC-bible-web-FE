@@ -1,15 +1,18 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '@/lib/stores/useUserStore'
 import { useForm, Controller } from 'react-hook-form'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import { useAuthStore } from '@/stores/authStore'
+import { toast } from 'sonner'
 
 type OtpFormData = { otp: string }
 
 export default function OtpForm() {
+  const t = useTranslations('Auth.verify')
   const router = useRouter()
   const { loadSession } = useUserStore()
 
@@ -44,6 +47,11 @@ export default function OtpForm() {
     }
   }, [otpStatus, loadSession, router])
 
+   useEffect(() => {
+      if (success) toast.success(success)
+      if (error) toast.error(error)
+    }, [success, error])
+  
   const onSubmit = async (data: OtpFormData) => {
     await verifyOtp(clientEmail, data.otp)
   }
@@ -70,11 +78,10 @@ export default function OtpForm() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-between gap-[10px] text-center">
       <div className="flex flex-col gap-[10px]">
-        <h2 className="text-3xl font-semibold text-[#1F2937]">Verify your email</h2>
+        <h2 className="text-3xl font-semibold text-[#1F2937]">{t('title')}</h2>
         <p className="text-md h-[65px] w-[330px] font-normal">
-          We&apos;ve sent a verification code to your email:{' '}
-          <span className="font-bold">{clientEmail ? maskEmail(clientEmail) : ''}</span>. Be sure to
-          check spam folder, and input the code down below.
+          {t('subtitle')}{' '}
+          <span className="font-bold">{clientEmail ? maskEmail(clientEmail) : ''}</span>
         </p>
       </div>
 
@@ -101,10 +108,7 @@ export default function OtpForm() {
             </InputOTP>
           )}
         />
-
-        {error && <p className="text-center text-sm text-red-600">{error}</p>}
-        {success && <p className="text-center text-sm text-green-600">{success}</p>}
-
+        
         <button
           type="submit"
           disabled={otpStatus === 'pending' || otpValue.length !== 6}
@@ -114,25 +118,24 @@ export default function OtpForm() {
               : 'cursor-pointer bg-[#7B1D1D] hover:bg-[#5f1515]'
           }`}
         >
-          {otpStatus === 'pending' ? 'Verifying...' : 'Verify Code'}
+          {otpStatus === 'pending' ? t('loading') : t('buttons.verify')}
         </button>
       </form>
 
       <div className="flex items-center justify-center gap-1 pt-3 text-center">
         {otpCountdown > 0 ? (
           <p className="text-[14px] text-[#4B5563]">
-            Resend available in{' '}
-            <span className="font-semibold text-[#7B1D1D]">{otpCountdown}s</span>
+            {t('resendCountdown', { seconds: otpCountdown })}
           </p>
         ) : (
           <>
-            <p className="text-[14px] text-[#4B5563]">Didn&apos;t receive the code?</p>
+            <p className="text-[14px] text-[#4B5563]">{t('didNotReceive')}</p>
             <button
               type="button"
               onClick={handleResendOtp}
               className="cursor-pointer text-sm font-medium text-[#7B1D1D] hover:underline"
             >
-              Resend OTP
+              {t('buttons.resend')}
             </button>
           </>
         )}

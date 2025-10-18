@@ -10,6 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+
 } from "@/components/ui/sidebar";
 import { books, type bookType } from "@/data/data";
 import { useRouter } from 'next/navigation';
@@ -19,6 +20,27 @@ export function AppSidebar() {
   const router = useRouter();
   const { current, setCurrent } = useBibleStore();
   const [selectedTestament, setSelectedTestament] = useState<"old" | "new">("old");
+=======
+} from '@/components/ui/sidebar'
+import { books, type bookType } from '@/data/data'
+import { useRouter } from 'next/navigation'
+import { useBibleStore } from '@/stores/bibleStore'
+import { useState, useEffect } from 'react'
+
+export function AppSidebar() {
+  const router = useRouter()
+  const { current, setCurrent, selectedTestament, setSelectedTestament } = useBibleStore()
+  const [isScrolling, setIsScrolling] = useState(false)
+  let scrollTimeout: NodeJS.Timeout
+
+  const handleScroll = () => {
+    setIsScrolling(true)
+    clearTimeout(scrollTimeout)
+    scrollTimeout = setTimeout(() => {
+      setIsScrolling(false)
+    }, 1000)
+  }
+
 
   const handleBookClick = (book: bookType) => {
     const newRef = { book: book.book_name_en, chapter: 1, verse: 1 };
@@ -104,7 +126,12 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col overflow-hidden bg-[#FFFDF8]">
         <SidebarGroup className="overflow-hidden p-2">
           <SidebarGroupContent className="grid h-full grid-cols-8">
-            <div className="custom-scroll col-span-6 h-full overflow-y-auto pr-2">
+            <div
+              className={`custom-scroll col-span-6 h-full overflow-y-auto pr-2 ${
+                isScrolling ? 'scrolling' : ''
+              }`}
+              onScroll={handleScroll}
+            >
               <SidebarMenu>
                 {filteredBooks.map((book) => (
                   <SidebarMenuItem key={book.book_number}>
@@ -122,7 +149,16 @@ export function AppSidebar() {
                 ))}
               </SidebarMenu>
             </div>
+
             <div className="custom-scroll col-span-2 h-full overflow-hidden overflow-y-auto">
+
+            <div
+              className={`custom-scroll col-span-2 h-full overflow-y-auto ${
+                isScrolling ? 'scrolling' : ''
+              }`}
+              onScroll={handleScroll}
+            >
+
               <SidebarMenu>
                 {currentBook &&
                   Array.from({ length: currentBook.chapters }, (_, i) => {

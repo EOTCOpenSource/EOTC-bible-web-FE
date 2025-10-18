@@ -1,3 +1,8 @@
-export default function page() {
-  return <p>this is bookmarks page</p>
+import { getTranslations } from "next-intl/server"
+
+
+export default async function BookmarksPage() {
+  const t =await getTranslations('Bookmarks')
+  
+  return <p>{t('title')}</p>
 }
