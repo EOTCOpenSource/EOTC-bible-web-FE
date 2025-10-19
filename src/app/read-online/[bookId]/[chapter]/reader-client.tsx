@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
-import { VerseActionMenu } from '@/components/reader/VerseActionMenu' // <-- imported here
+import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
 
 interface ReaderClientProps {
   bookData: any
@@ -39,9 +39,9 @@ export default function ReaderClient({
       ) : (
         <div
           className={clsx(
-            'mx-auto px-2 py-4 sm:px-4 sm:py-6 md:py-8',
-            isSidebarOpen ? 'md:ml-[316px]' : 'md:ml-4',
-            'max-w-4xl',
+            'fixed top-1/2 z-10 -translate-y-1/2 cursor-not-allowed rounded-md bg-gray-200 p-2 opacity-50 dark:bg-gray-800',
+            'left-4',
+            isSidebarOpen ? 'md:left-[316px]' : 'md:left-4',
           )}
         >
           <ChevronLeft className="h-6 w-6" />

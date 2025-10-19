@@ -11,14 +11,17 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   const { isReadOnlineSidebarOpen, toggleReadOnlineSidebar } = useUIStore()
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex h-full flex-col">
       <Navbar />
       <div className="flex flex-1 overflow-hidden pt-20">
         <SidebarProvider onOpenChange={toggleReadOnlineSidebar} open={isReadOnlineSidebarOpen}>
           <AppSidebar />
-          <div className={clsx('relative flex-1 bg-[#FFFDF8] overflow-y-auto')}>
+          <div className={clsx('relative flex-1 overflow-y-auto bg-[#FFFDF8]')}>
             <SidebarTrigger
-              className={clsx('fixed top-24 left-4 z-20', isReadOnlineSidebarOpen && 'md:left-[316px]')}
+              className={clsx(
+                'fixed top-24 left-4 z-20',
+                isReadOnlineSidebarOpen && 'md:left-[316px]',
+              )}
             />
             <main
               className={clsx(
