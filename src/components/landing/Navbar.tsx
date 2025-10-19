@@ -40,10 +40,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Left Section */}
           <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2">
               <img src="/logo.png" alt="EOTCBible Logo" className="h-8 w-8" />
               <span className="text-xl font-bold">{t('siteName')}</span>
-            </div>
+            </Link>
             <div className="hidden items-center space-x-8 md:flex">
               <Link href="/read-online" className="text-black hover:text-gray-900">
                 {t('bible')}
