@@ -373,7 +373,7 @@
     "pagination": {
       "previousPage": "ዝሓለፈ ገጽ",
       "nextPage": "ዝቕጽል ገጽ",
-      "goToPage": "ናብ ገጽ {{pageNumber}} ኪድ"
+      "goToPage": "ናብ ገጽ {pageNumber} ኪድ"
     },
     "fallbackPlans": [
       {

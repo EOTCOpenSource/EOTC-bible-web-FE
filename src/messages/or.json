@@ -373,7 +373,7 @@
     "pagination": {
       "previousPage": "Fuula durii",
       "nextPage": "Fuula itti aanu",
-      "goToPage": "Fuula {{pageNumber}} geessii"
+      "goToPage": "Fuula {pageNumber} geessii"
     },
     "fallbackPlans": [
       {

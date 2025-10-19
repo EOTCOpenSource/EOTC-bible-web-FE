@@ -373,7 +373,7 @@
     "pagination": {
       "previousPage": "Previous page",
       "nextPage": "Next page",
-      "goToPage": "Go to page {{pageNumber}}"
+      "goToPage": "Go to page {pageNumber}"
     },
     "fallbackPlans": [
       {
