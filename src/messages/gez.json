@@ -96,6 +96,7 @@
     "verifyOtp": "OTP አረጋግጥ",
     "resendCode": "ኮድ ደጊም ልክ",
     "backToLogin": "ወደ ግበ ተመለስ",
+    "back": "ተመለስ",
     "register": {
       "title": "መመዝገቢያ ፍጥር",
       "haveAccount": "መለያ አለኒ?",
