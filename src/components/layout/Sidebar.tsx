@@ -51,7 +51,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className="flex h-screen w-[300px] flex-col overflow-hidden"
+      className="flex h-full w-[300px] flex-col overflow-hidden"
       style={
         {
           '--sidebar-width-collapsed': '0px',
