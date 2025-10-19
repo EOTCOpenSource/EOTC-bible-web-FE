@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
+import { VerseActionMenu } from '@/components/reader/VerseActionMenu' // <-- imported here
 
 interface ReaderClientProps {
   bookData: any
@@ -29,8 +30,8 @@ export default function ReaderClient({
           href={`/read-online/${bookId}/${prevChapter}`}
           className={clsx(
             'fixed top-1/2 z-10 -translate-y-1/2 rounded-md bg-gray-200 p-2 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700',
-            'left-4', // Mobile specific
-            isSidebarOpen ? 'md:left-[316px]' : 'md:left-4', // Desktop specific
+            'left-4',
+            isSidebarOpen ? 'md:left-[316px]' : 'md:left-4',
           )}
         >
           <ChevronLeft className="h-6 w-6" />
@@ -38,9 +39,9 @@ export default function ReaderClient({
       ) : (
         <div
           className={clsx(
-            'fixed top-1/2 z-10 -translate-y-1/2 cursor-not-allowed rounded-md bg-gray-200 p-2 opacity-50 dark:bg-gray-800',
-            'left-4', // Default for mobile
-            isSidebarOpen ? 'md:left-[316px]' : 'md:left-4', // Desktop specific
+            'mx-auto px-2 py-4 sm:px-4 sm:py-6 md:py-8',
+            isSidebarOpen ? 'md:ml-[316px]' : 'md:ml-4',
+            'max-w-4xl',
           )}
         >
           <ChevronLeft className="h-6 w-6" />
@@ -62,9 +63,10 @@ export default function ReaderClient({
               )}
               <div className="text-justify text-base sm:text-lg">
                 {section.verses.map((verse: any) => (
-                  <span key={verse.verse}>
+                  <span key={verse.verse} className="group relative inline">
                     <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verse.verse}</sup>
                     <span>{verse.text} </span>
+                    <VerseActionMenu verseNumber={verse.verse} verseText={verse.text} />
                   </span>
                 ))}
               </div>
@@ -78,8 +80,8 @@ export default function ReaderClient({
           href={`/read-online/${bookId}/${nextChapter}`}
           className={clsx(
             'fixed top-1/2 z-10 -translate-y-1/2 rounded-md bg-gray-200 p-2 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700',
-            'right-4', // Mobile specific
-            'md:right-4', // Desktop specific
+            'right-4',
+            'md:right-4',
           )}
         >
           <ChevronRight className="h-6 w-6" />
@@ -88,8 +90,8 @@ export default function ReaderClient({
         <div
           className={clsx(
             'fixed top-1/2 z-10 -translate-y-1/2 cursor-not-allowed rounded-md bg-gray-200 p-2 opacity-50 dark:bg-gray-800',
-            'right-4', // Mobile specific
-            'md:right-4', // Desktop specific
+            'right-4',
+            'md:right-4',
           )}
         >
           <ChevronRight className="h-6 w-6" />
