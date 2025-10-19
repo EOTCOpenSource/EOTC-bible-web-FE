@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { Globe, Check } from 'lucide-react'
@@ -18,6 +18,22 @@ export function LanguageSelector() {
   const currentLocale = useLocale()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isChanging, setIsChanging] = useState(false)
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            setIsDropdownOpen(false);
+        }
+    };
+
+    if (isDropdownOpen) {
+        document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isDropdownOpen]);
 
   const handleLanguageChange = async (newLocale: string) => {
     if (newLocale === currentLocale) return
