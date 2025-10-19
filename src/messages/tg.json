@@ -451,5 +451,20 @@
       "theme": "ጭብጥ",
       "fontSize": "ዓቐን ፊደል"
     }
+  },
+  "GlobalError": {
+    "title": "ጌጋ ተፈጢሩ።",
+    "description": "ዝተዛረበ ገፅ ኣይክእልናን ንክእትወስደይ። እባክኻ እንደገና ፈትን ወይ ድጋፍ ኣነጋግር።",
+    "tryAgain": "እንደገና ፈትን",
+    "copyError": "ጌጋ ኮፒ ግበር",
+    "copied": "ተኮፍዩ!"
+  },
+  "GlobalLoading": {
+    "text": "በመጫን ላይ፣ በትኽክል ተጠቕም..."
+  },
+  "GlobalNotFound": {
+    "title": "ገፅ ኣይተረኸበን።",
+    "description": "ዝተዛረበ ገፅ ኣይተረኸበን ወይ ተንቀሳቅሶ እዩ።",
+    "goHome": "ናብ መነሻ ደሊ"
   }
 }

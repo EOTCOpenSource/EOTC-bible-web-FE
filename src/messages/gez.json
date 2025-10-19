@@ -451,5 +451,21 @@
       "theme": "ጭብጥ",
       "fontSize": "ዓቐን ፊደል"
     }
+  },
+  "GlobalError": {
+    "title": "ግድአ እንተ ሆነ",
+    "description": "ይእቲ ገፅ ሊተንተን አይቻልን። እባክከ እንደ ገና አድርግ ወይ ንደገና አዝራረብ።",
+    "tryAgain": "እንደ ገና ፈትነ",
+    "copyError": "ግድአ ጻፍ",
+    "copied": "ተጻፍአ!"
+  },
+  "GlobalLoading": {
+    "text": "በማስገባት እዩ፣ ተጠብቅ..."
+  },
+  "GlobalNotFound": {
+    "title": "ገፅ አልተረከበም",
+    "description": "ይእቲ ገፅ አልተረከበም ወይ ተንቀሳቅሶ እዩ።",
+    "goHome": "ወደ መነሻ"
   }
+
 }

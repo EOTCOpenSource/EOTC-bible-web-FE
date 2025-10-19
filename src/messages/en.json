@@ -451,5 +451,21 @@
       "theme": "Theme",
       "fontSize": "Font Size"
     }
+  },
+  "GlobalError": {
+    "title": "Something went wrong",
+    "description": "We couldn’t load this page. Please try again or contact support if the issue persists.",
+    "tryAgain": "Try Again",
+    "copyError": "Copy Error",
+    "copied": "Copied!"
+  },
+  "GlobalLoading": {
+    "text": "Loading, please wait..."
+  },
+  "GlobalNotFound": {
+    "title": "Page Not Found",
+    "description": "Oops! The page you’re looking for doesn’t exist or may have been moved.",
+    "goHome": "Go Home"
   }
+
 }
