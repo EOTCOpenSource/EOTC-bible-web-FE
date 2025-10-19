@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import {
   Sidebar,
   SidebarContent,
@@ -13,7 +14,6 @@ import {
 import { books, type bookType } from '@/data/data'
 import { useRouter } from 'next/navigation'
 import { useBibleStore } from '@/stores/bibleStore'
-import { useState, useEffect } from 'react'
 
 export function AppSidebar() {
   const router = useRouter()
@@ -65,7 +65,7 @@ export function AppSidebar() {
           <SidebarGroupContent className="grid w-full grid-cols-[1.1fr_1.15fr_.64fr]">
             <SidebarMenuItem className="m-0 w-full p-0">
               <SidebarMenuButton
-                className={`w-max rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${
+                className={`w-max cursor-pointer rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${
                   selectedTestament === 'old'
                     ? 'bg-[#392D2D] text-[#FFFDF8]'
                     : 'bg-[#FFFDF8] text-[#1A1A19]'
@@ -83,7 +83,7 @@ export function AppSidebar() {
             </SidebarMenuItem>
             <SidebarMenuItem className="m-0 w-full p-0">
               <SidebarMenuButton
-                className={`w-max rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${
+                className={`w-max cursor-pointer rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${
                   selectedTestament === 'new'
                     ? 'bg-[#392D2D] text-[#FFFDF8]'
                     : 'border border-[#C8C8C8] bg-[#FFFDF8] text-[#1A1A19]'
@@ -120,46 +120,49 @@ export function AppSidebar() {
                   <SidebarMenuItem key={book.book_number}>
                     <SidebarMenuButton
                       className={`rounded-none p-4 py-5 text-base ${
-                        current.book === book.book_name_en
+                        current.book === book.book_name_am
                           ? 'bg-[#F2EFE8] text-[#1A1A19]'
                           : 'bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]'
                       }`}
                       onClick={() => handleBookClick(book)}
                     >
-                      {book.book_name_en}
+                      {book.book_name_am}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
             </div>
-            <div
-              className={`custom-scroll col-span-2 h-full overflow-y-auto ${
-                isScrolling ? 'scrolling' : ''
-              }`}
-              onScroll={handleScroll}
-            >
-              <SidebarMenu>
-                {currentBook &&
-                  Array.from({ length: currentBook.chapters }, (_, i) => {
-                    const chapter = i + 1
-                    const isSelected = current.chapter === chapter
 
-                    return (
-                      <SidebarMenuItem key={chapter} className="mx-1 w-full">
-                        <SidebarMenuButton
-                          className={`rounded-none p-4 py-5 text-base ${
-                            isSelected
-                              ? 'bg-[#F2EFE8] text-[#1A1A19]'
-                              : 'bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]'
-                          }`}
-                          onClick={() => handleChapterClick(chapter)}
-                        >
-                          {chapter}
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    )
-                  })}
-              </SidebarMenu>
+            <div className="custom-scroll col-span-2 h-full overflow-hidden overflow-y-auto">
+              <div
+                className={`custom-scroll col-span-2 h-full overflow-y-auto ${
+                  isScrolling ? 'scrolling' : ''
+                }`}
+                onScroll={handleScroll}
+              >
+                <SidebarMenu>
+                  {currentBook &&
+                    Array.from({ length: currentBook.chapters }, (_, i) => {
+                      const chapter = i + 1
+                      const isSelected = current.chapter === chapter
+
+                      return (
+                        <SidebarMenuItem key={chapter} className="mx-1 w-full">
+                          <SidebarMenuButton
+                            className={`rounded-none p-4 py-5 text-base ${
+                              isSelected
+                                ? 'bg-[#F2EFE8] text-[#1A1A19]'
+                                : 'bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]'
+                            }`}
+                            onClick={() => handleChapterClick(chapter)}
+                          >
+                            {chapter}
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      )
+                    })}
+                </SidebarMenu>
+              </div>
             </div>
           </SidebarGroupContent>
         </SidebarGroup>
