@@ -135,7 +135,7 @@
       "register": "Register",
       "loading": "Registering...",
       "or": "OR",
-      "google": "Continue with Google"
+      "continueWithGoogle": "Continue with Google"
     },
     "login": {
       "title": "Sign In",
