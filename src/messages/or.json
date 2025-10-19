@@ -450,5 +450,20 @@
       "theme": "Malli",
       "fontSize": "Guddina Qormaata"
     }
+  },
+  "GlobalError": {
+    "title": "Dogoggorri uumameera",
+    "description": "Fuula kana fe’uu hin dandeenye. Mee irra deebi'ii yaali yookaan tajaajiltoota quunnami.",
+    "tryAgain": "Irra deebi'i yaali",
+    "copyError": "Dogoggora garagalchi",
+    "copied": "Garagalfame!"
+  },
+  "GlobalLoading": {
+    "text": "Deemaa jira... Mee obsii..."
+  },
+  "GlobalNotFound": {
+    "title": "Fuulli hin argamne",
+    "description": "Fuula barbaadde hin jiru yookaan gara biraatti socho'ee jira.",
+    "goHome": "Gara mana fuulaatti deebi'i"
   }
 }
