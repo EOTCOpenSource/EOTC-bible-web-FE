@@ -96,6 +96,7 @@
     "verifyOtp": "OTP Sirreessi",
     "resendCode": "Lakk. deebisi",
     "backToLogin": "Deebi'i Gara Seensaa",
+    "back": "Deebi'i",
     "register": {
       "title": "Akaawuntii Haaraa Uumi",
       "haveAccount": "Akaawuntii qabda?",

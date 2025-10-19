@@ -96,6 +96,7 @@
     "verifyOtp": "Verify OTP",
     "resendCode": "Resend Code",
     "backToLogin": "Back to Login",
+    "back": "Back",
     "register": {
       "title": "Create an Account",
       "haveAccount": "Already have an account?",

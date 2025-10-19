@@ -96,6 +96,7 @@
     "verifyOtp": "OTP ያረጋግጡ",
     "resendCode": "ኮድ እንደገና ይላኩ",
     "backToLogin": "ወደ መግቢያ ተመለስ",
+    "back": "ተመለስ",
     "register": {
       "title": "መመዝገቢያ ፍጠሩ",
       "haveAccount": "መለያ አለዎት?",
