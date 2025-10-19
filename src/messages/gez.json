@@ -135,7 +135,7 @@
       "register": "መመዝገብ",
       "loading": "በመመዝገብ ላይ…",
       "or": "ወይም",
-      "google": "ከ Google ጋር ግና"
+      "continueWithGoogle": "ከ Google ጋር ግና"
     },
     "login": {
       "title": "ግባ",
@@ -373,7 +373,7 @@
     "pagination": {
       "previousPage": "ዝሓለፈ ገጽ",
       "nextPage": "ዝቕጽል ገጽ",
-      "goToPage": "ናብ ገጽ {{pageNumber}} ኪድ"
+      "goToPage": "ናብ ገጽ {pageNumber} ኪድ"
     },
     "fallbackPlans": [
       {

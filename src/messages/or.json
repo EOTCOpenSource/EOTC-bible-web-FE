@@ -135,7 +135,7 @@
       "register": "Galmaa’i",
       "loading": "Galmee…",
       "or": "YKN",
-      "google": "Waliin Google itti fufi"
+      "continueWithGoogle": "Waliin Google itti fufi"
     },
     "login": {
       "title": "Seeni",
@@ -373,7 +373,7 @@
     "pagination": {
       "previousPage": "Fuula durii",
       "nextPage": "Fuula itti aanu",
-      "goToPage": "Fuula {{pageNumber}} geessii"
+      "goToPage": "Fuula {pageNumber} geessii"
     },
     "fallbackPlans": [
       {
