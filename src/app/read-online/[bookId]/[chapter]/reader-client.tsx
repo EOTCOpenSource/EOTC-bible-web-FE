@@ -23,6 +23,21 @@ export default function ReaderClient({
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
 
+  const handleBookmark = (verse: number | string) => {
+    console.log('Bookmark verse:', verse)
+    // TODO: Implement bookmark logic - save to localStorage or database
+  }
+
+  const handleNote = (verse: number | string, text: string) => {
+    console.log('Add note to verse:', verse, 'Text:', text)
+    // TODO: Implement note dialog - could use a modal/dialog component
+  }
+
+  const handleHighlight = (verse: number | string, selectedText: string) => {
+    console.log('Highlight verse:', verse, 'Selected:', selectedText)
+    // TODO: Implement highlight logic - save highlight color and position
+  }
+
   return (
     <div className="relative h-full w-full">
       {prevChapter ? (
@@ -54,24 +69,34 @@ export default function ReaderClient({
         </h1>
 
         <div className="mx-auto max-w-full">
-          {chapterData.sections.map((section: any, sectionIndex: number) => (
-            <div key={sectionIndex}>
-              {section.title && (
-                <h3 className="mt-4 mb-2 text-center text-lg font-bold sm:text-xl">
-                  {section.title}
-                </h3>
-              )}
-              <div className="text-justify text-base sm:text-lg">
-                {section.verses.map((verse: any) => (
-                  <span key={verse.verse} className="group relative inline">
-                    <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verse.verse}</sup>
-                    <span>{verse.text} </span>
-                    <VerseActionMenu verseNumber={verse.verse} verseText={verse.text} />
-                  </span>
-                ))}
+          {chapterData.sections.map((section: any, sectionIndex: number) => {
+            const sectionId = `section-${chapterData.chapter}-${sectionIndex}`
+
+            return (
+              <div key={sectionIndex}>
+                {section.title && (
+                  <h3 className="mt-4 mb-2 text-center text-lg font-bold sm:text-xl">
+                    {section.title}
+                  </h3>
+                )}
+                <div id={sectionId} className="text-justify text-base sm:text-lg">
+                  {section.verses.map((verse: any) => (
+                    <VerseActionMenu
+                      key={verse.verse}
+                      verseNumber={verse.verse}
+                      verseText={verse.text}
+                      bookName={bookData.book_name_am}
+                      chapter={chapterData.chapter}
+                      containerId={sectionId}
+                      onBookmark={handleBookmark}
+                      onNote={handleNote}
+                      onHighlight={handleHighlight}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 

@@ -1,99 +1,282 @@
 'use client'
 
-import { Bookmark, MessageSquare, Share2, Copy, MoreHorizontal } from 'lucide-react'
+import { Bookmark, MessageSquare, Share2, Copy, Highlighter, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import React from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { cn } from '@/lib/utils'
 
 interface VerseActionMenuProps {
   verseNumber: number | string
   verseText: string
+  bookName?: string
+  chapter?: number | string
+  containerId: string
+  onBookmark?: (verse: number | string) => void
+  onNote?: (verse: number | string, text: string) => void
+  onHighlight?: (verse: number | string, selectedText: string) => void
 }
 
 export const VerseActionMenu = ({
-  verseNumber: _verseNumber,
-  verseText: _verseText,
+  verseNumber,
+  verseText,
+  bookName = '',
+  chapter = '',
+  containerId,
+  onBookmark,
+  onNote,
+  onHighlight,
 }: VerseActionMenuProps) => {
+  const [showMenu, setShowMenu] = useState(false)
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
+  const [selectedText, setSelectedText] = useState('')
+  const [copied, setCopied] = useState(false)
+  const [shared, setShared] = useState(false)
+  const verseRef = useRef<HTMLSpanElement>(null)
+
+  const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
+
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      const selection = window.getSelection()
+      if (!selection || selection.rangeCount === 0) {
+        setShowMenu(false)
+        return
+      }
+
+      const selectedTextContent = selection.toString().trim()
+
+      // Get the container element that holds all verses
+      const container = document.getElementById(containerId)
+
+      if (container && selectedTextContent) {
+        const range = selection.getRangeAt(0)
+        const selectionContainer = range.commonAncestorContainer
+
+        // Check if selection is within the verses container
+        const isWithinContainer = container.contains(
+          selectionContainer.nodeType === Node.TEXT_NODE
+            ? selectionContainer.parentNode
+            : selectionContainer,
+        )
+
+        if (isWithinContainer) {
+          setSelectedText(selectedTextContent)
+
+          // Get the bounding rectangle of the selection
+          const rect = range.getBoundingClientRect()
+
+          // Position the menu above the selection
+          setMenuPosition({
+            top: rect.top + window.scrollY - 50,
+            left: rect.left + window.scrollX + rect.width / 2,
+          })
+          setShowMenu(true)
+        } else {
+          setShowMenu(false)
+        }
+      } else {
+        setShowMenu(false)
+      }
+    }
+
+    document.addEventListener('selectionchange', handleSelectionChange)
+
+    return () => {
+      document.removeEventListener('selectionchange', handleSelectionChange)
+    }
+  }, [containerId])
+
+  // Hide menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (showMenu) {
+        const menuElement = document.querySelector('[data-verse-menu="true"]')
+        if (menuElement && !menuElement.contains(e.target as Node)) {
+          // Check if click is outside both menu and text selection
+          const selection = window.getSelection()
+          if (!selection || selection.toString().trim() === '') {
+            setShowMenu(false)
+          }
+        }
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showMenu])
+
+  const handleCopy = async () => {
+    const textToCopy = selectedText
+      ? `${verseReference}\n"${selectedText}"`
+      : `${verseReference}\n${verseText}`
+
+    try {
+      await navigator.clipboard.writeText(textToCopy)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
+
+  const handleShare = async () => {
+    const textToShare = selectedText
+      ? `${verseReference}\n"${selectedText}"`
+      : `${verseReference}\n${verseText}`
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: verseReference,
+          text: textToShare,
+        })
+        setShared(true)
+        setTimeout(() => setShared(false), 2000)
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          console.error('Share failed:', err)
+        }
+      }
+    } else {
+      handleCopy()
+    }
+  }
+
+  const handleBookmark = () => {
+    onBookmark?.(verseNumber)
+    setShowMenu(false)
+    window.getSelection()?.removeAllRanges()
+  }
+
+  const handleNote = () => {
+    onNote?.(verseNumber, selectedText || verseText)
+    setShowMenu(false)
+    window.getSelection()?.removeAllRanges()
+  }
+
+  const handleHighlight = () => {
+    onHighlight?.(verseNumber, selectedText || verseText)
+    setShowMenu(false)
+    window.getSelection()?.removeAllRanges()
+  }
+
   return (
-    <div className="pointer-events-none absolute top-1/2 right-0 z-50 translate-x-[2.5rem] -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:opacity-100">
-      <div className="bg-background border-border inline-flex items-center gap-1 rounded-md border p-1 whitespace-nowrap shadow-lg">
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hover:bg-primary/10 h-7 w-7 cursor-pointer"
-              >
-                <Bookmark className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Bookmark</span>
-            </TooltipContent>
-          </Tooltip>
+    <>
+      <span ref={verseRef} data-verse={verseNumber}>
+        <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
+        <span>{verseText} </span>
+      </span>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hover:bg-primary/10 h-7 w-7 cursor-pointer"
-              >
-                <MessageSquare className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Note</span>
-            </TooltipContent>
-          </Tooltip>
+      {showMenu && (
+        <div
+          data-verse-menu="true"
+          className="animate-in fade-in slide-in-from-top-2 fixed z-50 duration-200"
+          style={{
+            top: `${menuPosition.top}px`,
+            left: `${menuPosition.left}px`,
+            transform: 'translateX(-50%)',
+          }}
+        >
+          <div className="bg-background border-border inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
+            <TooltipProvider delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-primary/10 h-8 w-8"
+                    onClick={handleHighlight}
+                  >
+                    <Highlighter className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Highlight</span>
+                </TooltipContent>
+              </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hover:bg-primary/10 h-7 w-7 cursor-pointer"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Copy</span>
-            </TooltipContent>
-          </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-primary/10 h-8 w-8"
+                    onClick={handleBookmark}
+                  >
+                    <Bookmark className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Bookmark</span>
+                </TooltipContent>
+              </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hover:bg-primary/10 h-7 w-7 cursor-pointer"
-              >
-                <Share2 className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Share</span>
-            </TooltipContent>
-          </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      'hover:bg-primary/10 h-8 w-8',
+                      copied && 'bg-green-100 dark:bg-green-900',
+                    )}
+                    onClick={handleCopy}
+                  >
+                    {copied ? (
+                      <Check className="h-4 w-4 text-green-600" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>{copied ? 'Copied!' : 'Copy'}</span>
+                </TooltipContent>
+              </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hover:bg-primary/10 h-7 w-7 cursor-pointer"
-              >
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>More</span>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-    </div>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      'hover:bg-primary/10 h-8 w-8',
+                      shared && 'bg-blue-100 dark:bg-blue-900',
+                    )}
+                    onClick={handleShare}
+                  >
+                    {shared ? (
+                      <Check className="h-4 w-4 text-blue-600" />
+                    ) : (
+                      <Share2 className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>{shared ? 'Shared!' : 'Share'}</span>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-primary/10 h-8 w-8"
+                    onClick={handleNote}
+                  >
+                    <MessageSquare className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Note</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
