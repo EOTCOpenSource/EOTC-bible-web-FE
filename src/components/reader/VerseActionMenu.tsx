@@ -33,6 +33,7 @@ export const VerseActionMenu = ({
   const [copied, setCopied] = useState(false)
   const [shared, setShared] = useState(false)
   const verseRef = useRef<HTMLSpanElement>(null)
+  const initialPositionSet = useRef(false)
 
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
 
@@ -41,6 +42,7 @@ export const VerseActionMenu = ({
       const selection = window.getSelection()
       if (!selection || selection.rangeCount === 0) {
         setShowMenu(false)
+        initialPositionSet.current = false
         return
       }
 
@@ -63,20 +65,27 @@ export const VerseActionMenu = ({
         if (isWithinContainer) {
           setSelectedText(selectedTextContent)
 
-          // Get the bounding rectangle of the selection
-          const rect = range.getBoundingClientRect()
+          // Only set position once when selection first starts
+          if (!initialPositionSet.current) {
+            // Get the bounding rectangle of the selection
+            const rect = range.getBoundingClientRect()
 
-          // Position the menu above the selection
-          setMenuPosition({
-            top: rect.top + window.scrollY - 50,
-            left: rect.left + window.scrollX + rect.width / 2,
-          })
+            // Position the menu above the start of the selection
+            setMenuPosition({
+              top: rect.top + window.scrollY - 50,
+              left: rect.left + window.scrollX + rect.width / 2,
+            })
+            initialPositionSet.current = true
+          }
+
           setShowMenu(true)
         } else {
           setShowMenu(false)
+          initialPositionSet.current = false
         }
       } else {
         setShowMenu(false)
+        initialPositionSet.current = false
       }
     }
 
@@ -146,18 +155,21 @@ export const VerseActionMenu = ({
   const handleBookmark = () => {
     onBookmark?.(verseNumber)
     setShowMenu(false)
+    initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
 
   const handleNote = () => {
     onNote?.(verseNumber, selectedText || verseText)
     setShowMenu(false)
+    initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
 
   const handleHighlight = () => {
     onHighlight?.(verseNumber, selectedText || verseText)
     setShowMenu(false)
+    initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
 
@@ -178,7 +190,7 @@ export const VerseActionMenu = ({
             transform: 'translateX(-50%)',
           }}
         >
-          <div className="bg-background border-border inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
+          <div className="bg-background border-border inline-flex items-center gap-1 rounded-lg border-2 p-1.5">
             <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger asChild>
