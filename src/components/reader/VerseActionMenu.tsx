@@ -190,7 +190,7 @@ export const VerseActionMenu = ({
             transform: 'translateX(-50%)',
           }}
         >
-          <div className="bg-background border-border inline-flex items-center gap-1 rounded-lg border-2 p-1.5">
+          <div className="bg-background border-border inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
             <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger asChild>
