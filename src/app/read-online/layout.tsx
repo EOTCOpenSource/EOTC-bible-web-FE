@@ -19,18 +19,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className={clsx('relative flex-1 overflow-y-auto bg-[#FFFDF8]')}>
             <SidebarTrigger
               className={clsx(
-                'fixed top-24 left-4 z-20',
-                isReadOnlineSidebarOpen && 'md:left-[316px]',
+                'fixed top-24 z-20 transition-all duration-200',
+                isReadOnlineSidebarOpen ? 'left-[316px]' : 'left-4',
               )}
             />
-            <main
-              className={clsx(
-                'h-full',
-                isReadOnlineSidebarOpen && 'md:w-[calc(100%-300px)] md:pl-[300px]',
-              )}
-            >
-              {children}
-            </main>
+            {children}
           </div>
         </SidebarProvider>
       </div>
