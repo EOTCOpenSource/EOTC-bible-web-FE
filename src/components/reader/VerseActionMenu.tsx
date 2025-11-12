@@ -14,7 +14,7 @@ interface VerseActionMenuProps {
   containerId: string
   onBookmark?: (verse: number | string) => void
   onNote?: (verse: number | string, text: string) => void
-  onHighlight?: (verse: number | string, selectedText: string) => void
+  onHighlight?: (verse: number | string, selectedText: string, color?: string) => void
 }
 
 export const VerseActionMenu = ({
@@ -32,30 +32,31 @@ export const VerseActionMenu = ({
   const [selectedText, setSelectedText] = useState('')
   const [copied, setCopied] = useState(false)
   const [shared, setShared] = useState(false)
+  const [showColorPicker, setShowColorPicker] = useState(false)
+
   const verseRef = useRef<HTMLSpanElement>(null)
   const initialPositionSet = useRef(false)
 
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
+
+  const highlightColors = ['#621B1C', '#FFE062', '#3BAD49', '#FF4B26', '#5778C5', '#704A6A']
 
   useEffect(() => {
     const handleSelectionChange = () => {
       const selection = window.getSelection()
       if (!selection || selection.rangeCount === 0) {
         setShowMenu(false)
+        setShowColorPicker(false)
         initialPositionSet.current = false
         return
       }
 
       const selectedTextContent = selection.toString().trim()
-
-      // Get the container element that holds all verses
       const container = document.getElementById(containerId)
 
       if (container && selectedTextContent) {
         const range = selection.getRangeAt(0)
         const selectionContainer = range.commonAncestorContainer
-
-        // Check if selection is within the verses container
         const isWithinContainer = container.contains(
           selectionContainer.nodeType === Node.TEXT_NODE
             ? selectionContainer.parentNode
@@ -65,12 +66,8 @@ export const VerseActionMenu = ({
         if (isWithinContainer) {
           setSelectedText(selectedTextContent)
 
-          // Only set position once when selection first starts
           if (!initialPositionSet.current) {
-            // Get the bounding rectangle of the selection
             const rect = range.getBoundingClientRect()
-
-            // Position the menu above the start of the selection
             setMenuPosition({
               top: rect.top + window.scrollY - 50,
               left: rect.left + window.scrollX + rect.width / 2,
@@ -81,31 +78,29 @@ export const VerseActionMenu = ({
           setShowMenu(true)
         } else {
           setShowMenu(false)
+          setShowColorPicker(false)
           initialPositionSet.current = false
         }
       } else {
         setShowMenu(false)
+        setShowColorPicker(false)
         initialPositionSet.current = false
       }
     }
 
     document.addEventListener('selectionchange', handleSelectionChange)
-
-    return () => {
-      document.removeEventListener('selectionchange', handleSelectionChange)
-    }
+    return () => document.removeEventListener('selectionchange', handleSelectionChange)
   }, [containerId])
 
-  // Hide menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (showMenu) {
         const menuElement = document.querySelector('[data-verse-menu="true"]')
         if (menuElement && !menuElement.contains(e.target as Node)) {
-          // Check if click is outside both menu and text selection
           const selection = window.getSelection()
           if (!selection || selection.toString().trim() === '') {
             setShowMenu(false)
+            setShowColorPicker(false)
           }
         }
       }
@@ -155,6 +150,7 @@ export const VerseActionMenu = ({
   const handleBookmark = () => {
     onBookmark?.(verseNumber)
     setShowMenu(false)
+    setShowColorPicker(false)
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
@@ -162,13 +158,7 @@ export const VerseActionMenu = ({
   const handleNote = () => {
     onNote?.(verseNumber, selectedText || verseText)
     setShowMenu(false)
-    initialPositionSet.current = false
-    window.getSelection()?.removeAllRanges()
-  }
-
-  const handleHighlight = () => {
-    onHighlight?.(verseNumber, selectedText || verseText)
-    setShowMenu(false)
+    setShowColorPicker(false)
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
@@ -190,15 +180,16 @@ export const VerseActionMenu = ({
             transform: 'translateX(-50%)',
           }}
         >
-          <div className="bg-background border-border inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
+          <div className="relative bg-background border-border inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
             <TooltipProvider delayDuration={100}>
+              {/* Highlight */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="hover:bg-primary/10 h-8 w-8"
-                    onClick={handleHighlight}
+                    onClick={() => setShowColorPicker(!showColorPicker)}
                   >
                     <Highlighter className="h-4 w-4" />
                   </Button>
@@ -208,6 +199,27 @@ export const VerseActionMenu = ({
                 </TooltipContent>
               </Tooltip>
 
+              {/* Color picker  */}
+              {showColorPicker && (
+                <div className="absolute left-1/2 top-[115%] z-50 flex -translate-x-1/2 gap-2 rounded-full bg-white p-2 pb-3 shadow-lg dark:bg-neutral-800">
+                  {highlightColors.map((color) => (
+                    <button
+                      key={color}
+                      onClick={() => {
+                        onHighlight?.(verseNumber, selectedText || verseText, color)
+                        setShowColorPicker(false)
+                        setShowMenu(false)
+                        initialPositionSet.current = false
+                        window.getSelection()?.removeAllRanges()
+                      }}
+                      className="h-6 w-6 rounded-full border border-gray-300 transition hover:scale-110"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Bookmark */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -224,6 +236,7 @@ export const VerseActionMenu = ({
                 </TooltipContent>
               </Tooltip>
 
+              {/* Copy */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -247,6 +260,7 @@ export const VerseActionMenu = ({
                 </TooltipContent>
               </Tooltip>
 
+              {/* Share */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -270,6 +284,7 @@ export const VerseActionMenu = ({
                 </TooltipContent>
               </Tooltip>
 
+              {/* Notes */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
