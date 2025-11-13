@@ -22,18 +22,21 @@ export const useHighlightsStore = create<HighlightsState>()(
 
     clearError: () => set({ error: null }),
 
+    // ✅ LOAD all highlights from the API proxy
     loadHighlights: async () => {
       set({ isLoading: true, error: null })
       try {
-        const res = await fetch('https://mylocalbackend/api/v1/user/me/api/highlights')
+        const res = await fetch('/api/highlights')
         if (!res.ok) throw new Error('Failed to load highlights')
-        const data = (await res.json()) as Highlight[]
+        const json = await res.json()
+        const data = json.data || json
         set({ highlights: data, isLoading: false })
       } catch (err: any) {
         set({ isLoading: false, error: err?.message ?? 'Unknown' })
       }
     },
 
+    // ✅ ADD a new highlight (calls /api/highlights)
     addHighlight: async (verseRef, color = 'yellow') => {
       set({ error: null })
 
@@ -46,71 +49,72 @@ export const useHighlightsStore = create<HighlightsState>()(
         createdAt: new Date().toISOString(),
       }
 
-      // OPTIMISTIC UPDATE
+      // Optimistic update
       set((state) => ({ highlights: [tempHighlight, ...state.highlights] }))
 
       try {
-        const res = await fetch('https://mylocalbackend/api/v1/user/me/api/highlights', {
+        const res = await fetch('/api/highlights', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             bookId: verseRef.book,
             chapter: verseRef.chapter,
-            verse: verseRef.verse,
+            verseStart: verseRef.verse,
+            verseCount: 1,
             color,
           }),
         })
+
         if (!res.ok) throw new Error('Failed to add highlight')
         const backendResponse = await res.json()
+        const backendHighlight = backendResponse.data?.highlight
 
-        // CONVERTING THE BAVKEND RESPONSE TO MATCH THE HIGHLIGHT INTERFACE
         const createdHighlight: Highlight = {
-          _id: backendResponse._id,
+          _id: backendHighlight._id,
           verseRef: {
-            book: backendResponse.bookId,
-            chapter: backendResponse.chapter,
-            verse: backendResponse.verse,
+            book: backendHighlight.bookId,
+            chapter: backendHighlight.chapter,
+            verse: backendHighlight.verseStart,
           },
-          color: backendResponse.color,
-          createdAt: backendResponse.createdAt,
+          color: backendHighlight.color,
+          createdAt: backendHighlight.createdAt,
         }
 
-        // REPLACE TEMP WITH THE REALHIGHLIGHT FETCHED
+        // Replace temp highlight with real one
         set((state) => ({
-          highlights: state.highlights.map((highlight) =>
-            highlight._id === tempId ? createdHighlight : highlight,
+          highlights: state.highlights.map((h) =>
+            h._id === tempId ? createdHighlight : h
           ),
         }))
       } catch (err: any) {
         set((state) => ({
-          highlights: state.highlights.filter((highlight) => highlight._id !== tempId),
+          highlights: state.highlights.filter((h) => h._id !== tempId),
           error: err?.message ?? 'Failed to add highlight',
         }))
       }
     },
 
+    // ✅ REMOVE highlight (calls /api/highlights/:id)
     removeHighlight: async (id) => {
       const originalHighlights = get().highlights
       const highlightToDelete = originalHighlights.find((h) => h._id === id)
-
       if (!highlightToDelete) {
         set({ error: 'Highlight not found' })
         return
       }
 
-      // OPTIMISTIC DELETE
+      // Optimistic delete
       set((state) => ({
-        highlights: state.highlights.filter((highlight) => highlight._id !== id),
+        highlights: state.highlights.filter((h) => h._id !== id),
         error: null,
       }))
 
       try {
-        const res = await fetch(`https://mylocalbackend/api/v1/user/me/api/highlights/${id}`, {
+        const res = await fetch(`/api/highlights/${id}`, {
           method: 'DELETE',
         })
         if (!res.ok) throw new Error('Failed to delete highlight')
       } catch (err: any) {
-        // ROLLBACK WHEN FAILED TO DELETE
         set({
           highlights: originalHighlights,
           error: err?.message ?? 'Failed to delete highlight',
@@ -118,32 +122,31 @@ export const useHighlightsStore = create<HighlightsState>()(
       }
     },
 
+    // ✅ CHANGE color (calls /api/highlights/:id)
     changeColor: async (id, color) => {
       const originalHighlights = get().highlights
       const highlightToUpdate = originalHighlights.find((h) => h._id === id)
-
       if (!highlightToUpdate) {
         set({ error: 'Highlight not found' })
         return
       }
 
-      // OPTIMISTIC UPDATE
+      // Optimistic update
       set((state) => ({
-        highlights: state.highlights.map((highlight) =>
-          highlight._id === id ? { ...highlight, color } : highlight,
+        highlights: state.highlights.map((h) =>
+          h._id === id ? { ...h, color } : h
         ),
         error: null,
       }))
 
       try {
-        const res = await fetch(`https://mylocalbackend/api/v1/user/me/api/highlights/${id}`, {
-          method: 'PATCH',
+        const res = await fetch(`/api/highlights/${id}`, {
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ color }),
         })
         if (!res.ok) throw new Error('Failed to change highlight color')
       } catch (err: any) {
-        // ROLLBACK IF FAILED TO UPDATE THE HILIGHT
         set({
           highlights: originalHighlights,
           error: err?.message ?? 'Failed to change highlight color',

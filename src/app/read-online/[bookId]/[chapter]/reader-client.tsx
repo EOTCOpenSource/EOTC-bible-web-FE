@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
+import { useHighlightsStore } from '@/stores/highlightsStore' // ✅ Zustand store import
+import { BookId } from '@/stores/types'
 
 interface ReaderClientProps {
   bookData: any
@@ -22,6 +24,7 @@ export default function ReaderClient({
   bookId,
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
+  const { addHighlight } = useHighlightsStore() // ✅ from Zustand store
 
   const handleBookmark = (verse: number | string) => {
     console.log('Bookmark verse:', verse)
@@ -33,9 +36,46 @@ export default function ReaderClient({
     // TODO: Implement note dialog - could use a modal/dialog component
   }
 
-  const handleHighlight = (verse: number | string, selectedText: string) => {
+  const handleHighlight = async (verse: number | string, selectedText: string) => {
     console.log('Highlight verse:', verse, 'Selected:', selectedText)
-    // TODO: Implement highlight logic - save highlight color and position
+
+    if (!selectedText.trim()) return
+
+    try {
+      // Example highlight color (you can make it user-selected later)
+      const color = '#FFD966' // light yellow highlight
+
+      // ✅ Save to backend
+      const response = await fetch('/api/highlights/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookName: bookData.book_name_am,
+          chapter: chapterData.chapter,
+          verse,
+          text: selectedText,
+          color,
+        }),
+      })
+
+      if (!response.ok) {
+        console.error('Failed to save highlight')
+        return
+      }
+
+      const data = await response.json()
+
+      // ✅ Save to Zustand store (frontend sync)
+      addHighlight({
+        book: bookId as BookId,
+        chapter: chapterData.chapter,
+        verse: Number(verse),
+      })
+
+      console.log('Highlight saved:', data)
+    } catch (error) {
+      console.error('Error saving highlight:', error)
+    }
   }
 
   return (
