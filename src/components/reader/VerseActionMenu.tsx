@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useState, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { useBookmarksStore } from '@/stores/bookmarksStore' // Import useBookmarksStore
 
 interface VerseActionMenuProps {
   verseNumber: number | string
@@ -12,7 +13,6 @@ interface VerseActionMenuProps {
   bookName?: string
   chapter?: number | string
   containerId: string
-  onBookmark?: (verse: number | string) => void
   onNote?: (verse: number | string, text: string) => void
   onHighlight?: (verse: number | string, selectedText: string) => void
 }
@@ -23,7 +23,6 @@ export const VerseActionMenu = ({
   bookName = '',
   chapter = '',
   containerId,
-  onBookmark,
   onNote,
   onHighlight,
 }: VerseActionMenuProps) => {
@@ -34,6 +33,8 @@ export const VerseActionMenu = ({
   const [shared, setShared] = useState(false)
   const verseRef = useRef<HTMLSpanElement>(null)
   const initialPositionSet = useRef(false)
+
+  const { addBookmark } = useBookmarksStore() // Access addBookmark from the store
 
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
 
@@ -153,7 +154,13 @@ export const VerseActionMenu = ({
   }
 
   const handleBookmark = () => {
-    onBookmark?.(verseNumber)
+    if (bookName && chapter && verseNumber) {
+      addBookmark({
+        book: bookName,
+        chapter: String(chapter), // Ensure chapter is string as per VerseRef type
+        verse: String(verseNumber), // Ensure verse is string as per VerseRef type
+      })
+    }
     setShowMenu(false)
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
