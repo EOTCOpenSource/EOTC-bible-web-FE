@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useState, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
-import { useBookmarksStore } from '@/stores/bookmarksStore' // Import useBookmarksStore
+import { useBookmarksStore } from '@/stores/bookmarksStore'
 
 interface VerseActionMenuProps {
   verseNumber: number | string
   verseText: string
-  bookId: string // backend BookId
+  bookId: string
   bookName: string
   chapter: number | string
   containerId: string
@@ -32,14 +32,70 @@ export const VerseActionMenu = ({
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
+  const [selectedVerses, setSelectedVerses] = useState({ start: 0, end: 0, count: 1 })
   const [copied, setCopied] = useState(false)
   const [shared, setShared] = useState(false)
   const verseRef = useRef<HTMLSpanElement>(null)
   const initialPositionSet = useRef(false)
 
-  const { addBookmark } = useBookmarksStore() // Access addBookmark from the store
+  const { addBookmark } = useBookmarksStore()
 
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
+
+  // Helper function to find verse number from a DOM node
+  const findVerseNumber = (node: Node | null): number | null => {
+    let current = node as HTMLElement | null
+    while (current && current !== document.body) {
+      if (current.dataset && current.dataset.verse) {
+        return parseInt(current.dataset.verse, 10)
+      }
+      current = current.parentElement
+    }
+    return null
+  }
+
+  // Helper function to get all selected verse numbers
+  const getSelectedVerseRange = (selection: Selection) => {
+    if (!selection || selection.rangeCount === 0) return null
+
+    const range = selection.getRangeAt(0)
+    const container = document.getElementById(containerId)
+
+    if (!container) return null
+
+    // Get all verse spans within the container
+    const verseSpans = Array.from(container.querySelectorAll('[data-verse]'))
+    const selectedVerses: number[] = []
+
+    verseSpans.forEach((span) => {
+      const verseNum = parseInt((span as HTMLElement).dataset.verse || '0', 10)
+
+      // Check if this verse span intersects with the selection
+      if (selection.containsNode(span, true)) {
+        selectedVerses.push(verseNum)
+      }
+    })
+
+    if (selectedVerses.length === 0) {
+      // Fallback: try to find verse from the selection's ancestor
+      const startVerse = findVerseNumber(range.startContainer)
+      const endVerse = findVerseNumber(range.endContainer)
+
+      if (startVerse) selectedVerses.push(startVerse)
+      if (endVerse && endVerse !== startVerse) selectedVerses.push(endVerse)
+    }
+
+    if (selectedVerses.length === 0) return null
+
+    // Sort and get range
+    selectedVerses.sort((a, b) => a - b)
+
+    return {
+      start: selectedVerses[0],
+      end: selectedVerses[selectedVerses.length - 1],
+      count: selectedVerses[selectedVerses.length - 1] - selectedVerses[0] + 1,
+    }
+  }
 
   useEffect(() => {
     const handleSelectionChange = () => {
@@ -51,15 +107,12 @@ export const VerseActionMenu = ({
       }
 
       const selectedTextContent = selection.toString().trim()
-
-      // Get the container element that holds all verses
       const container = document.getElementById(containerId)
 
       if (container && selectedTextContent) {
         const range = selection.getRangeAt(0)
         const selectionContainer = range.commonAncestorContainer
 
-        // Check if selection is within the verses container
         const isWithinContainer = container.contains(
           selectionContainer.nodeType === Node.TEXT_NODE
             ? selectionContainer.parentNode
@@ -69,12 +122,25 @@ export const VerseActionMenu = ({
         if (isWithinContainer) {
           setSelectedText(selectedTextContent)
 
-          // Only set position once when selection first starts
-          if (!initialPositionSet.current) {
-            // Get the bounding rectangle of the selection
-            const rect = range.getBoundingClientRect()
+          // Get the verse range
+          const verseRange = getSelectedVerseRange(selection)
+          if (verseRange) {
+            setSelectedVerses({
+              start: verseRange.start,
+              end: verseRange.end,
+              count: verseRange.count,
+            })
+          } else {
+            // Fallback to current verse if we can't determine range
+            setSelectedVerses({
+              start: Number(verseNumber),
+              end: Number(verseNumber),
+              count: 1,
+            })
+          }
 
-            // Position the menu above the start of the selection
+          if (!initialPositionSet.current) {
+            const rect = range.getBoundingClientRect()
             setMenuPosition({
               top: rect.top + window.scrollY - 50,
               left: rect.left + window.scrollX + rect.width / 2,
@@ -94,19 +160,14 @@ export const VerseActionMenu = ({
     }
 
     document.addEventListener('selectionchange', handleSelectionChange)
+    return () => document.removeEventListener('selectionchange', handleSelectionChange)
+  }, [containerId, verseNumber])
 
-    return () => {
-      document.removeEventListener('selectionchange', handleSelectionChange)
-    }
-  }, [containerId])
-
-  // Hide menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (showMenu) {
         const menuElement = document.querySelector('[data-verse-menu="true"]')
         if (menuElement && !menuElement.contains(e.target as Node)) {
-          // Check if click is outside both menu and text selection
           const selection = window.getSelection()
           if (!selection || selection.toString().trim() === '') {
             setShowMenu(false)
@@ -120,9 +181,15 @@ export const VerseActionMenu = ({
   }, [showMenu])
 
   const handleCopy = async () => {
-    const textToCopy = selectedText
-      ? `${verseReference}\n"${selectedText}"`
-      : `${verseReference}\n${verseText}`
+    let textToCopy: string
+
+    if (selectedVerses.count > 1) {
+      textToCopy = `${bookName} ${chapter}:${selectedVerses.start}-${selectedVerses.end}\n"${selectedText}"`
+    } else {
+      textToCopy = selectedText
+        ? `${verseReference}\n"${selectedText}"`
+        : `${verseReference}\n${verseText}`
+    }
 
     try {
       await navigator.clipboard.writeText(textToCopy)
@@ -134,14 +201,23 @@ export const VerseActionMenu = ({
   }
 
   const handleShare = async () => {
-    const textToShare = selectedText
-      ? `${verseReference}\n"${selectedText}"`
-      : `${verseReference}\n${verseText}`
+    let textToShare: string
+
+    if (selectedVerses.count > 1) {
+      textToShare = `${bookName} ${chapter}:${selectedVerses.start}-${selectedVerses.end}\n"${selectedText}"`
+    } else {
+      textToShare = selectedText
+        ? `${verseReference}\n"${selectedText}"`
+        : `${verseReference}\n${verseText}`
+    }
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: verseReference,
+          title:
+            selectedVerses.count > 1
+              ? `${bookName} ${chapter}:${selectedVerses.start}-${selectedVerses.end}`
+              : verseReference,
           text: textToShare,
         })
         setShared(true)
@@ -156,14 +232,18 @@ export const VerseActionMenu = ({
     }
   }
 
-  const handleBookmark = () => {
-    if (bookId && chapter && verseNumber) {
-      addBookmark({
-        book: bookId,
-        chapter: Number(chapter),
-        verseStart: Number(verseNumber),
-        verseCount: 1, // single verse bookmark
-      })
+  const handleBookmark = async () => {
+    if (bookId && chapter) {
+      try {
+        await addBookmark({
+          book: bookId,
+          chapter: Number(chapter),
+          verseStart: Number(selectedVerses.start),
+          verseCount: Number(selectedVerses.count),
+        })
+      } catch (error) {
+        console.error('Failed to add bookmark:', error)
+      }
     }
     setShowMenu(false)
     initialPositionSet.current = false
@@ -171,14 +251,19 @@ export const VerseActionMenu = ({
   }
 
   const handleNote = () => {
-    onNote?.(verseNumber, selectedText || verseText)
+    const noteText =
+      selectedVerses.count > 1
+        ? `Verses ${selectedVerses.start}-${selectedVerses.end}: ${selectedText}`
+        : selectedText || verseText
+
+    onNote?.(selectedVerses.start, noteText)
     setShowMenu(false)
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
 
   const handleHighlight = () => {
-    onHighlight?.(verseNumber, selectedText || verseText)
+    onHighlight?.(selectedVerses.start, selectedText || verseText)
     setShowMenu(false)
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
@@ -231,7 +316,12 @@ export const VerseActionMenu = ({
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <span>Bookmark</span>
+                  <span>
+                    Bookmark{' '}
+                    {selectedVerses.count > 1
+                      ? `verses ${selectedVerses.start}-${selectedVerses.end}`
+                      : `verse ${selectedVerses.start}`}
+                  </span>
                 </TooltipContent>
               </Tooltip>
 
