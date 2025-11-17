@@ -10,18 +10,21 @@ import { useBookmarksStore } from '@/stores/bookmarksStore' // Import useBookmar
 interface VerseActionMenuProps {
   verseNumber: number | string
   verseText: string
-  bookName?: string
-  chapter?: number | string
+  bookId: string // backend BookId
+  bookName: string
+  chapter: number | string
   containerId: string
   onNote?: (verse: number | string, text: string) => void
   onHighlight?: (verse: number | string, selectedText: string) => void
+  onBookmark?: (verse: number | string) => void
 }
 
 export const VerseActionMenu = ({
   verseNumber,
   verseText,
-  bookName = '',
-  chapter = '',
+  bookId,
+  bookName,
+  chapter,
   containerId,
   onNote,
   onHighlight,
@@ -154,11 +157,12 @@ export const VerseActionMenu = ({
   }
 
   const handleBookmark = () => {
-    if (bookName && chapter && verseNumber) {
+    if (bookId && chapter && verseNumber) {
       addBookmark({
-        book: bookName,
-        chapter: String(chapter), // Ensure chapter is string as per VerseRef type
-        verse: String(verseNumber), // Ensure verse is string as per VerseRef type
+        book: bookId,
+        chapter: Number(chapter),
+        verseStart: Number(verseNumber),
+        verseCount: 1, // single verse bookmark
       })
     }
     setShowMenu(false)

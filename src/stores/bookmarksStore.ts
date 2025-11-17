@@ -52,7 +52,8 @@ export const useBookmarksStore = create<BookmarksState>()(
           // Use axiosInstance
           bookId: verseRef.book,
           chapter: verseRef.chapter,
-          verse: verseRef.verse,
+          verseStart: verseRef.verseStart,
+          verseCount: verseRef.verseCount,
         })
         const backendResponse = res.data // Axios returns data in res.data
 
@@ -61,7 +62,8 @@ export const useBookmarksStore = create<BookmarksState>()(
           verseRef: {
             book: backendResponse.bookId,
             chapter: backendResponse.chapter,
-            verse: backendResponse.verse,
+            verseStart: verseRef.verseStart,
+            verseCount: verseRef.verseCount,
           },
           createdAt: backendResponse.createdAt,
         }

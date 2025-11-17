@@ -5,7 +5,8 @@ export type BookId = string // E.g., "gen", "exo", "psa"...
 export interface VerseRef {
   book: BookId
   chapter: number
-  verse: number
+  verseStart: number
+  verseCount: number
 }
 
 export interface Settings {
