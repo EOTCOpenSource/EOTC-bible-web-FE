@@ -25,9 +25,20 @@ export const useBookmarksStore = create<BookmarksState>()(
     loadBookmarks: async () => {
       set({ isLoading: true, error: null })
       try {
-        const res = await axiosInstance.get('/api/bookmarks') // Use axiosInstance
-        const data = res.data as BookMark[] // Axios returns data in res.data
-        set({ bookmarks: data, isLoading: false })
+        const res = await axiosInstance.get('/api/bookmarks')
+        const raw = res.data?.data?.data ?? []
+
+        const bookmarks: BookMark[] = raw.map((item: any) => ({
+          _id: item._id,
+          verseRef: {
+            book: item.bookId,
+            chapter: item.chapter,
+            verseStart: item.verseStart,
+            verseCount: item.verseCount,
+          },
+          createdAt: item.createdAt,
+        }))
+        set({ bookmarks, isLoading: false })
       } catch (err: any) {
         set({ isLoading: false, error: err?.response?.data?.error ?? err?.message ?? 'Unknown' })
       }
