@@ -88,7 +88,8 @@ export default function ReaderClient({
                     key={verse.verse}
                     verseNumber={verse.verse}
                     verseText={verse.text}
-                    bookName={bookData.book_name_am}
+                    bookId={bookId} // <-- send slug, the real backend ID
+                    bookName={bookData.book_name_am} // optional, for UI only
                     chapter={chapterData.chapter}
                     containerId={sectionId}
                     onBookmark={handleBookmark}
