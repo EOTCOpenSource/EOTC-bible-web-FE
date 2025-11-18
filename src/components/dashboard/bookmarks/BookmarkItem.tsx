@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { BookMark } from '@/stores/types'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
 import { Button } from '@/components/ui/button'
-import { Trash2 } from 'lucide-react'
+import { ArrowRight, Trash2 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useRouter } from 'next/navigation'
 
 interface BookmarkItemProps {
   bookmark: BookMark
@@ -14,6 +15,7 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ bookmark }) => {
   const [verseText, setVerseText] = useState<string | null>(null)
   const [bookName, setBookName] = useState<string | null>(null)
   const [isLoadingVerse, setIsLoadingVerse] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     const fetchVerse = async () => {
@@ -54,6 +56,10 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ bookmark }) => {
     removeBookmark(bookmark._id)
   }
 
+  const handleReadMore = () => {
+    router.push(`/read-online/${bookmark.bookId}/${bookmark.chapter}#v${bookmark.verseStart}`)
+  }
+
   const verseRange =
     bookmark.verseCount && bookmark.verseCount > 1
       ? `${bookmark.verseStart}-${bookmark.verseStart + bookmark.verseCount - 1}`
@@ -77,6 +83,12 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ bookmark }) => {
           {verseText || 'Verse not found.'}
         </p>
       )}
+      <div className="flex justify-end">
+        <Button variant="link" onClick={handleReadMore} className="p-0 text-sm text-yellow-600">
+          Read more
+          <ArrowRight />
+        </Button>
+      </div>
     </div>
   )
 }

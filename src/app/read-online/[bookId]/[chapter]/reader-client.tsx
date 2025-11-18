@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
+import { useEffect } from 'react'
 
 interface ReaderClientProps {
   bookData: any
@@ -23,10 +24,15 @@ export default function ReaderClient({
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
 
-  const handleBookmark = (verse: number | string) => {
-    console.log('Bookmark verse:', verse)
-    // TODO: Implement bookmark logic - save to localStorage or database
-  }
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      const element = document.getElementById(hash.substring(1))
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }, [])
 
   const handleNote = (verse: number | string, text: string) => {
     console.log('Add note to verse:', verse, 'Text:', text)
@@ -92,7 +98,6 @@ export default function ReaderClient({
                     bookName={bookData.book_name_am} // optional, for UI only
                     chapter={chapterData.chapter}
                     containerId={sectionId}
-                    onBookmark={handleBookmark}
                     onNote={handleNote}
                     onHighlight={handleHighlight}
                   />
