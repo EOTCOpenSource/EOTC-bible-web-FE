@@ -2,39 +2,78 @@
 
 import React, { useEffect, useMemo } from 'react'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
+import { BibleBook } from '@/stores/types'
 
 interface GroupedBookmarks {
   [book: string]: {
     chapter: number
-    verses: { verseStart: number; verseCount: number }[]
+    verses: { verseStart: number; verseCount: number; text: string }[]
   }[]
 }
 
 const BookmarksPage = () => {
-  const { bookmarks, loadBookmarks, isLoading, error, clearError } = useBookmarksStore()
+  const { bookmarks, bibleBooks, loadBookmarks, isLoading, error, clearError } =
+    useBookmarksStore()
 
   useEffect(() => {
     loadBookmarks()
   }, [loadBookmarks])
+
+  const getVerseText = (
+    bibleBook: BibleBook | undefined,
+    chapter: number,
+    verseStart: number,
+    verseCount: number,
+  ) => {
+    if (!bibleBook) {
+      return 'Loading...'
+    }
+
+    const chapterData = bibleBook.chapters.find((c) => c.chapter === chapter)
+    if (!chapterData) {
+      return 'Chapter not found'
+    }
+
+    const verses = chapterData.sections
+      .flatMap((s) => s.verses)
+      .slice(verseStart - 1, verseStart - 1 + verseCount)
+      .map((v) => v.text)
+      .join(' ')
+
+    return verses
+  }
 
   // Group bookmarks by book and chapter
   const groupedBookmarks = useMemo(() => {
     const grouped: GroupedBookmarks = {}
 
     bookmarks.forEach((b) => {
-      if (!grouped[b.verseRef.book]) {
-        grouped[b.verseRef.book] = []
+      if (!grouped[b.bookId]) {
+        grouped[b.bookId] = []
       }
-      const existingChapter = grouped[b.verseRef.book].find((c) => c.chapter === b.verseRef.chapter)
+      const existingChapter = grouped[b.bookId].find((c) => c.chapter === b.chapter)
+      const verseText = getVerseText(
+        bibleBooks.get(b.bookId),
+        b.chapter,
+        b.verseStart,
+        b.verseCount,
+      )
       if (existingChapter) {
         existingChapter.verses.push({
-          verseStart: b.verseRef.verseStart,
-          verseCount: b.verseRef.verseCount,
+          verseStart: b.verseStart,
+          verseCount: b.verseCount,
+          text: verseText,
         })
       } else {
-        grouped[b.verseRef.book].push({
-          chapter: b.verseRef.chapter,
-          verses: [{ verseStart: b.verseRef.verseStart, verseCount: b.verseRef.verseCount }],
+        grouped[b.bookId].push({
+          chapter: b.chapter,
+          verses: [
+            {
+              verseStart: b.verseStart,
+              verseCount: b.verseCount,
+              text: verseText,
+            },
+          ],
         })
       }
     })
@@ -48,7 +87,7 @@ const BookmarksPage = () => {
     }
 
     return grouped
-  }, [bookmarks])
+  }, [bookmarks, bibleBooks])
 
   return (
     <div className="p-4">
@@ -76,13 +115,16 @@ const BookmarksPage = () => {
               {chapters.map((chapterData) => (
                 <div key={chapterData.chapter} className="mb-2 ml-4">
                   <strong>Chapter {chapterData.chapter}:</strong>{' '}
-                  {chapterData.verses
-                    .map((v) =>
-                      v.verseCount > 1
-                        ? `${v.verseStart}-${v.verseStart + v.verseCount - 1}`
-                        : `${v.verseStart}`,
-                    )
-                    .join(', ')}
+                  {chapterData.verses.map((v, i) => (
+                    <div key={i} className="ml-4">
+                      <p className="font-semibold">
+                        {v.verseCount > 1
+                          ? `${v.verseStart}-${v.verseStart + v.verseCount - 1}`
+                          : `${v.verseStart}`}
+                      </p>
+                      <p>{v.text}</p>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>

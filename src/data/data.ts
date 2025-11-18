@@ -6,6 +6,7 @@ export type bookType = {
   book_short_name_en: string
   testament: string
   chapters: number
+  file_name: string
 }
 
 export const books: bookType[] = [
@@ -17,6 +18,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Gen',
     testament: 'old',
     chapters: 50,
+    file_name: '01-genesis',
   },
   {
     book_number: 2,
@@ -26,6 +28,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Ex',
     testament: 'old',
     chapters: 40,
+    file_name: '02-exodus',
   },
   {
     book_number: 3,
@@ -35,6 +38,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Lev',
     testament: 'old',
     chapters: 27,
+    file_name: '03-leviticus',
   },
   {
     book_number: 4,
@@ -44,6 +48,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Num',
     testament: 'old',
     chapters: 36,
+    file_name: '04-numbers',
   },
   {
     book_number: 5,
@@ -53,6 +58,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Deut',
     testament: 'old',
     chapters: 34,
+    file_name: '05-deuteronomy',
   },
   {
     book_number: 6,
@@ -62,6 +68,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Josh',
     testament: 'old',
     chapters: 24,
+    file_name: '06-joshua',
   },
   {
     book_number: 7,
@@ -71,6 +78,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Judg',
     testament: 'old',
     chapters: 21,
+    file_name: '07-judges',
   },
   {
     book_number: 8,
@@ -80,6 +88,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Ruth',
     testament: 'old',
     chapters: 4,
+    file_name: '08-ruth',
   },
   {
     book_number: 9,
@@ -89,6 +98,7 @@ export const books: bookType[] = [
     book_short_name_en: '1 Sam',
     testament: 'old',
     chapters: 31,
+    file_name: '09-1 samuel',
   },
   {
     book_number: 10,
@@ -98,6 +108,7 @@ export const books: bookType[] = [
     book_short_name_en: '2 Sam',
     testament: 'old',
     chapters: 24,
+    file_name: '10-2 samuel',
   },
   {
     book_number: 11,
@@ -107,6 +118,7 @@ export const books: bookType[] = [
     book_short_name_en: '1 Kings',
     testament: 'old',
     chapters: 22,
+    file_name: '11-1 kings',
   },
   {
     book_number: 12,
@@ -116,6 +128,7 @@ export const books: bookType[] = [
     book_short_name_en: '2 Kings',
     testament: 'old',
     chapters: 25,
+    file_name: '12-2 kings',
   },
   {
     book_number: 13,
@@ -125,6 +138,7 @@ export const books: bookType[] = [
     book_short_name_en: '1 Chron',
     testament: 'old',
     chapters: 29,
+    file_name: '13-1 chronicles',
   },
   {
     book_number: 14,
@@ -134,6 +148,7 @@ export const books: bookType[] = [
     book_short_name_en: '2 Chron',
     testament: 'old',
     chapters: 36,
+    file_name: '14-2 chronicles',
   },
   {
     book_number: 15,
@@ -143,6 +158,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Jubil',
     testament: 'old',
     chapters: 34,
+    file_name: '15-jubilees',
   },
   {
     book_number: 16,
@@ -152,6 +168,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Enoch',
     testament: 'old',
     chapters: 42,
+    file_name: '16-enoch',
   },
   {
     book_number: 17,
@@ -161,6 +178,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Ezr',
     testament: 'old',
     chapters: 10,
+    file_name: '17-ezra',
   },
   {
     book_number: 18,
@@ -170,6 +188,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Neh',
     testament: 'old',
     chapters: 13,
+    file_name: '18-nehemiah',
   },
   {
     book_number: 19,
@@ -179,6 +198,7 @@ export const books: bookType[] = [
     book_short_name_en: '3 Ezr',
     testament: 'old',
     chapters: 13,
+    file_name: '19-3 book of ezra',
   },
   {
     book_number: 20,
@@ -188,6 +208,7 @@ export const books: bookType[] = [
     book_short_name_en: '4 Ezr',
     testament: 'old',
     chapters: 9,
+    file_name: '20-4 book of ezra',
   },
   {
     book_number: 21,
@@ -197,6 +218,7 @@ export const books: bookType[] = [
     book_short_name_en: 'tobit',
     testament: 'old',
     chapters: 14,
+    file_name: '21-book of tobit',
   },
   {
     book_number: 22,
@@ -206,6 +228,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Judith',
     testament: 'old',
     chapters: 16,
+    file_name: '22-book of judith',
   },
   {
     book_number: 23,
@@ -215,33 +238,37 @@ export const books: bookType[] = [
     book_short_name_en: 'Est',
     testament: 'old',
     chapters: 11,
+    file_name: '23-esther',
   },
   {
     book_number: 24,
     book_name_am: 'መጽሐፈ መቃብያን ቀዳማዊ',
     book_short_name_am: '1 መቃ',
-    book_name_en: '1 Meqabyan',
-    book_short_name_en: '1 Meqa',
+    book_name_en: '1 Maccabees',
+    book_short_name_en: '1 Mac',
     testament: 'old',
     chapters: 36,
+    file_name: '24-1 maccabees',
   },
   {
     book_number: 25,
     book_name_am: 'መጽሐፈ መቃብያን ካልእ',
     book_short_name_am: '2 መቃ',
-    book_name_en: '2 Meqabyan',
-    book_short_name_en: '2 Meqa',
+    book_name_en: '2 Maccabees',
+    book_short_name_en: '2 Mac',
     testament: 'old',
     chapters: 21,
+    file_name: '25-2 maccabees',
   },
   {
     book_number: 26,
     book_name_am: 'መጽሐፈ መቃብያን ሳልስ',
     book_short_name_am: '3 መቃ',
-    book_name_en: '3 Meqabyan',
-    book_short_name_en: '3 Meqa',
+    book_name_en: '3 Maccabees',
+    book_short_name_en: '3 Mac',
     testament: 'old',
     chapters: 10,
+    file_name: '26-3 maccabees',
   },
   {
     book_number: 27,
@@ -251,6 +278,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Job',
     testament: 'old',
     chapters: 42,
+    file_name: '27-job',
   },
   {
     book_number: 28,
@@ -260,6 +288,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Ps',
     testament: 'old',
     chapters: 151,
+    file_name: '28-psalms',
   },
   {
     book_number: 29,
@@ -269,6 +298,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Prov',
     testament: 'old',
     chapters: 24,
+    file_name: '29-proverbs',
   },
   {
     book_number: 30,
@@ -278,6 +308,7 @@ export const books: bookType[] = [
     book_short_name_en: 'admo',
     testament: 'old',
     chapters: 6,
+    file_name: '30-book of admonition',
   },
   {
     book_number: 31,
@@ -287,6 +318,7 @@ export const books: bookType[] = [
     book_short_name_en: 'wos',
     testament: 'old',
     chapters: 19,
+    file_name: '31-wisdom of solomon',
   },
   {
     book_number: 32,
@@ -296,6 +328,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Ecc',
     testament: 'old',
     chapters: 12,
+    file_name: '32-ecclesiastes',
   },
   {
     book_number: 33,
@@ -305,15 +338,17 @@ export const books: bookType[] = [
     book_short_name_en: 'Song',
     testament: 'old',
     chapters: 8,
+    file_name: '33-song of solomon',
   },
   {
     book_number: 34,
     book_name_am: 'መጽሐፈ ሲራክ',
     book_short_name_am: 'ሲራ',
-    book_name_en: 'book of sirach',
+    book_name_en: 'Book of Sirach',
     book_short_name_en: 'sir',
     testament: 'old',
     chapters: 51,
+    file_name: '34-book of sirach',
   },
   {
     book_number: 35,
@@ -323,6 +358,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Isa',
     testament: 'old',
     chapters: 66,
+    file_name: '35-isaiah',
   },
   {
     book_number: 36,
@@ -332,6 +368,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Jer',
     testament: 'old',
     chapters: 52,
+    file_name: '36-jeremiah',
   },
   {
     book_number: 37,
@@ -341,6 +378,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Baru',
     testament: 'old',
     chapters: 5,
+    file_name: '37-baruch',
   },
   {
     book_number: 38,
@@ -350,15 +388,17 @@ export const books: bookType[] = [
     book_short_name_en: 'Lam',
     testament: 'old',
     chapters: 5,
+    file_name: '38-lamentations',
   },
   {
     book_number: 39,
     book_name_am: 'ተረፈ ኤርምያስ',
     book_short_name_am: 'ተረኤር',
-    book_name_en: 'Teref Ermias',
+    book_name_en: 'Terefermias',
     book_short_name_en: 'teer',
     testament: 'old',
     chapters: 1,
+    file_name: '39-terefermias',
   },
   {
     book_number: 40,
@@ -368,6 +408,7 @@ export const books: bookType[] = [
     book_short_name_en: 'TBar',
     testament: 'old',
     chapters: 5,
+    file_name: '40-Teref Baruch',
   },
   {
     book_number: 41,
@@ -377,6 +418,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Ezek',
     testament: 'old',
     chapters: 48,
+    file_name: '41-ezekiel',
   },
   {
     book_number: 42,
@@ -386,6 +428,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Dan',
     testament: 'old',
     chapters: 14,
+    file_name: '42-daniel',
   },
   {
     book_number: 43,
@@ -395,6 +438,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Hos',
     testament: 'old',
     chapters: 14,
+    file_name: '43-hosea',
   },
   {
     book_number: 44,
@@ -404,6 +448,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Amos',
     testament: 'old',
     chapters: 9,
+    file_name: '44-amos',
   },
   {
     book_number: 45,
@@ -413,6 +458,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Micah',
     testament: 'old',
     chapters: 7,
+    file_name: '45-micah',
   },
   {
     book_number: 46,
@@ -422,6 +468,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Joel',
     testament: 'old',
     chapters: 3,
+    file_name: '46-joel',
   },
   {
     book_number: 47,
@@ -431,6 +478,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Obad',
     testament: 'old',
     chapters: 1,
+    file_name: '47-obadiah',
   },
   {
     book_number: 48,
@@ -440,6 +488,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Jonah',
     testament: 'old',
     chapters: 4,
+    file_name: '48-jonah',
   },
   {
     book_number: 49,
@@ -449,6 +498,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Nahum',
     testament: 'old',
     chapters: 3,
+    file_name: '49-nahum',
   },
   {
     book_number: 50,
@@ -458,6 +508,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Hab',
     testament: 'old',
     chapters: 3,
+    file_name: '50-habakkuk',
   },
   {
     book_number: 51,
@@ -467,6 +518,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Zeph',
     testament: 'old',
     chapters: 3,
+    file_name: '51-zephaniah',
   },
   {
     book_number: 52,
@@ -476,6 +528,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Hag',
     testament: 'old',
     chapters: 2,
+    file_name: '52-haggai',
   },
   {
     book_number: 53,
@@ -485,6 +538,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Zech',
     testament: 'old',
     chapters: 14,
+    file_name: '53-zechariah',
   },
   {
     book_number: 54,
@@ -494,6 +548,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Mal',
     testament: 'old',
     chapters: 4,
+    file_name: '54-malachi',
   },
   {
     book_number: 55,
@@ -503,6 +558,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Matt',
     testament: 'new',
     chapters: 28,
+    file_name: '55-matthew',
   },
   {
     book_number: 56,
@@ -512,6 +568,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Mark',
     testament: 'new',
     chapters: 16,
+    file_name: '56-mark',
   },
   {
     book_number: 57,
@@ -521,6 +578,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Luke',
     testament: 'new',
     chapters: 24,
+    file_name: '57-luke',
   },
   {
     book_number: 58,
@@ -530,6 +588,7 @@ export const books: bookType[] = [
     book_short_name_en: 'John',
     testament: 'new',
     chapters: 21,
+    file_name: '58-john',
   },
   {
     book_number: 59,
@@ -539,6 +598,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Acts',
     testament: 'new',
     chapters: 28,
+    file_name: '59-act',
   },
   {
     book_number: 60,
@@ -548,6 +608,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Rom',
     testament: 'new',
     chapters: 16,
+    file_name: '60-romans',
   },
   {
     book_number: 61,
@@ -557,6 +618,7 @@ export const books: bookType[] = [
     book_short_name_en: '1 Cor',
     testament: 'new',
     chapters: 16,
+    file_name: '61-1 corinthians',
   },
   {
     book_number: 62,
@@ -566,6 +628,7 @@ export const books: bookType[] = [
     book_short_name_en: '2 Cor',
     testament: 'new',
     chapters: 13,
+    file_name: '62-2 corinthians',
   },
   {
     book_number: 63,
@@ -575,6 +638,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Gal',
     testament: 'new',
     chapters: 6,
+    file_name: '63-galatians',
   },
   {
     book_number: 64,
@@ -584,6 +648,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Eph',
     testament: 'new',
     chapters: 6,
+    file_name: '64-ephesians',
   },
   {
     book_number: 65,
@@ -593,6 +658,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Phil',
     testament: 'new',
     chapters: 4,
+    file_name: '65-philippians',
   },
   {
     book_number: 66,
@@ -602,6 +668,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Col',
     testament: 'new',
     chapters: 4,
+    file_name: '66-colossians',
   },
   {
     book_number: 67,
@@ -611,6 +678,7 @@ export const books: bookType[] = [
     book_short_name_en: '1 Thess',
     testament: 'new',
     chapters: 5,
+    file_name: '67-1 thessalonians',
   },
   {
     book_number: 68,
@@ -620,6 +688,7 @@ export const books: bookType[] = [
     book_short_name_en: '2 Thess',
     testament: 'new',
     chapters: 3,
+    file_name: '68-2 thessalonians',
   },
   {
     book_number: 69,
@@ -629,6 +698,7 @@ export const books: bookType[] = [
     book_short_name_en: '1 Tim',
     testament: 'new',
     chapters: 6,
+    file_name: '69-1 timothy',
   },
   {
     book_number: 70,
@@ -638,6 +708,7 @@ export const books: bookType[] = [
     book_short_name_en: '2 Tim',
     testament: 'new',
     chapters: 4,
+    file_name: '70-2 timothy',
   },
   {
     book_number: 71,
@@ -647,6 +718,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Titus',
     testament: 'new',
     chapters: 3,
+    file_name: '71-titus',
   },
   {
     book_number: 72,
@@ -656,6 +728,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Philem',
     testament: 'new',
     chapters: 1,
+    file_name: '72-philemon',
   },
   {
     book_number: 73,
@@ -665,6 +738,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Heb',
     testament: 'new',
     chapters: 13,
+    file_name: '73-hebrews',
   },
   {
     book_number: 74,
@@ -674,6 +748,7 @@ export const books: bookType[] = [
     book_short_name_en: '1 Pet',
     testament: 'new',
     chapters: 5,
+    file_name: '74-1 peter',
   },
   {
     book_number: 75,
@@ -683,6 +758,7 @@ export const books: bookType[] = [
     book_short_name_en: '2 Pet',
     testament: 'new',
     chapters: 3,
+    file_name: '75-2 peter',
   },
   {
     book_number: 76,
@@ -692,6 +768,7 @@ export const books: bookType[] = [
     book_short_name_en: '1 Joh',
     testament: 'new',
     chapters: 5,
+    file_name: '76-1 john',
   },
   {
     book_number: 77,
@@ -701,6 +778,7 @@ export const books: bookType[] = [
     book_short_name_en: '2 John',
     testament: 'new',
     chapters: 1,
+    file_name: '77-2 john',
   },
   {
     book_number: 78,
@@ -710,6 +788,7 @@ export const books: bookType[] = [
     book_short_name_en: '3 John',
     testament: 'new',
     chapters: 1,
+    file_name: '78-3 john',
   },
   {
     book_number: 79,
@@ -719,6 +798,7 @@ export const books: bookType[] = [
     book_short_name_en: 'James',
     testament: 'new',
     chapters: 5,
+    file_name: '79-james',
   },
   {
     book_number: 80,
@@ -728,6 +808,7 @@ export const books: bookType[] = [
     book_short_name_en: 'Jud',
     testament: 'new',
     chapters: 1,
+    file_name: '80-jude',
   },
   {
     book_number: 81,
@@ -737,5 +818,6 @@ export const books: bookType[] = [
     book_short_name_en: 'Rev',
     testament: 'new',
     chapters: 22,
+    file_name: '81-revelation',
   },
 ]
