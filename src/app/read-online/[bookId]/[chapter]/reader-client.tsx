@@ -6,6 +6,7 @@ import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
 import { useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 interface ReaderClientProps {
   bookData: any
@@ -23,16 +24,38 @@ export default function ReaderClient({
   bookId,
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     const hash = window.location.hash
     if (hash) {
-      const element = document.getElementById(hash.substring(1))
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
+      const verseCount = parseInt(searchParams.get('verseCount') || '1', 10)
+      const verseStart = parseInt(hash.substring(2), 10) // Remove 'v'
+
+      if (!isNaN(verseStart)) {
+        const firstElement = document.getElementById(`v${verseStart}`)
+        if (firstElement) {
+          firstElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+
+        for (let i = 0; i < verseCount; i++) {
+          const verseNumber = verseStart + i
+          const element = document.getElementById(`v${verseNumber}`)
+          if (element) {
+            element.classList.add('highlight-verse-animation')
+            setTimeout(() => {
+              element.classList.remove('highlight-verse-animation')
+            }, 10000)
+          }
+        }
       }
     }
-  }, [])
+  }, [searchParams])
+
+  const handleBookmark = (verse: number | string) => {
+    console.log('Bookmark verse:', verse)
+    // TODO: Implement bookmark logic - save to localStorage or database
+  }
 
   const handleNote = (verse: number | string, text: string) => {
     console.log('Add note to verse:', verse, 'Text:', text)
@@ -98,6 +121,7 @@ export default function ReaderClient({
                     bookName={bookData.book_name_am} // optional, for UI only
                     chapter={chapterData.chapter}
                     containerId={sectionId}
+                    onBookmark={handleBookmark}
                     onNote={handleNote}
                     onHighlight={handleHighlight}
                   />

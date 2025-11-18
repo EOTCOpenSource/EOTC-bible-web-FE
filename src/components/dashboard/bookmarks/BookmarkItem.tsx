@@ -57,7 +57,13 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ bookmark }) => {
   }
 
   const handleReadMore = () => {
-    router.push(`/read-online/${bookmark.bookId}/${bookmark.chapter}#v${bookmark.verseStart}`)
+    const verseCount = bookmark.verseCount || 1
+    let url = `/read-online/${bookmark.bookId}/${bookmark.chapter}`
+    if (verseCount > 1) {
+      url += `?verseCount=${verseCount}`
+    }
+    url += `#v${bookmark.verseStart}`
+    router.push(url)
   }
 
   const verseRange =

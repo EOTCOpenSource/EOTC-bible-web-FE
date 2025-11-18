@@ -8,6 +8,7 @@ import axios from 'axios'
 import LogoutButton from './LogoutButton'
 import DeleteAccountButton from './DeleteAccountButton'
 import { useTranslations } from 'next-intl'
+import { Button } from '@/components/ui/button' // Import Button component
 
 interface DashboardClientProps {
   initialUser: UserProfile | null
@@ -65,7 +66,7 @@ export default function DashboardClient() {
       </main>
     )
   }
-  const displayUser = user 
+  const displayUser = user
 
   if (!displayUser) {
     return (
@@ -99,6 +100,20 @@ export default function DashboardClient() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">{t('welcome', { name: displayUser.name })}</h1>
         <div className="space-x-4">
+          <Button
+            className="text-gray-600"
+            variant="outline"
+            onClick={() => router.push('/read-online')}
+          >
+            {t('readOnlineButton')}
+          </Button>
+          <Button
+            className="text-gray-600"
+            variant="outline"
+            onClick={() => router.push('/dashboard/bookmarks')}
+          >
+            {t('bookmarksButton')}
+          </Button>
           <LogoutButton />
           <DeleteAccountButton />
         </div>
@@ -113,10 +128,12 @@ export default function DashboardClient() {
           {displayUser.settings && (
             <>
               <p>
-                <span className="font-medium">{t('profile.theme')}:</span> {displayUser.settings.theme}
+                <span className="font-medium">{t('profile.theme')}:</span>{' '}
+                {displayUser.settings.theme}
               </p>
               <p>
-                <span className="font-medium">{t('profile.fontSize')}:</span> {displayUser.settings.fontSize}
+                <span className="font-medium">{t('profile.fontSize')}:</span>{' '}
+                {displayUser.settings.fontSize}
               </p>
             </>
           )}

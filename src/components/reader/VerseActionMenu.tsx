@@ -271,7 +271,12 @@ export const VerseActionMenu = ({
 
   return (
     <>
-      <span ref={verseRef} data-verse={verseNumber} id={`v${verseNumber}`}>
+      <span
+        ref={verseRef}
+        data-verse={verseNumber}
+        id={`v${verseNumber}`}
+        className="verse-scroll-margin"
+      >
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
         <span>{verseText} </span>
       </span>

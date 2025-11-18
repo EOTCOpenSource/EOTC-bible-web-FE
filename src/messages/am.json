@@ -450,7 +450,8 @@
       "email": "ኢሜል",
       "theme": "ገጽታ",
       "fontSize": "የፊደል መጠን"
-    }
+    },
+    "bookmarksButton": "የመጽሐፍ ምልክቶች"
   },
   "GlobalError": {
     "title": "አንዳንድ ችግኝ ተፈጥሯል",
