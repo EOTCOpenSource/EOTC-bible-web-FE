@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
+import { useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 interface ReaderClientProps {
   bookData: any
@@ -22,6 +24,33 @@ export default function ReaderClient({
   bookId,
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      const verseCount = parseInt(searchParams.get('verseCount') || '1', 10)
+      const verseStart = parseInt(hash.substring(2), 10) // Remove 'v'
+
+      if (!isNaN(verseStart)) {
+        const firstElement = document.getElementById(`v${verseStart}`)
+        if (firstElement) {
+          firstElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+
+        for (let i = 0; i < verseCount; i++) {
+          const verseNumber = verseStart + i
+          const element = document.getElementById(`v${verseNumber}`)
+          if (element) {
+            element.classList.add('highlight-verse-animation')
+            setTimeout(() => {
+              element.classList.remove('highlight-verse-animation')
+            }, 10000)
+          }
+        }
+      }
+    }
+  }, [searchParams])
 
   const handleBookmark = (verse: number | string) => {
     console.log('Bookmark verse:', verse)

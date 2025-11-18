@@ -450,7 +450,9 @@
       "email": "Email",
       "theme": "Theme",
       "fontSize": "Font Size"
-    }
+    },
+    "bookmarksButton": "Bookmarks",
+    "readOnlineButton": "Read Online"
   },
   "GlobalError": {
     "title": "Something went wrong",

@@ -1,14 +1,17 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import type { BookMark, VerseRef } from './types'
-import axiosInstance from '@/lib/axios' // Import axiosInstance
+import type { BookMark, VerseRef, BibleBook } from './types'
+import axiosInstance from '@/lib/axios'
+import { books } from '@/data/data'
 
 interface BookmarksState {
   bookmarks: BookMark[]
+  bibleBooks: Map<string, BibleBook>
   isLoading: boolean
   error?: string | null
 
   loadBookmarks: () => Promise<void>
+  loadBibleBook: (bookId: string) => Promise<void>
   addBookmark: (verseRef: VerseRef) => Promise<void>
   removeBookmark: (id: string) => Promise<void>
   clearError: () => void
@@ -17,10 +20,28 @@ interface BookmarksState {
 export const useBookmarksStore = create<BookmarksState>()(
   devtools((set, get) => ({
     bookmarks: [],
+    bibleBooks: new Map(),
     isLoading: false,
     error: null,
 
     clearError: () => set({ error: null }),
+
+    loadBibleBook: async (bookId: string) => {
+      const book = books.find((b) => b.book_name_en.toLowerCase().replace(/ /g, '-') === bookId)
+      if (!book) {
+        return
+      }
+
+      try {
+        const res = await import(`@/data/bible-data/${book.file_name}.json`)
+        const bookData = res.default
+        set((state) => ({
+          bibleBooks: new Map(state.bibleBooks).set(bookId, bookData),
+        }))
+      } catch (error) {
+        console.error(`Failed to load bible book: ${bookId}`, error)
+      }
+    },
 
     loadBookmarks: async () => {
       set({ isLoading: true, error: null })
@@ -30,15 +51,19 @@ export const useBookmarksStore = create<BookmarksState>()(
 
         const bookmarks: BookMark[] = raw.map((item: any) => ({
           _id: item._id,
-          verseRef: {
-            book: item.bookId,
-            chapter: item.chapter,
-            verseStart: item.verseStart,
-            verseCount: item.verseCount,
-          },
+          bookId: item.bookId,
+          chapter: item.chapter,
+          verseStart: item.verseStart,
+          verseCount: item.verseCount,
           createdAt: item.createdAt,
         }))
+
         set({ bookmarks, isLoading: false })
+
+        const bookIds = new Set(bookmarks.map((b) => b.bookId))
+        for (const bookId of bookIds) {
+          get().loadBibleBook(bookId)
+        }
       } catch (err: any) {
         set({ isLoading: false, error: err?.response?.data?.error ?? err?.message ?? 'Unknown' })
       }
@@ -51,7 +76,10 @@ export const useBookmarksStore = create<BookmarksState>()(
       const tempId = `temp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
       const tempBookmark: BookMark = {
         _id: tempId,
-        verseRef,
+        bookId: verseRef.book,
+        chapter: verseRef.chapter,
+        verseStart: verseRef.verseStart,
+        verseCount: verseRef.verseCount,
         createdAt: new Date().toISOString(),
       }
 
@@ -66,18 +94,7 @@ export const useBookmarksStore = create<BookmarksState>()(
           verseStart: verseRef.verseStart,
           verseCount: verseRef.verseCount,
         })
-        const backendResponse = res.data // Axios returns data in res.data
-
-        const createdBookmark: BookMark = {
-          _id: backendResponse._id,
-          verseRef: {
-            book: backendResponse.bookId,
-            chapter: backendResponse.chapter,
-            verseStart: verseRef.verseStart,
-            verseCount: verseRef.verseCount,
-          },
-          createdAt: backendResponse.createdAt,
-        }
+        const createdBookmark = res.data?.data
 
         // REPLACE TEMP WITH REAL BOOKMARKS
         set((state) => ({

@@ -150,3 +150,20 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: 0;  /* Firefox */
 }
+
+@keyframes highlight-verse {
+  0% {
+    background-color: rgba(255, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.highlight-verse-animation {
+  animation: highlight-verse 2s ease-out;
+}
+
+.verse-scroll-margin {
+  scroll-margin-top: 80px; /* Adjust this value based on your navbar's height */
+}
