@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import axios from 'axios'
 import type { Highlight, HighlightColor, VerseRef } from './types'
 
 interface HighlightsState {
@@ -22,21 +23,54 @@ export const useHighlightsStore = create<HighlightsState>()(
 
     clearError: () => set({ error: null }),
 
-    // ✅ LOAD all highlights from the API proxy
+    // LOAD all highlights from the API
     loadHighlights: async () => {
       set({ isLoading: true, error: null })
       try {
-        const res = await fetch('/api/highlights')
-        if (!res.ok) throw new Error('Failed to load highlights')
-        const json = await res.json()
-        const data = json.data || json
-        set({ highlights: data, isLoading: false })
+        const res = await axios.get('/api/highlights', {
+          withCredentials: true,
+        })
+        
+        // Handle nested data structure
+        const responseData = res.data?.data || res.data
+        const highlightsArray = responseData?.data || responseData
+        
+        // Transform backend format to frontend format
+        // Backend: { _id, bookId, chapter, verseStart, color, ... }
+        // Frontend: { _id, verseRef: { book, chapter, verse }, color, ... }
+        const transformedHighlights: Highlight[] = Array.isArray(highlightsArray)
+          ? highlightsArray
+              .filter((h: any) => h && h._id) // Filter out invalid highlights
+              .map((h: any) => {
+                // If already in frontend format, return as-is
+                if (h.verseRef) {
+                  return h as Highlight
+                }
+                // Transform from backend format
+                return {
+                  _id: h._id,
+                  verseRef: {
+                    book: h.bookId || h.book || '',
+                    chapter: h.chapter || 0,
+                    verse: h.verseStart || h.verse || 0,
+                  },
+                  color: h.color || 'yellow',
+                  createdAt: h.createdAt || new Date().toISOString(),
+                }
+              })
+              .filter((h: Highlight) => h.verseRef.book && h.verseRef.chapter && h.verseRef.verse) // Filter invalid transformed highlights
+          : []
+        
+        set({ highlights: transformedHighlights, isLoading: false })
       } catch (err: any) {
-        set({ isLoading: false, error: err?.message ?? 'Unknown' })
+        set({
+          isLoading: false,
+          error: err?.response?.data?.error || err?.message || 'Failed to load highlights',
+        })
       }
     },
 
-    // ✅ ADD a new highlight (calls /api/highlights)
+    // ✅ ADD a new highlight (calls /api/highlights/add)
     addHighlight: async (verseRef, color = 'yellow') => {
       set({ error: null })
 
@@ -53,31 +87,37 @@ export const useHighlightsStore = create<HighlightsState>()(
       set((state) => ({ highlights: [tempHighlight, ...state.highlights] }))
 
       try {
-        const res = await fetch('/api/highlights', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        const res = await axios.post(
+          '/api/highlights/add',
+          {
             bookId: verseRef.book,
             chapter: verseRef.chapter,
             verseStart: verseRef.verse,
             verseCount: 1,
             color,
-          }),
-        })
+          },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          }
+        )
 
-        if (!res.ok) throw new Error('Failed to add highlight')
-        const backendResponse = await res.json()
-        const backendHighlight = backendResponse.data?.highlight
+        const backendResponse = res.data
+        const backendHighlight = backendResponse?.data?.highlight || backendResponse?.highlight
+
+        if (!backendHighlight?._id) {
+          throw new Error('Invalid response from server')
+        }
 
         const createdHighlight: Highlight = {
           _id: backendHighlight._id,
           verseRef: {
-            book: backendHighlight.bookId,
+            book: backendHighlight.bookId || backendHighlight.book,
             chapter: backendHighlight.chapter,
-            verse: backendHighlight.verseStart,
+            verse: backendHighlight.verseStart || backendHighlight.verse,
           },
-          color: backendHighlight.color,
-          createdAt: backendHighlight.createdAt,
+          color: backendHighlight.color || color,
+          createdAt: backendHighlight.createdAt || new Date().toISOString(),
         }
 
         // Replace temp highlight with real one
@@ -89,12 +129,12 @@ export const useHighlightsStore = create<HighlightsState>()(
       } catch (err: any) {
         set((state) => ({
           highlights: state.highlights.filter((h) => h._id !== tempId),
-          error: err?.message ?? 'Failed to add highlight',
+          error: err?.response?.data?.error || err?.message || 'Failed to add highlight',
         }))
       }
     },
 
-    // ✅ REMOVE highlight (calls /api/highlights/:id)
+    // ✅ REMOVE highlight (calls /api/highlights/delete)
     removeHighlight: async (id) => {
       const originalHighlights = get().highlights
       const highlightToDelete = originalHighlights.find((h) => h._id === id)
@@ -110,19 +150,20 @@ export const useHighlightsStore = create<HighlightsState>()(
       }))
 
       try {
-        const res = await fetch(`/api/highlights/${id}`, {
-          method: 'DELETE',
+        await axios.delete('/api/highlights/delete', {
+          data: { id },
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
         })
-        if (!res.ok) throw new Error('Failed to delete highlight')
       } catch (err: any) {
         set({
           highlights: originalHighlights,
-          error: err?.message ?? 'Failed to delete highlight',
+          error: err?.response?.data?.error || err?.message || 'Failed to delete highlight',
         })
       }
     },
 
-    // ✅ CHANGE color (calls /api/highlights/:id)
+    // ✅ CHANGE color (calls /api/highlights/[id])
     changeColor: async (id, color) => {
       const originalHighlights = get().highlights
       const highlightToUpdate = originalHighlights.find((h) => h._id === id)
@@ -140,16 +181,18 @@ export const useHighlightsStore = create<HighlightsState>()(
       }))
 
       try {
-        const res = await fetch(`/api/highlights/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ color }),
-        })
-        if (!res.ok) throw new Error('Failed to change highlight color')
+        await axios.put(
+          `/api/highlights/${id}`,
+          { color },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          }
+        )
       } catch (err: any) {
         set({
           highlights: originalHighlights,
-          error: err?.message ?? 'Failed to change highlight color',
+          error: err?.response?.data?.error || err?.message || 'Failed to change highlight color',
         })
       }
     },

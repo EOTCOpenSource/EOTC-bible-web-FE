@@ -15,6 +15,8 @@ interface VerseActionMenuProps {
   onBookmark?: (verse: number | string) => void
   onNote?: (verse: number | string, text: string) => void
   onHighlight?: (verse: number | string, selectedText: string, color?: string) => void
+  highlightColor?: string
+  highlightId?: string
 }
 
 export const VerseActionMenu = ({
@@ -26,10 +28,13 @@ export const VerseActionMenu = ({
   onBookmark,
   onNote,
   onHighlight,
+  highlightColor,
+  highlightId: _highlightId,
 }: VerseActionMenuProps) => {
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
+  const [selectedVerseNumber, setSelectedVerseNumber] = useState<number | string | null>(null)
   const [copied, setCopied] = useState(false)
   const [shared, setShared] = useState(false)
   const [showColorPicker, setShowColorPicker] = useState(false)
@@ -41,12 +46,36 @@ export const VerseActionMenu = ({
 
   const highlightColors = ['#621B1C', '#FFE062', '#3BAD49', '#FF4B26', '#5778C5', '#704A6A']
 
+  
+   //Finds the verse number from the selected DOM element
+   // by traversing up the DOM tree to find the closest element with data-verse attribute
+   
+  const findVerseNumberFromSelection = (range: Range): number | string | null => {
+    let node: Node | null = range.startContainer
+
+    // Traverse up the DOM tree to find the verse element
+    while (node && node !== document.body) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const element = node as Element
+        const verseAttr = element.getAttribute('data-verse')
+        if (verseAttr) {
+          const verseNum = parseInt(verseAttr, 10)
+          return isNaN(verseNum) ? verseAttr : verseNum
+        }
+      }
+      node = node.parentNode
+    }
+
+    return null
+  }
+
   useEffect(() => {
     const handleSelectionChange = () => {
       const selection = window.getSelection()
       if (!selection || selection.rangeCount === 0) {
         setShowMenu(false)
         setShowColorPicker(false)
+        setSelectedVerseNumber(null)
         initialPositionSet.current = false
         return
       }
@@ -64,7 +93,12 @@ export const VerseActionMenu = ({
         )
 
         if (isWithinContainer) {
+          // Find the actual verse number from the selected text
+          const actualVerseNumber = findVerseNumberFromSelection(range)
+          const verseToUse = actualVerseNumber !== null ? actualVerseNumber : verseNumber
+
           setSelectedText(selectedTextContent)
+          setSelectedVerseNumber(verseToUse)
 
           if (!initialPositionSet.current) {
             const rect = range.getBoundingClientRect()
@@ -79,11 +113,13 @@ export const VerseActionMenu = ({
         } else {
           setShowMenu(false)
           setShowColorPicker(false)
+          setSelectedVerseNumber(null)
           initialPositionSet.current = false
         }
       } else {
         setShowMenu(false)
         setShowColorPicker(false)
+        setSelectedVerseNumber(null)
         initialPositionSet.current = false
       }
     }
@@ -148,17 +184,21 @@ export const VerseActionMenu = ({
   }
 
   const handleBookmark = () => {
-    onBookmark?.(verseNumber)
+    const verseToUse = selectedVerseNumber !== null ? selectedVerseNumber : verseNumber
+    onBookmark?.(verseToUse)
     setShowMenu(false)
     setShowColorPicker(false)
+    setSelectedVerseNumber(null)
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
 
   const handleNote = () => {
-    onNote?.(verseNumber, selectedText || verseText)
+    const verseToUse = selectedVerseNumber !== null ? selectedVerseNumber : verseNumber
+    onNote?.(verseToUse, selectedText || verseText)
     setShowMenu(false)
     setShowColorPicker(false)
+    setSelectedVerseNumber(null)
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
@@ -167,7 +207,22 @@ export const VerseActionMenu = ({
     <>
       <span ref={verseRef} data-verse={verseNumber}>
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
-        <span>{verseText} </span>
+        <span
+          className={cn(
+            'transition-colors duration-200',
+            highlightColor && 'rounded px-1 py-0.5'
+          )}
+          style={
+            highlightColor
+              ? {
+                  backgroundColor: highlightColor,
+                  opacity: 0.6,
+                }
+              : undefined
+          }
+        >
+          {verseText}{' '}
+        </span>
       </span>
 
       {showMenu && (
@@ -206,9 +261,12 @@ export const VerseActionMenu = ({
                     <button
                       key={color}
                       onClick={() => {
-                        onHighlight?.(verseNumber, selectedText || verseText, color)
+                        // Use the detected verse number from selection, fallback to component's verseNumber
+                        const verseToHighlight = selectedVerseNumber !== null ? selectedVerseNumber : verseNumber
+                        onHighlight?.(verseToHighlight, selectedText || verseText, color)
                         setShowColorPicker(false)
                         setShowMenu(false)
+                        setSelectedVerseNumber(null)
                         initialPositionSet.current = false
                         window.getSelection()?.removeAllRanges()
                       }}
