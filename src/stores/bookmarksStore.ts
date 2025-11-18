@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import type { BookMark, VerseRef } from './types'
+import axiosInstance from '@/lib/axios' // Import axiosInstance
 
 interface BookmarksState {
   bookmarks: BookMark[]
@@ -24,12 +25,22 @@ export const useBookmarksStore = create<BookmarksState>()(
     loadBookmarks: async () => {
       set({ isLoading: true, error: null })
       try {
-        const res = await fetch('https://mylocalbackend/api/v1/user/me/api/bookmarks')
-        if (!res.ok) throw new Error('Failed to load bookmarks')
-        const data = (await res.json()) as BookMark[]
-        set({ bookmarks: data, isLoading: false })
+        const res = await axiosInstance.get('/api/bookmarks')
+        const raw = res.data?.data?.data ?? []
+
+        const bookmarks: BookMark[] = raw.map((item: any) => ({
+          _id: item._id,
+          verseRef: {
+            book: item.bookId,
+            chapter: item.chapter,
+            verseStart: item.verseStart,
+            verseCount: item.verseCount,
+          },
+          createdAt: item.createdAt,
+        }))
+        set({ bookmarks, isLoading: false })
       } catch (err: any) {
-        set({ isLoading: false, error: err?.message ?? 'Unknown' })
+        set({ isLoading: false, error: err?.response?.data?.error ?? err?.message ?? 'Unknown' })
       }
     },
 
@@ -48,24 +59,22 @@ export const useBookmarksStore = create<BookmarksState>()(
       set((state) => ({ bookmarks: [tempBookmark, ...state.bookmarks] }))
 
       try {
-        const res = await fetch('https://mylocalbackend/api/v1/user/me/api/bookmarks', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            bookId: verseRef.book,
-            chapter: verseRef.chapter,
-            verse: verseRef.verse,
-          }),
+        const res = await axiosInstance.post('/api/bookmarks', {
+          // Use axiosInstance
+          bookId: verseRef.book,
+          chapter: verseRef.chapter,
+          verseStart: verseRef.verseStart,
+          verseCount: verseRef.verseCount,
         })
-        if (!res.ok) throw new Error('Failed to add bookmark')
-        const backendResponse = await res.json()
+        const backendResponse = res.data // Axios returns data in res.data
 
         const createdBookmark: BookMark = {
           _id: backendResponse._id,
           verseRef: {
             book: backendResponse.bookId,
             chapter: backendResponse.chapter,
-            verse: backendResponse.verse,
+            verseStart: verseRef.verseStart,
+            verseCount: verseRef.verseCount,
           },
           createdAt: backendResponse.createdAt,
         }
@@ -79,7 +88,7 @@ export const useBookmarksStore = create<BookmarksState>()(
       } catch (err: any) {
         set((state) => ({
           bookmarks: state.bookmarks.filter((bookmark) => bookmark._id !== tempId),
-          error: err?.message ?? 'Failed to add bookmark',
+          error: err?.response?.data?.error ?? err?.message ?? 'Failed to add bookmark',
         }))
       }
     },
@@ -100,15 +109,12 @@ export const useBookmarksStore = create<BookmarksState>()(
       }))
 
       try {
-        const res = await fetch(`https://mylocalbackend/api/v1/user/me/api/bookmarks/${id}`, {
-          method: 'DELETE',
-        })
-        if (!res.ok) throw new Error('Failed to delete bookmark')
+        await axiosInstance.delete(`/api/bookmarks/${id}`) // Use axiosInstance
       } catch (err: any) {
         // ROLLBACK IN CASE OF FAILED DELETION
         set({
           bookmarks: originalBookmarks,
-          error: err?.message ?? 'Failed to delete bookmark',
+          error: err?.response?.data?.error ?? err?.message ?? 'Failed to delete bookmark',
         })
       }
     },

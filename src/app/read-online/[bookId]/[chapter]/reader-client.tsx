@@ -50,12 +50,20 @@ export default function ReaderClient({
       const h = highlight as any
       const book = highlight.verseRef?.book || h.bookId
       const chapter = highlight.verseRef?.chapter ?? h.chapter
-      const verse = highlight.verseRef?.verse ?? h.verseStart
+      const verseStart =
+        highlight.verseRef?.verseStart ?? highlight.verseRef?.verse ?? h.verseStart ?? h.verse
+      const verseCount = highlight.verseRef?.verseCount ?? h.verseCount ?? 1
       const color = highlight.color
       
       // Skip if required fields are missing
-      if (!book || !chapter || !verse || !color) {
-        console.warn('[highlightsMap] Skipping highlight with missing fields:', { book, chapter, verse, color })
+      if (!book || !chapter || !verseStart || !color) {
+        console.warn('[highlightsMap] Skipping highlight with missing fields:', {
+          book,
+          chapter,
+          verseStart,
+          verseCount,
+          color,
+        })
         return
       }
       
@@ -66,60 +74,52 @@ export default function ReaderClient({
       // Match highlight to current book and chapter
       if (normalizedBook === normalizedBookId && chapter === chapterData.chapter) {
         const hexColor = getHighlightInlineColor(color)
-        console.log(`[highlightsMap] Adding highlight for verse ${verse}:`, { id: highlight._id, color, hexColor })
-        map.set(verse, {
-          id: highlight._id,
-          color: hexColor,
-        })
-      } else {
-        console.log(`[highlightsMap] Skipping highlight - book/chapter mismatch:`, {
-          highlightBook: book,
-          currentBook: bookId,
-          highlightChapter: chapter,
-          currentChapter: chapterData.chapter,
-        })
+        for (let i = 0; i < verseCount; i++) {
+          const verseNumber = verseStart + i
+          map.set(verseNumber, {
+            id: highlight._id,
+            color: hexColor,
+          })
+        }
       }
     })
     
-    console.log('[highlightsMap] Final map size:', map.size, 'verses:', Array.from(map.keys()))
     return map
   }, [highlights, bookId, chapterData.chapter])
 
-  const handleBookmark = (verse: number | string) => {
-    console.log('Bookmark verse:', verse)
-    // TODO: Implement bookmark logic - save to localStorage or database
-  }
-
   const handleNote = (verse: number | string, text: string) => {
-    console.log('Add note to verse:', verse, 'Text:', text)
     // TODO: Implement note dialog - could use a modal/dialog component
   }
 
-  const handleHighlight = async (verse: number | string, selectedText: string, colorHex?: string) => {
-    const verseNum = typeof verse === 'string' ? parseInt(verse, 10) : verse
-    if (isNaN(verseNum)) return
+  const handleHighlight = async (
+    verseRange: { start: number; end: number; count: number },
+    _selectedText: string,
+    colorHex?: string,
+  ) => {
+    const verseStart = verseRange.start
+    if (!verseStart) return
 
     const verseRef: VerseRef = {
       book: bookId,
       chapter: chapterData.chapter,
-      verse: verseNum,
+      verseStart,
+      verseCount: verseRange.count || 1,
     }
 
     // Check if verse is already highlighted
-    const existingHighlight = highlightsMap.get(verseNum)
-    
+    const existingHighlight = highlightsMap.get(verseStart)
+
     if (existingHighlight) {
-      // Remove existing highlight
       await removeHighlight(existingHighlight.id)
-      // Reload highlights to update UI
       await loadHighlights()
-    } else if (colorHex) {
-      // Add new highlight with mapped color
-      const highlightColor = hexToHighlightColor(colorHex)
-      await addHighlight(verseRef, highlightColor)
-      // Reload highlights to ensure UI is in sync with backend
-      await loadHighlights()
+      return
     }
+
+    if (!colorHex) return
+
+    const highlightColor = hexToHighlightColor(colorHex)
+    await addHighlight(verseRef, highlightColor)
+    await loadHighlights()
   }
 
   return (
@@ -167,24 +167,20 @@ export default function ReaderClient({
                 </h3>
               )}
               <div id={sectionId} className="text-justify text-base sm:text-lg">
-                {section.verses.map((verse: any) => {
-                  const verseHighlight = highlightsMap.get(verse.verse)
-                  return (
-                    <VerseActionMenu
-                      key={verse.verse}
-                      verseNumber={verse.verse}
-                      verseText={verse.text}
-                      bookName={bookData.book_name_am}
-                      chapter={chapterData.chapter}
-                      containerId={sectionId}
-                      onBookmark={handleBookmark}
-                      onNote={handleNote}
-                      onHighlight={handleHighlight}
-                      highlightColor={verseHighlight?.color}
-                      highlightId={verseHighlight?.id}
-                    />
-                  )
-                })}
+                {section.verses.map((verse: any) => (
+                  <VerseActionMenu
+                    key={verse.verse}
+                    verseNumber={verse.verse}
+                    verseText={verse.text}
+                    bookId={bookId} // <-- send slug, the real backend ID
+                    bookName={bookData.book_name_am} // optional, for UI only
+                    chapter={chapterData.chapter}
+                    containerId={sectionId}
+                    onNote={handleNote}
+                    onHighlight={handleHighlight}
+                    highlightColor={highlightsMap.get(verse.verse)?.color}
+                  />
+                ))}
               </div>
             </div>
           )

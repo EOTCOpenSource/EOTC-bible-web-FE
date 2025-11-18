@@ -36,29 +36,38 @@ export const useHighlightsStore = create<HighlightsState>()(
         const highlightsArray = responseData?.data || responseData
         
         // Transform backend format to frontend format
-        // Backend: { _id, bookId, chapter, verseStart, color, ... }
-        // Frontend: { _id, verseRef: { book, chapter, verse }, color, ... }
+        // Backend: { _id, bookId, chapter, verseStart, verseCount, color, ... }
+        // Frontend: { _id, verseRef: { book, chapter, verseStart, verseCount }, color, ... }
         const transformedHighlights: Highlight[] = Array.isArray(highlightsArray)
           ? highlightsArray
               .filter((h: any) => h && h._id) // Filter out invalid highlights
               .map((h: any) => {
-                // If already in frontend format, return as-is
-                if (h.verseRef) {
-                  return h as Highlight
-                }
-                // Transform from backend format
+                const verseRef = h.verseRef || {}
+                const book = verseRef.book || h.bookId || h.book || ''
+                const chapter = verseRef.chapter ?? h.chapter ?? 0
+                const verseStart =
+                  verseRef.verseStart ?? verseRef.verse ?? h.verseStart ?? h.verse ?? 0
+                const verseCount = verseRef.verseCount ?? h.verseCount ?? 1
+
                 return {
                   _id: h._id,
                   verseRef: {
-                    book: h.bookId || h.book || '',
-                    chapter: h.chapter || 0,
-                    verse: h.verseStart || h.verse || 0,
+                    book,
+                    chapter,
+                    verseStart,
+                    verseCount,
                   },
                   color: h.color || 'yellow',
                   createdAt: h.createdAt || new Date().toISOString(),
                 }
               })
-              .filter((h: Highlight) => h.verseRef.book && h.verseRef.chapter && h.verseRef.verse) // Filter invalid transformed highlights
+              .filter(
+                (h: Highlight) =>
+                  h.verseRef.book &&
+                  h.verseRef.chapter &&
+                  h.verseRef.verseStart &&
+                  h.verseRef.verseCount,
+              ) // Filter invalid transformed highlights
           : []
         
         set({ highlights: transformedHighlights, isLoading: false })
@@ -92,8 +101,8 @@ export const useHighlightsStore = create<HighlightsState>()(
           {
             bookId: verseRef.book,
             chapter: verseRef.chapter,
-            verseStart: verseRef.verse,
-            verseCount: 1,
+            verseStart: verseRef.verseStart,
+            verseCount: verseRef.verseCount,
             color,
           },
           {
@@ -114,7 +123,8 @@ export const useHighlightsStore = create<HighlightsState>()(
           verseRef: {
             book: backendHighlight.bookId || backendHighlight.book,
             chapter: backendHighlight.chapter,
-            verse: backendHighlight.verseStart || backendHighlight.verse,
+            verseStart: backendHighlight.verseStart || backendHighlight.verse || verseRef.verseStart,
+            verseCount: backendHighlight.verseCount || verseRef.verseCount || 1,
           },
           color: backendHighlight.color || color,
           createdAt: backendHighlight.createdAt || new Date().toISOString(),

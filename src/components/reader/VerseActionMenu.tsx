@@ -5,36 +5,56 @@ import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useState, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { useBookmarksStore } from '@/stores/bookmarksStore'
 
 interface VerseActionMenuProps {
   verseNumber: number | string
   verseText: string
-  bookName?: string
-  chapter?: number | string
+  bookId: string
+  bookName: string
+  chapter: number | string
   containerId: string
-  onBookmark?: (verse: number | string) => void
   onNote?: (verse: number | string, text: string) => void
-  onHighlight?: (verse: number | string, selectedText: string, color?: string) => void
+  onHighlight?: (
+    verseRange: { start: number; end: number; count: number },
+    selectedText: string,
+    color?: string,
+  ) => void
   highlightColor?: string
-  highlightId?: string
+}
+
+type SelectedVerseRange = {
+  start: number
+  end: number
+  count: number
 }
 
 export const VerseActionMenu = ({
   verseNumber,
   verseText,
-  bookName = '',
-  chapter = '',
+  bookId,
+  bookName,
+  chapter,
   containerId,
-  onBookmark,
   onNote,
   onHighlight,
   highlightColor,
-  highlightId: _highlightId,
 }: VerseActionMenuProps) => {
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
-  const [selectedVerseNumber, setSelectedVerseNumber] = useState<number | string | null>(null)
+  const getDefaultRange = (): SelectedVerseRange => {
+    const numericVerse =
+      typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber, 10)
+    const safeVerse = Number.isFinite(numericVerse) ? numericVerse : 0
+    return {
+      start: safeVerse,
+      end: safeVerse,
+      count: 1,
+    }
+  }
+
+  const [selectedVerses, setSelectedVerses] = useState<SelectedVerseRange>(getDefaultRange)
   const [copied, setCopied] = useState(false)
   const [shared, setShared] = useState(false)
   const [showColorPicker, setShowColorPicker] = useState(false)
@@ -42,40 +62,73 @@ export const VerseActionMenu = ({
   const verseRef = useRef<HTMLSpanElement>(null)
   const initialPositionSet = useRef(false)
 
+  const { addBookmark } = useBookmarksStore()
+
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
 
   const highlightColors = ['#621B1C', '#FFE062', '#3BAD49', '#FF4B26', '#5778C5', '#704A6A']
 
-  
-   //Finds the verse number from the selected DOM element
-   // by traversing up the DOM tree to find the closest element with data-verse attribute
-   
-  const findVerseNumberFromSelection = (range: Range): number | string | null => {
-    let node: Node | null = range.startContainer
-
-    // Traverse up the DOM tree to find the verse element
-    while (node && node !== document.body) {
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const element = node as Element
-        const verseAttr = element.getAttribute('data-verse')
-        if (verseAttr) {
-          const verseNum = parseInt(verseAttr, 10)
-          return isNaN(verseNum) ? verseAttr : verseNum
-        }
+  // Helper function to find verse number from a DOM node
+  const findVerseNumber = (node: Node | null): number | null => {
+    let current = node as HTMLElement | null
+    while (current && current !== document.body) {
+      if (current.dataset && current.dataset.verse) {
+        return parseInt(current.dataset.verse, 10)
       }
-      node = node.parentNode
+      current = current.parentElement
     }
-
     return null
   }
 
+  // Helper function to get all selected verse numbers
+  const getSelectedVerseRange = (selection: Selection) => {
+    if (!selection || selection.rangeCount === 0) return null
+
+    const range = selection.getRangeAt(0)
+    const container = document.getElementById(containerId)
+
+    if (!container) return null
+
+    // Get all verse spans within the container
+    const verseSpans = Array.from(container.querySelectorAll('[data-verse]'))
+    const selectedVerses: number[] = []
+
+    verseSpans.forEach((span) => {
+      const verseNum = parseInt((span as HTMLElement).dataset.verse || '0', 10)
+
+      // Check if this verse span intersects with the selection
+      if (selection.containsNode(span, true)) {
+        selectedVerses.push(verseNum)
+      }
+    })
+
+    if (selectedVerses.length === 0) {
+      // Fallback: try to find verse from the selection's ancestor
+      const startVerse = findVerseNumber(range.startContainer)
+      const endVerse = findVerseNumber(range.endContainer)
+
+      if (startVerse) selectedVerses.push(startVerse)
+      if (endVerse && endVerse !== startVerse) selectedVerses.push(endVerse)
+    }
+
+    if (selectedVerses.length === 0) return null
+
+    // Sort and get range
+    selectedVerses.sort((a, b) => a - b)
+
+    return {
+      start: selectedVerses[0],
+      end: selectedVerses[selectedVerses.length - 1],
+      count: selectedVerses[selectedVerses.length - 1] - selectedVerses[0] + 1,
+    }
+  }
   useEffect(() => {
     const handleSelectionChange = () => {
       const selection = window.getSelection()
       if (!selection || selection.rangeCount === 0) {
         setShowMenu(false)
         setShowColorPicker(false)
-        setSelectedVerseNumber(null)
+        setSelectedVerses(getDefaultRange())
         initialPositionSet.current = false
         return
       }
@@ -93,12 +146,19 @@ export const VerseActionMenu = ({
         )
 
         if (isWithinContainer) {
-          // Find the actual verse number from the selected text
-          const actualVerseNumber = findVerseNumberFromSelection(range)
-          const verseToUse = actualVerseNumber !== null ? actualVerseNumber : verseNumber
-
           setSelectedText(selectedTextContent)
-          setSelectedVerseNumber(verseToUse)
+          // Get the verse range
+          const verseRange = getSelectedVerseRange(selection)
+          if (verseRange) {
+            setSelectedVerses({
+              start: verseRange.start,
+              end: verseRange.end,
+              count: verseRange.count,
+            })
+          } else {
+            // Fallback to current verse if we can't determine range
+            setSelectedVerses(getDefaultRange())
+          }
 
           if (!initialPositionSet.current) {
             const rect = range.getBoundingClientRect()
@@ -113,20 +173,20 @@ export const VerseActionMenu = ({
         } else {
           setShowMenu(false)
           setShowColorPicker(false)
-          setSelectedVerseNumber(null)
+          setSelectedVerses(getDefaultRange())
           initialPositionSet.current = false
         }
       } else {
         setShowMenu(false)
         setShowColorPicker(false)
-        setSelectedVerseNumber(null)
+        setSelectedVerses(getDefaultRange())
         initialPositionSet.current = false
       }
     }
 
     document.addEventListener('selectionchange', handleSelectionChange)
     return () => document.removeEventListener('selectionchange', handleSelectionChange)
-  }, [containerId])
+  }, [containerId, verseNumber])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -147,9 +207,15 @@ export const VerseActionMenu = ({
   }, [showMenu])
 
   const handleCopy = async () => {
-    const textToCopy = selectedText
-      ? `${verseReference}\n"${selectedText}"`
-      : `${verseReference}\n${verseText}`
+    let textToCopy: string
+
+    if (selectedVerses.count > 1) {
+      textToCopy = `${bookName} ${chapter}:${selectedVerses.start}-${selectedVerses.end}\n"${selectedText}"`
+    } else {
+      textToCopy = selectedText
+        ? `${verseReference}\n"${selectedText}"`
+        : `${verseReference}\n${verseText}`
+    }
 
     try {
       await navigator.clipboard.writeText(textToCopy)
@@ -161,14 +227,23 @@ export const VerseActionMenu = ({
   }
 
   const handleShare = async () => {
-    const textToShare = selectedText
-      ? `${verseReference}\n"${selectedText}"`
-      : `${verseReference}\n${verseText}`
+    let textToShare: string
+
+    if (selectedVerses.count > 1) {
+      textToShare = `${bookName} ${chapter}:${selectedVerses.start}-${selectedVerses.end}\n"${selectedText}"`
+    } else {
+      textToShare = selectedText
+        ? `${verseReference}\n"${selectedText}"`
+        : `${verseReference}\n${verseText}`
+    }
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: verseReference,
+          title:
+            selectedVerses.count > 1
+              ? `${bookName} ${chapter}:${selectedVerses.start}-${selectedVerses.end}`
+              : verseReference,
           text: textToShare,
         })
         setShared(true)
@@ -183,22 +258,36 @@ export const VerseActionMenu = ({
     }
   }
 
-  const handleBookmark = () => {
-    const verseToUse = selectedVerseNumber !== null ? selectedVerseNumber : verseNumber
-    onBookmark?.(verseToUse)
-    setShowMenu(false)
-    setShowColorPicker(false)
-    setSelectedVerseNumber(null)
-    initialPositionSet.current = false
-    window.getSelection()?.removeAllRanges()
+  const handleBookmark = async () => {
+    if (bookId && chapter) {
+      try {
+        await addBookmark({
+          book: bookId,
+          chapter: Number(chapter),
+          verseStart: Number(selectedVerses.start),
+          verseCount: Number(selectedVerses.count),
+        })
+      } catch (error) {
+        console.error('Failed to add bookmark:', error)
+      }
+    }
+    resetSelectionState()
   }
 
   const handleNote = () => {
-    const verseToUse = selectedVerseNumber !== null ? selectedVerseNumber : verseNumber
-    onNote?.(verseToUse, selectedText || verseText)
+    const noteText =
+      selectedVerses.count > 1
+        ? `Verses ${selectedVerses.start}-${selectedVerses.end}: ${selectedText}`
+        : selectedText || verseText
+
+    onNote?.(selectedVerses.start, noteText)
+    resetSelectionState()
+  }
+
+  const resetSelectionState = () => {
     setShowMenu(false)
     setShowColorPicker(false)
-    setSelectedVerseNumber(null)
+    setSelectedVerses(getDefaultRange())
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
@@ -261,14 +350,9 @@ export const VerseActionMenu = ({
                     <button
                       key={color}
                       onClick={() => {
-                        // Use the detected verse number from selection, fallback to component's verseNumber
-                        const verseToHighlight = selectedVerseNumber !== null ? selectedVerseNumber : verseNumber
-                        onHighlight?.(verseToHighlight, selectedText || verseText, color)
-                        setShowColorPicker(false)
-                        setShowMenu(false)
-                        setSelectedVerseNumber(null)
-                        initialPositionSet.current = false
-                        window.getSelection()?.removeAllRanges()
+                        const verseRange = selectedVerses ?? getDefaultRange()
+                        onHighlight?.(verseRange, selectedText || verseText, color)
+                        resetSelectionState()
                       }}
                       className="h-6 w-6 rounded-full border border-gray-300 transition hover:scale-110"
                       style={{ backgroundColor: color }}
@@ -290,7 +374,12 @@ export const VerseActionMenu = ({
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <span>Bookmark</span>
+                  <span>
+                    Bookmark{' '}
+                    {selectedVerses.count > 1
+                      ? `verses ${selectedVerses.start}-${selectedVerses.end}`
+                      : `verse ${selectedVerses.start}`}
+                  </span>
                 </TooltipContent>
               </Tooltip>
 
