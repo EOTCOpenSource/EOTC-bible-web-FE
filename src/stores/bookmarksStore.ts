@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import type { BookMark, VerseRef, BibleBook } from './types'
-import axiosInstance from '@/lib/axios' // Import axiosInstance
+import axiosInstance from '@/lib/axios'
 import { books } from '@/data/data'
 
 interface BookmarksState {
