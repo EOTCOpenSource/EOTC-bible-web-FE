@@ -23,31 +23,29 @@ export const useHighlightsStore = create<HighlightsState>()(
 
     clearError: () => set({ error: null }),
 
-    // LOAD all highlights from the API
     loadHighlights: async () => {
       set({ isLoading: true, error: null })
       try {
-        const res = await axios.get('/api/highlights', {
-          withCredentials: true,
-        })
-        
-        // Handle nested data structure
+        const res = await axios.get('/api/highlights/add', { withCredentials: true })
         const responseData = res.data?.data || res.data
         const highlightsArray = responseData?.data || responseData
-        
-        // Transform backend format to frontend format
-        // Backend: { _id, bookId, chapter, verseStart, verseCount, color, ... }
-        // Frontend: { _id, verseRef: { book, chapter, verseStart, verseCount }, color, ... }
+
+        const parseNumber = (value: any, fallback: number) => {
+          const num = Number(value)
+          return Number.isFinite(num) ? num : fallback
+        }
+
         const transformedHighlights: Highlight[] = Array.isArray(highlightsArray)
           ? highlightsArray
-              .filter((h: any) => h && h._id) // Filter out invalid highlights
+              .filter((h: any) => h && h._id)
               .map((h: any) => {
-                const verseRef = h.verseRef || {}
-                const book = verseRef.book || h.bookId || h.book || ''
-                const chapter = verseRef.chapter ?? h.chapter ?? 0
-                const verseStart =
-                  verseRef.verseStart ?? verseRef.verse ?? h.verseStart ?? h.verse ?? 0
-                const verseCount = verseRef.verseCount ?? h.verseCount ?? 1
+                const book = h.bookId || h.verseRef?.book || h.book || ''
+                const chapter = parseNumber(h.verseRef?.chapter ?? h.chapter, 0)
+                const verseStart = parseNumber(
+                  h.verseRef?.verseStart ?? h.verseRef?.verse ?? h.verseStart ?? h.verse,
+                  0
+                )
+                const verseCount = parseNumber(h.verseRef?.verseCount ?? h.verseCount, 1) || 1
 
                 return {
                   _id: h._id,
@@ -64,79 +62,52 @@ export const useHighlightsStore = create<HighlightsState>()(
               .filter(
                 (h: Highlight) =>
                   h.verseRef.book &&
-                  h.verseRef.chapter &&
-                  h.verseRef.verseStart &&
-                  h.verseRef.verseCount,
-              ) // Filter invalid transformed highlights
+                  Number.isFinite(h.verseRef.chapter) &&
+                  Number.isFinite(h.verseRef.verseStart)
+              )
           : []
-        
+
         set({ highlights: transformedHighlights, isLoading: false })
       } catch (err: any) {
-        set({
-          isLoading: false,
-          error: err?.response?.data?.error || err?.message || 'Failed to load highlights',
-        })
+        set({ isLoading: false, error: err?.response?.data?.error || err?.message || 'Failed to load highlights' })
       }
     },
 
-    // ✅ ADD a new highlight (calls /api/highlights/add)
     addHighlight: async (verseRef, color = 'yellow') => {
       set({ error: null })
-
-      // GENERATE UNIQUE TEMP ID WITH TIMESTAMP FOR UNIQUENESS
       const tempId = `temp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-      const tempHighlight: Highlight = {
-        _id: tempId,
-        verseRef,
-        color,
-        createdAt: new Date().toISOString(),
-      }
+      const tempHighlight: Highlight = { _id: tempId, verseRef, color, createdAt: new Date().toISOString() }
 
-      // Optimistic update
       set((state) => ({ highlights: [tempHighlight, ...state.highlights] }))
 
       try {
         const res = await axios.post(
           '/api/highlights/add',
-          {
-            bookId: verseRef.book,
-            chapter: verseRef.chapter,
-            verseStart: verseRef.verseStart,
-            verseCount: verseRef.verseCount,
-            color,
-          },
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-          }
+          { ...verseRef, bookId: verseRef.book, color },
+          { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         )
 
-        const backendResponse = res.data
-        const backendHighlight = backendResponse?.data?.highlight || backendResponse?.highlight
-
-        if (!backendHighlight?._id) {
-          throw new Error('Invalid response from server')
-        }
+        const backendHighlight = res.data?.data?.highlight || res.data?.highlight
+        if (!backendHighlight?._id) throw new Error('Invalid response from server')
 
         const createdHighlight: Highlight = {
           _id: backendHighlight._id,
           verseRef: {
-            book: backendHighlight.bookId || backendHighlight.book,
+            book: backendHighlight.bookId || backendHighlight.book || verseRef.book,
             chapter: backendHighlight.chapter,
-            verseStart: backendHighlight.verseStart || backendHighlight.verse || verseRef.verseStart,
-            verseCount: backendHighlight.verseCount || verseRef.verseCount || 1,
+            verseStart: backendHighlight.verseStart ?? backendHighlight.verse ?? verseRef.verseStart,
+            verseCount: backendHighlight.verseCount ?? verseRef.verseCount ?? 1,
           },
           color: backendHighlight.color || color,
           createdAt: backendHighlight.createdAt || new Date().toISOString(),
         }
 
-        // Replace temp highlight with real one
+        // Replace temp with backend highlight
         set((state) => ({
-          highlights: state.highlights.map((h) =>
-            h._id === tempId ? createdHighlight : h
-          ),
+          highlights: state.highlights.map((h) => (h._id === tempId ? createdHighlight : h)),
         }))
       } catch (err: any) {
+        // On failure remove temp highlight
         set((state) => ({
           highlights: state.highlights.filter((h) => h._id !== tempId),
           error: err?.response?.data?.error || err?.message || 'Failed to add highlight',
@@ -144,67 +115,38 @@ export const useHighlightsStore = create<HighlightsState>()(
       }
     },
 
-    // ✅ REMOVE highlight (calls /api/highlights/delete)
     removeHighlight: async (id) => {
-      const originalHighlights = get().highlights
-      const highlightToDelete = originalHighlights.find((h) => h._id === id)
-      if (!highlightToDelete) {
-        set({ error: 'Highlight not found' })
-        return
-      }
-
-      // Optimistic delete
-      set((state) => ({
-        highlights: state.highlights.filter((h) => h._id !== id),
-        error: null,
-      }))
-
+      const original = get().highlights
+      set((state) => ({ highlights: state.highlights.filter((h) => h._id !== id), error: null }))
       try {
-        await axios.delete('/api/highlights/delete', {
-          data: { id },
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        })
+        await axios.delete('/api/highlights/delete', { data: { id }, withCredentials: true })
       } catch (err: any) {
-        set({
-          highlights: originalHighlights,
-          error: err?.response?.data?.error || err?.message || 'Failed to delete highlight',
-        })
+        set({ highlights: original, error: err?.response?.data?.error || err?.message || 'Failed to delete highlight' })
       }
     },
 
-    // ✅ CHANGE color (calls /api/highlights/[id])
     changeColor: async (id, color) => {
-      const originalHighlights = get().highlights
-      const highlightToUpdate = originalHighlights.find((h) => h._id === id)
-      if (!highlightToUpdate) {
-        set({ error: 'Highlight not found' })
+      // Only allow real backend IDs
+      if (!id || id.startsWith('temp-')) {
+        set({ error: 'Cannot change color of temporary highlight yet' })
         return
       }
 
-      // Optimistic update
+      const original = get().highlights
       set((state) => ({
-        highlights: state.highlights.map((h) =>
-          h._id === id ? { ...h, color } : h
-        ),
+        highlights: state.highlights.map((h) => (h._id === id ? { ...h, color } : h)),
         error: null,
       }))
 
       try {
         await axios.put(
           `/api/highlights/${id}`,
-          { color },
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-          }
+          { _id: id, id, color },
+          { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
         )
       } catch (err: any) {
-        set({
-          highlights: originalHighlights,
-          error: err?.response?.data?.error || err?.message || 'Failed to change highlight color',
-        })
+        set({ highlights: original, error: err?.response?.data?.error || err?.message || 'Failed to change highlight color' })
       }
     },
-  })),
+  }))
 )

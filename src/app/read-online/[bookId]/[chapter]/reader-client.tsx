@@ -8,7 +8,7 @@ import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { hexToHighlightColor, getHighlightInlineColor } from '@/lib/highlight-utils'
 import { useEffect, useMemo } from 'react'
-import type { VerseRef } from '@/stores/types'
+import type { HighlightColor, VerseRef } from '@/stores/types'
 
 interface ReaderClientProps {
   bookData: any
@@ -26,100 +26,98 @@ export default function ReaderClient({
   bookId,
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
-  const { highlights, loadHighlights, addHighlight, removeHighlight } = useHighlightsStore()
+  const { highlights, loadHighlights, addHighlight, changeColor } = useHighlightsStore()
 
-  // Load highlights on mount and when bookId/chapter changes
+  // Load highlights when bookId or chapter changes
   useEffect(() => {
     loadHighlights()
   }, [bookId, chapterData.chapter, loadHighlights])
 
-  // Create a map of highlights for current chapter for quick lookup
+  // Map highlights for quick lookup per verse
   const highlightsMap = useMemo(() => {
-    const map = new Map<number, { id: string; color: string }>()
-    
-    
+    const map = new Map<
+      number,
+      { _id: string; colorHex: string; colorName: HighlightColor; verseCount: number }
+    >()
+
     highlights.forEach((highlight) => {
-      // Skip invalid highlights
-      if (!highlight || !highlight._id) {
-        console.warn('[highlightsMap] Skipping invalid highlight:', highlight)
-        return
-      }
-      
-      // Handle both backend format (bookId, chapter, verseStart) and frontend format (verseRef)
-      // Type assertion to handle potential backend format during transformation
+      if (!highlight || !highlight._id) return
+
       const h = highlight as any
-      const book = highlight.verseRef?.book || h.bookId
-      const chapter = highlight.verseRef?.chapter ?? h.chapter
-      const verseStart =
-        highlight.verseRef?.verseStart ?? highlight.verseRef?.verse ?? h.verseStart ?? h.verse
-      const verseCount = highlight.verseRef?.verseCount ?? h.verseCount ?? 1
-      const color = highlight.color
-      
-      // Skip if required fields are missing
-      if (!book || !chapter || !verseStart || !color) {
-        console.warn('[highlightsMap] Skipping highlight with missing fields:', {
-          book,
-          chapter,
-          verseStart,
-          verseCount,
-          color,
-        })
+      const highlightVerseRef = h.verseRef || highlight.verseRef
+      const highlightBookId =
+        h.bookId || highlightVerseRef?.book || highlightVerseRef?.bookId || h.book || ''
+      const chapterValue = highlightVerseRef?.chapter ?? h.chapter
+      const verseStartValue =
+        highlightVerseRef?.verseStart ?? highlightVerseRef?.verse ?? h.verseStart ?? h.verse
+      const verseCountValue = highlightVerseRef?.verseCount ?? h.verseCount ?? 1
+      const chapter = Number(chapterValue)
+      const verseStart = Number(verseStartValue)
+      const verseCount = Number(verseCountValue) || 1
+      const colorName = highlight.color as HighlightColor
+
+      if (!highlightBookId || !Number.isFinite(chapter) || !Number.isFinite(verseStart) || !colorName)
         return
-      }
-      
-      // Normalize bookId for comparison (backend might return different format)
-      const normalizedBook = book.toLowerCase().replace(/\s+/g, '-')
-      const normalizedBookId = bookId.toLowerCase().replace(/\s+/g, '-')
-      
-      // Match highlight to current book and chapter
+
+      const normalizedBook = highlightBookId.toString().toLowerCase().replace(/\s+/g, '-')
+      const normalizedBookId = bookId.toString().toLowerCase().replace(/\s+/g, '-')
+
       if (normalizedBook === normalizedBookId && chapter === chapterData.chapter) {
-        const hexColor = getHighlightInlineColor(color)
+        const hexColor = getHighlightInlineColor(colorName)
         for (let i = 0; i < verseCount; i++) {
           const verseNumber = verseStart + i
           map.set(verseNumber, {
-            id: highlight._id,
-            color: hexColor,
+            _id: highlight._id, // FIXED: use _id
+            colorHex: hexColor,
+            colorName,
+            verseCount,
           })
         }
       }
     })
-    
+
     return map
   }, [highlights, bookId, chapterData.chapter])
 
   const handleNote = (verse: number | string, text: string) => {
-    // TODO: Implement note dialog - could use a modal/dialog component
+    // TODO: Implement note dialog
   }
 
   const handleHighlight = async (
     verseRange: { start: number; end: number; count: number },
     _selectedText: string,
-    colorHex?: string,
+    colorHex?: string
   ) => {
     const verseStart = verseRange.start
-    if (!verseStart) return
+    if (!verseStart || !colorHex) return
 
-    const verseRef: VerseRef = {
-      book: bookId,
-      chapter: chapterData.chapter,
-      verseStart,
-      verseCount: verseRange.count || 1,
-    }
-
-    // Check if verse is already highlighted
     const existingHighlight = highlightsMap.get(verseStart)
+    const newColor = hexToHighlightColor(colorHex)
 
     if (existingHighlight) {
-      await removeHighlight(existingHighlight.id)
-      await loadHighlights()
-      return
+      // Only update if real backend ID and color is different
+      if (!existingHighlight._id.startsWith('temp-') && newColor !== existingHighlight.colorName) {
+        try {
+          await changeColor(existingHighlight._id, newColor)
+          await loadHighlights()
+        } catch (err) {
+          console.error('Error updating highlight:', err)
+        }
+      }
+    } else {
+      const verseRef: VerseRef = {
+        book: bookId,
+        chapter: chapterData.chapter,
+        verseStart,
+        verseCount: verseRange.count || 1,
+      }
+      try {
+        await addHighlight(verseRef, newColor)
+        await loadHighlights()
+      } catch (err) {
+        console.error('Error adding highlight:', err)
+      }
     }
-
-    if (!colorHex) return
-
-    const highlightColor = hexToHighlightColor(colorHex)
-    await addHighlight(verseRef, highlightColor)
-    await loadHighlights()
   }
 
   return (
@@ -172,13 +170,13 @@ export default function ReaderClient({
                     key={verse.verse}
                     verseNumber={verse.verse}
                     verseText={verse.text}
-                    bookId={bookId} // <-- send slug, the real backend ID
-                    bookName={bookData.book_name_am} // optional, for UI only
+                    bookId={bookId}
+                    bookName={bookData.book_name_am}
                     chapter={chapterData.chapter}
                     containerId={sectionId}
                     onNote={handleNote}
                     onHighlight={handleHighlight}
-                    highlightColor={highlightsMap.get(verse.verse)?.color}
+                    highlightColor={highlightsMap.get(verse.verse)?.colorHex}
                   />
                 ))}
               </div>
