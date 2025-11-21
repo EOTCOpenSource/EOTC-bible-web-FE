@@ -7,8 +7,8 @@ export const hexToHighlightColor = (hex: string): HighlightColor => {
     '#3BAD49': 'green', // Green
     '#FF4B26': 'pink', // Pink/Red
     '#5778C5': 'blue', // Blue
-    '#621B1C': 'pink', // Dark red 
-    '#704A6A': 'blue', // Purple 
+    '#621B1C': 'red', // Dark red
+    '#704A6A': 'purple', // Purple
   }
 
   const normalizedHex = hex.toUpperCase()
@@ -25,6 +25,8 @@ export const highlightColorToHex = (color: HighlightColor): string => {
     green: '#3BAD49',
     pink: '#FF4B26',
     blue: '#5778C5',
+    red: '#621B1C',
+    purple: '#704A6A',
   }
   return hexMap[color] || '#FFE062' // Default to yellow
 }
@@ -46,6 +48,8 @@ export const getHighlightBackgroundColor = (color: HighlightColor): string => {
     green: 'bg-green-200 dark:bg-green-900/30',
     pink: 'bg-pink-200 dark:bg-pink-900/30',
     blue: 'bg-blue-200 dark:bg-blue-900/30',
+    red: 'bg-red-200 dark:bg-red-900/30',
+    purple: 'bg-purple-200 dark:bg-purple-900/30',
   }
   return colorMap[color] || colorMap.yellow
 }

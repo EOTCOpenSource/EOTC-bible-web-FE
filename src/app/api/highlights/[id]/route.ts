@@ -7,17 +7,58 @@ interface Params {
   params: Promise<{ id: string }>
 }
 
+const getAuthToken = async () => {
+  const cookieStore = await cookies()
+  return cookieStore.get(ENV.jwtCookieName)?.value
+}
+
+const unauthorizedResponse = NextResponse.json(
+  { error: 'Unauthorized. Please login first.' },
+  { status: 401 }
+)
+
+const notFoundResponse = NextResponse.json({ error: 'Highlight ID is required' }, { status: 400 })
+
+export async function GET(_: NextRequest, { params }: Params) {
+  const { id } = await params
+  if (!id) return notFoundResponse
+
+  try {
+    const token = await getAuthToken()
+    if (!token) {
+      return unauthorizedResponse
+    }
+
+    const response = await serverAxiosInstance.get(`/highlights/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return NextResponse.json(response.data)
+  } catch (error: any) {
+    console.error(`Error fetching highlight ${id}:`, error.message)
+
+    if (error.response?.status === 401) {
+      return unauthorizedResponse
+    }
+
+    return NextResponse.json(
+      {
+        error: error.response?.data?.error || error.response?.data?.message || 'Failed to fetch highlight',
+      },
+      { status: error.response?.status || 500 }
+    )
+  }
+}
+
 export async function PUT(req: NextRequest, { params }: Params) {
   const { id } = await params
+  if (!id) return notFoundResponse
+
   try {
-    // Check if user is authenticated
-    const cookieStore = await cookies()
-    const token = cookieStore.get(ENV.jwtCookieName)?.value
+    const token = await getAuthToken()
     if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized. Please login first.' },
-        { status: 401 }
-      )
+      return unauthorizedResponse
     }
 
     const body = await req.json()
@@ -32,19 +73,46 @@ export async function PUT(req: NextRequest, { params }: Params) {
     console.error(`Error updating highlight ${id}:`, error.message)
 
     if (error.response?.status === 401) {
-      return NextResponse.json(
-        { error: 'Unauthorized. Your session may have expired. Please login again.' },
-        { status: 401 }
-      )
+      return unauthorizedResponse
     }
 
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to update highlight'
+        error: error.response?.data?.error || error.response?.data?.message || 'Failed to update highlight',
       },
       { status: error.response?.status || 500 }
     )
   }
 }
 
+export async function DELETE(_: NextRequest, { params }: Params) {
+  const { id } = await params
+  if (!id) return notFoundResponse
 
+  try {
+    const token = await getAuthToken()
+    if (!token) {
+      return unauthorizedResponse
+    }
+
+    const response = await serverAxiosInstance.delete(`/highlights/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return NextResponse.json(response.data)
+  } catch (error: any) {
+    console.error(`Error deleting highlight ${id}:`, error.message)
+
+    if (error.response?.status === 401) {
+      return unauthorizedResponse
+    }
+
+    return NextResponse.json(
+      {
+        error: error.response?.data?.error || error.response?.data?.message || 'Failed to delete highlight',
+      },
+      { status: error.response?.status || 500 }
+    )
+  }
+}

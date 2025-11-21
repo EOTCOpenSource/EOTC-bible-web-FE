@@ -6,12 +6,9 @@ import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
 import { useHighlightsStore } from '@/stores/highlightsStore'
-import { hexToHighlightColor, getHighlightInlineColor } from '@/lib/highlight-utils'
+import { getHighlightInlineColor } from '@/lib/highlight-utils'
 import { useEffect, useMemo } from 'react'
-import type { HighlightColor, VerseRef } from '@/stores/types'
-import { useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
-
+import type { HighlightColor } from '@/stores/types'
 
 interface ReaderClientProps {
   bookData: any
@@ -29,37 +26,7 @@ export default function ReaderClient({
   bookId,
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
-
-  const { highlights, loadHighlights, addHighlight, changeColor } = useHighlightsStore()
-
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
-    const hash = window.location.hash
-    if (hash) {
-      const verseCount = parseInt(searchParams.get('verseCount') || '1', 10)
-      const verseStart = parseInt(hash.substring(2), 10) // Remove 'v'
-
-      if (!isNaN(verseStart)) {
-        const firstElement = document.getElementById(`v${verseStart}`)
-        if (firstElement) {
-          firstElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-
-        for (let i = 0; i < verseCount; i++) {
-          const verseNumber = verseStart + i
-          const element = document.getElementById(`v${verseNumber}`)
-          if (element) {
-            element.classList.add('highlight-verse-animation')
-            setTimeout(() => {
-              element.classList.remove('highlight-verse-animation')
-            }, 10000)
-          }
-        }
-      }
-    }
-  }, [searchParams])
-
+  const { highlights, loadHighlights } = useHighlightsStore()
 
   // Load highlights when bookId or chapter changes
   useEffect(() => {
@@ -100,7 +67,7 @@ export default function ReaderClient({
         for (let i = 0; i < verseCount; i++) {
           const verseNumber = verseStart + i
           map.set(verseNumber, {
-            _id: highlight._id, // FIXED: use _id
+            _id: highlight._id, 
             colorHex: hexColor,
             colorName,
             verseCount,
@@ -114,43 +81,6 @@ export default function ReaderClient({
 
   const handleNote = (verse: number | string, text: string) => {
     // TODO: Implement note dialog
-  }
-
-  const handleHighlight = async (
-    verseRange: { start: number; end: number; count: number },
-    _selectedText: string,
-    colorHex?: string
-  ) => {
-    const verseStart = verseRange.start
-    if (!verseStart || !colorHex) return
-
-    const existingHighlight = highlightsMap.get(verseStart)
-    const newColor = hexToHighlightColor(colorHex)
-
-    if (existingHighlight) {
-      // Only update if real backend ID and color is different
-      if (!existingHighlight._id.startsWith('temp-') && newColor !== existingHighlight.colorName) {
-        try {
-          await changeColor(existingHighlight._id, newColor)
-          await loadHighlights()
-        } catch (err) {
-          console.error('Error updating highlight:', err)
-        }
-      }
-    } else {
-      const verseRef: VerseRef = {
-        book: bookId,
-        chapter: chapterData.chapter,
-        verseStart,
-        verseCount: verseRange.count || 1,
-      }
-      try {
-        await addHighlight(verseRef, newColor)
-        await loadHighlights()
-      } catch (err) {
-        console.error('Error adding highlight:', err)
-      }
-    }
   }
 
   return (
@@ -208,8 +138,8 @@ export default function ReaderClient({
                     chapter={chapterData.chapter}
                     containerId={sectionId}
                     onNote={handleNote}
-                    onHighlight={handleHighlight}
                     highlightColor={highlightsMap.get(verse.verse)?.colorHex}
+                    highlightId={highlightsMap.get(verse.verse)?._id}
                   />
                 ))}
               </div>

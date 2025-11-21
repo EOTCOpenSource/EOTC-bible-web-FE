@@ -3,9 +3,12 @@
 import { Bookmark, MessageSquare, Share2, Copy, Highlighter, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
+import { useHighlightsStore } from '@/stores/highlightsStore'
+import { hexToHighlightColor } from '@/lib/highlight-utils'
+import type { VerseRef } from '@/stores/types'
 
 interface VerseActionMenuProps {
   verseNumber: number | string
@@ -15,12 +18,8 @@ interface VerseActionMenuProps {
   chapter: number | string
   containerId: string
   onNote?: (verse: number | string, text: string) => void
-  onHighlight?: (
-    verseRange: { start: number; end: number; count: number },
-    selectedText: string,
-    color?: string,
-  ) => void
   highlightColor?: string
+  highlightId?: string
 }
 
 type SelectedVerseRange = {
@@ -37,8 +36,8 @@ export const VerseActionMenu = ({
   chapter,
   containerId,
   onNote,
-  onHighlight,
   highlightColor,
+  highlightId,
 }: VerseActionMenuProps) => {
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
@@ -63,10 +62,58 @@ export const VerseActionMenu = ({
   const initialPositionSet = useRef(false)
 
   const { addBookmark } = useBookmarksStore()
+  const { highlights, addHighlight, changeColor } = useHighlightsStore()
+
+  const existingHighlightForSelection = useMemo(() => {
+    const chapterNumber = Number(chapter)
+    if (!bookId || !Number.isFinite(chapterNumber)) return null
+
+    return highlights.find((highlight) => {
+      if (!highlight?.verseRef) return false
+      const { book, chapter: highlightChapter, verseStart, verseCount } = highlight.verseRef
+      if (!book || !Number.isFinite(highlightChapter) || !Number.isFinite(verseStart)) return false
+      if (book.toLowerCase() !== bookId.toLowerCase() || highlightChapter !== chapterNumber) return false
+
+      const range = selectedVerses ?? getDefaultRange()
+      const verseNumber = Number(range.start)
+      if (!Number.isFinite(verseNumber)) return false
+
+      const count = Number(verseCount) || 1
+      return verseNumber >= verseStart && verseNumber < verseStart + count
+    })
+  }, [bookId, chapter, highlights, selectedVerses])
 
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
 
   const highlightColors = ['#621B1C', '#FFE062', '#3BAD49', '#FF4B26', '#5778C5', '#704A6A']
+  
+  const handleHighlightSelection = async (colorHex: string) => {
+    const verseRange = selectedVerses ?? getDefaultRange()
+    const verseRef: VerseRef = {
+      book: bookId,
+      chapter: Number(chapter) || 1,
+      verseStart: Number(verseRange.start),
+      verseCount: Number(verseRange.count) || 1,
+    }
+
+    const color = hexToHighlightColor(colorHex)
+
+    try {
+      const resolvedHighlightId = highlightId || existingHighlightForSelection?._id
+      if (highlightId) {
+        await changeColor(highlightId, color)
+      } else if (resolvedHighlightId) {
+        await changeColor(resolvedHighlightId, color)
+      } else {
+        await addHighlight(verseRef, color)
+      }
+      resetSelectionState()
+    } catch (error: any) {
+      console.error('Failed to apply highlight:', error)
+      const isUnauthorized = error?.response?.status === 401
+      console.error('Failed to apply highlight:', error)
+    }
+  }
 
   // Helper function to find verse number from a DOM node
   const findVerseNumber = (node: Node | null): number | null => {
@@ -294,12 +341,7 @@ export const VerseActionMenu = ({
 
   return (
     <>
-      <span
-        ref={verseRef}
-        data-verse={verseNumber}
-        id={`v${verseNumber}`}
-        className="verse-scroll-margin"
-      >
+      <span ref={verseRef} data-verse={verseNumber}>
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
         <span
           className={cn(
@@ -354,11 +396,7 @@ export const VerseActionMenu = ({
                   {highlightColors.map((color) => (
                     <button
                       key={color}
-                      onClick={() => {
-                        const verseRange = selectedVerses ?? getDefaultRange()
-                        onHighlight?.(verseRange, selectedText || verseText, color)
-                        resetSelectionState()
-                      }}
+                      onClick={() => handleHighlightSelection(color)}
                       className="h-6 w-6 rounded-full border border-gray-300 transition hover:scale-110"
                       style={{ backgroundColor: color }}
                     />
