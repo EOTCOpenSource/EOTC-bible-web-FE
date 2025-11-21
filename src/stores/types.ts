@@ -34,7 +34,7 @@ export interface Note {
   tags?: string[]
 }
 
-export type HighlightColor = 'yellow' | 'green' | 'pink' | 'blue'
+export type HighlightColor = 'yellow' | 'green' | 'pink' | 'blue' | 'red' | 'purple'
 
 export interface Highlight {
   _id: string
@@ -45,30 +45,8 @@ export interface Highlight {
 
 export interface BookMark {
   _id: string
-  bookId: BookId
-  chapter: number
-  verseStart: number
-  verseCount: number
+  verseRef: VerseRef
   createdAt: string
-}
-
-export interface BibleBook {
-  book_number: number
-  book_name_am: string
-  book_short_name_am: string
-  book_name_en: string
-  book_short_name_en: string
-  testament: string
-  chapters: {
-    chapter: number
-    sections: {
-      title: string | null
-      verses: {
-        verse: number
-        text: string
-      }[]
-    }[]
-  }[]
 }
 
 export interface Streak {

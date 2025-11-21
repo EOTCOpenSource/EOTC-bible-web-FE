@@ -5,8 +5,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
-import { useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useHighlightsStore } from '@/stores/highlightsStore'
+import { getHighlightInlineColor } from '@/lib/highlight-utils'
+import { useEffect, useMemo } from 'react'
+import type { HighlightColor } from '@/stores/types'
 
 interface ReaderClientProps {
   bookData: any
@@ -24,47 +26,61 @@ export default function ReaderClient({
   bookId,
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
-  const searchParams = useSearchParams()
+  const { highlights, loadHighlights } = useHighlightsStore()
 
+  // Load highlights when bookId or chapter changes
   useEffect(() => {
-    const hash = window.location.hash
-    if (hash) {
-      const verseCount = parseInt(searchParams.get('verseCount') || '1', 10)
-      const verseStart = parseInt(hash.substring(2), 10) // Remove 'v'
+    loadHighlights()
+  }, [bookId, chapterData.chapter, loadHighlights])
 
-      if (!isNaN(verseStart)) {
-        const firstElement = document.getElementById(`v${verseStart}`)
-        if (firstElement) {
-          firstElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
+  // Map highlights for quick lookup per verse
+  const highlightsMap = useMemo(() => {
+    const map = new Map<
+      number,
+      { _id: string; colorHex: string; colorName: HighlightColor; verseCount: number }
+    >()
 
+    highlights.forEach((highlight) => {
+      if (!highlight || !highlight._id) return
+
+      const h = highlight as any
+      const highlightVerseRef = h.verseRef || highlight.verseRef
+      const highlightBookId =
+        h.bookId || highlightVerseRef?.book || highlightVerseRef?.bookId || h.book || ''
+      const chapterValue = highlightVerseRef?.chapter ?? h.chapter
+      const verseStartValue =
+        highlightVerseRef?.verseStart ?? highlightVerseRef?.verse ?? h.verseStart ?? h.verse
+      const verseCountValue = highlightVerseRef?.verseCount ?? h.verseCount ?? 1
+      const chapter = Number(chapterValue)
+      const verseStart = Number(verseStartValue)
+      const verseCount = Number(verseCountValue) || 1
+      const colorName = highlight.color as HighlightColor
+
+      if (!highlightBookId || !Number.isFinite(chapter) || !Number.isFinite(verseStart) || !colorName)
+        return
+
+      const normalizedBook = highlightBookId.toString().toLowerCase().replace(/\s+/g, '-')
+      const normalizedBookId = bookId.toString().toLowerCase().replace(/\s+/g, '-')
+
+      if (normalizedBook === normalizedBookId && chapter === chapterData.chapter) {
+        const hexColor = getHighlightInlineColor(colorName)
         for (let i = 0; i < verseCount; i++) {
           const verseNumber = verseStart + i
-          const element = document.getElementById(`v${verseNumber}`)
-          if (element) {
-            element.classList.add('highlight-verse-animation')
-            setTimeout(() => {
-              element.classList.remove('highlight-verse-animation')
-            }, 10000)
-          }
+          map.set(verseNumber, {
+            _id: highlight._id, 
+            colorHex: hexColor,
+            colorName,
+            verseCount,
+          })
         }
       }
-    }
-  }, [searchParams])
+    })
 
-  const handleBookmark = (verse: number | string) => {
-    console.log('Bookmark verse:', verse)
-    // TODO: Implement bookmark logic - save to localStorage or database
-  }
+    return map
+  }, [highlights, bookId, chapterData.chapter])
 
   const handleNote = (verse: number | string, text: string) => {
-    console.log('Add note to verse:', verse, 'Text:', text)
-    // TODO: Implement note dialog - could use a modal/dialog component
-  }
-
-  const handleHighlight = (verse: number | string, selectedText: string) => {
-    console.log('Highlight verse:', verse, 'Selected:', selectedText)
-    // TODO: Implement highlight logic - save highlight color and position
+    // TODO: Implement note dialog
   }
 
   return (
@@ -117,13 +133,13 @@ export default function ReaderClient({
                     key={verse.verse}
                     verseNumber={verse.verse}
                     verseText={verse.text}
-                    bookId={bookId} // <-- send slug, the real backend ID
-                    bookName={bookData.book_name_am} // optional, for UI only
+                    bookId={bookId}
+                    bookName={bookData.book_name_am}
                     chapter={chapterData.chapter}
                     containerId={sectionId}
-                    onBookmark={handleBookmark}
                     onNote={handleNote}
-                    onHighlight={handleHighlight}
+                    highlightColor={highlightsMap.get(verse.verse)?.colorHex}
+                    highlightId={highlightsMap.get(verse.verse)?._id}
                   />
                 ))}
               </div>

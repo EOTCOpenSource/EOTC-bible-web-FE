@@ -3,9 +3,12 @@
 import { Bookmark, MessageSquare, Share2, Copy, Highlighter, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
+import { useHighlightsStore } from '@/stores/highlightsStore'
+import { hexToHighlightColor } from '@/lib/highlight-utils'
+import type { VerseRef } from '@/stores/types'
 
 interface VerseActionMenuProps {
   verseNumber: number | string
@@ -15,8 +18,14 @@ interface VerseActionMenuProps {
   chapter: number | string
   containerId: string
   onNote?: (verse: number | string, text: string) => void
-  onHighlight?: (verse: number | string, selectedText: string) => void
-  onBookmark?: (verse: number | string) => void
+  highlightColor?: string
+  highlightId?: string
+}
+
+type SelectedVerseRange = {
+  start: number
+  end: number
+  count: number
 }
 
 export const VerseActionMenu = ({
@@ -27,20 +36,84 @@ export const VerseActionMenu = ({
   chapter,
   containerId,
   onNote,
-  onHighlight,
+  highlightColor,
+  highlightId,
 }: VerseActionMenuProps) => {
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
-  const [selectedVerses, setSelectedVerses] = useState({ start: 0, end: 0, count: 1 })
+  const getDefaultRange = (): SelectedVerseRange => {
+    const numericVerse =
+      typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber, 10)
+    const safeVerse = Number.isFinite(numericVerse) ? numericVerse : 0
+    return {
+      start: safeVerse,
+      end: safeVerse,
+      count: 1,
+    }
+  }
+
+  const [selectedVerses, setSelectedVerses] = useState<SelectedVerseRange>(getDefaultRange)
   const [copied, setCopied] = useState(false)
   const [shared, setShared] = useState(false)
+  const [showColorPicker, setShowColorPicker] = useState(false)
+
   const verseRef = useRef<HTMLSpanElement>(null)
   const initialPositionSet = useRef(false)
 
   const { addBookmark } = useBookmarksStore()
+  const { highlights, addHighlight, changeColor } = useHighlightsStore()
+
+  const existingHighlightForSelection = useMemo(() => {
+    const chapterNumber = Number(chapter)
+    if (!bookId || !Number.isFinite(chapterNumber)) return null
+
+    return highlights.find((highlight) => {
+      if (!highlight?.verseRef) return false
+      const { book, chapter: highlightChapter, verseStart, verseCount } = highlight.verseRef
+      if (!book || !Number.isFinite(highlightChapter) || !Number.isFinite(verseStart)) return false
+      if (book.toLowerCase() !== bookId.toLowerCase() || highlightChapter !== chapterNumber) return false
+
+      const range = selectedVerses ?? getDefaultRange()
+      const verseNumber = Number(range.start)
+      if (!Number.isFinite(verseNumber)) return false
+
+      const count = Number(verseCount) || 1
+      return verseNumber >= verseStart && verseNumber < verseStart + count
+    })
+  }, [bookId, chapter, highlights, selectedVerses])
 
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
+
+  const highlightColors = ['#621B1C', '#FFE062', '#3BAD49', '#FF4B26', '#5778C5', '#704A6A']
+  
+  const handleHighlightSelection = async (colorHex: string) => {
+    const verseRange = selectedVerses ?? getDefaultRange()
+    const verseRef: VerseRef = {
+      book: bookId,
+      chapter: Number(chapter) || 1,
+      verseStart: Number(verseRange.start),
+      verseCount: Number(verseRange.count) || 1,
+    }
+
+    const color = hexToHighlightColor(colorHex)
+
+    try {
+      const resolvedHighlightId = highlightId || existingHighlightForSelection?._id
+      if (highlightId) {
+        await changeColor(highlightId, color)
+      } else if (resolvedHighlightId) {
+        await changeColor(resolvedHighlightId, color)
+      } else {
+        await addHighlight(verseRef, color)
+      }
+      resetSelectionState()
+    } catch (error: any) {
+      console.error('Failed to apply highlight:', error)
+      const isUnauthorized = error?.response?.status === 401
+      console.error('Failed to apply highlight:', error)
+    }
+  }
 
   // Helper function to find verse number from a DOM node
   const findVerseNumber = (node: Node | null): number | null => {
@@ -96,12 +169,13 @@ export const VerseActionMenu = ({
       count: selectedVerses[selectedVerses.length - 1] - selectedVerses[0] + 1,
     }
   }
-
   useEffect(() => {
     const handleSelectionChange = () => {
       const selection = window.getSelection()
       if (!selection || selection.rangeCount === 0) {
         setShowMenu(false)
+        setShowColorPicker(false)
+        setSelectedVerses(getDefaultRange())
         initialPositionSet.current = false
         return
       }
@@ -112,7 +186,6 @@ export const VerseActionMenu = ({
       if (container && selectedTextContent) {
         const range = selection.getRangeAt(0)
         const selectionContainer = range.commonAncestorContainer
-
         const isWithinContainer = container.contains(
           selectionContainer.nodeType === Node.TEXT_NODE
             ? selectionContainer.parentNode
@@ -121,7 +194,6 @@ export const VerseActionMenu = ({
 
         if (isWithinContainer) {
           setSelectedText(selectedTextContent)
-
           // Get the verse range
           const verseRange = getSelectedVerseRange(selection)
           if (verseRange) {
@@ -132,11 +204,7 @@ export const VerseActionMenu = ({
             })
           } else {
             // Fallback to current verse if we can't determine range
-            setSelectedVerses({
-              start: Number(verseNumber),
-              end: Number(verseNumber),
-              count: 1,
-            })
+            setSelectedVerses(getDefaultRange())
           }
 
           if (!initialPositionSet.current) {
@@ -151,10 +219,14 @@ export const VerseActionMenu = ({
           setShowMenu(true)
         } else {
           setShowMenu(false)
+          setShowColorPicker(false)
+          setSelectedVerses(getDefaultRange())
           initialPositionSet.current = false
         }
       } else {
         setShowMenu(false)
+        setShowColorPicker(false)
+        setSelectedVerses(getDefaultRange())
         initialPositionSet.current = false
       }
     }
@@ -171,6 +243,7 @@ export const VerseActionMenu = ({
           const selection = window.getSelection()
           if (!selection || selection.toString().trim() === '') {
             setShowMenu(false)
+            setShowColorPicker(false)
           }
         }
       }
@@ -245,9 +318,7 @@ export const VerseActionMenu = ({
         console.error('Failed to add bookmark:', error)
       }
     }
-    setShowMenu(false)
-    initialPositionSet.current = false
-    window.getSelection()?.removeAllRanges()
+    resetSelectionState()
   }
 
   const handleNote = () => {
@@ -257,28 +328,37 @@ export const VerseActionMenu = ({
         : selectedText || verseText
 
     onNote?.(selectedVerses.start, noteText)
-    setShowMenu(false)
-    initialPositionSet.current = false
-    window.getSelection()?.removeAllRanges()
+    resetSelectionState()
   }
 
-  const handleHighlight = () => {
-    onHighlight?.(selectedVerses.start, selectedText || verseText)
+  const resetSelectionState = () => {
     setShowMenu(false)
+    setShowColorPicker(false)
+    setSelectedVerses(getDefaultRange())
     initialPositionSet.current = false
     window.getSelection()?.removeAllRanges()
   }
 
   return (
     <>
-      <span
-        ref={verseRef}
-        data-verse={verseNumber}
-        id={`v${verseNumber}`}
-        className="verse-scroll-margin"
-      >
+      <span ref={verseRef} data-verse={verseNumber}>
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
-        <span>{verseText} </span>
+        <span
+          className={cn(
+            'transition-colors duration-200',
+            highlightColor && 'rounded px-1 py-0.5'
+          )}
+          style={
+            highlightColor
+              ? {
+                  backgroundColor: highlightColor,
+                  opacity: 0.6,
+                }
+              : undefined
+          }
+        >
+          {verseText}{' '}
+        </span>
       </span>
 
       {showMenu && (
@@ -291,15 +371,16 @@ export const VerseActionMenu = ({
             transform: 'translateX(-50%)',
           }}
         >
-          <div className="bg-background border-border inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
+          <div className="relative bg-background border-border inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
             <TooltipProvider delayDuration={100}>
+              {/* Highlight */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="hover:bg-primary/10 h-8 w-8"
-                    onClick={handleHighlight}
+                    onClick={() => setShowColorPicker(!showColorPicker)}
                   >
                     <Highlighter className="h-4 w-4" />
                   </Button>
@@ -309,6 +390,21 @@ export const VerseActionMenu = ({
                 </TooltipContent>
               </Tooltip>
 
+              {/* Color picker  */}
+              {showColorPicker && (
+                <div className="absolute left-1/2 top-[115%] z-50 flex -translate-x-1/2 gap-2 rounded-full bg-white p-2 pb-3 shadow-lg dark:bg-neutral-800">
+                  {highlightColors.map((color) => (
+                    <button
+                      key={color}
+                      onClick={() => handleHighlightSelection(color)}
+                      className="h-6 w-6 rounded-full border border-gray-300 transition hover:scale-110"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Bookmark */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -330,6 +426,7 @@ export const VerseActionMenu = ({
                 </TooltipContent>
               </Tooltip>
 
+              {/* Copy */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -353,6 +450,7 @@ export const VerseActionMenu = ({
                 </TooltipContent>
               </Tooltip>
 
+              {/* Share */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -376,6 +474,7 @@ export const VerseActionMenu = ({
                 </TooltipContent>
               </Tooltip>
 
+              {/* Notes */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
