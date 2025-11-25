@@ -8,7 +8,12 @@ import axios from 'axios'
 import LogoutButton from './LogoutButton'
 import DeleteAccountButton from './DeleteAccountButton'
 import { useTranslations } from 'next-intl'
-import { Button } from '@/components/ui/button' // Import Button component
+import Link from 'next/link'
+import {  Moon, Settings } from 'lucide-react'
+import { LanguageSelector } from '../components/shared/language-selector'
+import DashboardSidebar from './layout/DashboardSidebar'
+import DashboardWidget from './layout/DashboardWidget'
+import DashboardHome from './layout/DashboardHome'
 
 interface DashboardClientProps {
   initialUser: UserProfile | null
@@ -16,9 +21,11 @@ interface DashboardClientProps {
 
 export default function DashboardClient() {
   const t = useTranslations('Dashboard')
+  const translate = useTranslations('Navigation')
   const [user, setUser] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'home' | 'highlight' | 'notes' | 'plans' | 'bookmarks'>('home')
   const router = useRouter()
 
   useEffect(() => {
@@ -66,7 +73,24 @@ export default function DashboardClient() {
       </main>
     )
   }
-  const displayUser = user
+  const displayUser: UserProfile = user || {
+    id: 'mock-id',
+    name: 'Guest',
+    email: 'guest@example.com',
+    settings: {
+      theme: 'dark',
+      fontSize: 'medium',
+      lastRead: {
+        bookId: "bookId",
+        chapter: 4
+      }
+    },
+    streak: {
+      current: 3,
+      longest: 7,
+      lastDate: "string"
+    }
+}
 
   if (!displayUser) {
     return (
@@ -96,46 +120,75 @@ export default function DashboardClient() {
   }
 
   return (
-    <main className="space-y-4 p-6">
+    <main className="space-y-6 p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">{t('welcome', { name: displayUser.name })}</h1>
-        <div className="space-x-4">
-          <Button
-            className="text-gray-600"
-            variant="outline"
-            onClick={() => router.push('/read-online')}
-          >
-            {t('readOnlineButton')}
-          </Button>
-          <Button
-            className="text-gray-600"
-            variant="outline"
-            onClick={() => router.push('/dashboard/bookmarks')}
-          >
-            {t('bookmarksButton')}
-          </Button>
-          <LogoutButton />
-          <DeleteAccountButton />
+        <div>
+            <Link href="/" className="flex items-center space-x-2">
+              <img src="/logo.png" alt="EOTCBible Logo" className="h-8 w-8" />
+              <span className="text-xl font-bold">{translate('siteName')}</span>
+            </Link>
+          <p className="text-base text-gray-500">
+            {t('welcome', { name: displayUser.name })}
+          </p>
+        </div>
+
+        <div className="flex h-[42px] items-center space-x-2 rounded-md border p-1">
+          <LanguageSelector />
+          <button className="rounded-full p-2 hover:bg-gray-200">
+            <Moon size={20} />
+          </button>
+          <button className="rounded-full p-2 hover:bg-gray-200">
+            <Settings size={20} />
+          </button>          
+          <LogoutButton/>
         </div>
       </div>
 
-      <div className="space-y-4 rounded-lg bg-black p-6 shadow-sm">
-        <h2 className="text-lg font-medium">{t('profile.title')}</h2>
-        <div className="space-y-2">
-          <p>
-            <span className="font-medium">{t('profile.email')}:</span> {displayUser.email}
-          </p>
-          {displayUser.settings && (
-            <>
-              <p>
-                <span className="font-medium">{t('profile.theme')}:</span>{' '}
-                {displayUser.settings.theme}
+      {/* Tabs navigation */}
+
+      <div className='flex justify-between items-start gap-6'>
+        <DashboardSidebar activeTab= {activeTab} setActiveTab={setActiveTab}/>
+
+        <div className='w-full'>
+          {activeTab === 'home' && (
+            <DashboardHome/>
+          )}
+
+          {activeTab === 'bookmarks' && (
+            <section className="space-y-4 rounded-lg bg-black p-6">
+              <h2 className="text-lg font-medium">Bookmarks</h2>
+              <p className="text-sm text-gray-400">
+                Here you can show a list of bookmarked verses later.
               </p>
-              <p>
-                <span className="font-medium">{t('profile.fontSize')}:</span>{' '}
-                {displayUser.settings.fontSize}
+              <ul className="space-y-2 text-sm">
+                <li>• John 3:16</li>
+                <li>• Psalm 23:1</li>
+                <li>• Romans 8:28</li>
+              </ul>
+            </section>
+          )}
+
+          {activeTab === 'notes' && (
+            <section className="space-y-4 rounded-lg bg-black p-6">
+              <h2 className="text-lg font-medium">notes</h2>
+              <p className="text-sm text-gray-400">
+                Adjust your reading preferences.
               </p>
-            </>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <p className="font-medium">Theme</p>
+                  <p className="text-gray-400">
+                    Current: {displayUser.settings?.theme || 'dark'}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-medium">Font size</p>
+                  <p className="text-gray-400">
+                    Current: {displayUser.settings?.fontSize || 'medium'}
+                  </p>
+                </div>
+              </div>
+            </section>
           )}
         </div>
       </div>
