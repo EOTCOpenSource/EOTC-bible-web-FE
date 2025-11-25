@@ -15,9 +15,11 @@ interface DashboardClientProps {
 
 export default function DashboardClient() {
   const t = useTranslations('Dashboard')
+  const translate = useTranslations('Navigation')
   const [user, setUser] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'home' | 'highlight' | 'notes' | 'plans' | 'bookmarks'>('home')
   const router = useRouter()
 
   useEffect(() => {
@@ -65,7 +67,24 @@ export default function DashboardClient() {
       </main>
     )
   }
-  const displayUser = user
+  const displayUser: UserProfile = user || {
+    id: 'mock-id',
+    name: 'Guest',
+    email: 'guest@example.com',
+    settings: {
+      theme: 'dark',
+      fontSize: 'medium',
+      lastRead: {
+        bookId: "bookId",
+        chapter: 4
+      }
+    },
+    streak: {
+      current: 3,
+      longest: 7,
+      lastDate: "string"
+    }
+}
 
   if (!displayUser) {
     return (
