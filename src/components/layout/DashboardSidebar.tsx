@@ -1,71 +1,58 @@
+'use client'
+
 import { Book, Calendar, Home, NotebookPen, PenLine } from "lucide-react"
-import { Dispatch, SetStateAction } from "react"
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-type Props = {
-     activeTab: string
-     setActiveTab:  Dispatch<SetStateAction<"highlight" | "home" | "plans" | "notes" | "bookmarks">>
-}
+const DashboardSidebar = () => {
 
-const DashboardSidebar = ({activeTab, setActiveTab }:Props) => {
-  return (
-       <nav className="flex flex-col h-screen py-4 gap-2 pb-2 ">
-          <button
-               onClick={() => setActiveTab('home')}
-               className={`flex justify-start items-center gap-2 w-full rounded-md px-6 py-1 text-lg ${
-               activeTab === 'home'
-                    ? 'bg-red-900 text-white'
-                    : 'text-black hover:bg-red-900 hover:text-white'
-               }`}
-            >
-               <Home size={20} fill="white"/>
-               Home
-          </button>
-          <button
-               onClick={() => setActiveTab('highlight')}
-               className={`flex justify-start items-center gap-2 w-full rounded-md px-6 py-1 text-lg ${
-               activeTab === 'highlight'
-                    ? 'bg-red-900 text-white'
-                    : 'text-black hover:bg-red-900 hover:text-white'
-               }`}
-            >
-               <PenLine size={20} fill="white"/>
-               Highlight
-          </button>
-          <button
-               onClick={() => setActiveTab('notes')}
-               className={`flex justify-start items-center gap-2 w-full rounded-md px-6 py-1 text-lg ${
-               activeTab === 'notes'
-                    ? 'bg-red-900 text-white'
-                    : 'text-black hover:bg-red-900 hover:text-white'
-               }`}
-            >
-               <NotebookPen size={20} fill="white"/>
-               Notes
-            </button>
-          <button
-               onClick={() => setActiveTab('plans')}
-               className={`flex justify-start items-center gap-2 w-full rounded-md px-6 py-1 text-lg ${
-               activeTab === 'plans'
-                    ? 'bg-red-900 text-white'
-                    : 'text-black hover:bg-red-900 hover:text-white'
-               }`}
-            >
-                 <Calendar size={20} />
-               Plans
-            </button>
-          <button
-               onClick={() => setActiveTab('bookmarks')}
-               className={`flex justify-start items-center gap-2 w-full rounded-md px-6 py-1 text-lg ${
-               activeTab === 'bookmarks'
-                    ? 'bg-red-900 text-white'
-                    : 'text-black hover:bg-red-900 hover:text-white'
-               }`}
-            >
-               <Book size={20}/>
-               Bookmarks
-          </button>  
-    </nav>
-  )
+     const pathname = usePathname()
+
+     const getLinkClass = (path: string) => {
+          const isActive = pathname === path
+          const baseStyle = "flex justify-start items-center gap-2 w-full rounded-md px-6 py-1 text-lg transition-colors"
+          const activeStyle = "bg-red-900 text-white"
+          const inactiveStyle = "text-black hover:bg-red-900 hover:text-white"
+
+          return `${baseStyle} ${isActive ? activeStyle : inactiveStyle}`
+     }
+
+     return (
+          <nav className="flex flex-col h-screen py-4 gap-2 pb-2 mx-6 my-2">
+               <Link href='/dashboard'
+                    className={getLinkClass('/dashboard')}
+               >
+                    <Home size={20} />
+                    Home
+               </Link>
+               <Link href='/dashboard/highlights'
+                    className={getLinkClass('/dashboard/highlights')}
+               >
+                    <PenLine size={20}/>
+                    Highlights
+               </Link>
+               <Link href='/dashboard/notes'
+                    className={getLinkClass('/dashboard/notes')}
+               >
+                    <NotebookPen size={20} />
+                    Notes
+               </Link>
+               <Link
+                    href='/dashboard/plans'
+                    className={getLinkClass('/dashboard/plans')}
+               >
+                    <Calendar size={20} />
+                    Plans
+               </Link>
+               <Link
+                    href='/dashboard/bookmarks'
+                    className={getLinkClass('/dashboard/bookmarks')}
+               >
+                    <Book size={20}/>
+                    Bookmarks
+               </Link>  
+          </nav>
+     )
 }
 
 export default DashboardSidebar
