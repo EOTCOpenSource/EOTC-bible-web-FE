@@ -33,6 +33,7 @@ export default function ReaderClient({
   const { highlights, loadHighlights } = useHighlightsStore()
 
 
+  // Effect 1: Handle scroll and temporary verse highlighting (EXISTING UI BEHAVIOR)
   useEffect(() => {
     const hash = window.location.hash
     if (hash) {
@@ -58,9 +59,12 @@ export default function ReaderClient({
         }
       }
     }
+  }, [searchParams])
 
+  // Effect 2: Load highlights data (NEW DATA BEHAVIOR)
+  useEffect(() => {
     loadHighlights()
-  }, [bookId, chapterData.chapter, searchParams, loadHighlights])
+  }, [bookId, chapterData.chapter, loadHighlights])
 
 
   const highlightsMap = useMemo(() => {
