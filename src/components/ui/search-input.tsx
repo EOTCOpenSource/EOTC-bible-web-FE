@@ -30,6 +30,8 @@ export function SearchInput({
   debounceDelay = 300,
   showResults = false,
 }: SearchInputProps) {
+  console.log(`[SearchInput] Component rendered with showResults=${showResults}`)
+  
   // Global state - shared across all components
   const { searchQuery, setSearchQuery, clearSearch } = useUIStore()
   const { searchResults, setSearchResults, isLoading, setLoading, selectedTestament, setSelectedTestament, selectedBook, setSelectedBook } = useSearchStore()
@@ -40,19 +42,39 @@ export function SearchInput({
   const [debouncedQuery] = useDebounce(searchQuery, debounceDelay)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  console.log(`[SearchInput] Current state:`, {
+    searchQuery,
+    debouncedQuery,
+    showResults,
+    showDropdown,
+    isLoading,
+    resultsCount: searchResults.length,
+    selectedTestament,
+    selectedBook,
+  })
+
   // Perform search when debounced query changes
   useEffect(() => {
+    console.log(`[SearchInput] Search effect triggered:`, {
+      debouncedQuery,
+      showResults,
+      trimmedQuery: debouncedQuery.trim(),
+    })
+
     if (!showResults) {
+      console.log(`[SearchInput] showResults is false, hiding dropdown`)
       setShowDropdown(false)
       return
     }
 
     if (!debouncedQuery.trim()) {
+      console.log(`[SearchInput] Query is empty, clearing results`)
       setSearchResults([])
       setShowDropdown(false)
       return
     }
 
+    console.log(`[SearchInput] Starting search for query: "${debouncedQuery}"`)
     setLoading(true)
     setShowDropdown(true)
 
@@ -63,13 +85,15 @@ export function SearchInput({
       selectedBook
     )
       .then((results) => {
+        console.log(`[SearchInput] Search completed, got ${results.length} results:`, results)
         setSearchResults(results)
       })
       .catch((error) => {
-        console.error('Search error:', error)
+        console.error('[SearchInput] Search error:', error)
         setSearchResults([])
       })
       .finally(() => {
+        console.log(`[SearchInput] Search finished, setting loading to false`)
         setLoading(false)
       })
 
@@ -86,29 +110,38 @@ export function SearchInput({
 
   // When search query is cleared from outside, hide dropdown
   useEffect(() => {
+    console.log(`[SearchInput] Query changed effect - query: "${searchQuery}"`)
     if (!searchQuery.trim()) {
+      console.log(`[SearchInput] Query is empty, hiding dropdown`)
       setShowDropdown(false)
     }
   }, [searchQuery])
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
+    const value = e.target.value
+    console.log(`[SearchInput] handleChange: "${value}"`)
+    setSearchQuery(value)
   }, [setSearchQuery])
 
   const handleClear = useCallback(() => {
+    console.log(`[SearchInput] handleClear called`)
     clearSearch()
     setShowDropdown(false)
     inputRef.current?.focus()
   }, [clearSearch])
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    console.log(`[SearchInput] handleKeyDown: key="${e.key}"`)
     if (e.key === 'Escape') {
+      console.log(`[SearchInput] Escape key pressed, clearing search`)
       handleClear()
     }
   }, [handleClear])
 
   const handleFocus = useCallback(() => {
+    console.log(`[SearchInput] handleFocus - showResults=${showResults}, query="${searchQuery}"`)
     if (showResults && searchQuery.trim()) {
+      console.log(`[SearchInput] Showing dropdown on focus`)
       setShowDropdown(true)
     }
   }, [showResults, searchQuery])
@@ -141,6 +174,15 @@ export function SearchInput({
   }
 
   const shouldShowDropdown = showResults && searchQuery.trim() !== '' && showDropdown
+  
+  console.log(`[SearchInput] Final render state:`, {
+    shouldShowDropdown,
+    showResults,
+    queryTrimmed: searchQuery.trim(),
+    showDropdownState: showDropdown,
+    isLoadingState: isLoading,
+    resultsCount: searchResults.length,
+  })
 
   return (
     <div className="relative w-full">
