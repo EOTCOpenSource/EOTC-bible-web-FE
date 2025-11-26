@@ -8,6 +8,7 @@ import { LanguageSelector } from '../shared/language-selector'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import { useEffect } from 'react'
+import { SearchInput } from '../ui/search-input'
 
 const Navbar = () => {
   const { isNavMenuOpen, isNavSearchOpen, toggleNavMenu, toggleNavSearch, isReadOnlineSidebarOpen, closeNavMenu } = useUIStore()
@@ -59,16 +60,7 @@ const Navbar = () => {
 
           {/* Right Section - Full */}
           <div className={clsx("hidden items-center justify-between space-x-4 md:flex", !showFullNavbar && "!hidden")}>
-            <div className="flex h-[42px] items-center overflow-hidden rounded-lg border">
-              <div className="flex h-full items-center bg-red-900 p-3">
-                <Search className="text-white" size={20} />
-              </div>
-              <input
-                type="text"
-                placeholder={t('search')}
-                className="h-full w-full bg-gray-100 px-4 py-2 focus:outline-none"
-              />
-            </div>
+            <SearchInput placeholder={t('search')} />
 
             <button className="flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-red-900 py-2 pr-2 pl-6 text-white md:w-fit">
               <span>{t('getApp')}</span>
@@ -98,12 +90,7 @@ const Navbar = () => {
 
           {/* Right Section - Narrow (for reader page with sidebar) */}
           <div className={clsx("hidden", !showFullNavbar && "md:flex items-center space-x-4")}>
-            <div className="flex h-[42px] items-center overflow-hidden rounded-lg border w-48">
-                <div className="flex h-full items-center bg-red-900 p-3">
-                    <Search className="text-white" size={20} />
-                </div>
-                <input type="text" placeholder={t('search')} className="h-full w-full bg-gray-100 px-4 py-2 focus:outline-none" />
-            </div>
+            <SearchInput placeholder={t('search')} containerClassName="w-48" variant="compact" />
 
             <Link href="/login">
                 <button className="h-[42px] rounded-lg border border-red-900 bg-white px-6 py-2 text-red-900 hover:bg-red-900 hover:text-white">
@@ -171,6 +158,26 @@ const Navbar = () => {
                     </button>
                   </Link>
               </div>
+          </div>
+      )}
+
+      {/* Mobile Search */}
+      {isNavSearchOpen && (
+          <div className="absolute top-full left-0 w-full bg-white rounded-md mt-2 shadow-lg p-4 md:hidden">
+            <div className="flex items-center gap-2">
+              <SearchInput
+                placeholder={t('search')}
+                containerClassName="flex-1"
+                autoFocus
+              />
+              <button
+                onClick={toggleNavSearch}
+                className="rounded-lg p-2 hover:bg-gray-100"
+                aria-label="Close search"
+              >
+                <X size={24} />
+              </button>
+            </div>
           </div>
       )}
     </div>
