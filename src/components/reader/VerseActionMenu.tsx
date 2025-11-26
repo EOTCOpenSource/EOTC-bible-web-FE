@@ -18,9 +18,12 @@ interface VerseActionMenuProps {
   chapter: number | string
   containerId: string
   onNote?: (verse: number | string, text: string) => void
+  onBookmark?: (verse: number | string) => void
+  onHighlight?: (verse: number | string, color: string) => void
   highlightColor?: string
   highlightId?: string
 }
+
 
 type SelectedVerseRange = {
   start: number
@@ -86,7 +89,7 @@ export const VerseActionMenu = ({
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
 
   const highlightColors = ['#621B1C', '#FFE062', '#3BAD49', '#FF4B26', '#5778C5', '#704A6A']
-  
+
   const handleHighlightSelection = async (colorHex: string) => {
     const verseRange = selectedVerses ?? getDefaultRange()
     const verseRef: VerseRef = {
@@ -351,9 +354,9 @@ export const VerseActionMenu = ({
           style={
             highlightColor
               ? {
-                  backgroundColor: highlightColor,
-                  opacity: 0.6,
-                }
+                backgroundColor: highlightColor,
+                opacity: 0.6,
+              }
               : undefined
           }
         >
