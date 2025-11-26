@@ -53,16 +53,13 @@ export function SearchInput({
         .finally(() => setLoading(false))
     } else {
       setSearchResults([])
-      if (showResults && searchQuery.trim() === '') {
-        // Show dropdown on focus even without query
-        setShowDropdown(false)
-      }
+      setShowDropdown(false)
     }
 
     if (onDebouncedChange) {
       onDebouncedChange(debouncedQuery)
     }
-  }, [debouncedQuery, onDebouncedChange, showResults, setSearchResults, setLoading, selectedTestament, selectedBook, searchQuery])
+  }, [debouncedQuery, onDebouncedChange, showResults, setSearchResults, setLoading, selectedTestament, selectedBook])
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
