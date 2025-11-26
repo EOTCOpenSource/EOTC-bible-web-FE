@@ -1,0 +1,89 @@
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:5000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+[SearchInput] Component rendered with showResults=true
+[SearchInput] Current state: {
+  searchQuery: '',
+  debouncedQuery: '',
+  showResults: true,
+  showDropdown: false,
+  isLoading: false,
+  resultsCount: 0,
+  selectedTestament: 'all',
+  selectedBook: null
+}
+[SearchInput] Final render state: {
+  shouldShowDropdown: false,
+  showResults: true,
+  queryTrimmed: '',
+  showDropdownState: false,
+  isLoadingState: false,
+  resultsCount: 0
+}
+[SearchInput] Component rendered with showResults=false
+[SearchInput] Current state: {
+  searchQuery: '',
+  debouncedQuery: '',
+  showResults: false,
+  showDropdown: false,
+  isLoading: false,
+  resultsCount: 0,
+  selectedTestament: 'all',
+  selectedBook: null
+}
+[SearchInput] Final render state: {
+  shouldShowDropdown: false,
+  showResults: false,
+  queryTrimmed: '',
+  showDropdownState: false,
+  isLoadingState: false,
+  resultsCount: 0
+}
+[SearchInput] Component rendered with showResults=true
+[SearchInput] Current state: {
+  searchQuery: '',
+  debouncedQuery: '',
+  showResults: true,
+  showDropdown: false,
+  isLoading: false,
+  resultsCount: 0,
+  selectedTestament: 'all',
+  selectedBook: null
+}
+[SearchInput] Final render state: {
+  shouldShowDropdown: false,
+  showResults: true,
+  queryTrimmed: '',
+  showDropdownState: false,
+  isLoadingState: false,
+  resultsCount: 0
+}
+[SearchInput] Component rendered with showResults=false
+[SearchInput] Current state: {
+  searchQuery: '',
+  debouncedQuery: '',
+  showResults: false,
+  showDropdown: false,
+  isLoading: false,
+  resultsCount: 0,
+  selectedTestament: 'all',
+  selectedBook: null
+}
+[SearchInput] Final render state: {
+  shouldShowDropdown: false,
+  showResults: false,
+  queryTrimmed: '',
+  showDropdownState: false,
+  isLoadingState: false,
+  resultsCount: 0
+}
+ GET / 200 in 17066ms
+ ✓ Compiled in 5.5s (358 modules)
+ ✓ Compiled in 263ms (358 modules)
+ ✓ Compiled in 628ms (358 modules)
+ ✓ Compiled in 513ms (358 modules)
+ ⚠ Cross origin request detected from be24206d-89f2-47f0-a065-cb3477c36f17-00-3pz76azyj0qrz.janeway.replit.dev to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ POST / 200 in 1259ms
+ POST / 200 in 1461ms
+ POST / 200 in 731ms
+ POST / 200 in 679ms
+ POST / 200 in 589ms
