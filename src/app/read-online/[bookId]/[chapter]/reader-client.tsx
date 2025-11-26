@@ -58,9 +58,12 @@ export default function ReaderClient({
         }
       }
     }
+  }, [searchParams])
 
+
+  useEffect(() => {
     loadHighlights()
-  }, [bookId, chapterData.chapter, searchParams, loadHighlights])
+  }, [bookId, chapterData.chapter, loadHighlights])
 
 
   const highlightsMap = useMemo(() => {
