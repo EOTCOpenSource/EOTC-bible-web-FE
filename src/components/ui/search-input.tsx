@@ -35,32 +35,36 @@ export function SearchInput({
   const [debouncedQuery] = useDebounce(searchQuery, debounceDelay)
   const inputRef = useRef<HTMLInputElement>(null)
   const [showDropdown, setShowDropdown] = useState(false)
-  const [localQuery, setLocalQuery] = useState('') // Track query locally for this instance
 
-  // Trigger fuzzy search on debounced query with filters
+  // Perform search when debounced query changes
   useEffect(() => {
-    if (debouncedQuery.trim() && showResults) {
-      setLoading(true)
-      setShowDropdown(true)
-      searchBible(debouncedQuery, 20, selectedTestament === 'all' ? undefined : selectedTestament, selectedBook)
-        .then((results) => {
-          setSearchResults(results)
-        })
-        .catch((error) => {
-          console.error('Search error:', error)
-          setSearchResults([])
-        })
-        .finally(() => setLoading(false))
-    } else if (showResults) {
-      // Reset when query is cleared but search is still visible
+    if (!showResults) {
+      setShowDropdown(false)
+      return
+    }
+
+    if (!debouncedQuery.trim()) {
       setSearchResults([])
       setShowDropdown(false)
+      return
     }
+
+    setLoading(true)
+    setShowDropdown(true)
+    searchBible(debouncedQuery, 20, selectedTestament === 'all' ? undefined : selectedTestament, selectedBook)
+      .then((results) => {
+        setSearchResults(results)
+      })
+      .catch((error) => {
+        console.error('Search error:', error)
+        setSearchResults([])
+      })
+      .finally(() => setLoading(false))
 
     if (onDebouncedChange) {
       onDebouncedChange(debouncedQuery)
     }
-  }, [debouncedQuery, onDebouncedChange, showResults, setSearchResults, setLoading, selectedTestament, selectedBook])
+  }, [debouncedQuery, showResults, setSearchResults, setLoading, selectedTestament, selectedBook, onDebouncedChange])
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
@@ -68,18 +72,12 @@ export function SearchInput({
     }
   }, [autoFocus])
 
-  // Show dropdown when search input has focus and is not empty (use local query to avoid multi-instance conflicts)
-  const shouldShowDropdown = showResults && localQuery.trim() !== '' && showDropdown
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchQuery(value)
-    setLocalQuery(value) // Track locally
+    setSearchQuery(e.target.value)
   }
 
   const handleClear = () => {
     clearSearch()
-    setLocalQuery('')
     setShowDropdown(false)
     inputRef.current?.focus()
   }
@@ -92,7 +90,7 @@ export function SearchInput({
   }
 
   const handleFocus = () => {
-    if (showResults) {
+    if (showResults && searchQuery.trim()) {
       setShowDropdown(true)
     }
   }
@@ -110,7 +108,7 @@ export function SearchInput({
   }
 
   const getSuggestionMessage = () => {
-    if (localQuery.length < 2) {
+    if (searchQuery.length < 2) {
       return 'Type at least 2 characters to search'
     }
     if (selectedBook || selectedTestament !== 'all') {
@@ -123,6 +121,8 @@ export function SearchInput({
     if (selectedTestament === 'all') return books
     return books.filter((b) => b.testament === selectedTestament)
   }
+
+  const shouldShowDropdown = showResults && searchQuery.trim() !== '' && showDropdown
 
   return (
     <div className="relative w-full">
@@ -175,7 +175,7 @@ export function SearchInput({
           <input
             ref={inputRef}
             type="text"
-            value={localQuery}
+            value={searchQuery}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onFocus={handleFocus}
@@ -185,7 +185,7 @@ export function SearchInput({
               className,
             )}
           />
-          {localQuery && (
+          {searchQuery && (
             <button
               onClick={handleClear}
               className="absolute right-2 rounded-full p-1 hover:bg-gray-200"
@@ -253,7 +253,6 @@ export function SearchInput({
                       </div>
                     ) : (
                       <div className="space-y-1">
-                        {/* Verse Reference */}
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-red-900 text-sm">
                             {result.book_short_name_en} {result.chapter}:{result.verse}
@@ -264,7 +263,6 @@ export function SearchInput({
                             </span>
                           )}
                         </div>
-                        {/* Verse Text Snippet */}
                         <div className="text-xs text-gray-700 leading-relaxed line-clamp-2 pl-1">
                           "{result.text}"
                         </div>
