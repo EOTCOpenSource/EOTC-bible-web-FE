@@ -60,7 +60,7 @@ const Navbar = () => {
 
           {/* Right Section - Full */}
           <div className={clsx("hidden items-center justify-between space-x-4 md:flex", !showFullNavbar && "!hidden")}>
-            <SearchInput placeholder={t('search')} />
+            <SearchInput placeholder={t('search')} showResults={true} />
 
             <button className="flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-red-900 py-2 pr-2 pl-6 text-white md:w-fit">
               <span>{t('getApp')}</span>
