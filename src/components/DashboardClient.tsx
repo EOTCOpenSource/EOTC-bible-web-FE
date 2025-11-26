@@ -8,6 +8,7 @@ import axios from 'axios'
 import { useTranslations } from 'next-intl'
 import { Award, Check, ChevronRight, Play} from 'lucide-react'
 import { achievements } from '@/data/achievement'
+import { userMock } from '@/data/userData'
 
 interface DashboardClientProps {
   initialUser: UserProfile | null
@@ -67,24 +68,7 @@ export default function DashboardClient() {
       </main>
     )
   }
-  const displayUser: UserProfile = user || {
-    id: 'mock-id',
-    name: 'Guest',
-    email: 'guest@example.com',
-    settings: {
-      theme: 'dark',
-      fontSize: 'medium',
-      lastRead: {
-        bookId: "bookId",
-        chapter: 4
-      }
-    },
-    streak: {
-      current: 3,
-      longest: 7,
-      lastDate: "string"
-    }
-}
+  const displayUser: UserProfile = user || userMock
 
   if (!displayUser) {
     return (
