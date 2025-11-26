@@ -11,3 +11,35 @@ channel = "stable-25_05"
 BACKEND_BASE_URL = "https://eotcbiblebe.replit.app/api/v1"
 JWT_COOKIE_NAME = "auth_token"
 NEXT_PUBLIC_APP_NAME = "EOTC Bible"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Next.js Development Server"
+
+[[workflows.workflow]]
+name = "Next.js Development Server"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 44189
+externalPort = 3000
