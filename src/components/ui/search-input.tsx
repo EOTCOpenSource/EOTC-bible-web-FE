@@ -127,26 +127,40 @@ export function SearchInput({
       {showResults && showDropdown && (searchResults.length > 0 || isLoading) && (
         <div className="absolute top-full left-0 right-0 mt-1 max-h-96 overflow-y-auto rounded-lg border bg-white shadow-lg z-50">
           {isLoading ? (
-            <div className="p-4 text-center text-gray-500">Searching...</div>
+            <div className="p-4 text-center text-gray-500 text-sm">Searching Bible...</div>
+          ) : searchResults.length === 0 ? (
+            <div className="p-4 text-center text-gray-500 text-sm">No results found</div>
           ) : (
             <div className="divide-y">
               {searchResults.map((result, idx) => (
                 <div
                   key={`${result.type}-${result.book_number}-${result.chapter}-${result.verse}-${idx}`}
-                  className="cursor-pointer p-3 hover:bg-gray-100 transition-colors"
+                  className="cursor-pointer p-3 hover:bg-red-50 transition-colors border-l-4 border-l-transparent hover:border-l-red-900"
                 >
                   {result.type === 'book' ? (
-                    <div className="font-semibold text-red-900">
-                      {result.book_name_en}
-                      {result.book_name_am && <span className="text-sm ml-2">({result.book_name_am})</span>}
+                    <div>
+                      <div className="font-semibold text-red-900 text-base">{result.book_name_en}</div>
+                      {result.book_name_am && (
+                        <div className="text-sm text-gray-600 mt-1">{result.book_name_am}</div>
+                      )}
                     </div>
                   ) : (
-                    <div>
-                      <div className="font-semibold text-sm text-red-900">
-                        {result.book_short_name_en} {result.chapter}:{result.verse}
-                        {result.section_title && <span className="text-xs ml-2 opacity-70">— {result.section_title}</span>}
+                    <div className="space-y-1">
+                      {/* Verse Reference */}
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-red-900 text-sm">
+                          {result.book_short_name_en} {result.chapter}:{result.verse}
+                        </span>
+                        {result.section_title && (
+                          <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded">
+                            {result.section_title}
+                          </span>
+                        )}
                       </div>
-                      <div className="text-xs text-gray-600 mt-1 line-clamp-2">{result.text}</div>
+                      {/* Verse Text Snippet */}
+                      <div className="text-xs text-gray-700 leading-relaxed line-clamp-2 pl-1">
+                        "{result.text}"
+                      </div>
                     </div>
                   )}
                 </div>
