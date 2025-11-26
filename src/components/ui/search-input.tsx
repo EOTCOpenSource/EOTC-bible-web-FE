@@ -45,23 +45,33 @@ export function SearchInput({
           setSearchResults(results)
           setShowDropdown(true)
         })
-        .catch((error) => console.error('Search error:', error))
+        .catch((error) => {
+          console.error('Search error:', error)
+          setSearchResults([])
+          setShowDropdown(true)
+        })
         .finally(() => setLoading(false))
     } else {
       setSearchResults([])
-      setShowDropdown(false)
+      if (showResults && searchQuery.trim() === '') {
+        // Show dropdown on focus even without query
+        setShowDropdown(false)
+      }
     }
 
     if (onDebouncedChange) {
       onDebouncedChange(debouncedQuery)
     }
-  }, [debouncedQuery, onDebouncedChange, showResults, setSearchResults, setLoading, selectedTestament, selectedBook])
+  }, [debouncedQuery, onDebouncedChange, showResults, setSearchResults, setLoading, selectedTestament, selectedBook, searchQuery])
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
       inputRef.current.focus()
     }
   }, [autoFocus])
+
+  // Show dropdown when search input has focus and is not empty
+  const shouldShowDropdown = showResults && searchQuery.trim() !== '' && showDropdown
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
@@ -81,9 +91,31 @@ export function SearchInput({
   }
 
   const handleFocus = () => {
-    if (searchQuery.trim() && showResults) {
+    if (showResults) {
       setShowDropdown(true)
     }
+  }
+
+  const getNoResultsMessage = () => {
+    if (selectedBook) {
+      const selectedBookData = books.find((b) => b.book_number === selectedBook)
+      return `No matches in ${selectedBookData?.book_name_en}`
+    }
+    if (selectedTestament !== 'all') {
+      const testamentName = selectedTestament === 'old' ? 'Old Testament' : 'New Testament'
+      return `No matches in ${testamentName}`
+    }
+    return 'No results found in Bible'
+  }
+
+  const getSuggestionMessage = () => {
+    if (searchQuery.length < 2) {
+      return 'Type at least 2 characters to search'
+    }
+    if (selectedBook || selectedTestament !== 'all') {
+      return 'Try adjusting your filters or search term'
+    }
+    return 'Try different keywords or check spelling'
   }
 
   const getFilteredBooks = () => {
@@ -165,47 +197,81 @@ export function SearchInput({
       </div>
 
       {/* Search Results Dropdown */}
-      {showResults && showDropdown && (searchResults.length > 0 || isLoading) && (
+      {shouldShowDropdown && (
         <div className="absolute top-full left-0 right-0 mt-1 max-h-96 overflow-y-auto rounded-lg border bg-white shadow-lg z-50">
-          {isLoading ? (
-            <div className="p-4 text-center text-gray-500 text-sm">Searching Bible...</div>
-          ) : searchResults.length === 0 ? (
-            <div className="p-4 text-center text-gray-500 text-sm">No results found</div>
-          ) : (
-            <div className="divide-y">
-              {searchResults.map((result, idx) => (
-                <div
-                  key={`${result.type}-${result.book_number}-${result.chapter}-${result.verse}-${idx}`}
-                  className="cursor-pointer p-3 hover:bg-red-50 transition-colors border-l-4 border-l-transparent hover:border-l-red-900"
+          {/* Loading State */}
+          {isLoading && (
+            <div className="p-6 text-center">
+              <div className="inline-block">
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-red-900 border-t-transparent"></div>
+              </div>
+              <p className="text-gray-600 text-sm mt-2">Searching Bible...</p>
+            </div>
+          )}
+
+          {/* No Results State */}
+          {!isLoading && searchResults.length === 0 && (
+            <div className="p-6 text-center">
+              <div className="inline-block mb-3">
+                <div className="text-3xl">📖</div>
+              </div>
+              <p className="text-gray-900 font-medium text-sm mb-1">{getNoResultsMessage()}</p>
+              <p className="text-gray-500 text-xs">{getSuggestionMessage()}</p>
+              {(selectedBook || selectedTestament !== 'all') && (
+                <button
+                  onClick={() => {
+                    setSelectedTestament('all')
+                    setSelectedBook(null)
+                  }}
+                  className="mt-3 text-xs text-red-900 hover:text-red-700 font-medium"
                 >
-                  {result.type === 'book' ? (
-                    <div>
-                      <div className="font-semibold text-red-900 text-base">{result.book_name_en}</div>
-                      {result.book_name_am && (
-                        <div className="text-sm text-gray-600 mt-1">{result.book_name_am}</div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="space-y-1">
-                      {/* Verse Reference */}
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-red-900 text-sm">
-                          {result.book_short_name_en} {result.chapter}:{result.verse}
-                        </span>
-                        {result.section_title && (
-                          <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded">
-                            {result.section_title}
-                          </span>
+                  Clear filters
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Results State */}
+          {!isLoading && searchResults.length > 0 && (
+            <div>
+              <div className="px-3 py-2 bg-gray-50 border-b text-xs text-gray-600">
+                {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} found
+              </div>
+              <div className="divide-y">
+                {searchResults.map((result, idx) => (
+                  <div
+                    key={`${result.type}-${result.book_number}-${result.chapter}-${result.verse}-${idx}`}
+                    className="cursor-pointer p-3 hover:bg-red-50 transition-colors border-l-4 border-l-transparent hover:border-l-red-900"
+                  >
+                    {result.type === 'book' ? (
+                      <div>
+                        <div className="font-semibold text-red-900 text-base">{result.book_name_en}</div>
+                        {result.book_name_am && (
+                          <div className="text-sm text-gray-600 mt-1">{result.book_name_am}</div>
                         )}
                       </div>
-                      {/* Verse Text Snippet */}
-                      <div className="text-xs text-gray-700 leading-relaxed line-clamp-2 pl-1">
-                        "{result.text}"
+                    ) : (
+                      <div className="space-y-1">
+                        {/* Verse Reference */}
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-red-900 text-sm">
+                            {result.book_short_name_en} {result.chapter}:{result.verse}
+                          </span>
+                          {result.section_title && (
+                            <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded">
+                              {result.section_title}
+                            </span>
+                          )}
+                        </div>
+                        {/* Verse Text Snippet */}
+                        <div className="text-xs text-gray-700 leading-relaxed line-clamp-2 pl-1">
+                          "{result.text}"
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
