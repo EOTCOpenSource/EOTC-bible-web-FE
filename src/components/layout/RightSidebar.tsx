@@ -1,8 +1,24 @@
 'use client'
-
+import React from 'react'
 import { Award, ChevronRight,ArrowRight, BookMarked } from 'lucide-react'
+import { Calendar } from '../ui/calendar'
+
 
 const RightSidebar = () => {
+
+     const [month, setMonth] = React.useState<Date | undefined>(new Date(2025, 7, 1))
+
+     const streakDates = [
+          new Date(2025, 7, 1),
+          new Date(2025, 7, 4),
+          new Date(2025, 7, 12),
+          new Date(2025, 7, 13),
+          new Date(2025, 7, 17),
+          new Date(2025, 7, 18),
+          new Date(2025, 7, 19),
+          new Date(2025, 7, 20),
+     ]
+
      return (
           <div className='flex flex-col gap-6 py-3 w-full '>
                <div className='border border-gray-400 rounded-xl p-6'>
@@ -64,6 +80,28 @@ const RightSidebar = () => {
                          </button>
                     </div>
                </div>
+
+               <Calendar
+                    mode="single"                    
+                    selected={undefined}             
+                    onSelect={() => {}}               
+                    month={month}
+                    onMonthChange={setMonth}
+                    className="rounded-xl w-full border border-gray-400 bg-background p-3"
+                    captionLayout="dropdown"
+                    classNames={{
+                         day: "h w-full p-0 text-sm font-normal rounded-full hover:bg-background hover:text-foreground",
+                    }}
+                    modifiers={{
+                         streak: streakDates,
+                    }}
+                    modifiersClassNames={{
+                         streak:
+                              "bg-red-900 text-white rounded-full hover:!bg-black hover:!text-white",
+                    }}
+               />
+
+
           </div>  
      )
 }
