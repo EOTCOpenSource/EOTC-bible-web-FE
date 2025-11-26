@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { Search, X } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
-import { useDebounce } from '@/hooks/use-debounce'
+import { useDebounce } from 'use-debounce'
 import { cn } from '@/lib/utils'
 
 interface SearchInputProps {
@@ -26,7 +26,7 @@ export function SearchInput({
   debounceDelay = 300,
 }: SearchInputProps) {
   const { searchQuery, setSearchQuery, clearSearch } = useUIStore()
-  const debouncedQuery = useDebounce(searchQuery, debounceDelay)
+  const [debouncedQuery] = useDebounce(searchQuery, debounceDelay)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
