@@ -6,16 +6,30 @@ import Fuse from 'fuse.js'
 import type { SearchResult, BibleBook } from '@/lib/search-types'
 import { books } from '@/data/data'
 
-export async function performBibleSearch(query: string, limit: number = 50): Promise<SearchResult[]> {
+export async function performBibleSearch(
+  query: string,
+  limit: number = 50,
+  testament?: 'all' | 'old' | 'new',
+  bookNumber?: number | null
+): Promise<SearchResult[]> {
   if (!query.trim()) return []
 
   try {
     const bibleDataPath = path.join(process.cwd(), 'src', 'data', 'bible-data')
     const searchItems: SearchResult[] = []
 
+    // Filter books based on testament and book selection
+    let filteredBooks = books
+    if (testament && testament !== 'all') {
+      filteredBooks = books.filter((b) => b.testament === testament)
+    }
+    if (bookNumber) {
+      filteredBooks = books.filter((b) => b.book_number === bookNumber)
+    }
+
     // Start with book titles
     searchItems.push(
-      ...books.map((book) => ({
+      ...filteredBooks.map((book) => ({
         type: 'book' as const,
         book_number: book.book_number,
         book_name_en: book.book_name_en,
@@ -32,7 +46,7 @@ export async function performBibleSearch(query: string, limit: number = 50): Pro
           const jsonPath = path.join(bibleDataPath, file)
           const fileContent = await fs.readFile(jsonPath, 'utf8')
           const bookData: BibleBook = JSON.parse(fileContent)
-          const bookInfo = books.find((b) => b.book_number === bookData.book_number)
+          const bookInfo = filteredBooks.find((b) => b.book_number === bookData.book_number)
 
           if (bookInfo && bookData.chapters) {
             bookData.chapters.forEach((chapter) => {

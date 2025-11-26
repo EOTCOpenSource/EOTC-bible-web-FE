@@ -7,6 +7,7 @@ import { useSearchStore } from '@/stores/searchStore'
 import { useDebounce } from 'use-debounce'
 import { searchBible } from '@/lib/bible-search'
 import { cn } from '@/lib/utils'
+import { books } from '@/data/data'
 
 interface SearchInputProps {
   placeholder?: string
@@ -30,16 +31,16 @@ export function SearchInput({
   showResults = false,
 }: SearchInputProps) {
   const { searchQuery, setSearchQuery, clearSearch } = useUIStore()
-  const { searchResults, setSearchResults, isLoading, setLoading } = useSearchStore()
+  const { searchResults, setSearchResults, isLoading, setLoading, selectedTestament, setSelectedTestament, selectedBook, setSelectedBook } = useSearchStore()
   const [debouncedQuery] = useDebounce(searchQuery, debounceDelay)
   const inputRef = useRef<HTMLInputElement>(null)
   const [showDropdown, setShowDropdown] = useState(false)
 
-  // Trigger fuzzy search on debounced query
+  // Trigger fuzzy search on debounced query with filters
   useEffect(() => {
     if (debouncedQuery.trim() && showResults) {
       setLoading(true)
-      searchBible(debouncedQuery, 20)
+      searchBible(debouncedQuery, 20, selectedTestament === 'all' ? undefined : selectedTestament, selectedBook)
         .then((results) => {
           setSearchResults(results)
           setShowDropdown(true)
@@ -54,7 +55,7 @@ export function SearchInput({
     if (onDebouncedChange) {
       onDebouncedChange(debouncedQuery)
     }
-  }, [debouncedQuery, onDebouncedChange, showResults, setSearchResults, setLoading])
+  }, [debouncedQuery, onDebouncedChange, showResults, setSearchResults, setLoading, selectedTestament, selectedBook])
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
@@ -85,8 +86,48 @@ export function SearchInput({
     }
   }
 
+  const getFilteredBooks = () => {
+    if (selectedTestament === 'all') return books
+    return books.filter((b) => b.testament === selectedTestament)
+  }
+
   return (
     <div className="relative w-full">
+      {showResults && (
+        <div className="mb-3 flex flex-wrap gap-2">
+          {/* Testament Filter */}
+          <div className="flex gap-2">
+            {['all', 'old', 'new'].map((test) => (
+              <button
+                key={test}
+                onClick={() => setSelectedTestament(test as 'all' | 'old' | 'new')}
+                className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  selectedTestament === test
+                    ? 'bg-red-900 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                {test === 'all' ? 'All' : test === 'old' ? 'OT' : 'NT'}
+              </button>
+            ))}
+          </div>
+
+          {/* Book Filter */}
+          <select
+            value={selectedBook || ''}
+            onChange={(e) => setSelectedBook(e.target.value ? parseInt(e.target.value) : null)}
+            className="px-3 py-1 rounded text-sm border border-gray-300 hover:border-gray-400 cursor-pointer"
+          >
+            <option value="">All Books</option>
+            {getFilteredBooks().map((book: any) => (
+              <option key={book.book_number} value={book.book_number}>
+                {book.book_name_en}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       <div
         className={cn(
           'flex items-center overflow-hidden rounded-lg border',

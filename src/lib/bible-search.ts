@@ -1,8 +1,13 @@
 import { performBibleSearch } from '@/app/actions/search'
 import type { SearchResult } from './search-types'
 
-export async function searchBible(query: string, limit: number = 50): Promise<SearchResult[]> {
-  return performBibleSearch(query, limit)
+export async function searchBible(
+  query: string,
+  limit: number = 50,
+  testament?: 'all' | 'old' | 'new',
+  bookNumber?: number | null
+): Promise<SearchResult[]> {
+  return performBibleSearch(query, limit, testament, bookNumber)
 }
 
 export async function getBibleSuggestions(query: string, limit: number = 10): Promise<string[]> {
