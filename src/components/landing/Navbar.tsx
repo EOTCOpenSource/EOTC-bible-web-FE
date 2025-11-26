@@ -169,6 +169,7 @@ const Navbar = () => {
                 placeholder={t('search')}
                 containerClassName="flex-1"
                 autoFocus
+                showResults={true}
               />
               <button
                 onClick={toggleNavSearch}
