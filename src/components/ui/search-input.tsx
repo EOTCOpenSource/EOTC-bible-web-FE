@@ -35,6 +35,7 @@ export function SearchInput({
   const [debouncedQuery] = useDebounce(searchQuery, debounceDelay)
   const inputRef = useRef<HTMLInputElement>(null)
   const [showDropdown, setShowDropdown] = useState(false)
+  const [localQuery, setLocalQuery] = useState('') // Track query locally for this instance
 
   // Trigger fuzzy search on debounced query with filters
   useEffect(() => {
@@ -67,15 +68,18 @@ export function SearchInput({
     }
   }, [autoFocus])
 
-  // Show dropdown when search input has focus and is not empty
-  const shouldShowDropdown = showResults && searchQuery.trim() !== '' && showDropdown
+  // Show dropdown when search input has focus and is not empty (use local query to avoid multi-instance conflicts)
+  const shouldShowDropdown = showResults && localQuery.trim() !== '' && showDropdown
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
+    const value = e.target.value
+    setSearchQuery(value)
+    setLocalQuery(value) // Track locally
   }
 
   const handleClear = () => {
     clearSearch()
+    setLocalQuery('')
     setShowDropdown(false)
     inputRef.current?.focus()
   }
@@ -106,7 +110,7 @@ export function SearchInput({
   }
 
   const getSuggestionMessage = () => {
-    if (searchQuery.length < 2) {
+    if (localQuery.length < 2) {
       return 'Type at least 2 characters to search'
     }
     if (selectedBook || selectedTestament !== 'all') {
@@ -171,7 +175,7 @@ export function SearchInput({
           <input
             ref={inputRef}
             type="text"
-            value={searchQuery}
+            value={localQuery}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onFocus={handleFocus}
@@ -181,7 +185,7 @@ export function SearchInput({
               className,
             )}
           />
-          {searchQuery && (
+          {localQuery && (
             <button
               onClick={handleClear}
               className="absolute right-2 rounded-full p-1 hover:bg-gray-200"
