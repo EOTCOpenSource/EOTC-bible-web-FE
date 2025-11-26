@@ -39,16 +39,17 @@ export function SearchInput({
   // Trigger fuzzy search on debounced query with filters
   useEffect(() => {
     if (debouncedQuery.trim() && showResults) {
+      console.log('🔍 Starting search for:', debouncedQuery)
       setLoading(true)
+      setShowDropdown(true)
       searchBible(debouncedQuery, 20, selectedTestament === 'all' ? undefined : selectedTestament, selectedBook)
         .then((results) => {
+          console.log('✅ Search results:', results)
           setSearchResults(results)
-          setShowDropdown(true)
         })
         .catch((error) => {
           console.error('Search error:', error)
           setSearchResults([])
-          setShowDropdown(true)
         })
         .finally(() => setLoading(false))
     } else {
@@ -69,6 +70,15 @@ export function SearchInput({
 
   // Show dropdown when search input has focus and is not empty
   const shouldShowDropdown = showResults && searchQuery.trim() !== '' && showDropdown
+  
+  console.log('Dropdown state:', { 
+    showResults, 
+    searchQuery, 
+    showDropdown, 
+    shouldShowDropdown, 
+    isLoading,
+    resultsLength: searchResults.length 
+  })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
