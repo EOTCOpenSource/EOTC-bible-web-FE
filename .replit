@@ -4,3 +4,10 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+BACKEND_BASE_URL = "https://eotcbiblebe.replit.app/api/v1"
+JWT_COOKIE_NAME = "auth_token"
+NEXT_PUBLIC_APP_NAME = "EOTC Bible"
