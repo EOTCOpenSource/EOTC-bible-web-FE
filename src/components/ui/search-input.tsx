@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Search, X } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
 import { useSearchStore } from '@/stores/searchStore'
@@ -30,50 +30,53 @@ export function SearchInput({
   debounceDelay = 300,
   showResults = false,
 }: SearchInputProps) {
-  // Local component state - completely isolated
-  const [localInput, setLocalInput] = useState('')
-  const [localResults, setLocalResults] = useState<any[]>([])
-  const [localLoading, setLocalLoading] = useState(false)
-  const [showDropdown, setShowDropdown] = useState(false)
-  const [localTestament, setLocalTestament] = useState<'all' | 'old' | 'new'>('all')
-  const [localBook, setLocalBook] = useState<number | null>(null)
+  // Global state - shared across all components
+  const { searchQuery, setSearchQuery, clearSearch } = useUIStore()
+  const { searchResults, setSearchResults, isLoading, setLoading, selectedTestament, setSelectedTestament, selectedBook, setSelectedBook } = useSearchStore()
   
-  const [debouncedInput] = useDebounce(localInput, debounceDelay)
+  // Local state - unique to this component instance
+  const [showDropdown, setShowDropdown] = useState(false)
+  
+  const [debouncedQuery] = useDebounce(searchQuery, debounceDelay)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Search when debounced input changes
+  // Perform search when debounced query changes
   useEffect(() => {
     if (!showResults) {
       setShowDropdown(false)
       return
     }
 
-    if (!debouncedInput.trim()) {
-      setLocalResults([])
+    if (!debouncedQuery.trim()) {
+      setSearchResults([])
       setShowDropdown(false)
       return
     }
 
-    setLocalLoading(true)
+    setLoading(true)
     setShowDropdown(true)
 
     searchBible(
-      debouncedInput,
+      debouncedQuery,
       20,
-      localTestament === 'all' ? undefined : localTestament,
-      localBook
+      selectedTestament === 'all' ? undefined : selectedTestament,
+      selectedBook
     )
       .then((results) => {
-        setLocalResults(results)
+        setSearchResults(results)
       })
       .catch((error) => {
         console.error('Search error:', error)
-        setLocalResults([])
+        setSearchResults([])
       })
       .finally(() => {
-        setLocalLoading(false)
+        setLoading(false)
       })
-  }, [debouncedInput, showResults, localTestament, localBook])
+
+    if (onDebouncedChange) {
+      onDebouncedChange(debouncedQuery)
+    }
+  }, [debouncedQuery, showResults, setSearchResults, setLoading, selectedTestament, selectedBook, onDebouncedChange])
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
@@ -81,57 +84,63 @@ export function SearchInput({
     }
   }, [autoFocus])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalInput(e.target.value)
-  }
+  // When search query is cleared from outside, hide dropdown
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setShowDropdown(false)
+    }
+  }, [searchQuery])
 
-  const handleClear = () => {
-    setLocalInput('')
-    setLocalResults([])
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value)
+  }, [setSearchQuery])
+
+  const handleClear = useCallback(() => {
+    clearSearch()
     setShowDropdown(false)
     inputRef.current?.focus()
-  }
+  }, [clearSearch])
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
       handleClear()
     }
-  }
+  }, [handleClear])
 
-  const handleFocus = () => {
-    if (showResults && localInput.trim()) {
+  const handleFocus = useCallback(() => {
+    if (showResults && searchQuery.trim()) {
       setShowDropdown(true)
     }
-  }
-
-  const shouldShowDropdown = showResults && localInput.trim() !== '' && showDropdown
-
-  const getFilteredBooks = () => {
-    if (localTestament === 'all') return books
-    return books.filter((b) => b.testament === localTestament)
-  }
+  }, [showResults, searchQuery])
 
   const getNoResultsMessage = () => {
-    if (localBook) {
-      const bookData = books.find((b) => b.book_number === localBook)
-      return `No matches in ${bookData?.book_name_en}`
+    if (selectedBook) {
+      const selectedBookData = books.find((b) => b.book_number === selectedBook)
+      return `No matches in ${selectedBookData?.book_name_en}`
     }
-    if (localTestament !== 'all') {
-      const testamentName = localTestament === 'old' ? 'Old Testament' : 'New Testament'
+    if (selectedTestament !== 'all') {
+      const testamentName = selectedTestament === 'old' ? 'Old Testament' : 'New Testament'
       return `No matches in ${testamentName}`
     }
     return 'No results found in Bible'
   }
 
   const getSuggestionMessage = () => {
-    if (localInput.length < 2) {
+    if (searchQuery.length < 2) {
       return 'Type at least 2 characters to search'
     }
-    if (localBook || localTestament !== 'all') {
+    if (selectedBook || selectedTestament !== 'all') {
       return 'Try adjusting your filters or search term'
     }
     return 'Try different keywords or check spelling'
   }
+
+  const getFilteredBooks = () => {
+    if (selectedTestament === 'all') return books
+    return books.filter((b) => b.testament === selectedTestament)
+  }
+
+  const shouldShowDropdown = showResults && searchQuery.trim() !== '' && showDropdown
 
   return (
     <div className="relative w-full">
@@ -142,9 +151,9 @@ export function SearchInput({
             {['all', 'old', 'new'].map((test) => (
               <button
                 key={test}
-                onClick={() => setLocalTestament(test as 'all' | 'old' | 'new')}
+                onClick={() => setSelectedTestament(test as 'all' | 'old' | 'new')}
                 className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                  localTestament === test
+                  selectedTestament === test
                     ? 'bg-red-900 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
@@ -156,8 +165,8 @@ export function SearchInput({
 
           {/* Book Filter */}
           <select
-            value={localBook || ''}
-            onChange={(e) => setLocalBook(e.target.value ? parseInt(e.target.value) : null)}
+            value={selectedBook || ''}
+            onChange={(e) => setSelectedBook(e.target.value ? parseInt(e.target.value) : null)}
             className="px-3 py-1 rounded text-sm border border-gray-300 hover:border-gray-400 cursor-pointer"
           >
             <option value="">All Books</option>
@@ -184,8 +193,8 @@ export function SearchInput({
           <input
             ref={inputRef}
             type="text"
-            value={localInput}
-            onChange={handleInputChange}
+            value={searchQuery}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
             onFocus={handleFocus}
             placeholder={placeholder}
@@ -194,7 +203,7 @@ export function SearchInput({
               className,
             )}
           />
-          {localInput && (
+          {searchQuery && (
             <button
               onClick={handleClear}
               className="absolute right-2 rounded-full p-1 hover:bg-gray-200"
@@ -210,7 +219,7 @@ export function SearchInput({
       {shouldShowDropdown && (
         <div className="absolute top-full left-0 right-0 mt-1 max-h-96 overflow-y-auto rounded-lg border bg-white shadow-lg z-50">
           {/* Loading State */}
-          {localLoading && (
+          {isLoading && (
             <div className="p-6 text-center">
               <div className="inline-block">
                 <div className="animate-spin rounded-full h-5 w-5 border-2 border-red-900 border-t-transparent"></div>
@@ -220,18 +229,18 @@ export function SearchInput({
           )}
 
           {/* No Results State */}
-          {!localLoading && localResults.length === 0 && (
+          {!isLoading && searchResults.length === 0 && (
             <div className="p-6 text-center">
               <div className="inline-block mb-3">
                 <div className="text-3xl">📖</div>
               </div>
               <p className="text-gray-900 font-medium text-sm mb-1">{getNoResultsMessage()}</p>
               <p className="text-gray-500 text-xs">{getSuggestionMessage()}</p>
-              {(localBook || localTestament !== 'all') && (
+              {(selectedBook || selectedTestament !== 'all') && (
                 <button
                   onClick={() => {
-                    setLocalTestament('all')
-                    setLocalBook(null)
+                    setSelectedTestament('all')
+                    setSelectedBook(null)
                   }}
                   className="mt-3 text-xs text-red-900 hover:text-red-700 font-medium"
                 >
@@ -242,13 +251,13 @@ export function SearchInput({
           )}
 
           {/* Results State */}
-          {!localLoading && localResults.length > 0 && (
+          {!isLoading && searchResults.length > 0 && (
             <div>
               <div className="px-3 py-2 bg-gray-50 border-b text-xs text-gray-600">
-                {localResults.length} result{localResults.length !== 1 ? 's' : ''} found
+                {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} found
               </div>
               <div className="divide-y">
-                {localResults.map((result, idx) => (
+                {searchResults.map((result, idx) => (
                   <div
                     key={`${result.type}-${result.book_number}-${result.chapter}-${result.verse}-${idx}`}
                     className="cursor-pointer p-3 hover:bg-red-50 transition-colors border-l-4 border-l-transparent hover:border-l-red-900"
