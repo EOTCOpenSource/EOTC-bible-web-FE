@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { getHighlightInlineColor } from '@/lib/highlight-utils'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { HighlightColor } from '@/stores/types'
 import { useSearchParams } from 'next/navigation'
 
@@ -17,7 +17,6 @@ interface ReaderClientProps {
   prevChapter: number | null
   nextChapter: number | null
   bookId: string
-
 }
 
 export default function ReaderClient({
@@ -32,39 +31,40 @@ export default function ReaderClient({
 
   const { highlights, loadHighlights } = useHighlightsStore()
 
-
-  useEffect(() => {
-    const hash = window.location.hash
-    if (hash) {
-      const verseCount = parseInt(searchParams.get('verseCount') || '1', 10)
-      const verseStart = parseInt(hash.substring(2), 10) // remove "v"
-
-      if (!isNaN(verseStart)) {
-        const firstElement = document.getElementById(`v${verseStart}`)
-        if (firstElement) {
-          firstElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-
-        // apply highlight animation to each verse in the range
-        for (let i = 0; i < verseCount; i++) {
-          const verseNumber = verseStart + i
-          const element = document.getElementById(`v${verseNumber}`)
-          if (element) {
-            element.classList.add('highlight-verse-animation')
-            setTimeout(() => {
-              element.classList.remove('highlight-verse-animation')
-            }, 10000)
-          }
-        }
-      }
-    }
-  }, [searchParams])
-
+  const [animatedVerses, setAnimatedVerses] = useState<Set<number>>(new Set())
 
   useEffect(() => {
     loadHighlights()
   }, [bookId, chapterData.chapter, loadHighlights])
 
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      const verseCount = parseInt(searchParams.get('verseCount') || '1', 10)
+      const verseStart = parseInt(hash.substring(2), 10)
+
+      if (!isNaN(verseStart)) {
+        const versesToAnimate = new Set<number>()
+        for (let i = 0; i < verseCount; i++) {
+          versesToAnimate.add(verseStart + i)
+        }
+        setAnimatedVerses(versesToAnimate)
+
+        // Scroll after a brief delay to ensure DOM is ready
+        setTimeout(() => {
+          const firstElement = document.getElementById(`v${verseStart}`)
+          if (firstElement) {
+            firstElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
+        }, 100)
+
+        // Remove animation after 10 seconds
+        setTimeout(() => {
+          setAnimatedVerses(new Set())
+        }, 10000)
+      }
+    }
+  }, [searchParams])
 
   const highlightsMap = useMemo(() => {
     const map = new Map<
@@ -77,8 +77,7 @@ export default function ReaderClient({
 
       const h = highlight as any
       const verseRef = h.verseRef || {}
-      const highlightBookId =
-        h.bookId || verseRef.bookId || verseRef.book || h.book || ''
+      const highlightBookId = h.bookId || verseRef.bookId || verseRef.book || h.book || ''
 
       const chapter = Number(verseRef.chapter ?? h.chapter)
       const verseStart = Number(verseRef.verseStart ?? verseRef.verse ?? h.verseStart)
@@ -117,14 +116,13 @@ export default function ReaderClient({
     // TODO: Implement note dialog - could use a modal/dialog component
   }
 
-
   return (
     <div className="relative h-full w-full">
       {/* LEFT ARROW */}
       <div
         className={clsx(
           'fixed top-1/2 z-10 -translate-y-1/2 transition-all',
-          isSidebarOpen ? 'left-[312px]' : 'left-32'
+          isSidebarOpen ? 'left-[312px]' : 'left-32',
         )}
       >
         {prevChapter ? (
@@ -145,7 +143,7 @@ export default function ReaderClient({
       <div
         className={clsx(
           'mx-auto max-w-5xl px-4 py-4 transition-all sm:py-6 md:py-8',
-          isSidebarOpen ? 'md:px-20' : 'md:px-16'
+          isSidebarOpen ? 'md:px-20' : 'md:px-16',
         )}
       >
         <h1 className="mb-4 text-center text-2xl font-bold sm:text-3xl">
@@ -177,6 +175,7 @@ export default function ReaderClient({
                     onNote={handleNote}
                     highlightColor={highlightsMap.get(verse.verse)?.colorHex}
                     highlightId={highlightsMap.get(verse.verse)?._id}
+                    shouldAnimate={animatedVerses.has(verse.verse)}
                   />
                 ))}
               </div>
@@ -189,7 +188,7 @@ export default function ReaderClient({
       <div
         className={clsx(
           'fixed top-1/2 right-8 z-10 -translate-y-1/2 transition-all',
-          isSidebarOpen ? 'mr-6' : 'mr-24'
+          isSidebarOpen ? 'mr-6' : 'mr-24',
         )}
       >
         {nextChapter ? (
