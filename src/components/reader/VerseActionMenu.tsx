@@ -4,9 +4,11 @@ import { Bookmark, MessageSquare, Share2, Copy, Highlighter, Check } from 'lucid
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
 import { useHighlightsStore } from '@/stores/highlightsStore'
+import { useUserStore } from '@/lib/stores/useUserStore'
 import { hexToHighlightColor } from '@/lib/highlight-utils'
 import type { VerseRef } from '@/stores/types'
 
@@ -63,9 +65,33 @@ export const VerseActionMenu = ({
 
   const verseRef = useRef<HTMLSpanElement>(null)
   const initialPositionSet = useRef(false)
+  const router = useRouter()
 
   const { addBookmark } = useBookmarksStore()
   const { highlights, addHighlight, changeColor } = useHighlightsStore()
+  const { user, loadSession } = useUserStore()
+
+  // Load session on mount if not already loaded
+  useEffect(() => {
+    if (!user) {
+      loadSession().catch(() => {
+        // User not authenticated, but they can still read
+      })
+    }
+  }, [user, loadSession])
+
+  // Check if user is authenticated
+  const isAuthenticated = () => {
+    return !!user
+  }
+
+  // Redirect to login and save return URL
+  const redirectToLogin = () => {
+    const currentPath = window.location.pathname + window.location.search + window.location.hash
+    // Store the intended destination
+    sessionStorage.setItem('redirectAfterLogin', currentPath)
+    router.push('/login')
+  }
 
   const existingHighlightForSelection = useMemo(() => {
     const chapterNumber = Number(chapter)
@@ -114,8 +140,10 @@ export const VerseActionMenu = ({
       resetSelectionState()
     } catch (error: any) {
       console.error('Failed to apply highlight:', error)
-      const isUnauthorized = error?.response?.status === 401
-      console.error('Failed to apply highlight:', error)
+      // If unauthorized error from API, redirect to login
+      if (error?.response?.status === 401 || error?.status === 401) {
+        redirectToLogin()
+      }
     }
   }
 
@@ -318,14 +346,26 @@ export const VerseActionMenu = ({
           verseStart: Number(selectedVerses.start),
           verseCount: Number(selectedVerses.count),
         })
-      } catch (error) {
+        resetSelectionState()
+      } catch (error: any) {
         console.error('Failed to add bookmark:', error)
+        // If unauthorized error from API, redirect to login
+        if (error?.response?.status === 401 || error?.status === 401) {
+          redirectToLogin()
+        }
+        // Don't reset selection state on error so user doesn't lose their place
       }
     }
-    resetSelectionState()
   }
 
   const handleNote = () => {
+    // For notes, do an optimistic check since we're calling a callback
+    // If the callback makes an API call, it should handle 401 itself
+    if (!isAuthenticated()) {
+      redirectToLogin()
+      return
+    }
+
     const noteText =
       selectedVerses.count > 1
         ? `Verses ${selectedVerses.start}-${selectedVerses.end}: ${selectedText}`
