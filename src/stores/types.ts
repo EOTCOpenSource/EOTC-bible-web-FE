@@ -34,7 +34,7 @@ export interface Note {
   tags?: string[]
 }
 
-export type HighlightColor = 'yellow' | 'green' | 'pink' | 'blue'
+export type HighlightColor = 'yellow' | 'green' | 'pink' | 'blue' | 'red' | 'purple'
 
 export interface Highlight {
   _id: string
@@ -49,6 +49,7 @@ export interface BookMark {
   chapter: number
   verseStart: number
   verseCount: number
+  verseRef: VerseRef
   createdAt: string
 }
 

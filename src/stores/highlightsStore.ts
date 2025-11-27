@@ -1,6 +1,80 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import axiosInstance from '@/lib/axios'
 import type { Highlight, HighlightColor, VerseRef } from './types'
+
+type RawHighlight = {
+  _id: string
+  verseRef?: {
+    book?: string
+    chapter?: number | string
+    verseStart?: number | string
+    verse?: number | string
+    verseCount?: number | string
+  }
+  bookId?: string
+  book?: string
+  chapter?: number | string
+  verseStart?: number | string
+  verse?: number | string
+  verseCount?: number | string
+  color?: HighlightColor
+  createdAt?: string
+}
+
+const normalizeHighlight = (
+  raw: RawHighlight | undefined,
+  fallback?: { verseRef?: VerseRef; color?: HighlightColor },
+): Highlight | null => {
+  if (!raw?._id) return null
+
+  const sourceVerse = raw.verseRef ?? {}
+
+  const book = raw.bookId || sourceVerse.book || raw.book || fallback?.verseRef?.book
+  const chapter = Number(
+    sourceVerse.chapter ?? raw.chapter ?? fallback?.verseRef?.chapter ?? Number.NaN,
+  )
+  const verseStart = Number(
+    sourceVerse.verseStart ??
+      sourceVerse.verse ??
+      raw.verseStart ??
+      raw.verse ??
+      fallback?.verseRef?.verseStart ??
+      Number.NaN,
+  )
+  const verseCount = Number(
+    sourceVerse.verseCount ?? raw.verseCount ?? fallback?.verseRef?.verseCount ?? 1,
+  )
+  const color = raw.color || fallback?.color || 'yellow'
+
+  if (!book || !Number.isFinite(chapter) || !Number.isFinite(verseStart)) {
+    return null
+  }
+
+  return {
+    _id: raw._id,
+    verseRef: {
+      book,
+      chapter,
+      verseStart,
+      verseCount: Number.isFinite(verseCount) && verseCount > 0 ? verseCount : 1,
+    },
+    color,
+    createdAt: raw.createdAt || new Date().toISOString(),
+  }
+}
+
+const normalizeBookId = (book?: string) => (book ? book.toLowerCase().replace(/\s+/g, '-') : '')
+
+const isSameHighlightStart = (highlight: Highlight | undefined, verseRef: VerseRef): boolean => {
+  if (!highlight?.verseRef) return false
+  const { book, chapter, verseStart } = highlight.verseRef
+  return (
+    normalizeBookId(book) === normalizeBookId(verseRef.book) &&
+    Number(chapter) === Number(verseRef.chapter) &&
+    Number(verseStart) === Number(verseRef.verseStart)
+  )
+}
 
 interface HighlightsState {
   highlights: Highlight[]
@@ -25,19 +99,37 @@ export const useHighlightsStore = create<HighlightsState>()(
     loadHighlights: async () => {
       set({ isLoading: true, error: null })
       try {
-        const res = await fetch('https://mylocalbackend/api/v1/user/me/api/highlights')
-        if (!res.ok) throw new Error('Failed to load highlights')
-        const data = (await res.json()) as Highlight[]
-        set({ highlights: data, isLoading: false })
+        const res = await axiosInstance.get('/api/highlights')
+        const responseData = res.data?.data || res.data
+        const highlightsArray = responseData?.data || responseData
+
+        const transformedHighlights: Highlight[] = Array.isArray(highlightsArray)
+          ? highlightsArray
+              .map((raw: RawHighlight) => normalizeHighlight(raw))
+              .filter((h): h is Highlight => Boolean(h))
+          : []
+
+        set({ highlights: transformedHighlights, isLoading: false })
       } catch (err: any) {
-        set({ isLoading: false, error: err?.message ?? 'Unknown' })
+        set({
+          isLoading: false,
+          error: err?.response?.data?.error || err?.message || 'Failed to load highlights',
+        })
+        throw err
       }
     },
 
     addHighlight: async (verseRef, color = 'yellow') => {
       set({ error: null })
 
-      // GENERATE UNIQUE TEMP ID WITH TIMESTAMP FOR UNIQUENESS
+      const existing = get().highlights.find((highlight) =>
+        isSameHighlightStart(highlight, verseRef),
+      )
+      if (existing && !existing._id.startsWith('temp-')) {
+        await get().changeColor(existing._id, color)
+        return
+      }
+
       const tempId = `temp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
       const tempHighlight: Highlight = {
         _id: tempId,
@@ -46,108 +138,104 @@ export const useHighlightsStore = create<HighlightsState>()(
         createdAt: new Date().toISOString(),
       }
 
-      // OPTIMISTIC UPDATE
       set((state) => ({ highlights: [tempHighlight, ...state.highlights] }))
 
       try {
-        const res = await fetch('https://mylocalbackend/api/v1/user/me/api/highlights', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            bookId: verseRef.book,
-            chapter: verseRef.chapter,
-            verse: verseRef.verse,
-            color,
-          }),
+        const res = await axiosInstance.post('/api/highlights', {
+          ...verseRef,
+          bookId: verseRef.book,
+          color,
         })
-        if (!res.ok) throw new Error('Failed to add highlight')
-        const backendResponse = await res.json()
 
-        // CONVERTING THE BAVKEND RESPONSE TO MATCH THE HIGHLIGHT INTERFACE
-        const createdHighlight: Highlight = {
-          _id: backendResponse._id,
-          verseRef: {
-            book: backendResponse.bookId,
-            chapter: backendResponse.chapter,
-            verse: backendResponse.verse,
-          },
-          color: backendResponse.color,
-          createdAt: backendResponse.createdAt,
+        const backendHighlight =
+          res.data?.data?.highlight || res.data?.data || res.data?.highlight || res.data
+        const createdHighlight = normalizeHighlight(backendHighlight, { verseRef, color })
+
+        if (!createdHighlight) {
+          throw new Error('Invalid highlight response from server')
         }
 
-        // REPLACE TEMP WITH THE REALHIGHLIGHT FETCHED
         set((state) => ({
-          highlights: state.highlights.map((highlight) =>
-            highlight._id === tempId ? createdHighlight : highlight,
-          ),
+          highlights: state.highlights.map((h) => (h._id === tempId ? createdHighlight : h)),
         }))
       } catch (err: any) {
+        // Remove temp highlight
         set((state) => ({
-          highlights: state.highlights.filter((highlight) => highlight._id !== tempId),
-          error: err?.message ?? 'Failed to add highlight',
+          highlights: state.highlights.filter((h) => h._id !== tempId),
         }))
+
+        if (err?.response?.status === 409) {
+          try {
+            await get().loadHighlights()
+            const refreshed = get().highlights.find((highlight) =>
+              isSameHighlightStart(highlight, verseRef),
+            )
+            if (refreshed && !refreshed._id.startsWith('temp-')) {
+              await get().changeColor(refreshed._id, color)
+              return
+            }
+          } catch (conflictErr) {
+            console.error('Failed to resolve highlight conflict:', conflictErr)
+          }
+        }
+
+        set({
+          error: err?.response?.data?.error || err?.message || 'Failed to add highlight',
+        })
+        throw err
       }
     },
 
     removeHighlight: async (id) => {
-      const originalHighlights = get().highlights
-      const highlightToDelete = originalHighlights.find((h) => h._id === id)
-
-      if (!highlightToDelete) {
-        set({ error: 'Highlight not found' })
-        return
-      }
-
-      // OPTIMISTIC DELETE
-      set((state) => ({
-        highlights: state.highlights.filter((highlight) => highlight._id !== id),
-        error: null,
-      }))
-
+      const original = get().highlights
+      set((state) => ({ highlights: state.highlights.filter((h) => h._id !== id), error: null }))
       try {
-        const res = await fetch(`https://mylocalbackend/api/v1/user/me/api/highlights/${id}`, {
-          method: 'DELETE',
-        })
-        if (!res.ok) throw new Error('Failed to delete highlight')
+        await axiosInstance.delete(`/api/highlights/${id}`)
       } catch (err: any) {
-        // ROLLBACK WHEN FAILED TO DELETE
         set({
-          highlights: originalHighlights,
-          error: err?.message ?? 'Failed to delete highlight',
+          highlights: original,
+          error: err?.response?.data?.error || err?.message || 'Failed to delete highlight',
         })
+        throw err
       }
     },
 
     changeColor: async (id, color) => {
-      const originalHighlights = get().highlights
-      const highlightToUpdate = originalHighlights.find((h) => h._id === id)
-
-      if (!highlightToUpdate) {
-        set({ error: 'Highlight not found' })
-        return
+      // Only allow real backend IDs
+      if (!id || id.startsWith('temp-')) {
+        const error = new Error('Cannot change color of temporary highlight yet')
+        set({ error: 'Cannot change color of temporary highlight yet' })
+        throw error
       }
 
-      // OPTIMISTIC UPDATE
+      const original = get().highlights
       set((state) => ({
-        highlights: state.highlights.map((highlight) =>
-          highlight._id === id ? { ...highlight, color } : highlight,
-        ),
+        highlights: state.highlights.map((h) => (h._id === id ? { ...h, color } : h)),
         error: null,
       }))
 
       try {
-        const res = await fetch(`https://mylocalbackend/api/v1/user/me/api/highlights/${id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ color }),
-        })
-        if (!res.ok) throw new Error('Failed to change highlight color')
+        const res = await axiosInstance.put(`/api/highlights/${id}`, { color })
+        const backendHighlight =
+          res.data?.data?.highlight || res.data?.data || res.data?.highlight || res.data
+        const normalized = normalizeHighlight(
+          backendHighlight,
+          original.find((h) => h._id === id)
+            ? { verseRef: original.find((h) => h._id === id)?.verseRef, color }
+            : undefined,
+        )
+
+        if (normalized) {
+          set((state) => ({
+            highlights: state.highlights.map((h) => (h._id === id ? normalized : h)),
+          }))
+        }
       } catch (err: any) {
-        // ROLLBACK IF FAILED TO UPDATE THE HILIGHT
         set({
-          highlights: originalHighlights,
-          error: err?.message ?? 'Failed to change highlight color',
+          highlights: original,
+          error: err?.response?.data?.error || err?.message || 'Failed to change highlight color',
         })
+        throw err
       }
     },
   })),

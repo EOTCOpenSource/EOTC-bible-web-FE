@@ -66,6 +66,7 @@ export const useBookmarksStore = create<BookmarksState>()(
         }
       } catch (err: any) {
         set({ isLoading: false, error: err?.response?.data?.error ?? err?.message ?? 'Unknown' })
+        throw err
       }
     },
 
@@ -88,7 +89,6 @@ export const useBookmarksStore = create<BookmarksState>()(
 
       try {
         const res = await axiosInstance.post('/api/bookmarks', {
-          // Use axiosInstance
           bookId: verseRef.book,
           chapter: verseRef.chapter,
           verseStart: verseRef.verseStart,
@@ -103,10 +103,12 @@ export const useBookmarksStore = create<BookmarksState>()(
           ),
         }))
       } catch (err: any) {
+        // Rollback optimistic update
         set((state) => ({
           bookmarks: state.bookmarks.filter((bookmark) => bookmark._id !== tempId),
           error: err?.response?.data?.error ?? err?.message ?? 'Failed to add bookmark',
         }))
+        throw err
       }
     },
 
@@ -115,8 +117,9 @@ export const useBookmarksStore = create<BookmarksState>()(
       const bookmarkToDelete = originalBookmarks.find((b) => b._id === id)
 
       if (!bookmarkToDelete) {
+        const error = new Error('Bookmark not found')
         set({ error: 'Bookmark not found' })
-        return
+        throw error
       }
 
       // OPTIMISTIC DELETE
@@ -126,13 +129,14 @@ export const useBookmarksStore = create<BookmarksState>()(
       }))
 
       try {
-        await axiosInstance.delete(`/api/bookmarks/${id}`) // Use axiosInstance
+        await axiosInstance.delete(`/api/bookmarks/${id}`)
       } catch (err: any) {
         // ROLLBACK IN CASE OF FAILED DELETION
         set({
           bookmarks: originalBookmarks,
           error: err?.response?.data?.error ?? err?.message ?? 'Failed to delete bookmark',
         })
+        throw err
       }
     },
   })),

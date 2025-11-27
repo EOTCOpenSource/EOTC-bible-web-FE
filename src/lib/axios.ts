@@ -23,9 +23,7 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Redirect to login page or trigger a logout action
-      // For example:
-      window.location.href = '/login' // Assuming a login route
+      console.log('Unauthorized')
     }
     return Promise.reject(error)
   },
