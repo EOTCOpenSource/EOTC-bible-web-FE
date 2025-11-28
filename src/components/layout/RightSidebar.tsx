@@ -20,7 +20,7 @@ const RightSidebar = () => {
      ]
 
      return (
-          <div className='flex flex-col gap-6 py-3 w-full '>
+          <div className='flex flex-col gap-8 md:gap-6 py-3 w-full '>
                <div className='border border-gray-400 rounded-xl p-6'>
                     <div className='flex gap-1 items-center text-red-900'>
                          <Award size={20}/>
@@ -87,17 +87,17 @@ const RightSidebar = () => {
                     onSelect={() => {}}               
                     month={month}
                     onMonthChange={setMonth}
-                    className="rounded-xl w-full border border-gray-400 bg-background p-3"
+                    className="rounded-xl w-full md:w-auto md:max-w-md md:mx-auto lg:w-full lg:max-w-none lg:mx-0 border border-gray-200 bg-background p-3"
                     captionLayout="dropdown"
                     classNames={{
-                         day: "h w-full p-0 text-sm font-normal rounded-full hover:bg-background hover:text-foreground",
+                         day: "w-full p-0 text-sm font-normal rounded-full hover:bg-background hover:text-foreground",
                     }}
                     modifiers={{
                          streak: streakDates,
                     }}
                     modifiersClassNames={{
                          streak:
-                              "bg-red-900 text-white rounded-full hover:!bg-black hover:!text-white",
+                              "bg-red-900 text-white rounded-full",
                     }}
                />
 
