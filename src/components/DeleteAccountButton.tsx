@@ -1,10 +1,10 @@
 'use client'
-import { useUserStore } from '@/lib/stores/useUserStore'
+import { useAuthStore } from '@/stores/authStore'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
 export default function DeleteAccoutButton() {
-  const { logout } = useUserStore()
+  const { logout } = useAuthStore()
   const router = useRouter()
   const handleDeleteAccount = async () => {
     if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) {

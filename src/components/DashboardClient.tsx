@@ -5,10 +5,9 @@ import { useRouter } from 'next/navigation'
 import type { UserProfile } from '@/types/api'
 import { ENV } from '@/lib/env'
 import axios from 'axios'
-import LogoutButton from './LogoutButton'
-import DeleteAccountButton from './DeleteAccountButton'
 import { useTranslations } from 'next-intl'
-import { Button } from '@/components/ui/button' // Import Button component
+import { Award, Check, ChevronRight, Play} from 'lucide-react'
+import { achievements } from '@/data/achievement'
 
 interface DashboardClientProps {
   initialUser: UserProfile | null
@@ -16,9 +15,11 @@ interface DashboardClientProps {
 
 export default function DashboardClient() {
   const t = useTranslations('Dashboard')
+  const translate = useTranslations('Navigation')
   const [user, setUser] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'home' | 'highlight' | 'notes' | 'plans' | 'bookmarks'>('home')
   const router = useRouter()
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function DashboardClient() {
       </main>
     )
   }
-  const displayUser = user
+  const displayUser: UserProfile = user
 
   if (!displayUser) {
     return (
@@ -96,49 +97,66 @@ export default function DashboardClient() {
   }
 
   return (
-    <main className="space-y-4 p-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">{t('welcome', { name: displayUser.name })}</h1>
-        <div className="space-x-4">
-          <Button
-            className="text-gray-600"
-            variant="outline"
-            onClick={() => router.push('/read-online')}
-          >
-            {t('readOnlineButton')}
-          </Button>
-          <Button
-            className="text-gray-600"
-            variant="outline"
-            onClick={() => router.push('/dashboard/bookmarks')}
-          >
-            {t('bookmarksButton')}
-          </Button>
-          <LogoutButton />
-          <DeleteAccountButton />
+    <div className='flex flex-col gap-6 w-full py-8'>
+      <div className='border border-gray-400 rounded-xl p-2 sm:p-6'>
+        <div className='flex gap-1 items-center text-red-900 p-2 sm:p-0'>
+          <Award size={20}/>
+          <h4 className='text-lg font-medium'>Achievement</h4>
         </div>
+        {achievements.map((achievement, i)=>(
+        
+          <div key={i} className={`flex justify-between items-center md:px-6 md:py-2 p-1 mt-4 border border-gray-300 rounded-lg md:rounded-2xl ${
+            achievement.status === "Completed"
+            ?'bg-red-900 text-white px-6'
+            :'border border-gray-400 px-3'
+          }`}>
+              <div className='flex justify-start gap-3 items-center'>                               
+                <span className={`flex h-5 w-5 md:h-6 md:w-6 items-center justify-center rounded-full border ${
+                    achievement.status === "Completed"
+                    ? 'bg-white text-red-900'
+                    : 'border-red-900'
+                }`}>
+                {achievement.status === "Completed" ? (
+                  <div className="h-4 w-4 md:h-5 md:w-5">
+                    <Check className="h-full w-full" />
+                  </div>
+                ) : ''}
+                </span>
+                <div className='flex flex-col gap-0'>
+                  <p className='text-sm md:text-lg'>{achievement.bookName} {achievement.chapter}</p>
+                  <span className='font-light text-xs md:text-base'>
+                    {achievement.status === "Completed" ? 'Completed' : 'Not Started'}
+                  </span>
+                </div>
+              </div>
+              <span className='cursor-pointer'>{achievement.status === "Completed" ? (
+                <div className="h-4 w-4 md:h-5 md:w-5">
+                  <ChevronRight className="h-full w-full" />
+                </div>
+              ) : (
+                <div className='cursor-pointer flex justify-center items-center w-full p-1.5 md:py-0.5  md:px-2 bg-red-900 text-white rounded-sm'>
+                  <div className="h-4 w-4 md:h-4 md:w-4">
+                    <Play className="h-full w-full" />
+                  </div>                  
+                  <p className='px-2 text-sm hidden md:block'>Read</p>
+                </div>
+              )}</span>
+          </div>
+        ))}
       </div>
 
-      <div className="space-y-4 rounded-lg bg-black p-6 shadow-sm">
-        <h2 className="text-lg font-medium">{t('profile.title')}</h2>
-        <div className="space-y-2">
-          <p>
-            <span className="font-medium">{t('profile.email')}:</span> {displayUser.email}
-          </p>
-          {displayUser.settings && (
-            <>
-              <p>
-                <span className="font-medium">{t('profile.theme')}:</span>{' '}
-                {displayUser.settings.theme}
-              </p>
-              <p>
-                <span className="font-medium">{t('profile.fontSize')}:</span>{' '}
-                {displayUser.settings.fontSize}
-              </p>
-            </>
-          )}
+      <div className='flex flex-col justify-center items-center text-center border border-gray-400 rounded-xl px-8 md:px-20 pt-6 pb-3 md:pb-10'>
+        <div className='flex flex-col justify-center items-center text-red-900'>
+          <div className="h-6 w-6 md:h-15 md:w-15">
+            <Award className="h-full w-full" />
+          </div>
+          <h4 className='text-xs md:text-2xl font-medium'>Great Progress!</h4>
+        </div>
+        <p className='text-[6px] md:text-xs font-light'>You've completed 2 out of 4 chapters today. Keep going!</p>
+        <div className='relative bg-gray-300 h-1 sm:h-2 my-2 sm:my-5 w-full rounded-xl'>
+          <span className='absolute flex h-full bg-red-900 w-[50%] rounded-xl'></span>
         </div>
       </div>
-    </main>
+    </div>
   )
 }
