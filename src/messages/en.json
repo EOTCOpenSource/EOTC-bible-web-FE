@@ -435,7 +435,7 @@
   },
   "Dashboard": {
     "loading": "Loading...",
-    "welcome": "Welcome, {{name}}",
+    "welcome": "Welcome back {name}!",
     "errors": {
       "title": "Error",
       "fetchProfile": "Failed to fetch profile"

@@ -24,7 +24,7 @@ type RawHighlight = {
 
 const normalizeHighlight = (
   raw: RawHighlight | undefined,
-  fallback?: { verseRef?: VerseRef; color?: HighlightColor }
+  fallback?: { verseRef?: VerseRef; color?: HighlightColor },
 ): Highlight | null => {
   if (!raw?._id) return null
 
@@ -32,7 +32,7 @@ const normalizeHighlight = (
 
   const book = raw.bookId || sourceVerse.book || raw.book || fallback?.verseRef?.book
   const chapter = Number(
-    sourceVerse.chapter ?? raw.chapter ?? fallback?.verseRef?.chapter ?? Number.NaN
+    sourceVerse.chapter ?? raw.chapter ?? fallback?.verseRef?.chapter ?? Number.NaN,
   )
   const verseStart = Number(
     sourceVerse.verseStart ??
@@ -40,10 +40,10 @@ const normalizeHighlight = (
       raw.verseStart ??
       raw.verse ??
       fallback?.verseRef?.verseStart ??
-      Number.NaN
+      Number.NaN,
   )
   const verseCount = Number(
-    sourceVerse.verseCount ?? raw.verseCount ?? fallback?.verseRef?.verseCount ?? 1
+    sourceVerse.verseCount ?? raw.verseCount ?? fallback?.verseRef?.verseCount ?? 1,
   )
   const color = raw.color || fallback?.color || 'yellow'
 
@@ -115,20 +115,28 @@ export const useHighlightsStore = create<HighlightsState>()(
           isLoading: false,
           error: err?.response?.data?.error || err?.message || 'Failed to load highlights',
         })
+        throw err
       }
     },
 
     addHighlight: async (verseRef, color = 'yellow') => {
       set({ error: null })
 
-      const existing = get().highlights.find((highlight) => isSameHighlightStart(highlight, verseRef))
+      const existing = get().highlights.find((highlight) =>
+        isSameHighlightStart(highlight, verseRef),
+      )
       if (existing && !existing._id.startsWith('temp-')) {
         await get().changeColor(existing._id, color)
         return
       }
 
       const tempId = `temp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-      const tempHighlight: Highlight = { _id: tempId, verseRef, color, createdAt: new Date().toISOString() }
+      const tempHighlight: Highlight = {
+        _id: tempId,
+        verseRef,
+        color,
+        createdAt: new Date().toISOString(),
+      }
 
       set((state) => ({ highlights: [tempHighlight, ...state.highlights] }))
 
@@ -151,18 +159,17 @@ export const useHighlightsStore = create<HighlightsState>()(
           highlights: state.highlights.map((h) => (h._id === tempId ? createdHighlight : h)),
         }))
       } catch (err: any) {
-        const removeTemp = () =>
-          set((state) => ({
-            highlights: state.highlights.filter((h) => h._id !== tempId),
-          }))
-
-        removeTemp()
+        // Remove temp highlight
+        set((state) => ({
+          highlights: state.highlights.filter((h) => h._id !== tempId),
+        }))
 
         if (err?.response?.status === 409) {
           try {
             await get().loadHighlights()
-            const refreshed = get()
-              .highlights.find((highlight) => isSameHighlightStart(highlight, verseRef))
+            const refreshed = get().highlights.find((highlight) =>
+              isSameHighlightStart(highlight, verseRef),
+            )
             if (refreshed && !refreshed._id.startsWith('temp-')) {
               await get().changeColor(refreshed._id, color)
               return
@@ -172,10 +179,10 @@ export const useHighlightsStore = create<HighlightsState>()(
           }
         }
 
-        set((state) => ({
-          highlights: state.highlights.filter((h) => h._id !== tempId),
+        set({
           error: err?.response?.data?.error || err?.message || 'Failed to add highlight',
-        }))
+        })
+        throw err
       }
     },
 
@@ -185,15 +192,20 @@ export const useHighlightsStore = create<HighlightsState>()(
       try {
         await axiosInstance.delete(`/api/highlights/${id}`)
       } catch (err: any) {
-        set({ highlights: original, error: err?.response?.data?.error || err?.message || 'Failed to delete highlight' })
+        set({
+          highlights: original,
+          error: err?.response?.data?.error || err?.message || 'Failed to delete highlight',
+        })
+        throw err
       }
     },
 
     changeColor: async (id, color) => {
       // Only allow real backend IDs
       if (!id || id.startsWith('temp-')) {
+        const error = new Error('Cannot change color of temporary highlight yet')
         set({ error: 'Cannot change color of temporary highlight yet' })
-        return
+        throw error
       }
 
       const original = get().highlights
@@ -210,7 +222,7 @@ export const useHighlightsStore = create<HighlightsState>()(
           backendHighlight,
           original.find((h) => h._id === id)
             ? { verseRef: original.find((h) => h._id === id)?.verseRef, color }
-            : undefined
+            : undefined,
         )
 
         if (normalized) {
@@ -219,8 +231,12 @@ export const useHighlightsStore = create<HighlightsState>()(
           }))
         }
       } catch (err: any) {
-        set({ highlights: original, error: err?.response?.data?.error || err?.message || 'Failed to change highlight color' })
+        set({
+          highlights: original,
+          error: err?.response?.data?.error || err?.message || 'Failed to change highlight color',
+        })
+        throw err
       }
     },
-  }))
+  })),
 )

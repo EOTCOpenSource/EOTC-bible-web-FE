@@ -2,6 +2,7 @@
 
 import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'next/navigation'
+import { LogOut } from 'lucide-react'
 
 export default function LogoutButton() {
   const { logout } = useAuthStore()
@@ -18,9 +19,11 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+      className="rounded-full p-2 hover:bg-gray-200"
     >
-      Logout
+      <div className="h-4 w-4 md:h-5 md:w-5">
+        <LogOut className="h-full w-full" />
+      </div>      
     </button>
   )
 }

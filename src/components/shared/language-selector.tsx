@@ -63,7 +63,9 @@ export function LanguageSelector() {
         {isChanging ? (
           <div className="h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
         ) : (
-          <Globe size={20} />
+          <div className="h-4 w-4 md:h-5 md:w-5">
+            <Globe className="h-full w-full" />
+          </div>
         )}
       </button>
 

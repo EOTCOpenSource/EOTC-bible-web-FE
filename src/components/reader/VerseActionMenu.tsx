@@ -4,9 +4,11 @@ import { Bookmark, MessageSquare, Share2, Copy, Highlighter, Check } from 'lucid
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
 import { useHighlightsStore } from '@/stores/highlightsStore'
+import { useUserStore } from '@/lib/stores/useUserStore'
 import { hexToHighlightColor } from '@/lib/highlight-utils'
 import type { VerseRef } from '@/stores/types'
 
@@ -22,8 +24,8 @@ interface VerseActionMenuProps {
   onHighlight?: (verse: number | string, color: string) => void
   highlightColor?: string
   highlightId?: string
+  shouldAnimate?: boolean
 }
-
 
 type SelectedVerseRange = {
   start: number
@@ -41,13 +43,13 @@ export const VerseActionMenu = ({
   onNote,
   highlightColor,
   highlightId,
+  shouldAnimate = false,
 }: VerseActionMenuProps) => {
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
   const getDefaultRange = (): SelectedVerseRange => {
-    const numericVerse =
-      typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber, 10)
+    const numericVerse = typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber, 10)
     const safeVerse = Number.isFinite(numericVerse) ? numericVerse : 0
     return {
       start: safeVerse,
@@ -63,9 +65,33 @@ export const VerseActionMenu = ({
 
   const verseRef = useRef<HTMLSpanElement>(null)
   const initialPositionSet = useRef(false)
+  const router = useRouter()
 
   const { addBookmark } = useBookmarksStore()
   const { highlights, addHighlight, changeColor } = useHighlightsStore()
+  const { user, loadSession } = useUserStore()
+
+  // Load session on mount if not already loaded
+  useEffect(() => {
+    if (!user) {
+      loadSession().catch(() => {
+        // User not authenticated, but they can still read
+      })
+    }
+  }, [user, loadSession])
+
+  // Check if user is authenticated
+  const isAuthenticated = () => {
+    return !!user
+  }
+
+  // Redirect to login and save return URL
+  const redirectToLogin = () => {
+    const currentPath = window.location.pathname + window.location.search + window.location.hash
+    // Store the intended destination
+    sessionStorage.setItem('redirectAfterLogin', currentPath)
+    router.push('/login')
+  }
 
   const existingHighlightForSelection = useMemo(() => {
     const chapterNumber = Number(chapter)
@@ -75,7 +101,8 @@ export const VerseActionMenu = ({
       if (!highlight?.verseRef) return false
       const { book, chapter: highlightChapter, verseStart, verseCount } = highlight.verseRef
       if (!book || !Number.isFinite(highlightChapter) || !Number.isFinite(verseStart)) return false
-      if (book.toLowerCase() !== bookId.toLowerCase() || highlightChapter !== chapterNumber) return false
+      if (book.toLowerCase() !== bookId.toLowerCase() || highlightChapter !== chapterNumber)
+        return false
 
       const range = selectedVerses ?? getDefaultRange()
       const verseNumber = Number(range.start)
@@ -113,8 +140,10 @@ export const VerseActionMenu = ({
       resetSelectionState()
     } catch (error: any) {
       console.error('Failed to apply highlight:', error)
-      const isUnauthorized = error?.response?.status === 401
-      console.error('Failed to apply highlight:', error)
+      // If unauthorized error from API, redirect to login
+      if (error?.response?.status === 401 || error?.status === 401) {
+        redirectToLogin()
+      }
     }
   }
 
@@ -317,14 +346,26 @@ export const VerseActionMenu = ({
           verseStart: Number(selectedVerses.start),
           verseCount: Number(selectedVerses.count),
         })
-      } catch (error) {
+        resetSelectionState()
+      } catch (error: any) {
         console.error('Failed to add bookmark:', error)
+        // If unauthorized error from API, redirect to login
+        if (error?.response?.status === 401 || error?.status === 401) {
+          redirectToLogin()
+        }
+        // Don't reset selection state on error so user doesn't lose their place
       }
     }
-    resetSelectionState()
   }
 
   const handleNote = () => {
+    // For notes, do an optimistic check since we're calling a callback
+    // If the callback makes an API call, it should handle 401 itself
+    if (!isAuthenticated()) {
+      redirectToLogin()
+      return
+    }
+
     const noteText =
       selectedVerses.count > 1
         ? `Verses ${selectedVerses.start}-${selectedVerses.end}: ${selectedText}`
@@ -344,19 +385,20 @@ export const VerseActionMenu = ({
 
   return (
     <>
-      <span ref={verseRef} data-verse={verseNumber}>
+      <span ref={verseRef} data-verse={verseNumber} id={`v${verseNumber}`}>
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
         <span
           className={cn(
             'transition-colors duration-200',
-            highlightColor && 'rounded px-1 py-0.5'
+            highlightColor && 'rounded px-1 py-0.5',
+            shouldAnimate && 'highlight-verse-animation',
           )}
           style={
             highlightColor
               ? {
-                backgroundColor: highlightColor,
-                opacity: 0.6,
-              }
+                  backgroundColor: highlightColor,
+                  opacity: 0.6,
+                }
               : undefined
           }
         >
@@ -374,7 +416,7 @@ export const VerseActionMenu = ({
             transform: 'translateX(-50%)',
           }}
         >
-          <div className="relative bg-background border-border inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
+          <div className="bg-background border-border relative inline-flex items-center gap-1 rounded-lg border p-1.5 shadow-lg">
             <TooltipProvider delayDuration={100}>
               {/* Highlight */}
               <Tooltip>
@@ -395,7 +437,7 @@ export const VerseActionMenu = ({
 
               {/* Color picker  */}
               {showColorPicker && (
-                <div className="absolute left-1/2 top-[115%] z-50 flex -translate-x-1/2 gap-2 rounded-full bg-white p-2 pb-3 shadow-lg dark:bg-neutral-800">
+                <div className="absolute top-[115%] left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full bg-white p-2 pb-3 shadow-lg dark:bg-neutral-800">
                   {highlightColors.map((color) => (
                     <button
                       key={color}

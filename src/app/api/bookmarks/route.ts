@@ -6,7 +6,7 @@ import serverAxiosInstance from '@/lib/server-axios'
 // CREATE bookmark or GET all bookmarks
 export async function POST(req: NextRequest) {
   try {
-    const cookieStore: any = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get(ENV.jwtCookieName)?.value
 
     if (!token) {
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    const cookieStore: any = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get(ENV.jwtCookieName)?.value
 
     if (!token) {
