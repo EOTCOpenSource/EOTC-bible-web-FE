@@ -33,6 +33,7 @@ export default function ReaderClient({
   const { highlights, loadHighlights } = useHighlightsStore()
 
 
+  
   useEffect(() => {
     const hash = window.location.hash
     if (hash) {

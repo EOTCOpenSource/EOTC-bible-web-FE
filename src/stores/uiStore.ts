@@ -13,6 +13,7 @@ interface UIState {
   isReadOnlineSidebarOpen: boolean
   isNavMenuOpen: boolean
   isNavSearchOpen: boolean
+  searchQuery: string
   notifications: { id: string; message: string; createdAt: string }[]
   aboutScrollRef: HTMLDivElement | null
   currentPlanPage: number
@@ -27,6 +28,8 @@ interface UIState {
   toggleNavSearch: () => void
   closeNavMenu: () => void
   closeNavSearch: () => void
+  setSearchQuery: (query: string) => void
+  clearSearch: () => void
   pushNotification: (message: string) => void
   removeNotification: (id: string) => void
   setAboutScrollRef: (ref: HTMLDivElement | null) => void
@@ -48,6 +51,7 @@ export const useUIStore = create<UIState>()(
         isReadOnlineSidebarOpen: true,
         isNavMenuOpen: false,
         isNavSearchOpen: false,
+        searchQuery: '',
         notifications: [],
         aboutScrollRef: null,
         currentPlanPage: 0,
@@ -63,6 +67,8 @@ export const useUIStore = create<UIState>()(
         toggleNavSearch: () => set((s) => ({ isNavSearchOpen: !s.isNavSearchOpen })),
         closeNavMenu: () => set({ isNavMenuOpen: false }),
         closeNavSearch: () => set({ isNavSearchOpen: false }),
+        setSearchQuery: (query) => set({ searchQuery: query }),
+        clearSearch: () => set({ searchQuery: '' }),
         pushNotification: (message) => {
           const id = crypto.randomUUID?.() || Math.random().toString(36).slice(2, 9)
           set((s) => ({
