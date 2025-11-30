@@ -37,7 +37,6 @@ export default function ReaderClient({
     loadHighlights()
   }, [bookId, chapterData.chapter, loadHighlights])
 
-  
   useEffect(() => {
     const hash = window.location.hash
     if (hash) {
