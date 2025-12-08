@@ -1,13 +1,17 @@
 import { promises as fs } from "fs";
 import path from "path";
 import ReaderClient from "./reader-client";
+import { books } from "@/data/data";
+
 async function getBookData(bookId: string) {
   const bibleDataPath = path.join(process.cwd(), "src", "data", "bible-data");
   try {
+    const bookData = books.find((b) => b.book_name_en.replace(/ /g, "-").toLowerCase() === bookId);
+    if (!bookData) return null;
+    
     const files = await fs.readdir(bibleDataPath);
     for (const file of files) {
-      const bookNameFromFile = file.replace(/^\d+-/, "").replace(/\.json$/, "");
-      if (bookNameFromFile.replace(/ /g, "-") === bookId) {
+      if (file.includes(bookData.file_name)) {
         const jsonPath = path.join(bibleDataPath, file);
         const fileContent = await fs.readFile(jsonPath, "utf8");
         return JSON.parse(fileContent);

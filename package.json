@@ -24,6 +24,7 @@
     "axios": "^1.12.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "fuse.js": "^7.1.0",
     "date-fns": "^4.1.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.544.0",
@@ -36,6 +37,7 @@
     "react-hook-form": "^7.62.0",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
+    "use-debounce": "^10.0.6",
     "zod": "^4.1.12",
     "zustand": "^5.0.8"
   },
