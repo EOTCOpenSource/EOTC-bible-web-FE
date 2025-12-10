@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Search, X, Filter } from 'lucide-react'
+import { Search, X, Filter, ChevronRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useUIStore } from '@/stores/uiStore'
 import { useSearchStore } from '@/stores/searchStore'
 import { useDebounce } from 'use-debounce'
-import { searchBible } from '@/lib/bible-search'
+import { searchBibleWithCounts } from '@/lib/bible-search'
 import { cn } from '@/lib/utils'
 import { books } from '@/data/data'
 
@@ -33,7 +33,7 @@ export function SearchInput({
 }: SearchInputProps) {
   // Global state - shared across all components
   const { searchQuery, setSearchQuery, clearSearch } = useUIStore()
-  const { searchResults, setSearchResults, isLoading, setLoading, selectedTestament, setSelectedTestament, selectedBook, setSelectedBook } = useSearchStore()
+  const { searchResults, setSearchResultsWithCounts, isLoading, setLoading, selectedTestament, setSelectedTestament, selectedBook, setSelectedBook, totalMatches, bookCounts } = useSearchStore()
   const router = useRouter()
   
   // Local state - unique to this component instance
@@ -71,7 +71,7 @@ export function SearchInput({
     }
 
     if (!debouncedQuery.trim()) {
-      setSearchResults([])
+      setSearchResultsWithCounts([], 0, {})
       setShowDropdown(false)
       return
     }
@@ -79,18 +79,19 @@ export function SearchInput({
     setLoading(true)
     setShowDropdown(true)
 
-    searchBible(
+    searchBibleWithCounts(
       debouncedQuery,
-      20,
+      100,
       selectedTestament === 'all' ? undefined : selectedTestament,
-      selectedBook
+      selectedBook,
+      15
     )
-      .then((results) => {
-        setSearchResults(results)
+      .then((response) => {
+        setSearchResultsWithCounts(response.results, response.totalMatches, response.bookCounts)
       })
       .catch((error) => {
         console.error('Search error:', error)
-        setSearchResults([])
+        setSearchResultsWithCounts([], 0, {})
       })
       .finally(() => {
         setLoading(false)
@@ -99,7 +100,7 @@ export function SearchInput({
     if (onDebouncedChange) {
       onDebouncedChange(debouncedQuery)
     }
-  }, [debouncedQuery, showResults, setSearchResults, setLoading, selectedTestament, selectedBook, onDebouncedChange])
+  }, [debouncedQuery, showResults, setSearchResultsWithCounts, setLoading, selectedTestament, selectedBook, onDebouncedChange])
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
@@ -290,10 +291,23 @@ export function SearchInput({
           {/* Results State */}
           {!isLoading && searchResults.length > 0 && (
             <div>
-              <div className="px-3 py-2 bg-gray-50 border-b text-xs text-gray-600 ">
-                {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} found
+              <div className="px-3 py-2 bg-gray-50 border-b text-xs text-gray-600 flex items-center justify-between">
+                <span>
+                  Showing {searchResults.length} of <strong>{totalMatches.toLocaleString()}</strong> verses
+                </span>
+                {totalMatches > searchResults.length && (
+                  <button
+                    onClick={() => {
+                      router.push(`/search?q=${encodeURIComponent(debouncedQuery)}`)
+                      setShowDropdown(false)
+                    }}
+                    className="flex items-center gap-1 text-red-900 hover:text-red-700 font-medium"
+                  >
+                    Show All <ChevronRight size={14} />
+                  </button>
+                )}
               </div>
-              <div className="divide-y">
+              <div className="divide-y max-h-80 overflow-y-auto">
                 {searchResults.map((result, idx) => (
                   <div
                     key={`${result.type}-${result.book_number}-${result.chapter}-${result.verse}-${idx}`}
@@ -301,18 +315,30 @@ export function SearchInput({
                     className="cursor-pointer p-3 hover:bg-red-50 transition-colors border-l-4 border-l-transparent hover:border-l-red-900"
                   >
                     {result.type === 'book' ? (
-                      <div>
-                        <div className="font-semibold text-red-900 text-base">{result.book_name_en}</div>
-                        {result.book_name_am && (
-                          <div className="text-sm text-gray-600 mt-1">{result.book_name_am}</div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-semibold text-red-900 text-base">{result.book_name_en}</div>
+                          {result.book_name_am && (
+                            <div className="text-sm text-gray-600 mt-1">{result.book_name_am}</div>
+                          )}
+                        </div>
+                        {result.matchCount && result.matchCount > 0 && (
+                          <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full font-medium">
+                            {result.matchCount.toLocaleString()} verses
+                          </span>
                         )}
                       </div>
                     ) : (
                       <div className="space-y-1">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-bold text-red-900 text-sm">
                             {result.book_short_name_en} {result.chapter}:{result.verse}
                           </span>
+                          {bookCounts[result.book_number] && (
+                            <span className="text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
+                              {bookCounts[result.book_number].count} verses in {result.book_short_name_en}
+                            </span>
+                          )}
                           {result.section_title && (
                             <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded">
                               {result.section_title}
@@ -327,6 +353,20 @@ export function SearchInput({
                   </div>
                 ))}
               </div>
+              {/* Show All Button at Bottom */}
+              {totalMatches > searchResults.length && (
+                <div className="p-3 border-t bg-gray-50">
+                  <button
+                    onClick={() => {
+                      router.push(`/search?q=${encodeURIComponent(debouncedQuery)}`)
+                      setShowDropdown(false)
+                    }}
+                    className="w-full py-2 bg-red-900 text-white rounded-lg hover:bg-red-800 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+                  >
+                    Show All {totalMatches.toLocaleString()} Verses <ChevronRight size={16} />
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
