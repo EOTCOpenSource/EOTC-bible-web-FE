@@ -61,7 +61,9 @@ const SearchPageContent = () => {
     if (!bookData) return
     const bookId = bookData.book_name_en.replace(/ /g, "-").toLowerCase()
     const chapter = result.chapter || 1
-    router.push(`/read-online/${bookId}/${chapter}`)
+    const verse = result.verse || 1
+    const searchQuery = encodeURIComponent(query)
+    router.push(`/read-online/${bookId}/${chapter}?search=${searchQuery}#v${verse}`)
   }
 
   const getFilteredBooks = () => {
@@ -95,7 +97,7 @@ const SearchPageContent = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen search-page-bg">
       <div className="bg-white border-b sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4 mb-4">
