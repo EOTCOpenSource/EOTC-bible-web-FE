@@ -33,4 +33,11 @@ export interface SearchResult {
   verse?: number
   text?: string
   section_title?: string
+  matchCount?: number
+}
+
+export interface SearchResponse {
+  results: SearchResult[]
+  totalMatches: number
+  bookCounts: { [bookNumber: number]: { count: number; bookName: string; bookNameAm: string } }
 }
