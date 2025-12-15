@@ -1,13 +1,32 @@
-import { performBibleSearch } from '@/app/actions/search'
-import type { SearchResult } from './search-types'
+import { performBibleSearch, performBibleSearchWithCounts, countWordOccurrences } from '@/app/actions/search'
+import type { SearchResult, SearchResponse } from './search-types'
 
 export async function searchBible(
   query: string,
   limit: number = 50,
   testament?: 'all' | 'old' | 'new',
-  bookNumber?: number | null
+  bookNumber?: number | null,
+  perBookLimit: number = 10
 ): Promise<SearchResult[]> {
-  return performBibleSearch(query, limit, testament, bookNumber)
+  return performBibleSearch(query, limit, testament, bookNumber, perBookLimit)
+}
+
+export async function searchBibleWithCounts(
+  query: string,
+  limit: number = 50,
+  testament?: 'all' | 'old' | 'new',
+  bookNumber?: number | null,
+  perBookLimit: number = 10
+): Promise<SearchResponse> {
+  return performBibleSearchWithCounts(query, limit, testament, bookNumber, perBookLimit)
+}
+
+export async function getWordCount(
+  query: string,
+  testament?: 'all' | 'old' | 'new',
+  bookNumber?: number | null
+) {
+  return countWordOccurrences(query, testament, bookNumber)
 }
 
 export async function getBibleSuggestions(query: string, limit: number = 10): Promise<string[]> {
