@@ -12,6 +12,7 @@ interface ProgressState {
   setLastRead: (v: VerseRef) => Promise<void>
   loadProgress: () => Promise<void>
   resetProgressLocal: () => void
+  clearError: () => void
 }
 
 const initialProgress: Progress = {
@@ -58,6 +59,8 @@ export const useProgressStore = create<ProgressState>()(
     progress: initialProgress,
     isLoading: false,
     error: null,
+
+    clearError: () => set({ error: null }),
 
     loadProgress: async () => {
       set({ isLoading: true, error: null })
