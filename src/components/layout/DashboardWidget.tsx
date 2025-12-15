@@ -1,13 +1,15 @@
 import { ArrowUp } from "lucide-react"
+import Link from 'next/link'
 
 type Props = {
      name: string
      amount: number
+     href?: string
 }
 
-const DashboardWidget = ({name, amount}:Props) => {
-     return (
-          <div className="w-full pt-1 pb-2 px-1 border border-gray-400 rounded-lg sm:rounded-2xl">
+const DashboardWidget = ({name, amount, href}:Props) => {
+     const content = (
+          <div className="w-full pt-1 pb-2 px-1 border border-gray-400 rounded-lg sm:rounded-2xl hover:bg-gray-50 transition-colors cursor-pointer">
                <div className="flex justify-end items-center">
                     <div className="h-3 w-3 rotate-[45deg] sm:h-5 sm:w-5">
                          <ArrowUp className="h-full w-full" />
@@ -19,6 +21,12 @@ const DashboardWidget = ({name, amount}:Props) => {
                </div>
           </div>
      )
+
+     if (href) {
+          return <Link href={href}>{content}</Link>
+     }
+
+     return content
 }
 
 export default DashboardWidget
