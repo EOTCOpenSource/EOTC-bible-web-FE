@@ -49,7 +49,7 @@ export interface BookMark {
   chapter: number
   verseStart: number
   verseCount: number
-  verseRef: VerseRef
+  verseRef?: VerseRef
   createdAt: string
 }
 
@@ -72,14 +72,17 @@ export interface BibleBook {
   }[]
 }
 
-export interface Streak {
-  current: number
-  longest: number
-  lastDate?: string
-}
-
 export interface Progress {
-  chaptersRead: Record<BookId, number[]>
-  streak: Streak
+  chaptersRead: Record<string, number[]>
+  streak: {
+    current: number
+    longest: number
+    lastDate?: string
+  }
   lastRead?: VerseRef
+  totalChaptersRead?: number
+  _id?: string
+  userId?: string
+  createdAt?: string
+  updatedAt?: string
 }
