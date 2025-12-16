@@ -21,7 +21,7 @@ interface SearchInputProps {
   showResults?: boolean
 }
 
-export function SearchInput({
+export const SearchInput = ({
   placeholder = 'Search...',
   className,
   containerClassName,
@@ -30,7 +30,7 @@ export function SearchInput({
   onDebouncedChange,
   debounceDelay = 300,
   showResults = false,
-}: SearchInputProps) {
+}: SearchInputProps) =>{
   // Global state - shared across all components
   const { searchQuery, setSearchQuery, clearSearch } = useUIStore()
   const { searchResults, setSearchResultsWithCounts, isLoading, setLoading, selectedTestament, setSelectedTestament, selectedBook, setSelectedBook, totalMatches, bookCounts } = useSearchStore()
@@ -48,7 +48,9 @@ export function SearchInput({
     if (!bookData) return
     const bookId = bookData.book_name_en.replace(/ /g, "-").toLowerCase()
     const chapter = result.chapter || 1
-    router.push(`/read-online/${bookId}/${chapter}`)
+    const verse = result.verse || 1
+    const encodedSearch = encodeURIComponent(searchQuery)
+    router.push(`/read-online/${bookId}/${chapter}?search=${encodedSearch}#v${verse}`)
     clearSearch()
     setShowDropdown(false)
   }
