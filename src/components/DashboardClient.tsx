@@ -6,8 +6,10 @@ import type { UserProfile } from '@/types/api'
 import { ENV } from '@/lib/env'
 import axios from 'axios'
 import { useTranslations } from 'next-intl'
-import { Award, Check, ChevronRight, Play} from 'lucide-react'
+import { Award, Check, ChevronRight, Play, BookOpen } from 'lucide-react'
 import { achievements } from '@/data/achievement'
+import { useProgressStore } from '@/stores/progressStore'
+import { useBookmarksStore } from '@/stores/bookmarksStore'
 
 interface DashboardClientProps {
   initialUser: UserProfile | null
@@ -19,8 +21,9 @@ export default function DashboardClient() {
   const [user, setUser] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'home' | 'highlight' | 'notes' | 'plans' | 'bookmarks'>('home')
   const router = useRouter()
+  const { progress, loadProgress } = useProgressStore()
+  const { bookmarks, loadBookmarks } = useBookmarksStore()
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -35,10 +38,8 @@ export default function DashboardClient() {
         })
 
         if (res.status !== 200 || !res.data?.user) {
-          console.error('Profile fetch failed:', res.status, res.data)
           throw new Error(res.data?.error || 'Unauthorized')
         }
-        console.log('Fetched user profile:', res.data)
         setUser(res.data.user)
       } catch (err: any) {
         setError(err.message || t('errors.fetchProfile'))
@@ -48,7 +49,9 @@ export default function DashboardClient() {
     }
 
     fetchProfile()
-  }, [t])
+    loadProgress().catch(() => {})
+    loadBookmarks().catch(() => {})
+  }, [t, loadProgress, loadBookmarks])
 
   if (loading)
     return (
@@ -82,9 +85,7 @@ export default function DashboardClient() {
           </button>
           <button
             onClick={() => {
-              // Clear the auth cookie
               document.cookie = `${ENV.jwtCookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
-              // Redirect to login page
               window.location.href = '/register'
             }}
             className="m-4 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
@@ -96,8 +97,52 @@ export default function DashboardClient() {
     )
   }
 
+  const totalChaptersRead = Object.values(progress.chaptersRead || {}).reduce(
+    (total, chapters) => total + chapters.length,
+    0,
+  )
+
+  const recentlyRead = bookmarks.slice(0, 5)
+
+  const handleReadBook = (bookId: string, chapter: number, verseStart: number) => {
+    router.push(`/read-online/${bookId}/${chapter}#v${verseStart}`)
+  }
+
   return (
     <div className='flex flex-col gap-6 w-full py-8'>
+      {recentlyRead.length > 0 && (
+        <div className='border border-gray-400 rounded-xl p-2 sm:p-6'>
+          <div className='flex gap-1 items-center text-red-900 p-2 sm:p-0 mb-4'>
+            <BookOpen size={20} />
+            <h4 className='text-lg font-medium'>Recently Read</h4>
+          </div>
+          <div className='flex flex-col gap-2'>
+            {recentlyRead.map((bookmark) => (
+              <div
+                key={bookmark._id}
+                onClick={() =>
+                  handleReadBook(bookmark.bookId, bookmark.chapter, bookmark.verseStart)
+                }
+                className='flex justify-between items-center md:px-6 md:py-2 p-1 border border-gray-300 rounded-lg md:rounded-2xl cursor-pointer hover:bg-gray-50'
+              >
+                <div className='flex justify-start gap-3 items-center'>
+                  <div className='flex flex-col gap-0'>
+                    <p className='text-sm md:text-lg'>
+                      {bookmark.bookId.replace(/-/g, ' ')} {bookmark.chapter}:{bookmark.verseStart}
+                      {bookmark.verseCount > 1 ? `-${bookmark.verseStart + bookmark.verseCount - 1}` : ''}
+                    </p>
+                    <span className='font-light text-xs md:text-base text-gray-500'>
+                      Click to read
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight size={16} className='cursor-pointer' />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className='border border-gray-400 rounded-xl p-2 sm:p-6'>
         <div className='flex gap-1 items-center text-red-900 p-2 sm:p-0'>
           <Award size={20}/>
@@ -152,9 +197,18 @@ export default function DashboardClient() {
           </div>
           <h4 className='text-xs md:text-2xl font-medium'>Great Progress!</h4>
         </div>
-        <p className='text-[6px] md:text-xs font-light'>You've completed 2 out of 4 chapters today. Keep going!</p>
+        <p className='text-[6px] md:text-xs font-light'>
+          {totalChaptersRead > 0
+            ? `You've read ${totalChaptersRead} chapters. Keep going!`
+            : 'Start reading to track your progress!'}
+        </p>
         <div className='relative bg-gray-300 h-1 sm:h-2 my-2 sm:my-5 w-full rounded-xl'>
-          <span className='absolute flex h-full bg-red-900 w-[50%] rounded-xl'></span>
+          <span
+            className='absolute flex h-full bg-red-900 rounded-xl'
+            style={{
+              width: totalChaptersRead > 0 ? `${Math.min((totalChaptersRead / 100) * 100, 100)}%` : '0%',
+            }}
+          ></span>
         </div>
       </div>
     </div>

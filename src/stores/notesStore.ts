@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import axiosInstance from '@/lib/axios'
 import type { Note, VerseRef } from './types'
 
 interface NotesState {
@@ -16,6 +17,23 @@ interface NotesState {
   clearError: () => void
 }
 
+const transformBackendNote = (raw: any): Note => {
+  const verseRef = raw.verseRef || {}
+  return {
+    _id: raw._id,
+    verseRef: {
+      book: verseRef.book || raw.book || '',
+      chapter: Number(verseRef.chapter || raw.chapter || 0),
+      verseStart: Number(verseRef.verseStart || verseRef.verse || raw.verseStart || raw.verse || 0),
+      verseCount: Number(verseRef.verseCount || raw.verseCount || 1),
+    },
+    content: raw.content || '',
+    createdAt: raw.createdAt || new Date().toISOString(),
+    updatedAt: raw.updatedAt,
+    tags: raw.tags || [],
+  }
+}
+
 export const useNotesStore = create<NotesState>()(
   devtools((set, get) => ({
     notes: [],
@@ -28,23 +46,29 @@ export const useNotesStore = create<NotesState>()(
     loadNotes: async (verse) => {
       set({ isLoading: true, error: null })
       try {
-        const res = await fetch(
-          `https://mylocalbackend/api/v1/user/me/api/notes${
-            verse ? `?book=${verse.book}&chapter=${verse.chapter}&verse=${verse.verse}` : ''
-          }`,
-        )
-        if (!res.ok) throw new Error('Failed to load notes')
-        const data = (await res.json()) as Note[]
-        set({ notes: data, isLoading: false })
+        let url = '/api/notes'
+        if (verse) {
+          url += `?book=${verse.book}&chapter=${verse.chapter}&verse=${verse.verseStart}`
+        }
+        const res = await axiosInstance.get(url)
+        const responseData = res.data?.data || res.data
+        const notesArray = responseData?.notes || responseData || []
+        const notes: Note[] = Array.isArray(notesArray)
+          ? notesArray.map((raw: any) => transformBackendNote(raw))
+          : []
+        set({ notes, isLoading: false })
       } catch (err: any) {
-        set({ isLoading: false, error: err?.message ?? 'Unknown' })
+        set({
+          isLoading: false,
+          error: err?.response?.data?.error ?? err?.message ?? 'Failed to load notes',
+        })
+        throw err
       }
     },
 
     createNote: async ({ verseRef, content, tags }) => {
       set({ error: null })
 
-      // USED TO UPDATE THE LOCAL STATE IMMEDIATELY BEFORE CONFIRRMING WITH THE BACKEND
       const tempId = `temp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
       const tempNote: Note = {
         _id: tempId,
@@ -53,24 +77,25 @@ export const useNotesStore = create<NotesState>()(
         createdAt: new Date().toISOString(),
         tags,
       }
-      set((state) => ({ notes: [tempNote, ...state.notes] })) // HERE IS THE OPTIMISTIC UPDATE
+      set((state) => ({ notes: [tempNote, ...state.notes] }))
 
       try {
-        const res = await fetch('https://mylocalbackend/api/v1/user/me/api/notes', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ verseRef, content, tags }),
+        const res = await axiosInstance.post('/api/notes', {
+          verseRef,
+          content,
+          tags,
         })
-        if (!res.ok) throw new Error('Failed to create note')
-        const createdNote = await res.json()
+        const responseData = res.data?.data || res.data
+        const createdNote = transformBackendNote(responseData?.note || responseData)
         set((state) => ({
           notes: state.notes.map((note) => (note._id === tempId ? createdNote : note)),
         }))
       } catch (err: any) {
         set((state) => ({
           notes: state.notes.filter((note) => note._id !== tempId),
-          error: err?.message ?? 'Failed to create note',
+          error: err?.response?.data?.error ?? err?.message ?? 'Failed to create note',
         }))
+        throw err
       }
     },
 
@@ -83,33 +108,24 @@ export const useNotesStore = create<NotesState>()(
         return
       }
 
-      // OPTIMISTIC UPDATE
       set((state) => ({
         notes: state.notes.map((note) =>
           note._id === id ? { ...note, content, updatedAt: new Date().toISOString() } : note,
         ),
         error: null,
       }))
-      try {
-        const res = await fetch(`https://mylocalbackend/api/v1/user/me/api/notes/${id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content }),
-        })
-        if (!res.ok) {
-          throw new Error(`Failed to update note.`)
-        }
 
-        //GET UPDATED NOTE TO SYNC IF ANY BACKEND CHANGES
-        const updatedNote = await res.json()
+      try {
+        const res = await axiosInstance.patch(`/api/notes/${id}`, { content })
+        const responseData = res.data?.data || res.data
+        const updatedNote = transformBackendNote(responseData?.note || responseData)
         set((state) => ({
           notes: state.notes.map((note) => (note._id === id ? updatedNote : note)),
         }))
       } catch (err: any) {
-        // ROLLBACK TO ORIGINAL SATE IF FAILED TO UPDATE
         set({
           notes: originalNotes,
-          error: err?.message ?? 'Failed to update note',
+          error: err?.response?.data?.error ?? err?.message ?? 'Failed to update note',
         })
         throw err
       }
@@ -120,30 +136,21 @@ export const useNotesStore = create<NotesState>()(
       const noteToDelete = originalNotes.find((n) => n._id === id)
 
       if (!noteToDelete) {
-        set({
-          error: 'Note notfound',
-        })
+        set({ error: 'Note not found' })
         return
       }
 
-      // OPTIMISTIC DELETE
       set((state) => ({
         notes: state.notes.filter((note) => note._id !== id),
         error: null,
       }))
-      try {
-        const res = await fetch(`https://mylocalbackend/api/v1/user/me/api/notes/${id}`, {
-          method: 'DELETE',
-        })
 
-        if (!res.ok) {
-          throw new Error('Failed to delete note')
-        }
+      try {
+        await axiosInstance.delete(`/api/notes/${id}`)
       } catch (err: any) {
-        // ROLLBACK IF FAILED TO DELETE
         set({
           notes: originalNotes,
-          error: err?.message ?? 'Failed to delete note',
+          error: err?.response?.data?.error ?? err?.message ?? 'Failed to delete note',
         })
         throw err
       }
