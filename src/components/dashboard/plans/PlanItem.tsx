@@ -1,27 +1,32 @@
 import React from 'react'
-import { books } from '@/data/data'
+import type { ReadingPlan } from '@/stores/types'
+import { cn } from '@/lib/utils'
 
 interface PlanItemProps {
-  bookId: string
-  chaptersRead: number[]
-  streak: {
-    current: number
-    longest: number
-    lastDate?: string
-  }
+  plan: ReadingPlan
 }
 
-const PlanItem: React.FC<PlanItemProps> = ({ bookId, chaptersRead, streak }) => {
-    const book = books.find((b) => b.book_name_en === bookId)
-    const totalChapters = book?.chapters ?? 0
+const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
+  const { name, startDate, durationInDays, dailyReadings } = plan
 
-  const readCount = chaptersRead.length
-  const progressPercent = totalChapters > 0 ? Math.round((readCount / totalChapters) * 100) : 0
+  const completedDays = dailyReadings.filter((d) => d.isCompleted)
+  const completedCount = completedDays.length
+
+  const progressPercent = Math.round(
+    (completedCount / dailyReadings.length) * 100,
+  )
+
+  // last completed date (for ribbon)
+  const lastCompleted = completedDays.at(-1)?.date
+
+  const start = startDate ? new Date(startDate) : new Date()
+  const end = new Date(start)
+  end.setDate(start.getDate() + durationInDays - 1)
 
   return (
     <div className="relative rounded-lg border p-4 pl-22 transition hover:shadow-md">
-      {/* Ribbon / Bookmark */}
-      <div className="text-muted-foreground absolute top-0 left-5 flex flex-col items-center gap-1 text-xs">
+      {/* Ribbon */}
+      <div className="absolute top-0 left-5 flex flex-col items-center gap-1 text-xs">
         <svg
           width="39"
           height="48"
@@ -39,31 +44,43 @@ const PlanItem: React.FC<PlanItemProps> = ({ bookId, chaptersRead, streak }) => 
           />
         </svg>
 
-        {streak.lastDate &&
+        {lastCompleted && (
           (() => {
-            const date = new Date(streak.lastDate)
-            const month = date.toLocaleDateString(undefined, { month: 'short' })
-            const day = date.toLocaleDateString(undefined, { day: 'numeric' })
-
+            const d = new Date(lastCompleted)
             return (
               <span className="flex flex-col items-center text-lg leading-tight text-red-900">
-                <span className="font-bold">{month}</span>
-                <span>{day}</span>
+                <span className="font-bold">
+                  {d.toLocaleDateString(undefined, { month: 'short' })}
+                </span>
+                <span>{d.getDate()}</span>
               </span>
             )
-          })()}
+          })()
+        )}
       </div>
 
       {/* Content */}
-      <div className="space-y-2">
-        <div className="text-lg font-medium">{book?.book_name_am}</div>
+      <div className="space-y-3">
+        <div className="text-lg font-medium">{name}</div>
 
         <div className="text-muted-foreground text-sm">
-          Chapters read: {readCount}
-          {totalChapters > 0 && ` / ${totalChapters}`}
+          {completedCount} of {dailyReadings.length} days completed
         </div>
 
-        <div className="text-muted-foreground text-sm">Dec 16 - Dec 22</div>
+        {/* Progress bar */}
+        <div className="h-2 w-full rounded bg-muted">
+          <div
+            className={cn(
+              'h-full rounded bg-primary transition-all',
+              progressPercent === 0 && 'bg-muted',
+            )}
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+
+        <div className="text-muted-foreground text-xs">
+          {start.toLocaleDateString()} – {end.toLocaleDateString()}
+        </div>
       </div>
     </div>
   )

@@ -86,3 +86,30 @@ export interface Progress {
   createdAt?: string
   updatedAt?: string
 }
+
+export interface DailyReading {
+  dayNumber: number
+  date: string
+  readings: {
+    book: string
+    startChapter: number
+    endChapter: number
+  }[]
+  isCompleted: boolean
+  completedAt?: string
+}
+
+export interface ReadingPlan {
+  _id: string
+  name: string
+  startBook: string
+  startChapter: number
+  endBook: string
+  endChapter?: number
+  startDate: string
+  durationInDays: number
+  dailyReadings: DailyReading[]
+  status: 'active' | 'completed'
+  isPublic: boolean
+  createdAt: string
+}

@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import PlanItem from './PlanItem'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useProgressStore } from '@/stores/progressStore'
+import { usePlanStore } from '@/stores/usePlanStore'
 
-const BookmarksList: React.FC = () => {
-  const { progress, loadProgress, clearError, error, isLoading } = useProgressStore()
+const PlanList: React.FC = () => {
+  const { plans, fetchPlans, error, isLoading } = usePlanStore()
 
   useEffect(() => {
-    loadProgress()
+    fetchPlans()
     return () => {
-      clearError()
+      
     }
-  }, [loadProgress, clearError])
+  }, [fetchPlans ])
 
   if (isLoading) {
     return (
@@ -31,24 +31,24 @@ const BookmarksList: React.FC = () => {
     return <div className="text-red-500">Error: {error}</div>
   }
 
-  const books = Object.entries(progress.chaptersRead)
-
-  if (books.length === 0) {
-    return <div className="text-muted-foreground">No reading progress yet.</div>
+  if (plans.length === 0) {
+    return (
+      <div className="text-center text-muted-foreground py-8">
+        No reading plans yet. Create one to get started 📖
+      </div>
+    )
   }
 
   return (
     <div className="flex flex-col w-full gap-4">
-      {books.map(([bookId, chapters]) => (
+      {plans.map((plan: any) => (
         <PlanItem
-          key={bookId}
-          bookId={bookId}
-          chaptersRead={chapters}
-          streak={progress.streak}
+          key={plan._id}
+          plan={plan}
         />
       ))}
     </div>
   )
 }
 
-export default BookmarksList
+export default PlanList
