@@ -9,9 +9,9 @@ const PlanList: React.FC = () => {
   useEffect(() => {
     fetchPlans()
     return () => {
-      
+
     }
-  }, [fetchPlans ])
+  }, [fetchPlans])
 
   if (isLoading) {
     return (
