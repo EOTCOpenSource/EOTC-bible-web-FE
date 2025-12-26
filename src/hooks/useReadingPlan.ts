@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import axiosInstance from '@/lib/axios'
-import { ReadingPlan, ReadingItem, SimilarPlan } from '@/types/plans'
+import { ReadingPlan, SimilarPlan } from '@/types/plans'
 
 interface UseReadingPlanReturn {
   plan: ReadingPlan | null
