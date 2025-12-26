@@ -2,13 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight, Bookmark, Share2, ChevronLeft, ChevronRight, Calendar, Eye, Heart } from 'lucide-react'
+import { ArrowUpRight, Bookmark, Share2, Calendar, Eye, Heart, Users, Medal } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Navbar from '@/components/landing/Navbar'
 import Footer from '@/components/landing/Footer'
 import Subscription from '@/components/landing/Subscription'
-import { useHorizontalScroll } from '@/hooks/useHorizontalScroll'
+import { HorizontalScrollCarousel } from '@/components/ui/horizontal-scroll-carousel'
 import { plansData } from './plan-data'
 
 interface Plan {
@@ -26,8 +26,7 @@ interface PlanDetailClientProps {
 export default function PlanDetailClient({ slug }: PlanDetailClientProps) {
   const t = useTranslations('PlanDetail')
   const tPlans = useTranslations('DiscoverPlans')
-  const { containerRef: scrollContainerRef, scrollLeft, scrollRight } = useHorizontalScroll(300)
-  
+
   const plan = plansData[slug]
   const fallbackPlans: Plan[] = tPlans.raw('fallbackPlans') as Plan[]
   const similarPlans = fallbackPlans.filter(p => p.slug !== slug)
@@ -35,11 +34,11 @@ export default function PlanDetailClient({ slug }: PlanDetailClientProps) {
   if (!plan) {
     return (
       <div className="flex min-h-screen flex-col">
-        <Navbar className = "mb-2"/>
+        <Navbar />
         <main className="flex flex-1 flex-col items-center justify-center px-4 py-20">
           <h1 className="text-2xl font-bold text-gray-900">{t('notFound.title')}</h1>
           <p className="mt-2 text-gray-600">{t('notFound.description')}</p>
-          <Link 
+          <Link
             href="/"
             className="mt-6 rounded-lg bg-red-900 px-6 py-2 text-white hover:bg-red-800"
           >
@@ -54,12 +53,15 @@ export default function PlanDetailClient({ slug }: PlanDetailClientProps) {
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       <Navbar />
-      
+
       <main className="flex-1 mt-24">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-xl bg-white shadow-sm">
+
+        <div className="mx-auto max-w-[1100px] px-4 py-8 sm:px-6 lg:px-8">
+          {/* Main Card */}
+          <div className="overflow-hidden rounded-[32px] bg-[#FDFBF7] shadow-sm border border-[#EAE0D5]">
             <div className="flex flex-col lg:flex-row">
-              <div className="relative h-64 w-full lg:h-auto lg:w-[400px] flex-shrink-0">
+              {/* Left Column - Image */}
+              <div className="relative h-[400px] w-full lg:h-auto lg:w-[45%] flex-shrink-0">
                 <Image
                   src={plan.image}
                   alt={plan.title}
@@ -67,88 +69,92 @@ export default function PlanDetailClient({ slug }: PlanDetailClientProps) {
                   className="object-cover"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
+                {/* Overlay text on image */}
+                <div className="absolute bottom-8 left-8 text-white z-10">
+                  {/* In the design there is text on image, we can keep it clean or add if needed based on specific plan data */}
+                  {/* For this specific design, the text is part of the image art, so we leave it clean */}
+                </div>
               </div>
-              
-              <div className="flex flex-1 flex-col p-6 lg:p-8">
-                <div className="flex items-center gap-2 text-sm text-red-900">
-                  <span className="font-medium">—</span>
-                  {plan.categories.map((category, index) => (
-                    <span key={index} className="flex items-center">
-                      <span>{category}</span>
-                      {index < plan.categories.length - 1 && <span className="mx-2">|</span>}
-                    </span>
-                  ))}
-                </div>
-                
-                <h1 className="mt-3 text-2xl font-bold text-gray-900 lg:text-3xl">
-                  {plan.title}
-                </h1>
-                
-                <p className="mt-4 leading-relaxed text-gray-600">
-                  {plan.description}
-                </p>
-                
-                <div className="mt-6 flex items-center gap-6">
-                  <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors">
-                    <Bookmark size={18} />
-                    <span className="text-sm font-medium">Save</span>
-                  </button>
-                  <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors">
-                    <Share2 size={18} />
-                    <span className="text-sm font-medium">Share</span>
-                  </button>
-                  
-                  <div className="flex -space-x-2 ml-4">
-                    {plan.participants.map((participant) => (
-                      <Avatar key={participant.id} className="h-8 w-8 border-2 border-white">
-                        <AvatarFallback className="bg-red-100 text-red-900 text-xs">
-                          {participant.name.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
+
+              {/* Right Column - Content */}
+              <div className="flex flex-1 flex-col p-8 lg:p-12 relative">
+
+                {/* Header Section */}
+                <div>
+                  <h1 className="text-[40px] leading-tight font-bold text-[#1A1A1A] font-serif tracking-tight">
+                    {plan.title.split(' ').map((word, i) => (
+                      <span key={i} className={i === 1 ? "ml-2" : ""}>{word}</span>
                     ))}
+                  </h1>
+
+                  <div className="flex items-center gap-3 mt-3 mb-4">
+                    <div className="h-1 w-12 bg-[#8B2525] rounded-full"></div>
+                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Day 62 of 90</span>
+                    <span className="bg-[#EDEAE6] text-[#5A5A5A] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded">Featured</span>
+                    <span className="bg-[#EDEAE6] text-[#5A5A5A] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded">Wisdom</span>
+                  </div>
+
+                  <p className="mt-4 text-[15px] leading-relaxed text-[#4A4A4A] max-w-lg">
+                    {plan.description}
+                  </p>
+                </div>
+
+                {/* Actions Row */}
+                <div className="mt-8 flex items-center gap-4">
+                  <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#E5E0D8] bg-white hover:bg-gray-50 transition-colors text-[#4A4A4A] text-sm font-medium">
+                    <Bookmark size={18} />
+                    <span>Save</span>
+                  </button>
+                  <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#E5E0D8] bg-white hover:bg-gray-50 transition-colors text-[#4A4A4A] text-sm font-medium">
+                    <Share2 size={18} />
+                    <span>Share</span>
+                  </button>
+
+                  <div className="flex items-center ml-2">
+                    <div className="flex -space-x-2">
+                      {plan.participants.slice(0, 3).map((participant) => (
+                        <Avatar key={participant.id} className="h-8 w-8 border-2 border-white">
+                          <AvatarFallback className="bg-[#8B2525] text-white text-[10px]">
+                            {participant.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                      ))}
+                    </div>
+                    <div className="ml-2 flex items-center justify-center h-8 w-8 rounded-full bg-[#8B2525] text-white text-xs font-medium border-2 border-white -ml-2 z-10">
+                      +5
+                    </div>
                   </div>
                 </div>
-                
-                <div className="mt-6 flex items-center border-t border-b border-gray-200 py-4">
+
+                {/* Bottom Stats & CTA */}
+                <div className="mt-12 pt-8 border-t border-[#EAE0D5] flex items-center justify-between">
                   <div className="flex items-center gap-8">
-                    <div className="flex flex-col items-center">
-                      <div className="flex items-center gap-1.5 text-gray-700">
-                        <Calendar size={16} />
-                        <span className="font-semibold">{plan.duration}</span>
-                      </div>
-                      <span className="text-xs text-gray-500 mt-0.5">Duration</span>
+                    <div className="flex flex-col items-center gap-1">
+                      <Calendar size={20} className="text-[#4A4A4A]" />
+                      <span className="text-sm font-bold text-[#1A1A1A]">{plan.duration}</span>
                     </div>
-                    <div className="h-8 w-px bg-gray-200" />
-                    <div className="flex flex-col items-center">
-                      <div className="flex items-center gap-1.5 text-gray-700">
-                        <Eye size={16} />
-                        <span className="font-semibold">{plan.views}</span>
-                      </div>
-                      <span className="text-xs text-gray-500 mt-0.5">Views</span>
+                    <div className="flex flex-col items-center gap-1">
+                      <Users size={20} className="text-[#4A4A4A]" />
+                      <span className="text-sm font-bold text-[#1A1A1A]">{plan.views}</span>
                     </div>
-                    <div className="h-8 w-px bg-gray-200" />
-                    <div className="flex flex-col items-center">
-                      <div className="flex items-center gap-1.5 text-gray-700">
-                        <Heart size={16} />
-                        <span className="font-semibold">{plan.likes}</span>
-                      </div>
-                      <span className="text-xs text-gray-500 mt-0.5">Likes</span>
+                    <div className="flex flex-col items-center gap-1">
+                      <Medal size={20} className="text-[#4A4A4A]" />
+                      <span className="text-sm font-bold text-[#1A1A1A]">{plan.likes}</span>
                     </div>
                   </div>
-                </div>
-                
-                <div className="mt-6 flex justify-end">
+
                   <Link
                     href={`/plans/${slug}/reading`}
-                    className="flex items-center gap-2 rounded-lg bg-red-900 px-6 py-2.5 text-white hover:bg-red-800 transition-colors"
+                    className="flex items-center gap-2 rounded bg-[#3E3E3E] pl-6 pr-2 py-2 text-white hover:bg-black transition-colors"
                   >
-                    <span className="font-medium">{t('continuePlan')}</span>
-                    <div className="flex h-6 w-6 items-center justify-center rounded bg-white">
-                      <ArrowUpRight size={14} className="text-red-900" />
+                    <span className="font-medium text-sm">{t('continuePlan')}</span>
+                    <div className="flex h-8 w-8 items-center justify-center rounded bg-white/10">
+                      <ArrowUpRight size={16} className="text-white" />
                     </div>
                   </Link>
                 </div>
+
               </div>
             </div>
           </div>
@@ -158,41 +164,21 @@ export default function PlanDetailClient({ slug }: PlanDetailClientProps) {
               <h2 className="text-xl font-bold text-gray-900 lg:text-2xl">
                 {t('similarPlans')}
               </h2>
-              <div className="flex items-center gap-2">
-                <button 
-                  onClick={scrollLeft}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
-                  aria-label="Scroll left"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button 
-                  onClick={scrollRight}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors"
-                  aria-label="Scroll right"
-                >
-                  <ChevronRight size={18} />
-                </button>
-              </div>
             </div>
-            
-            <div 
-              ref={scrollContainerRef}
-              className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide pr-32"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
+
+            <HorizontalScrollCarousel>
               {similarPlans.map((similarPlan) => (
                 <Link
                   key={similarPlan.id}
                   href={`/plans/${similarPlan.slug}`}
                   className="group flex-shrink-0"
                 >
-                  <div className="relative h-56 w-64 overflow-hidden rounded-lg">
+                  <div className="relative h-64 w-64 overflow-hidden rounded-2xl bg-gray-100">
                     <Image
                       src={similarPlan.image}
                       alt={similarPlan.title}
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
                   <div className="mt-2">
@@ -203,11 +189,11 @@ export default function PlanDetailClient({ slug }: PlanDetailClientProps) {
                   </div>
                 </Link>
               ))}
-            </div>
+            </HorizontalScrollCarousel>
           </section>
         </div>
       </main>
-      
+
       <Footer />
       <Subscription />
     </div>
