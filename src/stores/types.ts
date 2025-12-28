@@ -113,3 +113,13 @@ export interface ReadingPlan {
   isPublic: boolean
   createdAt: string
 }
+export interface ReadingPlanCreateData {
+  _id: string
+  name: string
+  startBook: string
+  startChapter: number
+  endBook: string
+  endChapter?: number
+  startDate: string
+  durationInDays: number
+}

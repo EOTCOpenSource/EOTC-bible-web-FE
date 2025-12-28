@@ -5,6 +5,7 @@ import PlansList from '@/components/dashboard/plans/PlansList'
 import { useProgressStore } from '@/stores/progressStore'
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { PlanDialogForm } from '@/components/forms/PlanDialogForm'
 
 // TODO: implement plans concept instead of bookmarks page
 
@@ -17,11 +18,13 @@ const BookmarksPage = () => {
 
   return (
     <div className="p-4">
-        <div className='flex justify-between'>
-            <h1 className="mb-4 text-2xl font-bold">Plans</h1>
-            <Button className='bg-red-900 hover:bg-red-800 cursor-pointer' size={'lg'}> <PlusIcon /> New Plan</Button>
-        </div>
-      <PlansList/>
+      <div className="flex justify-between">
+        <h1 className="mb-4 text-2xl font-bold">Plans</h1>
+        {/* <Button className='bg-red-900 hover:bg-red-800 cursor-pointer' size={'lg'}>  */}
+        <PlanDialogForm />
+        {/* </Button> */}
+      </div>
+      <PlansList />
     </div>
   )
 }

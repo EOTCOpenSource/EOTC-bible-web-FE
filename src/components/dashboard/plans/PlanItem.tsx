@@ -1,20 +1,29 @@
 import React from 'react'
 import type { ReadingPlan } from '@/stores/types'
 import { cn } from '@/lib/utils'
+import { PlanDialogForm } from '@/components/forms/PlanDialogForm'
 
 interface PlanItemProps {
   plan: ReadingPlan
 }
 
 const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
-  const { name, startDate, durationInDays, dailyReadings } = plan
+  const {
+    _id,
+    name,
+    startDate,
+    durationInDays,
+    dailyReadings,
+    startBook,
+    endBook,
+    startChapter,
+    endChapter,
+  } = plan
 
-  const completedDays = dailyReadings.filter((d) => d.isCompleted)
-  const completedCount = completedDays.length
+const completedDays =  plan.dailyReadings?.filter(d => d.isCompleted) || []
+  const completedCount = completedDays.length ?? 0
 
-  const progressPercent = Math.round(
-    (completedCount / dailyReadings.length) * 100,
-  )
+  const progressPercent = Math.round((completedCount / dailyReadings.length) * 100)
 
   // last completed date (for ribbon)
   const lastCompleted = completedDays.at(-1)?.date
@@ -24,7 +33,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
   end.setDate(start.getDate() + durationInDays - 1)
 
   return (
-    <div className="relative rounded-lg border p-4 pl-22 transition hover:shadow-md">
+    <div key={_id} className="relative rounded-lg border p-4 pl-22 transition hover:shadow-md">
       {/* Ribbon */}
       <div className="absolute top-0 left-5 flex flex-col items-center gap-1 text-xs">
         <svg
@@ -44,7 +53,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
           />
         </svg>
 
-        {lastCompleted && (
+        {lastCompleted &&
           (() => {
             const d = new Date(lastCompleted)
             return (
@@ -55,23 +64,32 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
                 <span>{d.getDate()}</span>
               </span>
             )
-          })()
-        )}
+          })()}
       </div>
 
       {/* Content */}
       <div className="space-y-3">
-        <div className="text-lg font-medium">{name}</div>
+        <div className="text-lg font-medium">
+          {startBook === endBook
+            ? `${startBook} ${startChapter}-${endChapter}`
+            : `${startBook} ${startChapter} - ${endBook} ${endChapter}`}
+          <span className="text-md text-muted-foreground"> &#x28; {name} &#x29; </span>
+        </div>
 
-        <div className="text-muted-foreground text-sm">
-          {completedCount} of {dailyReadings.length} days completed
+        <div className="text-muted-foreground flex justify-between text-sm">
+          <div>
+            {completedCount} of {dailyReadings.length} days completed
+          </div>
+          <div>
+            <PlanDialogForm initialData={plan}/>
+          </div>
         </div>
 
         {/* Progress bar */}
-        <div className="h-2 w-full rounded bg-muted">
+        <div className="bg-muted h-2 w-full rounded">
           <div
             className={cn(
-              'h-full rounded bg-primary transition-all',
+              'bg-primary h-full rounded transition-all',
               progressPercent === 0 && 'bg-muted',
             )}
             style={{ width: `${progressPercent}%` }}

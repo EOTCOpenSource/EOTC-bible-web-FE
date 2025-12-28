@@ -4,7 +4,7 @@ import { ENV } from '@/lib/env'
 import serverAxiosInstance from '@/lib/server-axios'
 
 interface Params {
-  params: { id: string }
+  params:  { id: string }
 }
 
 // GET /api/reading-plans/:id
@@ -48,7 +48,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
     }
 
     const body = await req.json()
-
+    // const paramsRequired = await params.id
     const res = await serverAxiosInstance.put(
       `/reading-plans/${params.id}`,
       body,
