@@ -1,7 +1,20 @@
-import { getTranslations } from "next-intl/server"
+'use client'
 
-export default async function NotesPage() {
-  const t = await getTranslations('Notes')
-  
-  return <p>{t('title')}</p>
+import { useState } from 'react'
+import { NoteEditor } from '@/components/notes/NoteEditor'
+import { MyNotesList } from '@/components/notes/MyNotesList'
+
+export default function NotesPage() {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  return (
+    <div className="space-y-8">
+      {!isExpanded && <NoteEditor />}
+      <MyNotesList 
+        isExpanded={isExpanded} 
+        onToggleExpand={() => setIsExpanded(!isExpanded)} 
+      />
+    </div>
+  )
 }
+
