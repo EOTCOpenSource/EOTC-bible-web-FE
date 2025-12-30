@@ -22,7 +22,7 @@ interface AddNoteModalProps {
   }
 }
 
-export function AddNoteModal({ isOpen, onClose, verseContext }: AddNoteModalProps) {
+export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProps) => {
   const [title, setTitle] = useState(verseContext ? `Note on ${verseContext.book} ${verseContext.chapter}:${verseContext.verse}` : '')
   const [content, setContent] = useState('')
   const { addNote, isLoading } = useNotesStore()

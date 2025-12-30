@@ -5,7 +5,7 @@ import { useNotesStore } from '@/stores/useNotesStore'
 import { FileText, Edit2, ArrowUpRight } from 'lucide-react'
 import { format } from 'date-fns'
 
-export function MyNotesList({ isExpanded, onToggleExpand }: { isExpanded?: boolean; onToggleExpand?: () => void }) {
+export function MyNotesList({ isExpanded, onToggleExpandAction }: { isExpanded?: boolean; onToggleExpandAction?: () => void }) {
   const notes = useNotesStore((state) => state.notes)
   const fetchNotes = useNotesStore((state) => state.fetchNotes)
   const isLoading = useNotesStore((state) => state.isLoading)
@@ -18,18 +18,18 @@ export function MyNotesList({ isExpanded, onToggleExpand }: { isExpanded?: boole
 
   return (
     <div 
-      className={`rounded-xl border border-gray-200 bg-[#FFFAFA] p-6 shadow-sm transition-all duration-300 ${
-        isExpanded ? 'w-[813px] min-h-[864px]' : ''
+      className={`rounded-xl border border-gray-200 bg-[#FFFAFA] p-6 shadow-sm transition-all duration-300 w-full max-w-[813px] ${
+        isExpanded ? 'min-h-[864px]' : ''
       }`}
     >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <FileText className="text-red-900" size={20} />
-          <h2 className="text-lg font-bold text-gray-900">My Notes</h2>
+          <h2 className="text-[24px] font-medium leading-none text-[#621B1C] w-[151px] h-[24px]">My Notes</h2>
         </div>
         {!isExpanded && (
           <button 
-            onClick={onToggleExpand}
+            onClick={onToggleExpandAction}
             className="flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
           >
             See all <ArrowUpRight size={16} />
@@ -37,7 +37,7 @@ export function MyNotesList({ isExpanded, onToggleExpand }: { isExpanded?: boole
         )}
         {isExpanded && (
           <button 
-            onClick={onToggleExpand}
+            onClick={onToggleExpandAction}
             className="text-sm font-medium text-red-900 hover:text-red-800 transition-colors"
           >
             Back to Editor
@@ -45,26 +45,27 @@ export function MyNotesList({ isExpanded, onToggleExpand }: { isExpanded?: boole
         )}
       </div>
 
-      <div className={`flex flex-col gap-[46px]`}>
+      <div className={`flex flex-col gap-[16px]`}>
         {(isExpanded ? displayNotes : displayNotes.slice(0, 3)).map((note) => (
           <div
             key={note.id}
-            className="group flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50/50 p-4 hover:bg-gray-100 transition-colors"
+            className="group flex items-center justify-between rounded-[20px] border border-[#C9C9C9] bg-[#FFFBFB] p-6 hover:bg-gray-50 transition-colors w-full md:w-[749px] h-[91px]"
           >
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-10 items-center justify-center rounded-lg bg-red-900 text-white shadow-sm">
-                <FileText size={20} />
+            <div className="flex items-center gap-6">
+              <div className="flex h-[45px] w-[40px] items-center justify-center rounded-lg bg-[#7C2D2D] text-white shadow-sm">
+                <FileText size={24} />
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">{note.title}</h3>
-                <p className="text-xs text-gray-400 mt-1 uppercase tracking-wider">
-                  {format(new Date(note.createdAt), 'MMM dd')} - {format(new Date(note.updatedAt), 'MMM dd')}
-                </p>
-              </div>
+              <h3 className="text-[20px] font-medium text-gray-900">{note.title}</h3>
             </div>
-            <button className="p-2 text-gray-400 hover:text-gray-900 hover:bg-white rounded-lg shadow-sm transition-all">
-              <Edit2 size={16} />
-            </button>
+            
+            <div className="flex flex-col items-end gap-1">
+              <p className="text-[12px] text-gray-400 uppercase tracking-wider font-medium">
+                {format(new Date(note.createdAt), 'dd-MM-yyyy')}
+              </p>
+              <button className="p-1 text-gray-400 hover:text-gray-900 transition-all">
+                <Edit2 size={20} />
+              </button>
+            </div>
           </div>
         ))}
         
