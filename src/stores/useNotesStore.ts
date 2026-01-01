@@ -46,7 +46,31 @@ export const useNotesStore = create<NotesState>()(
           
           // Align with backend response: data.data.data is the paginated notes array
           const notesArray = data.data?.data || (Array.isArray(data) ? data : [])
-          set({ notes: notesArray, error: null })
+          
+          // Transform notes to extract title from content if title doesn't exist
+          const transformedNotes = notesArray.map((note: any) => {
+            if (note.title) {
+              return note
+            }
+            // Extract title from content (format: "title\n\ncontent")
+            const parts = (note.content || '').split('\n\n')
+            if (parts.length > 1) {
+              return {
+                ...note,
+                title: parts[0].trim(),
+                content: parts.slice(1).join('\n\n')
+              }
+            }
+            // If no title found, use first line or "Untitled"
+            const firstLine = (note.content || '').split('\n')[0]?.trim()
+            return {
+              ...note,
+              title: firstLine || 'Untitled',
+              content: note.content || ''
+            }
+          })
+          
+          set({ notes: transformedNotes, error: null })
         } catch (error: any) {
           set({ error: error.message })
         } finally {
@@ -71,7 +95,29 @@ export const useNotesStore = create<NotesState>()(
           })
           const data = await res.json()
           if (!res.ok) throw new Error(data.message || data.error || 'Failed to add note')
-          set({ notes: [data.data?.note || data, ...get().notes], error: null })
+          
+          // Transform the new note to extract title
+          const newNote = data.data?.note || data
+          let transformedNote = newNote
+          if (!newNote.title && newNote.content) {
+            const parts = newNote.content.split('\n\n')
+            if (parts.length > 1) {
+              transformedNote = {
+                ...newNote,
+                title: parts[0].trim(),
+                content: parts.slice(1).join('\n\n')
+              }
+            } else {
+              const firstLine = newNote.content.split('\n')[0]?.trim()
+              transformedNote = {
+                ...newNote,
+                title: firstLine || 'Untitled',
+                content: newNote.content
+              }
+            }
+          }
+          
+          set({ notes: [transformedNote, ...get().notes], error: null })
         } catch (error: any) {
           set({ error: error.message })
         } finally {
@@ -87,13 +133,35 @@ export const useNotesStore = create<NotesState>()(
             visibility: note.visibility || 'private'
           }
           const res = await fetch(`/api/notes/${id}`, {
-            method: 'PATCH',
+            method: 'PUT',
             body: JSON.stringify(payload),
           })
           const data = await res.json()
           if (!res.ok) throw new Error(data.message || data.error || 'Failed to update note')
+          
+          // Transform the updated note to extract title
+          const updatedNote = data.data?.note || data
+          let transformedNote = updatedNote
+          if (!updatedNote.title && updatedNote.content) {
+            const parts = updatedNote.content.split('\n\n')
+            if (parts.length > 1) {
+              transformedNote = {
+                ...updatedNote,
+                title: parts[0].trim(),
+                content: parts.slice(1).join('\n\n')
+              }
+            } else {
+              const firstLine = updatedNote.content.split('\n')[0]?.trim()
+              transformedNote = {
+                ...updatedNote,
+                title: firstLine || 'Untitled',
+                content: updatedNote.content
+              }
+            }
+          }
+          
           set({
-            notes: get().notes.map((n) => ((n.id === id || n._id === id) ? (data.data?.note || data) : n)),
+            notes: get().notes.map((n) => ((n.id === id || n._id === id) ? transformedNote : n)),
             error: null,
           })
         } catch (error: any) {
@@ -114,7 +182,7 @@ export const useNotesStore = create<NotesState>()(
             throw new Error(data.error || 'Failed to delete note')
           }
           set({
-            notes: get().notes.filter((n) => (n.id !== id)),
+            notes: get().notes.filter((n) => !(n.id === id || n._id === id)),
             error: null,
           })
         } catch (error: any) {

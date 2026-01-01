@@ -10,6 +10,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
 
 interface AddNoteModalProps {
   isOpen: boolean
@@ -24,20 +25,38 @@ interface AddNoteModalProps {
 
 export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProps) => {
   const [content, setContent] = useState('')
-  const { addNote, isLoading } = useNotesStore()
+  const { addNote, fetchNotes, isLoading } = useNotesStore()
 
   const handleSave = async () => {
-    if (!content || !verseContext?.book || !verseContext?.chapter || !verseContext?.verse) return
-    await addNote({
-      bookId: verseContext.book,
-      chapter: verseContext.chapter,
-      verseStart: verseContext.verse,
-      verseCount: 1, // Defaulting to 1 as it's often a single verse note
-      content,
-      visibility: "private",
-    })
-    setContent('')
-    onClose()
+    if (!content || !verseContext?.book || !verseContext?.chapter || !verseContext?.verse) {
+      toast.error('Please enter note content')
+      return
+    }
+    
+    try {
+      // Create a title from verse reference
+      const noteTitle = `${verseContext.book} ${verseContext.chapter}:${verseContext.verse}`
+      
+      await (addNote as any)({
+        bookId: verseContext.book,
+        chapter: verseContext.chapter,
+        verseStart: verseContext.verse,
+        verseCount: 1,
+        title: noteTitle,
+        content,
+        visibility: "private",
+      })
+      
+      // Refresh notes list to show the new note in dashboard
+      await fetchNotes()
+      
+      toast.success('Note saved successfully')
+      setContent('')
+      onClose()
+    } catch (error: any) {
+      console.error('Failed to save note:', error)
+      toast.error(error?.message || 'Failed to save note')
+    }
   }
 
   return (

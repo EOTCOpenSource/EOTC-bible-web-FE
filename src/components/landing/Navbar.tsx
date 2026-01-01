@@ -80,7 +80,7 @@ const Navbar = () => {
                 <Link href="#" className="text-black hover:text-gray-900">
                   {t('plans')}
                 </Link>
-                <Link href="#" className="text-black hover:text-gray-900">
+                <Link href="/dashboard/notes" className="text-black hover:text-gray-900">
                   {t('notes')}
                 </Link>
               </div>
@@ -190,7 +190,7 @@ const Navbar = () => {
             <Link href="#" className="py-2 text-black hover:text-gray-900">
               {t('plans')}
             </Link>
-            <Link href="#" className="py-2 text-black hover:text-gray-900">
+            <Link href="/dashboard/notes" className="py-2 text-black hover:text-gray-900">
               {t('notes')}
             </Link>
             <div className="my-2 border-t"></div>
