@@ -9,6 +9,7 @@ export function MyNotesList({ isExpanded, onToggleExpandAction }: { isExpanded?:
   const notes = useNotesStore((state) => state.notes)
   const fetchNotes = useNotesStore((state) => state.fetchNotes)
   const isLoading = useNotesStore((state) => state.isLoading)
+  const setEditingNote = useNotesStore((state) => state.setEditingNote)
 
   useEffect(() => {
     fetchNotes()
@@ -25,14 +26,14 @@ export function MyNotesList({ isExpanded, onToggleExpandAction }: { isExpanded?:
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <FileText className="text-red-900" size={20} />
-          <h2 className="text-[24px] font-medium leading-none text-[#621B1C] w-[151px] h-[24px]">My Notes</h2>
+          <h2 className="text-[24px] font-medium font-inter font-weight-500 leading-none text-[#621B1C] w-[151px] h-[24px]">My Notes</h2>
         </div>
         {!isExpanded && (
           <button 
             onClick={onToggleExpandAction}
-            className="flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-1 text-sm font-medium font-weight-400 font-poppins text-gray-500 hover:text-gray-900 transition-colors"
           >
-            See all <ArrowUpRight size={16} />
+            See all <ArrowUpRight size={16} className='gap-[10px] p-[10px] height-[30px] width-[35px]' />
           </button>
         )}
         {isExpanded && (
@@ -46,9 +47,9 @@ export function MyNotesList({ isExpanded, onToggleExpandAction }: { isExpanded?:
       </div>
 
       <div className={`flex flex-col gap-[16px]`}>
-        {(isExpanded ? displayNotes : displayNotes.slice(0, 3)).map((note) => (
+        {(isExpanded ? displayNotes : displayNotes.slice(0, 3)).map((note, index) => (
           <div
-            key={note.id}
+            key={note.id || note._id || `note-${index}`}
             className="group flex items-center justify-between rounded-[20px] border border-[#C9C9C9] bg-[#FFFBFB] p-6 hover:bg-gray-50 transition-colors w-full md:w-[749px] h-[91px]"
           >
             <div className="flex items-center gap-6">
@@ -59,10 +60,19 @@ export function MyNotesList({ isExpanded, onToggleExpandAction }: { isExpanded?:
             </div>
             
             <div className="flex flex-col items-end gap-1">
-              <p className="text-[12px] text-gray-400 uppercase tracking-wider font-medium">
+              <p className="text-[14px] font-inter font-weight-400 uppercase tracking-wider font-medium">
                 {format(new Date(note.createdAt), 'dd-MM-yyyy')}
               </p>
-              <button className="p-1 text-gray-400 hover:text-gray-900 transition-all">
+              <button 
+                onClick={() => {
+                  setEditingNote(note)
+                  if (onToggleExpandAction && isExpanded) {
+                    onToggleExpandAction()
+                  }
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                className="p-1 text-gray-400 hover:text-gray-900 transition-all"
+              >
                 <Edit2 size={20} />
               </button>
             </div>

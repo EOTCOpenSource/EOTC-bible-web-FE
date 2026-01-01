@@ -12,7 +12,7 @@ export default function NotesPage() {
       {!isExpanded && <NoteEditor />}
       <MyNotesList 
         isExpanded={isExpanded} 
-        onToggleExpand={() => setIsExpanded(!isExpanded)} 
+        onToggleExpandAction={() => setIsExpanded(!isExpanded)} 
       />
     </div>
   )

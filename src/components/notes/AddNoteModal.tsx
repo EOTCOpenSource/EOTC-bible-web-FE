@@ -23,20 +23,19 @@ interface AddNoteModalProps {
 }
 
 export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProps) => {
-  const [title, setTitle] = useState(verseContext ? `Note on ${verseContext.book} ${verseContext.chapter}:${verseContext.verse}` : '')
   const [content, setContent] = useState('')
   const { addNote, isLoading } = useNotesStore()
 
   const handleSave = async () => {
-    if (!title || !content) return
+    if (!content || !verseContext?.book || !verseContext?.chapter || !verseContext?.verse) return
     await addNote({
-      title,
+      bookId: verseContext.book,
+      chapter: verseContext.chapter,
+      verseStart: verseContext.verse,
+      verseCount: 1, // Defaulting to 1 as it's often a single verse note
       content,
-      book: verseContext?.book,
-      chapter: verseContext?.chapter,
-      verse: verseContext?.verse,
+      visibility: "private",
     })
-    setTitle('')
     setContent('')
     onClose()
   }
@@ -55,16 +54,6 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
             </div>
           )}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter note title"
-              className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-900/20"
-            />
-          </div>
-          <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700">Content</label>
             <textarea
               value={content}
@@ -79,7 +68,7 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
           <Button variant="outline" onClick={onClose} disabled={isLoading}>
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={isLoading || !title || !content} className="bg-red-900 hover:bg-red-800">
+          <Button onClick={handleSave} disabled={isLoading || !content || !verseContext?.book || !verseContext?.chapter || !verseContext?.verse} className="bg-red-900 hover:bg-red-800">
             {isLoading ? 'Saving...' : 'Save Note'}
           </Button>
         </DialogFooter>
