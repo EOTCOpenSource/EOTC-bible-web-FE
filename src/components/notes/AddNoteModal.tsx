@@ -10,6 +10,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from 'sonner'
 
 interface AddNoteModalProps {
@@ -25,6 +26,7 @@ interface AddNoteModalProps {
 
 export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProps) => {
   const [content, setContent] = useState('')
+  const [isPublic, setIsPublic] = useState(false)
   const { addNote, fetchNotes, isLoading } = useNotesStore()
 
   const handleSave = async () => {
@@ -32,11 +34,11 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
       toast.error('Please enter note content')
       return
     }
-    
+
     try {
       // Create a title from verse reference
       const noteTitle = `${verseContext.book} ${verseContext.chapter}:${verseContext.verse}`
-      
+
       await (addNote as any)({
         bookId: verseContext.book,
         chapter: verseContext.chapter,
@@ -44,14 +46,15 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
         verseCount: 1,
         title: noteTitle,
         content,
-        visibility: "private",
+        visibility: isPublic ? "public" : "private",
       })
-      
+
       // Refresh notes list to show the new note in dashboard
       await fetchNotes()
-      
+
       toast.success('Note saved successfully')
       setContent('')
+      setIsPublic(false) // Reset back to private default
       onClose()
     } catch (error: any) {
       console.error('Failed to save note:', error)
@@ -81,6 +84,17 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
               rows={5}
               className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-900/20 resize-none"
             />
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="public-note"
+              checked={isPublic}
+              onCheckedChange={(checked) => setIsPublic(checked as boolean)}
+            />
+            <label htmlFor="public-note" className="text-sm text-gray-700 select-none cursor-pointer">
+              Make this note public
+            </label>
           </div>
         </div>
         <DialogFooter>

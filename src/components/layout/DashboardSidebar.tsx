@@ -1,6 +1,6 @@
 'use client'
 
-import { Book, Calendar, Home, NotebookPen, PenLine } from "lucide-react"
+import { Book, Calendar, Home, NotebookPen, PenLine, Globe } from "lucide-react"
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -22,13 +22,13 @@ const DashboardSidebar = () => {
                <Link href='/dashboard'
                     className={getLinkClass('/dashboard')}
                >
-                    <Home size={20}/>
+                    <Home size={20} />
                     <p className="hidden md:block">Home</p>
                </Link>
                <Link href='/dashboard/highlights'
                     className={getLinkClass('/dashboard/highlights')}
                >
-                    <PenLine size={20}/>
+                    <PenLine size={20} />
                     <p className="hidden md:block">Highlights</p>
                </Link>
                <Link href='/dashboard/notes'
@@ -36,6 +36,12 @@ const DashboardSidebar = () => {
                >
                     <NotebookPen size={20} />
                     <p className="hidden md:block">Notes</p>
+               </Link>
+               <Link href='/dashboard/notes/public'
+                    className={getLinkClass('/dashboard/notes/public')}
+               >
+                    <Globe size={20} />
+                    <p className="hidden md:block">Community</p>
                </Link>
                <Link
                     href='/dashboard/plans'
@@ -48,9 +54,9 @@ const DashboardSidebar = () => {
                     href='/dashboard/bookmarks'
                     className={getLinkClass('/dashboard/bookmarks')}
                >
-                    <Book size={20}/>
+                    <Book size={20} />
                     <p className="hidden md:block">Bookmarks</p>
-               </Link>  
+               </Link>
           </nav>
      )
 }
