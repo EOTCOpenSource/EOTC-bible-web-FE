@@ -41,6 +41,11 @@ export function PublicNoteCard({ note, onClick }: PublicNoteCardProps) {
                 <p className="text-xs sm:text-sm md:text-[14px] font-inter font-weight-400 uppercase tracking-wider font-medium whitespace-nowrap text-gray-500">
                     {note.createdAt ? format(new Date(note.createdAt), 'dd-MM-yyyy') : '-'}
                 </p>
+                {note.userId?.name && (
+                    <p className="text-xs text-gray-400 font-medium">
+                        By {note.userId.name}
+                    </p>
+                )}
             </div>
         </div>
     )

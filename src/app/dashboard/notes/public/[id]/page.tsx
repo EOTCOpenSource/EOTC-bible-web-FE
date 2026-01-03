@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { useNotesStore } from '@/stores/useNotesStore'
 import type { Note } from '@/stores/useNotesStore'
 import React from 'react'
+import { NoteDetailSkeleton } from '@/components/skeletons/NoteDetailSkeleton'
 
 export default function PublicNoteDetailPage() {
     const params = useParams()
@@ -54,11 +55,7 @@ export default function PublicNoteDetailPage() {
     }, [id])
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-            </div>
-        )
+        return <NoteDetailSkeleton />
     }
 
     if (error || !note) {
@@ -99,11 +96,12 @@ export default function PublicNoteDetailPage() {
                             <Calendar className="w-4 h-4" />
                             <span>{note.createdAt ? format(new Date(note.createdAt), 'MMMM d, yyyy') : 'Unknown date'}</span>
                         </div>
-                        {/* If we had author info, we would display it here */}
-                        {/* <div className="flex items-center gap-1.5">
-              <User className="w-4 h-4" />
-              <span>Author Name</span>
-            </div> */}
+                        {note.userId?.name && (
+                            <div className="flex items-center gap-1.5">
+                                <User className="w-4 h-4" />
+                                <span>{note.userId.name}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
 

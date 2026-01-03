@@ -15,6 +15,10 @@ export interface Note {
   createdAt: string
   updatedAt: string
   visibility?: 'public' | 'private'
+  userId?: {
+    _id: string
+    name: string
+  }
 }
 
 interface NotesState {

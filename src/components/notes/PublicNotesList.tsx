@@ -5,6 +5,7 @@ import { useNotesStore } from '@/stores/useNotesStore'
 import { Globe, ArrowLeft, ArrowRight } from 'lucide-react'
 import { PublicNoteCard } from './PublicNoteCard'
 import { useRouter } from 'next/navigation'
+import { NoteCardSkeleton } from '../skeletons/NoteCardSkeleton'
 
 export const PublicNotesList = () => {
     const router = useRouter()
@@ -47,9 +48,9 @@ export const PublicNotesList = () => {
 
             <div className="flex flex-col gap-3 sm:gap-4 md:gap-[16px]">
                 {isLoading ? (
-                    <div className="flex justify-center py-10">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-                    </div>
+                    Array.from({ length: 5 }).map((_, i) => (
+                        <NoteCardSkeleton key={i} />
+                    ))
                 ) : publicNotes.length > 0 ? (
                     publicNotes.map((note, index) => (
                         <PublicNoteCard
