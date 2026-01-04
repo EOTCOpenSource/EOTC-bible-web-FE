@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ENV } from '@/lib/env'
 import { cookies } from 'next/headers'
 import serverAxiosInstance from '@/lib/server-axios'
+import { revalidatePath } from 'next/cache'
 
 // CREATE reading plan or GET all reading plans
 export async function POST(req: NextRequest) {
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // revalidatePath('/dashboard')
     return NextResponse.json(res.data)
   } catch (error) {
     console.error('ReadingPlans POST error:', error)

@@ -3,25 +3,16 @@ import React, { useEffect } from 'react'
 import PlanItem from './PlanItem'
 import { Skeleton } from '@/components/ui/skeleton'
 import { usePlanStore } from '@/stores/usePlanStore'
-import { DailyReading, ReadingPlan, ReadingPlanCreateData } from '@/stores/types'
 
 const PlanList: React.FC = () => {
-  const { plans, fetchPlans, error, isLoading } = usePlanStore()
+  const { plans, fetchPlans, error, isFetching } = usePlanStore()
 
   useEffect(() => {
-    const getPlans = async () => {
-      try {
-        await fetchPlans()
-        console.log('Plans fetched successfully' + (plans))
-      } catch (err: any) {
-        console.error('Failed to fetch plans:', err)
-      }
-    }
-    getPlans()
-    return () => {}
+    fetchPlans()
+    console.log('Fetching plans...')
   }, [fetchPlans])
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <div className="flex w-full flex-col gap-4">
         {[...Array(6)].map((_, i) => (
@@ -49,7 +40,7 @@ const PlanList: React.FC = () => {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      {plans.map((plan:any, i:number) => (
+      {plans.map(plan => (
         <PlanItem key={plan._id} plan={plan} />
       ))}
     </div>

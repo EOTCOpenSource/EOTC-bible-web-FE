@@ -22,17 +22,18 @@ import {
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { books } from '@/data/data'
-import { usePlanStore, ReadingPlan } from '@/stores/usePlanStore'
+import { usePlanStore } from '@/stores/usePlanStore'
 import { CalendarIcon, PlusIcon, EditIcon, Trash2Icon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { set } from 'zod'
+import { ReadingPlan } from '@/stores/types'
 
 interface PlanDialogFormProps {
   initialData?: ReadingPlan
 }
 
 export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) => {
-  const { createPlan, updatePlan, deletePlan, isLoading } = usePlanStore()
+  const { createPlan, fetchPlans, updatePlan, deletePlan, isFetching } = usePlanStore()
 
   const [open, setOpen] = React.useState(false)
   const [deleteOpen, setDeleteOpen] = React.useState(false)
@@ -42,9 +43,9 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
   const [startChapter, setStartChapter] = React.useState(1)
   const [endBook, setEndBook] = React.useState(initialData?.endBook || '')
   const [endChapter, setEndChapter] = React.useState(1)
-  const [startDate, setStartDate] = React.useState<Date | undefined>(
-    initialData ? new Date(initialData.createdAt) : undefined,
-  )
+  const [startDate, setStartDate] = React.useState<Date>(
+  initialData?.createdAt ? new Date(initialData.createdAt) : new Date()
+)
   const [durationInDays, setDurationInDays] = React.useState(initialData?.durationInDays || 1)
 
   const handleSubmit = async () => {
@@ -64,6 +65,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
       await updatePlan(initialData._id, payload)
     } else {
       await createPlan(payload)
+      await fetchPlans()
     }
 
     setOpen(false)
@@ -126,7 +128,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
               onChange={(e) => setStartChapter(Number(e.target.value))}
             />
 
-            <Select value={endBook} onValueChange={setEndBook}>
+            <Select value={endBook} defaultValue='Genesis' onValueChange={setEndBook}>
               <SelectTrigger>
                 <SelectValue placeholder="End book" />
               </SelectTrigger>
@@ -158,7 +160,12 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="p-0">
-                <Calendar mode="single" selected={startDate} onSelect={setStartDate} />
+                <Calendar
+                  mode="single"
+                  required
+                  selected={startDate ?? new Date()}
+                  onSelect={(date) => date && setStartDate(date)}
+                />
               </PopoverContent>
             </Popover>
 
@@ -170,8 +177,8 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
               onChange={(e) => setDurationInDays(Number(e.target.value))}
             />
 
-            <Button onClick={handleSubmit} disabled={isLoading}>
-              {isLoading
+            <Button onClick={handleSubmit} disabled={isFetching}>
+              {isFetching
                 ? initialData
                   ? 'Updating...'
                   : 'Creating...'
@@ -198,8 +205,8 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
             <Button variant="outline" onClick={() => setDeleteOpen(false)}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDelete} disabled={isLoading}>
-              {isLoading ? 'Deleting...' : 'Delete'}
+            <Button variant="destructive" onClick={handleDelete} disabled={isFetching}>
+              {isFetching ? 'Deleting...' : 'Delete'}
             </Button>
           </DialogFooter>
         </DialogContent>

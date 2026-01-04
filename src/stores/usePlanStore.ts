@@ -1,113 +1,158 @@
 import { create } from 'zustand'
 import axios from 'axios'
+import type { ReadingPlan } from './types'
 
-export interface ReadingPlan {
-  _id: string
+/* ----------------------------------
+   Types
+---------------------------------- */
+
+type CreatePlanPayload = {
   name: string
   startBook: string
   endBook: string
+  startChapter: number
+  endChapter: number
+  startDate: string
   durationInDays: number
-  dailyReadings: {
-    dayNumber: number
-    isCompleted: boolean
-  }[]
-  createdAt: string
 }
+
+type UpdatePlanPayload = Partial<
+  Pick<
+    ReadingPlan,
+    | 'name'
+    | 'startBook'
+    | 'endBook'
+    | 'startChapter'
+    | 'endChapter'
+    | 'startDate'
+    | 'durationInDays'
+  >
+>
 
 interface PlanState {
   plans: ReadingPlan[]
-  isLoading: boolean
+
+  isFetching: boolean
+  isMutating: boolean
   error: string | null
 
-  createPlan: (planData: {
-    name: string
-    startBook: string
-    endBook: string
-    startChapter: number
-    endChapter: number
-    startDate: string
-    durationInDays: number
-  }) => Promise<void>
-
   fetchPlans: () => Promise<void>
-
-  updatePlan: (id: string, updatedData: Partial<ReadingPlan>) => Promise<void>
+  createPlan: (payload: CreatePlanPayload) => Promise<void>
+  updatePlan: (id: string, payload: UpdatePlanPayload) => Promise<void>
   deletePlan: (id: string) => Promise<void>
 }
 
+/* ----------------------------------
+   Store
+---------------------------------- */
+
 export const usePlanStore = create<PlanState>((set) => ({
   plans: [],
-  isLoading: false,
+  isFetching: false,
+  isMutating: false,
   error: null,
 
-  createPlan: async (planData) => {
-    set({ isLoading: true, error: null })
+  /* -------- Fetch all plans -------- */
+  fetchPlans: async (page = 1, limit = 10) => {
+  set({ isFetching: true, error: null })
+
+  try {
+    const res = await axios.get('/api/reading-plans', {
+      params: { page, limit },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`, // if your backend requires auth
+      },
+    })
+
+    // Correct path: data.data.items
+    const plans: ReadingPlan[] = res.data?.data?.data ?? []
+
+    set({
+      plans,
+      isFetching: false,
+    })
+  } catch (err: any) {
+    set({
+      plans: [],
+      isFetching: false,
+      error:
+        err?.response?.data?.message || // backend error
+        err?.message ||                 // axios/network error
+        'Failed to load plans',
+    })
+  }
+},
+
+
+  /* -------- Create plan -------- */
+  createPlan: async (payload) => {
+    set({ isMutating: true, error: null })
 
     try {
-      const res = await axios.post('/api/reading-plans', planData)
+      const res = await axios.post('/api/reading-plans', payload)
 
-      if (res.status < 200 || res.status >= 300) {
-        throw new Error(res.data?.error || 'Failed to create plan')
-      }
-
-      set((state) => ({ plans: [...state.plans, res.data.data], isLoading: false }))
-    } catch (err: any) {
-      set({ error: err.message || 'Failed to create plan', isLoading: false })
-    }
-  },
-
-  fetchPlans: async () => {
-    set({ isLoading: true, error: null })
-
-    try {
-      const res = await fetch('/api/reading-plans')
-      const json = await res.json()
-
-      if (!res.ok) {
-        throw new Error(json.error || 'Failed to load plans')
-      }
-
-      set({ plans: json.data.data, isLoading: false })
-    } catch (err: any) {
-      set({ error: err.message || 'Failed to load plans', isLoading: false })
-    }
-  },
-
-  updatePlan: async (id, updatedData) => {
-    set({ isLoading: true, error: null })
-
-    try {
-      const res = await axios.put(`/api/reading-plans/${id}`, updatedData)
-
-      if (res.status < 200 || res.status >= 300) {
-        throw new Error(res.data?.error || 'Failed to update plan')
-      }
+      const newPlan: ReadingPlan = res.data?.data
 
       set((state) => ({
-        plans: state.plans.map((plan) => (plan._id === id ? res.data.data : plan)),
-        isLoading: false,
+        plans: [...state.plans, newPlan],
+        isMutating: false,
       }))
     } catch (err: any) {
-      set({ error: err.message || 'Failed to update plan', isLoading: false })
+      set({
+        isMutating: false,
+        error:
+          err?.response?.data?.error ||
+          err?.message ||
+          'Failed to create plan',
+      })
     }
   },
 
-  deletePlan: async (id) => {
-    set({ isLoading: true, error: null })
+  /* -------- Update plan -------- */
+  updatePlan: async (id, payload) => {
+    set({ isMutating: true, error: null })
 
     try {
-      const res = await axios.delete(`/api/reading-plans/${id}`)
+      const res = await axios.put(`/api/reading-plans/${id}`, payload)
 
-      if (res.status < 200 || res.status >= 300) {
-        throw new Error(res.data?.error || 'Failed to delete plan')
-      }
+      const updatedPlan: ReadingPlan = res.data?.data
+
+      set((state) => ({
+        plans: state.plans.map((plan) =>
+          plan._id === id ? updatedPlan : plan,
+        ),
+        isMutating: false,
+      }))
+    } catch (err: any) {
+      set({
+        isMutating: false,
+        error:
+          err?.response?.data?.error ||
+          err?.message ||
+          'Failed to update plan',
+      })
+    }
+  },
+
+  /* -------- Delete plan -------- */
+  deletePlan: async (id) => {
+    set({ isMutating: true, error: null })
+
+    try {
+      await axios.delete(`/api/reading-plans/${id}`)
 
       set((state) => ({
         plans: state.plans.filter((plan) => plan._id !== id),
-        isLoading: false,
+        isMutating: false,
       }))
     } catch (err: any) {
-      set({ error: err.message || 'Failed to delete plan', isLoading: false })
+      set({
+        isMutating: false,
+        error:
+          err?.response?.data?.error ||
+          err?.message ||
+          'Failed to delete plan',
+      })
     }
   },
 }))

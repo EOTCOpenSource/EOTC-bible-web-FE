@@ -89,7 +89,7 @@ export interface Progress {
 
 export interface DailyReading {
   dayNumber: number
-  date: string
+  date: Date | string
   readings: {
     book: string
     startChapter: number
@@ -103,14 +103,14 @@ export interface ReadingPlan {
   _id: string
   name: string
   startBook: string
-  startChapter: number
+  startChapter?: number
   endBook: string
   endChapter?: number
-  startDate: string
+  startDate?: string
   durationInDays: number
   dailyReadings: DailyReading[]
-  status: 'active' | 'completed'
-  isPublic: boolean
+  status?: 'active' | 'completed'
+  isPublic?: boolean
   createdAt: string
 }
 export interface ReadingPlanCreateData {

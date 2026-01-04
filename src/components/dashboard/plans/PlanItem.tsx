@@ -13,27 +13,34 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
     name,
     startDate,
     durationInDays,
-    dailyReadings,
     startBook,
     endBook,
     startChapter,
     endChapter,
+    dailyReadings = [],
   } = plan
 
-const completedDays =  plan.dailyReadings?.filter(d => d.isCompleted) || []
-  const completedCount = completedDays.length ?? 0
+  console.log('dailyReadings:', plan)
+  const totalDays = dailyReadings.length
+  const completedDays = dailyReadings.filter(r => r.isCompleted).length
 
-  const progressPercent = Math.round((completedCount / dailyReadings.length) * 100)
+  const progressPercent =
+    totalDays === 0 ? 0 : Math.round((completedDays / totalDays) * 100)
 
-  // last completed date (for ribbon)
-  const lastCompleted = completedDays.at(-1)?.date
+  const lastCompletedDate = [...dailyReadings]
+    .filter(r => r.isCompleted)
+    .at(-1)?.date
 
   const start = startDate ? new Date(startDate) : new Date()
   const end = new Date(start)
   end.setDate(start.getDate() + durationInDays - 1)
 
+
   return (
-    <div key={_id} className="relative rounded-lg border p-4 pl-22 transition hover:shadow-md">
+    <div
+      key={_id}
+      className="relative rounded-lg border p-4 pl-22 transition hover:shadow-md"
+    >
       {/* Ribbon */}
       <div className="absolute top-0 left-5 flex flex-col items-center gap-1 text-xs">
         <svg
@@ -53,9 +60,9 @@ const completedDays =  plan.dailyReadings?.filter(d => d.isCompleted) || []
           />
         </svg>
 
-        {lastCompleted &&
+        {lastCompletedDate && (
           (() => {
-            const d = new Date(lastCompleted)
+            const d = new Date(lastCompletedDate)
             return (
               <span className="flex flex-col items-center text-lg leading-tight text-red-900">
                 <span className="font-bold">
@@ -64,39 +71,40 @@ const completedDays =  plan.dailyReadings?.filter(d => d.isCompleted) || []
                 <span>{d.getDate()}</span>
               </span>
             )
-          })()}
+          })()
+        )}
       </div>
 
-      {/* Content */}
       <div className="space-y-3">
         <div className="text-lg font-medium">
           {startBook === endBook
             ? `${startBook} ${startChapter}-${endChapter}`
             : `${startBook} ${startChapter} - ${endBook} ${endChapter}`}
-          <span className="text-md text-muted-foreground"> &#x28; {name} &#x29; </span>
+          <span className="text-md text-muted-foreground">
+            {' '}
+            ( {name} )
+          </span>
         </div>
 
-        <div className="text-muted-foreground flex justify-between text-sm">
+        <div className="flex justify-between text-sm text-muted-foreground">
           <div>
-            {completedCount} of {dailyReadings.length} days completed
+            {completedDays} of {totalDays} days completed
           </div>
-          <div>
-            <PlanDialogForm initialData={plan}/>
-          </div>
+          <PlanDialogForm initialData={plan} />
         </div>
 
         {/* Progress bar */}
-        <div className="bg-muted h-2 w-full rounded">
+        <div className="h-2 w-full rounded bg-muted">
           <div
             className={cn(
-              'bg-primary h-full rounded transition-all',
-              progressPercent === 0 && 'bg-muted',
+              'h-full rounded bg-primary transition-all',
+              progressPercent === 0 && 'bg-muted'
             )}
             style={{ width: `${progressPercent}%` }}
           />
         </div>
 
-        <div className="text-muted-foreground text-xs">
+        <div className="text-xs text-muted-foreground">
           {start.toLocaleDateString()} – {end.toLocaleDateString()}
         </div>
       </div>
