@@ -226,7 +226,7 @@ export function NoteEditor() {
             <button
               onClick={handleSave}
               disabled={isSaving || isDeleting || !title}
-              className="flex items-center justify-center rounded-[8px] bg-[#000000] py-2 sm:py-[12px] px-4 sm:px-[48px] text-xs sm:text-[14px] font-medium text-white hover:bg-gray-800 disabled:opacity-50 transition-colors w-full sm:w-[158px] h-[32px] sm:h-[34px] tracking-tight flex-shrink-0"
+              className="flex items-center justify-center rounded-[8px] bg-[#000000] py-2 sm:py-[12px] px-4 sm:px-[48px] text-xs sm:text-[14px] font-medium text-white hover:bg-gray-800 disabled:opacity-50 transition-colors flex-1 sm:flex-none sm:w-[158px] h-[32px] sm:h-[34px] tracking-tight"
             >
               {isSaving ? 'Saving...' : <span className="whitespace-nowrap">Save<span className="ml-0.5">Note</span></span>}
             </button>

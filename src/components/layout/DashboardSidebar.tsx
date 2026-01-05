@@ -37,12 +37,7 @@ const DashboardSidebar = () => {
                     <NotebookPen size={20} />
                     <p className="hidden md:block">Notes</p>
                </Link>
-               <Link href='/dashboard/notes/public'
-                    className={getLinkClass('/dashboard/notes/public')}
-               >
-                    <Globe size={20} />
-                    <p className="hidden md:block">Community</p>
-               </Link>
+
                <Link
                     href='/dashboard/plans'
                     className={getLinkClass('/dashboard/plans')}
@@ -56,6 +51,12 @@ const DashboardSidebar = () => {
                >
                     <Book size={20} />
                     <p className="hidden md:block">Bookmarks</p>
+               </Link>
+               <Link href='/dashboard/notes/public'
+                    className={getLinkClass('/dashboard/notes/public')}
+               >
+                    <Globe size={20} />
+                    <p className="hidden md:block">Community</p>
                </Link>
           </nav>
      )
