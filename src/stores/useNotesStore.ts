@@ -31,6 +31,8 @@ interface NotesState {
   deleteNote: (id: string) => Promise<void>
   editingNote: Note | null
   setEditingNote: (note: Note | null) => void
+  viewingNote: Note | null
+  setViewingNote: (note: Note | null) => void
 
   // Public Notes
   publicNotes: Note[]
@@ -53,6 +55,8 @@ export const useNotesStore = create<NotesState>()(
       error: null,
       editingNote: null,
       setEditingNote: (note) => set({ editingNote: note }),
+      viewingNote: null,
+      setViewingNote: (note) => set({ viewingNote: note }),
 
       // Public Notes Initial State
       publicNotes: [],
