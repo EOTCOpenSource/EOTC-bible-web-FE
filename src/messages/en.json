@@ -478,36 +478,33 @@
     "shared": "Shared!",
     "note": "Note"
   },
-    "PlanDetail": {
-      "back": "Back",
-      "loading": "Loading...",
-      "fetchingPlan": "Fetching plan details...",
-      "enrollInPlan": "Enroll in Plan",
-      "continuePlan": "Continue Plan",
-      "startPlan": "Start Plan",
-      "readingItems": "Reading Items",
-      "progress": "Progress",
-      "days": "Days",
-      "readings": "Readings",
-      "participants": "Participants",
-      "checklist": "Checklist",
-      "calendar": "Calendar",
-      "filter": {
-        "all": "All Days",
-        "pending": "Pending",
-        "completed": "Completed"
-      },
-      "week": "Week",
-      "day": "Day",
-      "read": "Read",
-      "markComplete": "Mark as Complete",
-      "markIncomplete": "Mark as Incomplete",
-      "similarPlans": "Similar Plans",
-      "planDetails": "Plan Details",
-      "notFound": {
-        "title": "Plan Not Found",
-        "description": "The requested plan could not be found.",
-        "goBack": "Go Back Home"
-      }
-    }
+  "PlanDetail": {
+    "back": "Back",
+    "continuePlan": "Continue Plan",
+    "startPlan": "Start Plan",
+    "progress": "Progress",
+    "days": "Days",
+    "readings": "Readings",
+    "participants": "Participants",
+    "checklist": "Checklist",
+    "calendar": "Calendar",
+    "filter": {
+      "all": "All Days",
+      "pending": "Pending",
+      "completed": "Completed"
+    },
+    "week": "Week",
+    "day": "Day",
+    "read": "Read",
+    "markComplete": "Mark as Complete",
+    "markIncomplete": "Mark as Incomplete",
+    "similarPlans": "Similar Plans",
+    "planDetails": "Plan Details",
+    "notFound": {
+      "title": "Plan Not Found",
+      "description": "The requested plan could not be found.",
+      "goBack": "Go Back Home"
+    },
+    "loading": "Loading plan..."
+  }
 }
