@@ -36,7 +36,7 @@ export const MyNotesList = ({ isExpanded, onToggleExpandAction }: { isExpanded?:
 
   return (
     <div
-      className={`rounded-xl border border-gray-200 bg-[#FFFAFA] xs:mb-3 sm:mb-4 md:mb-6 p-3 sm:p-4 md:p-6 shadow-sm transition-all duration-300 w-full mb-2${isExpanded ? 'h-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px] mb-2' : ''
+      className={`rounded-xl border border-gray-200 bg-[#FFFAFA] mt-3 sm:mt-4 xs:mb-3 sm:mb-4 md:mb-6 p-3 sm:p-4 md:p-6 shadow-sm transition-all duration-300 w-full mb-2${isExpanded ? 'h-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px] mb-2' : ''
         }`}
     >
       <div className="flex flex-row items-center justify-between mb-2 sm:mb-3 md:mb-4 lg:mb-6 gap-2">
