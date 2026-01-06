@@ -69,9 +69,9 @@ export const MyNotesList = ({ isExpanded, onToggleExpandAction }: { isExpanded?:
         {!isExpanded && (
           <button
             onClick={onToggleExpandAction}
-            className="flex items-center gap-1 text-xs sm:text-sm font-medium font-weight-400 font-poppins text-gray-500 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-1 text-[20px] sm:text-sm font-[20px] font-weight-400 font-poppins  transition-colors"
           >
-            See all <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            See all <ArrowUpRight className="w-[20px] h-[20px] sm:w-[15px] sm:h-[15px" />
           </button>
         )}
         {isExpanded && (

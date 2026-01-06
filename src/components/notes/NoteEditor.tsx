@@ -6,8 +6,6 @@ import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Type, Tras
 import { format } from 'date-fns'
 import { toast } from 'sonner'
 import { Checkbox } from '@/components/ui/checkbox'
-
-/* ... existing imports ... */
 import {
   Dialog,
   DialogContent,
