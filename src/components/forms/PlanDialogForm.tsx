@@ -116,11 +116,11 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
             </div>
 
             {/* START BOOK + CHAPTER */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="col-span-2 space-y-1">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
                 <label className="text-sm font-medium">Start book</label>
                 <Select value={startBook} onValueChange={setStartBook}>
-                  <SelectTrigger className="h-11">
+                  <SelectTrigger size={'lg'} className="w-full">
                     <SelectValue placeholder="Genesis" />
                   </SelectTrigger>
                   <SelectContent>
@@ -147,11 +147,11 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
             </div>
 
             {/* END BOOK + CHAPTER */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="col-span-2 space-y-1">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
                 <label className="text-sm font-medium">End book</label>
                 <Select value={endBook} onValueChange={setEndBook}>
-                  <SelectTrigger className="h-11">
+                  <SelectTrigger className="w-full" size={'lg'}>
                     <SelectValue placeholder="Exodus" />
                   </SelectTrigger>
                   <SelectContent>
