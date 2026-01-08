@@ -25,7 +25,7 @@ const StatsRow = () => {
   }, 0)
 
   return (
-    <div className='flex gap-1 sm:gap-3 w-full'>
+    <div className='grid grid-cols-4 gap-1 sm:gap-3 w-full'>
       <DashboardWidget name="Today Reading" amount={todayReadingCount} />
       <DashboardWidget name="Highlight" amount={highlights.length} href="/dashboard/highlights" />
       <DashboardWidget name="Notes" amount={notes.length} href="/dashboard/notes" />

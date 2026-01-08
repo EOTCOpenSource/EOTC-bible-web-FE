@@ -50,7 +50,7 @@ export interface BookMark {
   chapter: number
   verseStart: number
   verseCount: number
-  verseRef: VerseRef
+  verseRef?: VerseRef
   createdAt: string
 }
 
@@ -73,14 +73,54 @@ export interface BibleBook {
   }[]
 }
 
-export interface Streak {
-  current: number
-  longest: number
-  lastDate?: string
+export interface Progress {
+  chaptersRead: Record<string, number[]>
+  streak: {
+    current: number
+    longest: number
+    lastDate?: string
+  }
+  lastRead?: VerseRef
+  totalChaptersRead?: number
+  _id?: string
+  userId?: string
+  createdAt?: string
+  updatedAt?: string
 }
 
-export interface Progress {
-  chaptersRead: Record<BookId, number[]>
-  streak: Streak
-  lastRead?: VerseRef
+export interface DailyReading {
+  dayNumber: number
+  date: Date | string
+  readings: {
+    book: string
+    startChapter: number
+    endChapter: number
+  }[]
+  isCompleted: boolean
+  completedAt?: string
+}
+
+export interface ReadingPlan {
+  _id: string
+  name: string
+  startBook: string
+  startChapter?: number
+  endBook: string
+  endChapter?: number
+  startDate?: string
+  durationInDays: number
+  dailyReadings: DailyReading[]
+  status?: 'active' | 'completed'
+  isPublic?: boolean
+  createdAt: string
+}
+export interface ReadingPlanCreateData {
+  _id: string
+  name: string
+  startBook: string
+  startChapter: number
+  endBook: string
+  endChapter?: number
+  startDate: string
+  durationInDays: number
 }

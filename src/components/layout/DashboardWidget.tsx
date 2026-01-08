@@ -9,7 +9,7 @@ type Props = {
 
 const DashboardWidget = ({name, amount, href}:Props) => {
      const content = (
-          <div className="w-full pt-1 pb-2 px-1 border border-gray-400 rounded-lg sm:rounded-2xl hover:bg-gray-50 transition-colors cursor-pointer">
+          <div className="pt-1 col-span-1 pb-2 px-1 border border-gray-400 rounded-lg sm:rounded-2xl hover:bg-gray-50 transition-colors cursor-pointer">
                <div className="flex justify-end items-center">
                     <div className="h-3 w-3 rotate-[45deg] sm:h-5 sm:w-5">
                          <ArrowUp className="h-full w-full" />
