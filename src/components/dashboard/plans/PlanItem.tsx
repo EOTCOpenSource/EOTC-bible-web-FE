@@ -20,7 +20,6 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
     dailyReadings = [],
   } = plan
 
-  console.log('dailyReadings:', plan)
   const totalDays = dailyReadings.length
   const completedDays = dailyReadings.filter(r => r.isCompleted).length
 
@@ -38,7 +37,6 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
 
   return (
     <div
-      key={_id}
       className="relative rounded-lg border p-4 pl-22 transition hover:shadow-md"
     >
       {/* Ribbon */}

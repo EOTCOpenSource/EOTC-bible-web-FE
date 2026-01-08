@@ -5,14 +5,13 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { usePlanStore } from '@/stores/usePlanStore'
 
 const PlanList: React.FC = () => {
-  const { plans, fetchPlans, error, isFetching } = usePlanStore()
+  const { plans, fetchPlans, error, isFetching, isMutating } = usePlanStore()
 
   useEffect(() => {
     fetchPlans()
-    console.log('Fetching plans...')
   }, [fetchPlans])
 
-  if (isFetching) {
+  if (isFetching || isMutating) {
     return (
       <div className="flex w-full flex-col gap-4">
         {[...Array(6)].map((_, i) => (
@@ -40,8 +39,8 @@ const PlanList: React.FC = () => {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      {plans.map(plan => (
-        <PlanItem key={plan._id} plan={plan} />
+      {plans.map((plan) => (
+        <PlanItem key={plan._id ?? `temp-${plan.name}-${plan.startDate}`} plan={plan} />
       ))}
     </div>
   )
