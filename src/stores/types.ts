@@ -32,6 +32,7 @@ export interface Note {
   createdAt: string
   updatedAt?: string
   tags?: string[]
+  visibility?: 'public' | 'private'
 }
 
 export type HighlightColor = 'yellow' | 'green' | 'pink' | 'blue' | 'red' | 'purple'

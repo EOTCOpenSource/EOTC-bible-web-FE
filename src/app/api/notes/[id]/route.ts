@@ -49,6 +49,42 @@ export async function PATCH(
   }
 }
 
+export async function PUT(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  try {
+    const token = await getAuthToken()
+    if (!token) {
+      return unauthorizedResponse
+    }
+
+    const { id } = await context.params
+    const body = await req.json()
+
+    const res = await serverAxiosInstance.put(`/notes/${id}`, body, {
+      headers: { Authorization: `Bearer ${token}` },
+      validateStatus: () => true,
+    })
+
+    if (res.status < 200 || res.status >= 300) {
+      return NextResponse.json(
+        { error: res.data?.message || 'Failed to update note' },
+        { status: res.status }
+      )
+    }
+
+    return NextResponse.json(res.data)
+  } catch (error: any) {
+    return NextResponse.json(
+      {
+        error: error.response?.data?.error || error.response?.data?.message || 'Failed to update note',
+      },
+      { status: error.response?.status || 500 }
+    )
+  }
+}
+
 export async function DELETE(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }

@@ -2,6 +2,7 @@ import Navbar from '@/components/layout/DashboardNavbar'
 import DashboardSidebar from '../../components/layout/DashboardSidebar'
 import RightSidebar from '@/components/layout/RightSidebar'
 import StatsRow from '@/components/layout/StatsRow'
+import { Toaster } from '@/components/ui/sonner'
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {    
   return (
@@ -22,6 +23,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
 
         </div>
       </div>
+      <Toaster position="top-right" />
     </div>
   )
 }

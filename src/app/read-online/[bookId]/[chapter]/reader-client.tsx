@@ -32,6 +32,7 @@ export default function ReaderClient({
   const { highlights, loadHighlights } = useHighlightsStore()
 
   const [animatedVerses, setAnimatedVerses] = useState<Set<number>>(new Set())
+  const [searchQuery, setSearchQuery] = useState<string | null>(null)
 
   useEffect(() => {
     loadHighlights()
@@ -40,6 +41,12 @@ export default function ReaderClient({
   
   useEffect(() => {
     const hash = window.location.hash
+    const search = searchParams.get('search')
+    
+    if (search) {
+      setSearchQuery(search)
+    }
+    
     if (hash) {
       const verseCount = parseInt(searchParams.get('verseCount') || '1', 10)
       const verseStart = parseInt(hash.substring(2), 10)
@@ -63,6 +70,11 @@ export default function ReaderClient({
         setTimeout(() => {
           setAnimatedVerses(new Set())
         }, 10000)
+        
+        // Clear search highlight after 15 seconds
+        setTimeout(() => {
+          setSearchQuery(null)
+        }, 15000)
       }
     }
   }, [searchParams])
@@ -177,6 +189,7 @@ export default function ReaderClient({
                     highlightColor={highlightsMap.get(verse.verse)?.colorHex}
                     highlightId={highlightsMap.get(verse.verse)?._id}
                     shouldAnimate={animatedVerses.has(verse.verse)}
+                    searchQuery={searchQuery || undefined}
                   />
                 ))}
               </div>

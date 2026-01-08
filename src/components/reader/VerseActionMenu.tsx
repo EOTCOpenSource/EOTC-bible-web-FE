@@ -1,9 +1,10 @@
 'use client'
 
-import { Bookmark, MessageSquare, Share2, Copy, Highlighter, Check } from 'lucide-react'
+import { Share2, Bookmark, Copy, Highlighter, MessageSquare, Plus, Check } from 'lucide-react'
+import { AddNoteModal } from '@/components/notes/AddNoteModal'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { useState, useEffect, useRef, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
@@ -25,6 +26,7 @@ interface VerseActionMenuProps {
   highlightColor?: string
   highlightId?: string
   shouldAnimate?: boolean
+  searchQuery?: string
 }
 
 type SelectedVerseRange = {
@@ -44,6 +46,7 @@ export const VerseActionMenu = ({
   highlightColor,
   highlightId,
   shouldAnimate = false,
+  searchQuery,
 }: VerseActionMenuProps) => {
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
@@ -62,6 +65,7 @@ export const VerseActionMenu = ({
   const [copied, setCopied] = useState(false)
   const [shared, setShared] = useState(false)
   const [showColorPicker, setShowColorPicker] = useState(false)
+  const [isNoteModalOpen, setIsNoteModalOpen] = useState(false)
 
   const verseRef = useRef<HTMLSpanElement>(null)
   const initialPositionSet = useRef(false)
@@ -70,6 +74,25 @@ export const VerseActionMenu = ({
   const { addBookmark } = useBookmarksStore()
   const { highlights, addHighlight, changeColor } = useHighlightsStore()
   const { user, loadSession } = useUserStore()
+
+  const renderTextWithHighlight = (text: string, query?: string) => {
+    if (!query || !text.toLowerCase().includes(query.toLowerCase())) {
+      return text
+    }
+    
+    const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'))
+    
+    return parts.map((part, index) => {
+      if (part.toLowerCase() === query.toLowerCase()) {
+        return (
+          <mark key={index} className="search-word-highlight">
+            {part}
+          </mark>
+        )
+      }
+      return part
+    })
+  }
 
   // Load session on mount if not already loaded
   useEffect(() => {
@@ -372,7 +395,7 @@ export const VerseActionMenu = ({
         : selectedText || verseText
 
     onNote?.(selectedVerses.start, noteText)
-    resetSelectionState()
+    setIsNoteModalOpen(true)
   }
 
   const resetSelectionState = () => {
@@ -402,7 +425,7 @@ export const VerseActionMenu = ({
               : undefined
           }
         >
-          {verseText}{' '}
+          {renderTextWithHighlight(verseText, searchQuery)}{' '}
         </span>
       </span>
 
@@ -539,6 +562,20 @@ export const VerseActionMenu = ({
           </div>
         </div>
       )}
+
+      <AddNoteModal
+        isOpen={isNoteModalOpen}
+        onClose={() => {
+          setIsNoteModalOpen(false)
+          resetSelectionState()
+        }}
+        verseContext={{
+          book: bookName,
+          chapter: Number(chapter),
+          verse: Number(selectedVerses.start),
+          text: selectedText || verseText,
+        }}
+      />
     </>
   )
 }

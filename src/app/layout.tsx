@@ -55,6 +55,11 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
       description: t('description'),
       images: ['/logo.png'],
     },
+    icons: {
+      icon: '/logo.png',
+      shortcut: '/logo.png',
+      apple: '/logo.png',
+    },
   }
 }
 
