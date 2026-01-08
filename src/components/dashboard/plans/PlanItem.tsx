@@ -73,7 +73,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
         )}
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 md:max-w-[150px] lg:max-w-[none]">
         <div className="text-lg font-medium">
           {startBook === endBook
             ? `${startBook} ${startChapter}-${endChapter}`
