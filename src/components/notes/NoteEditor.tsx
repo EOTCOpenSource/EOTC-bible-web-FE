@@ -166,9 +166,9 @@ export const NoteEditor = () => {
             data-placeholder="write new note"
           />
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-end justify-between mt-auto pt-4 gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-end sm:justify-between mt-auto pt-4 gap-3 sm:gap-3 md:gap-4 w-full min-w-0">
             <div
-              className="flex items-center gap-1.5 sm:gap-3 md:gap-4 lg:gap-6 text-gray-500 bg-white/50 px-2 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full border border-gray-100 overflow-x-auto flex-shrink-0 min-w-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+              className="flex items-center gap-1.5 sm:gap-3 md:gap-4 lg:gap-6 text-gray-500 bg-white/50 px-2 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full border border-gray-100 overflow-x-auto flex-shrink sm:flex-shrink-0 min-w-0 max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             >
               <button
                 onMouseDown={(e) => {
@@ -224,21 +224,21 @@ export const NoteEditor = () => {
               ><Type size={16} className="sm:size-[18px] md:size-5" /></button>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="flex items-center space-x-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2 md:gap-3 lg:gap-4 w-full sm:w-auto sm:max-w-full min-w-0 flex-shrink">
+              <div className="flex items-center space-x-2 flex-shrink-0">
                 <Checkbox
                   id="public-note-editor"
                   checked={isPublic}
                   onCheckedChange={(checked) => setIsPublic(checked as boolean)}
                 />
-                <label htmlFor="public-note-editor" className="text-sm text-gray-700 select-none cursor-pointer">
+                <label htmlFor="public-note-editor" className="text-xs sm:text-sm text-gray-700 select-none cursor-pointer whitespace-nowrap">
                   Public
                 </label>
               </div>
               <button
                 onClick={handleSave}
                 disabled={isSaving || isDeleting || !title}
-                className="flex items-center justify-center rounded-[8px] bg-[#000000] py-2 sm:py-[12px] px-4 sm:px-[48px] text-xs sm:text-[14px] font-medium text-white hover:bg-gray-800 disabled:opacity-50 transition-colors flex-1 sm:flex-none sm:w-[158px] h-[32px] sm:h-[34px] tracking-tight"
+                className="flex items-center justify-center rounded-[8px] bg-[#000000] py-2 sm:py-[12px] px-3 sm:px-4 md:px-5 lg:px-[48px] text-xs sm:text-[14px] font-medium text-white hover:bg-gray-800 disabled:opacity-50 transition-colors w-full sm:w-auto sm:flex-none sm:min-w-[90px] md:min-w-[110px] lg:w-[158px] h-[32px] sm:h-[34px] tracking-tight flex-shrink-0"
               >
                 {isSaving ? 'Saving...' : <span className="whitespace-nowrap">Save<span className="ml-0.5">Note</span></span>}
               </button>
