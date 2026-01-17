@@ -31,7 +31,7 @@ interface PlanDialogFormProps {
 }
 
 export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) => {
-  const { createPlan, fetchPlans, updatePlan, deletePlan, isFetching } = usePlanStore()
+  const { plans, createPlan, fetchPlans, updatePlan, deletePlan, isFetching } = usePlanStore()
 
   const [open, setOpen] = React.useState(false)
   const [deleteOpen, setDeleteOpen] = React.useState(false)
@@ -42,7 +42,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
   const [endBook, setEndBook] = React.useState(initialData?.endBook || '')
   const [endChapter, setEndChapter] = React.useState(1)
   const [startDate, setStartDate] = React.useState<Date>(
-    initialData?.createdAt ? new Date(initialData.createdAt) : new Date()
+    initialData?.createdAt ? new Date(initialData.createdAt) : new Date(),
   )
   const [durationInDays, setDurationInDays] = React.useState(initialData?.durationInDays || 1)
 
@@ -74,36 +74,58 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
     await deletePlan(initialData._id)
     setDeleteOpen(false)
   }
+  const getDayName = (date: Date) => date.toLocaleDateString('en-US', { weekday: 'short' })
+
+  const addDays = (date: Date, days: number) => {
+    const result = new Date(date)
+    result.setDate(result.getDate() + days)
+    return result
+  }
 
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         {initialData ? (
           <div className="absolute top-3 right-5 flex flex-col items-center gap-2">
-            <p className="text-sm text-muted-foreground">Mon – Fri</p>
+            <p className="text-muted-foreground text-sm">
+              {(() => {
+                const start = new Date(initialData.startDate ?? initialData.createdAt ?? Date.now())
+
+                const end = addDays(start, initialData.durationInDays)
+
+                return (
+                  <>
+                    <span>{getDayName(start)}</span> – <span>{getDayName(end)}</span>
+                  </>
+                )
+              })()}
+            </p>
             <div className="flex gap-5">
-              <EditIcon className="cursor-pointer text-red-800" onClick={() => setOpen(true)} />
-              <Trash2Icon className="cursor-pointer text-red-800" onClick={() => setDeleteOpen(true)} />
+              <EditIcon
+                className="cursor-pointer text-gray-800 hover:text-red-900"
+                onClick={() => setOpen(true)}
+              />
+              <Trash2Icon
+                className="cursor-pointer text-gray-800 hover:text-red-900"
+                onClick={() => setDeleteOpen(true)}
+              />
             </div>
           </div>
         ) : (
-          <Button onClick={() => setOpen(true)} className="bg-red-900 hover:bg-red-800 h-11">
+          <Button onClick={() => setOpen(true)} className="h-11 bg-red-900 hover:bg-red-800">
             <PlusIcon className="mr-2 h-4 w-4" /> New Plan
           </Button>
         )}
 
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>
-              {initialData ? 'Edit Reading Plan' : 'Create Reading Plan'}
-            </DialogTitle>
+            <DialogTitle>{initialData ? 'Edit Reading Plan' : 'Create Reading Plan'}</DialogTitle>
             <p className="text-muted-foreground text-sm">
               Fill in the details below to set up your reading plan.
             </p>
           </DialogHeader>
 
           <div className="grid gap-5 py-4">
-
             {/* PLAN NAME */}
             <div className="space-y-1">
               <label className="text-sm font-medium">Plan name</label>
@@ -187,7 +209,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
                       variant="outline"
                       className={cn(
                         'h-11 w-full justify-start text-left font-normal',
-                        !startDate && 'text-muted-foreground'
+                        !startDate && 'text-muted-foreground',
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
