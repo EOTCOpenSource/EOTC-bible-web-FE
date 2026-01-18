@@ -1,7 +1,5 @@
-import { getTranslations } from "next-intl/server"
+import HighlightsClient from '@/components/dashboard/highlights/HighlightsClient'
 
 export default async function HighlightsPage() {
-  const t = await getTranslations('Highlights')
-  
-  return <p>{t('title')}</p>
+  return <HighlightsClient />
 }

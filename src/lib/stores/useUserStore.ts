@@ -15,6 +15,7 @@ type AuthState = {
   user: User | null
   isLoggedIn: boolean
   setUser: (user: User | null) => void
+  updateSettings: (settings: Partial<User['settings']>) => void
   loadSession: () => Promise<void>
   // logout: () => void;
 }
@@ -24,6 +25,16 @@ export const useUserStore = create<AuthState>((set) => ({
   isLoggedIn: false,
 
   setUser: (user) => set({ user, isLoggedIn: !!user }),
+
+  updateSettings: (newSettings) =>
+    set((state) => ({
+      user: state.user
+        ? {
+          ...state.user,
+          settings: { ...state.user.settings, ...newSettings } as User['settings'],
+        }
+        : null,
+    })),
 
   loadSession: async () => {
     try {

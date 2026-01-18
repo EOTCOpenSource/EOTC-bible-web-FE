@@ -20,6 +20,8 @@ type RawHighlight = {
   verseCount?: number | string
   color?: HighlightColor
   createdAt?: string
+  text?: string
+  content?: string
 }
 
 const normalizeHighlight = (
@@ -36,11 +38,11 @@ const normalizeHighlight = (
   )
   const verseStart = Number(
     sourceVerse.verseStart ??
-      sourceVerse.verse ??
-      raw.verseStart ??
-      raw.verse ??
-      fallback?.verseRef?.verseStart ??
-      Number.NaN,
+    sourceVerse.verse ??
+    raw.verseStart ??
+    raw.verse ??
+    fallback?.verseRef?.verseStart ??
+    Number.NaN,
   )
   const verseCount = Number(
     sourceVerse.verseCount ?? raw.verseCount ?? fallback?.verseRef?.verseCount ?? 1,
@@ -61,6 +63,7 @@ const normalizeHighlight = (
     },
     color,
     createdAt: raw.createdAt || new Date().toISOString(),
+    text: raw.text || raw.content
   }
 }
 
@@ -86,6 +89,7 @@ interface HighlightsState {
   removeHighlight: (id: string) => Promise<void>
   changeColor: (id: string, color: HighlightColor) => Promise<void>
   clearError: () => void
+  hydrateTexts: () => Promise<void>
 }
 
 export const useHighlightsStore = create<HighlightsState>()(
@@ -99,17 +103,18 @@ export const useHighlightsStore = create<HighlightsState>()(
     loadHighlights: async () => {
       set({ isLoading: true, error: null })
       try {
-        const res = await axiosInstance.get('/api/highlights')
+        const res = await axiosInstance.get('/api/highlights', { params: { limit: 1000 } })
         const responseData = res.data?.data || res.data
         const highlightsArray = responseData?.data || responseData
 
         const transformedHighlights: Highlight[] = Array.isArray(highlightsArray)
           ? highlightsArray
-              .map((raw: RawHighlight) => normalizeHighlight(raw))
-              .filter((h): h is Highlight => Boolean(h))
+            .map((raw: RawHighlight) => normalizeHighlight(raw))
+            .filter((h): h is Highlight => Boolean(h))
           : []
 
         set({ highlights: transformedHighlights, isLoading: false })
+        get().hydrateTexts()
       } catch (err: any) {
         set({
           isLoading: false,
@@ -139,6 +144,9 @@ export const useHighlightsStore = create<HighlightsState>()(
       }
 
       set((state) => ({ highlights: [tempHighlight, ...state.highlights] }))
+
+      // Start background fetch for text if needed (optimization)
+      // For now, let's just let the UI trigger it or do it on load
 
       try {
         const res = await axiosInstance.post('/api/highlights', {
@@ -237,6 +245,39 @@ export const useHighlightsStore = create<HighlightsState>()(
         })
         throw err
       }
+    },
+
+    hydrateTexts: async () => {
+      const { highlights } = get()
+      const missingText = highlights.filter((h) => !h.text)
+      if (missingText.length === 0) return
+
+      // Fetch in parallel but limited? For now, basic Promise.all
+      // In production, might want p-limit or similar
+      const updates = await Promise.all(
+        missingText.map(async (h) => {
+          try {
+            const { book, chapter, verseStart } = h.verseRef
+            const res = await axiosInstance.get('/api/verse', {
+              params: { bookId: book, chapter, verse: verseStart }
+            })
+            if (res.data?.text) {
+              return { id: h._id, text: res.data.text }
+            }
+          } catch (e) {
+            // Ignore single failures to not break others
+            console.error('Failed to fetch text for highlight', h._id, e)
+          }
+          return null
+        })
+      )
+
+      set((state) => ({
+        highlights: state.highlights.map((h) => {
+          const update = updates.find((u) => u && u.id === h._id)
+          return update ? { ...h, text: update.text } : h
+        })
+      }))
     },
   })),
 )

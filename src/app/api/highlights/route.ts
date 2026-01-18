@@ -13,15 +13,17 @@ const unauthorizedResponse = NextResponse.json(
   { status: 401 }
 )
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const token = await getAuthToken()
     if (!token) {
       return unauthorizedResponse
     }
 
+    const { searchParams } = new URL(req.url)
     const response = await serverAxiosInstance.get('/highlights', {
       headers: { Authorization: `Bearer ${token}` },
+      params: Object.fromEntries(searchParams),
     })
 
     return NextResponse.json(response.data)

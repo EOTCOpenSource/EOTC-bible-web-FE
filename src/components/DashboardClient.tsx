@@ -6,10 +6,14 @@ import type { UserProfile } from '@/types/api'
 import { ENV } from '@/lib/env'
 import axios from 'axios'
 import { useTranslations } from 'next-intl'
-import { Award, Check, ChevronRight, Play, BookOpen } from 'lucide-react'
+import { Award, Check, ChevronRight, Play, BookOpen, Edit3, FilePenLine, Calendar } from 'lucide-react'
 import { achievements } from '@/data/achievement'
 import { useProgressStore } from '@/stores/progressStore'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
+import { useHighlightsStore } from '@/stores/highlightsStore'
+import { useNotesStore } from '@/stores/useNotesStore'
+import { usePlanStore } from '@/stores/usePlanStore'
+import StatsCard from '@/components/dashboard/StatsCard'
 
 interface DashboardClientProps {
   initialUser: UserProfile | null
@@ -24,6 +28,9 @@ export default function DashboardClient() {
   const router = useRouter()
   const { progress, loadProgress } = useProgressStore()
   const { bookmarks, loadBookmarks } = useBookmarksStore()
+  const { highlights, loadHighlights } = useHighlightsStore()
+  const { notes, fetchNotes } = useNotesStore()
+  const { plans, fetchPlans } = usePlanStore()
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -49,9 +56,12 @@ export default function DashboardClient() {
     }
 
     fetchProfile()
-    loadProgress().catch(() => {})
-    loadBookmarks().catch(() => {})
-  }, [t, loadProgress, loadBookmarks])
+    loadProgress().catch(() => { })
+    loadBookmarks().catch(() => { })
+    loadHighlights().catch(() => { })
+    fetchNotes().catch(() => { })
+    fetchPlans().catch(() => { })
+  }, [t, loadProgress, loadBookmarks, loadHighlights, fetchNotes, fetchPlans])
 
   if (loading)
     return (
@@ -102,6 +112,8 @@ export default function DashboardClient() {
     0,
   )
 
+  console.log('DashboardClient notes count:', notes.length, notes)
+
   const recentlyRead = bookmarks.slice(0, 5)
 
   const handleReadBook = (bookId: string, chapter: number, verseStart: number) => {
@@ -145,47 +157,45 @@ export default function DashboardClient() {
 
       <div className='border border-gray-400 rounded-xl p-2 sm:p-6'>
         <div className='flex gap-1 items-center text-red-900 p-2 sm:p-0'>
-          <Award size={20}/>
+          <Award size={20} />
           <h4 className='text-lg font-medium'>Achievement</h4>
         </div>
-        {achievements.map((achievement, i)=>(
-        
-          <div key={i} className={`flex justify-between items-center md:px-6 md:py-2 p-1 mt-4 border border-gray-300 rounded-lg md:rounded-2xl ${
-            achievement.status === "Completed"
-            ?'bg-red-900 text-white px-6'
-            :'border border-gray-400 px-3'
-          }`}>
-              <div className='flex justify-start gap-3 items-center'>                               
-                <span className={`flex h-5 w-5 md:h-6 md:w-6 items-center justify-center rounded-full border ${
-                    achievement.status === "Completed"
-                    ? 'bg-white text-red-900'
-                    : 'border-red-900'
+        {achievements.map((achievement, i) => (
+
+          <div key={i} className={`flex justify-between items-center md:px-6 md:py-2 p-1 mt-4 border border-gray-300 rounded-lg md:rounded-2xl ${achievement.status === "Completed"
+            ? 'bg-red-900 text-white px-6'
+            : 'border border-gray-400 px-3'
+            }`}>
+            <div className='flex justify-start gap-3 items-center'>
+              <span className={`flex h-5 w-5 md:h-6 md:w-6 items-center justify-center rounded-full border ${achievement.status === "Completed"
+                ? 'bg-white text-red-900'
+                : 'border-red-900'
                 }`}>
                 {achievement.status === "Completed" ? (
                   <div className="h-4 w-4 md:h-5 md:w-5">
                     <Check className="h-full w-full" />
                   </div>
                 ) : ''}
+              </span>
+              <div className='flex flex-col gap-0'>
+                <p className='text-sm md:text-lg'>{achievement.bookName} {achievement.chapter}</p>
+                <span className='font-light text-xs md:text-base'>
+                  {achievement.status === "Completed" ? 'Completed' : 'Not Started'}
                 </span>
-                <div className='flex flex-col gap-0'>
-                  <p className='text-sm md:text-lg'>{achievement.bookName} {achievement.chapter}</p>
-                  <span className='font-light text-xs md:text-base'>
-                    {achievement.status === "Completed" ? 'Completed' : 'Not Started'}
-                  </span>
-                </div>
               </div>
-              <span className='cursor-pointer'>{achievement.status === "Completed" ? (
-                <div className="h-4 w-4 md:h-5 md:w-5">
-                  <ChevronRight className="h-full w-full" />
+            </div>
+            <span className='cursor-pointer'>{achievement.status === "Completed" ? (
+              <div className="h-4 w-4 md:h-5 md:w-5">
+                <ChevronRight className="h-full w-full" />
+              </div>
+            ) : (
+              <div className='cursor-pointer flex justify-center items-center w-full p-1.5 md:py-0.5  md:px-2 bg-red-900 text-white rounded-sm'>
+                <div className="h-4 w-4 md:h-4 md:w-4">
+                  <Play className="h-full w-full" />
                 </div>
-              ) : (
-                <div className='cursor-pointer flex justify-center items-center w-full p-1.5 md:py-0.5  md:px-2 bg-red-900 text-white rounded-sm'>
-                  <div className="h-4 w-4 md:h-4 md:w-4">
-                    <Play className="h-full w-full" />
-                  </div>                  
-                  <p className='px-2 text-sm hidden md:block'>Read</p>
-                </div>
-              )}</span>
+                <p className='px-2 text-sm hidden md:block'>Read</p>
+              </div>
+            )}</span>
           </div>
         ))}
       </div>
