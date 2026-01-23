@@ -46,7 +46,7 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
         verseCount: 1,
         title: noteTitle,
         content,
-        visibility: isPublic ? "public" : "private",
+        visibility: isPublic ? 'public' : 'private',
       })
 
       // Refresh notes list to show the new note in dashboard
@@ -70,8 +70,10 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
         </DialogHeader>
         <div className="space-y-4 py-4">
           {verseContext && (
-            <div className="rounded-lg bg-gray-50 p-3 text-sm text-gray-600 border border-gray-100">
-              <p className="font-semibold mb-1">{verseContext.book} {verseContext.chapter}:{verseContext.verse}</p>
+            <div className="rounded-lg border border-gray-100 bg-gray-50 p-3 text-sm text-gray-600">
+              <p className="mb-1 font-semibold">
+                {verseContext.book} {verseContext.chapter}:{verseContext.verse}
+              </p>
               <p className="italic">"{verseContext.text}"</p>
             </div>
           )}
@@ -82,7 +84,7 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
               onChange={(e) => setContent(e.target.value)}
               placeholder="Write your note here..."
               rows={5}
-              className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-900/20 resize-none"
+              className="w-full resize-none rounded-md border border-gray-200 px-3 py-2 text-sm focus:ring-2 focus:ring-[#4C0E0F]/20 focus:outline-none"
             />
           </div>
 
@@ -92,7 +94,10 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
               checked={isPublic}
               onCheckedChange={(checked) => setIsPublic(checked as boolean)}
             />
-            <label htmlFor="public-note" className="text-sm text-gray-700 select-none cursor-pointer">
+            <label
+              htmlFor="public-note"
+              className="cursor-pointer text-sm text-gray-700 select-none"
+            >
               Make this note public
             </label>
           </div>
@@ -101,7 +106,17 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
           <Button variant="outline" onClick={onClose} disabled={isLoading}>
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={isLoading || !content || !verseContext?.book || !verseContext?.chapter || !verseContext?.verse} className="bg-red-900 hover:bg-red-800">
+          <Button
+            onClick={handleSave}
+            disabled={
+              isLoading ||
+              !content ||
+              !verseContext?.book ||
+              !verseContext?.chapter ||
+              !verseContext?.verse
+            }
+            className="bg-[#4C0E0F] hover:bg-red-800"
+          >
             {isLoading ? 'Saving...' : 'Save Note'}
           </Button>
         </DialogFooter>

@@ -29,12 +29,12 @@ export const ReadingItemChecklist = ({
 
   return (
     <div className="space-y-3 rounded-lg bg-white p-6">
-      {items.map(({ id, isCompleted, bookId,  title, day, bookName, chapter, description}) => (
+      {items.map(({ id, isCompleted, bookId, title, day, bookName, chapter, description }) => (
         <div
           key={id}
-          className="flex items-center justify-between rounded-lg border border-gray-200 p-4 hover:bg-gray-50 transition-colors"
+          className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
         >
-          <div className="flex items-center gap-4 flex-1">
+          <div className="flex flex-1 items-center gap-4">
             <button
               onClick={() => handleCompleteClick(id)}
               disabled={completingId === id || isLoading}
@@ -48,19 +48,17 @@ export const ReadingItemChecklist = ({
               {isCompleted && <Check size={16} className="text-green-600" />}
             </button>
 
-            <div className="flex-1 min-w-0">
+            <div className="min-w-0 flex-1">
               <p className="font-medium text-gray-900">
                 {title || `Day ${day}: ${bookName} ${chapter}`}
               </p>
-              {description && (
-                <p className="mt-1 text-sm text-gray-600">{description}</p>
-              )}
+              {description && <p className="mt-1 text-sm text-gray-600">{description}</p>}
             </div>
           </div>
 
           <Link
             href={`/read-online/${bookId}/${chapter}`}
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-red-900 hover:bg-red-50 transition-colors flex-shrink-0"
+            className="flex flex-shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[#4C0E0F] transition-colors hover:bg-red-50"
           >
             <span className="text-sm font-medium">Read</span>
             <ChevronRight size={16} />

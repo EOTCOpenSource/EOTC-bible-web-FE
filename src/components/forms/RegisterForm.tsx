@@ -173,7 +173,7 @@ export default function RegisterForm() {
         <label className="text-sm" htmlFor="checkbox">
           {t('agreeTo')}{' '}
         </label>
-        <a href="#" className="text-sm text-red-900 underline">
+        <a href="#" className="text-sm text-[#4C0E0F] underline">
           {t('terms')}
         </a>
       </div>

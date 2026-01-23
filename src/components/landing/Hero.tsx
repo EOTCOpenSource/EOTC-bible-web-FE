@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -24,18 +24,14 @@ const Hero = () => {
       ></div>
       <div className="relative container mx-auto flex h-full min-h-[766px] flex-col justify-center px-4">
         <div className="mt-48 w-full text-left md:absolute md:top-[319px] md:left-[48px] md:mt-0 md:w-[554px]">
-          <p className="inline-block rounded-full bg-red-900/30 px-3 text-sm text-red-100">
+          <p className="inline-block rounded-full bg-[#4C0E0F]/30 px-3 text-sm text-red-100">
             {t('developedBy')} &gt;
           </p>
-          <h1 className="mt-2 text-4xl font-bold md:text-6xl">
-            {t('title')}
-          </h1>
-          <p className="mt-4 text-lg">
-            {t('description')}
-          </p>
-          <button className="mt-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-red-900">
+          <h1 className="mt-2 text-4xl font-bold md:text-6xl">{t('title')}</h1>
+          <p className="mt-4 text-lg">{t('description')}</p>
+          <button className="mt-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F]">
             <span>{t('button')}</span>
-            <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-red-900 p-1 text-white">
+            <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#4C0E0F] p-1 text-white">
               <ArrowUpRight size={20} />
             </div>
           </button>
@@ -66,7 +62,11 @@ const Hero = () => {
               <div className="relative flex h-56 w-full items-start justify-center rounded-2xl border-4 border-gray-900 bg-white p-2 pt-4 shadow-lg">
                 <div className="absolute top-2 h-2 w-8 rounded-full bg-gray-800"></div>
                 <div className="mt-6 flex h-auto w-full items-center justify-center rounded-lg bg-white p-1">
-                  <img src="/qr-code.png" alt={t('appCard.qrAlt')} className="h-full w-full object-contain" />
+                  <img
+                    src="/qr-code.png"
+                    alt={t('appCard.qrAlt')}
+                    className="h-full w-full object-contain"
+                  />
                 </div>
               </div>
             </div>

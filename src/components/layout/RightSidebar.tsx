@@ -54,41 +54,41 @@ const RightSidebar = () => {
   )
 
   return (
-    <div className='flex flex-col gap-8 md:gap-6 py-3 w-full '>
-      <div className='border border-gray-400 rounded-xl p-6'>
-        <div className='flex gap-1 items-center text-red-900'>
+    <div className="flex w-full flex-col gap-8 py-3 md:gap-6">
+      <div className="rounded-xl border border-gray-400 p-6">
+        <div className="flex items-center gap-1 text-[#4C0E0F]">
           <Award size={20} />
-          <h4 className='text-lg font-medium'>Achievement</h4>
+          <h4 className="text-lg font-medium">Achievement</h4>
         </div>
         {progress.streak?.current ? (
-          <div className='flex flex-col gap-2 justify-between items-center mt-4'>
-            <div className='w-full flex justify-between items-center'>
-              <div className='flex flex-col gap-0'>
-                <p className='text-sm'>{progress.streak.current}-Day Streak</p>
-                <span className='text-gray-400 text-[10px]'>
+          <div className="mt-4 flex flex-col items-center justify-between gap-2">
+            <div className="flex w-full items-center justify-between">
+              <div className="flex flex-col gap-0">
+                <p className="text-sm">{progress.streak.current}-Day Streak</p>
+                <span className="text-[10px] text-gray-400">
                   {progress.streak.lastDate ? 'Active' : 'Inactive'}
                 </span>
               </div>
-              <ChevronRight size={16} className='cursor-pointer' />
+              <ChevronRight size={16} className="cursor-pointer" />
             </div>
-            <hr className='bg-gray-300 h-[1.5px] w-full' />
+            <hr className="h-[1.5px] w-full bg-gray-300" />
           </div>
         ) : null}
         {totalChaptersRead > 0 ? (
-          <div className='flex flex-col gap-2 justify-between items-center mt-4'>
-            <div className='w-full flex justify-between items-center'>
-              <div className='flex flex-col gap-0'>
-                <p className='text-sm'>{totalChaptersRead} Chapters</p>
-                <span className='text-gray-400 text-[10px]'>Total read</span>
+          <div className="mt-4 flex flex-col items-center justify-between gap-2">
+            <div className="flex w-full items-center justify-between">
+              <div className="flex flex-col gap-0">
+                <p className="text-sm">{totalChaptersRead} Chapters</p>
+                <span className="text-[10px] text-gray-400">Total read</span>
               </div>
-              <ChevronRight size={16} className='cursor-pointer' />
+              <ChevronRight size={16} className="cursor-pointer" />
             </div>
-            <hr className='bg-gray-300 h-[1.5px] w-full' />
+            <hr className="h-[1.5px] w-full bg-gray-300" />
           </div>
         ) : null}
 
-        <div className='flex justify-center items-center pt-5'>
-          <button className='flex justify-end items-center text-red-900 cursor-pointer'>
+        <div className="flex items-center justify-center pt-5">
+          <button className="flex cursor-pointer items-center justify-end text-[#4C0E0F]">
             <p>View More</p>
             <ArrowRight size={18} />
           </button>
@@ -97,35 +97,35 @@ const RightSidebar = () => {
 
       <button
         onClick={handleContinueReading}
-        className='bg-red-900 text-white text-lg py-2 rounded-lg cursor-pointer hover:bg-red-800'
+        className="cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-lg text-white hover:bg-red-800"
       >
         Continue Reading
       </button>
 
-      <div className='border border-gray-400 rounded-xl p-6'>
-        <div className='flex gap-1 items-center text-red-900'>
+      <div className="rounded-xl border border-gray-400 p-6">
+        <div className="flex items-center gap-1 text-[#4C0E0F]">
           <BookMarked size={20} />
-          <h4 className='text-lg font-medium'>Daily Verse</h4>
+          <h4 className="text-lg font-medium">Daily Verse</h4>
         </div>
         {verseLoading ? (
-          <div className='text-red-900 py-3'>Loading verse...</div>
+          <div className="py-3 text-[#4C0E0F]">Loading verse...</div>
         ) : verse ? (
           <>
-            <div className='text-red-900'>
-              <p className='text-sm py-3'>{verse.text}</p>
-              <h4 className='text-right font-medium'>{verse.reference}</h4>
+            <div className="text-[#4C0E0F]">
+              <p className="py-3 text-sm">{verse.text}</p>
+              <h4 className="text-right font-medium">{verse.reference}</h4>
             </div>
-            <div className='px-9'>
+            <div className="px-9">
               <button
                 onClick={handleShareVerse}
-                className='w-full bg-red-900 text-white text-sm py-2 mt-3 rounded-lg cursor-pointer hover:bg-red-800'
+                className="mt-3 w-full cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-sm text-white hover:bg-red-800"
               >
                 Share Verse
               </button>
             </div>
           </>
         ) : (
-          <div className='text-red-900 py-3'>Failed to load verse</div>
+          <div className="py-3 text-[#4C0E0F]">Failed to load verse</div>
         )}
       </div>
 
@@ -135,16 +135,16 @@ const RightSidebar = () => {
         onSelect={() => {}}
         month={month}
         onMonthChange={setMonth}
-        className="rounded-xl w-full md:w-auto md:max-w-md md:mx-auto lg:w-full lg:max-w-none lg:mx-0 border border-gray-200 bg-background p-3"
+        className="bg-background w-full rounded-xl border border-gray-200 p-3 md:mx-auto md:w-auto md:max-w-md lg:mx-0 lg:w-full lg:max-w-none"
         captionLayout="dropdown"
         classNames={{
-          day: "w-full p-0 text-sm font-normal rounded-full hover:bg-background hover:text-foreground",
+          day: 'w-full p-0 text-sm font-normal rounded-full hover:bg-background hover:text-foreground',
         }}
         modifiers={{
           streak: streakDates,
         }}
         modifiersClassNames={{
-          streak: "bg-red-900 text-white rounded-full",
+          streak: 'bg-[#4C0E0F] text-white rounded-full',
         }}
       />
     </div>

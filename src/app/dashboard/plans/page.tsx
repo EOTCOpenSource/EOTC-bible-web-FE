@@ -20,7 +20,7 @@ const BookmarksPage = () => {
     <div className="p-4">
       <div className="flex justify-between">
         <h1 className="mb-4 text-2xl font-bold">Plans</h1>
-        {/* <Button className='bg-red-900 hover:bg-red-800 cursor-pointer' size={'lg'}>  */}
+        {/* <Button className='bg-[#4C0E0F] hover:bg-red-800 cursor-pointer' size={'lg'}>  */}
         <PlanDialogForm />
         {/* </Button> */}
       </div>

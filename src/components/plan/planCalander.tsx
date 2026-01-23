@@ -23,7 +23,7 @@ export const PlanCalendar = ({
   totalDays,
   currentDay = 1,
   onDaySelect,
-}: PlanCalendarProps) =>{
+}: PlanCalendarProps) => {
   const { containerRef, scrollLeft, scrollRight } = useHorizontalScroll(200)
 
   const days = useMemo(() => {
@@ -52,24 +52,24 @@ export const PlanCalendar = ({
     <div className="flex items-center gap-4 rounded-lg bg-white p-6">
       <button
         onClick={scrollLeft}
-        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
+        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-600 transition-colors hover:bg-gray-50"
         aria-label="Previous days"
       >
         <ChevronLeft size={20} />
       </button>
 
-      <div 
+      <div
         ref={containerRef}
-        className="flex gap-3 overflow-x-auto scrollbar-hide flex-1"
+        className="scrollbar-hide flex flex-1 gap-3 overflow-x-auto"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {days.map((day) => (
           <button
             key={day.day}
             onClick={() => onDaySelect(day.day)}
-            className={`flex flex-col items-center justify-center rounded-lg p-3 min-w-[60px] transition-colors flex-shrink-0 ${
+            className={`flex min-w-[60px] flex-shrink-0 flex-col items-center justify-center rounded-lg p-3 transition-colors ${
               day.isSelected
-                ? 'bg-red-900 text-white'
+                ? 'bg-[#4C0E0F] text-white'
                 : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
             }`}
           >
@@ -81,7 +81,7 @@ export const PlanCalendar = ({
 
       <button
         onClick={scrollRight}
-        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
+        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-600 transition-colors hover:bg-gray-50"
         aria-label="Next days"
       >
         <ChevronRight size={20} />

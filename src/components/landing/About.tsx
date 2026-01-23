@@ -27,7 +27,10 @@ const About: React.FC = () => {
   const allCards = [...about.cards, ...about.cards]
 
   return (
-    <section id="about" className="flex w-full flex-col items-center justify-center gap-10 py-20 bg-red-900">
+    <section
+      id="about"
+      className="flex w-full flex-col items-center justify-center gap-10 bg-gradient-to-r from-[#4C0E0F] to-[#2C0607] py-20"
+    >
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-start">
           {/* Hero Section */}
@@ -50,9 +53,9 @@ const About: React.FC = () => {
             <p className="text-gray-200 md:w-2/3">{about.hero.description}</p>
 
             {/* CTA Button */}
-            <button className="mt-8 flex items-center space-x-2 rounded-lg py-2 pr-2 pl-6 text-lg bg-white text-red-900">
+            <button className="mt-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F]">
               <span>{about.hero.ctaText}</span>
-              <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-red-900 p-1 text-white">
+              <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#4C0E0F] p-1 text-white">
                 <ArrowUpRight size={20} />
               </div>
             </button>
@@ -78,13 +81,13 @@ const About: React.FC = () => {
               <div className="mt-4 flex justify-start space-x-0.5 md:absolute md:-top-20 md:right-0">
                 <button
                   onClick={scrollAboutLeft}
-                  className="rounded-xs p-2 shadow-md bg-yellow-400 text-red-900"
+                  className="rounded-xs bg-yellow-400 p-2 text-[#4C0E0F] shadow-md"
                 >
                   <MoveLeft size={24} />
                 </button>
                 <button
                   onClick={scrollAboutRight}
-                  className="rounded-xs p-2 shadow-md bg-yellow-400 text-red-900"
+                  className="rounded-xs bg-yellow-400 p-2 text-[#4C0E0F] shadow-md"
                 >
                   <MoveRight size={24} />
                 </button>

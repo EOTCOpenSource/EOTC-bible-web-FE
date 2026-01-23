@@ -17,7 +17,7 @@ const SearchPageContent = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const query = searchParams.get('q') || ''
-  
+
   const [results, setResults] = useState<SearchResult[]>([])
   const [totalMatches, setTotalMatches] = useState(0)
   const [bookCounts, setBookCounts] = useState<{ [key: number]: BookCount }>({})
@@ -38,7 +38,7 @@ const SearchPageContent = () => {
       selectedBook ? 1000 : 500,
       selectedTestament === 'all' ? undefined : selectedTestament,
       selectedBook,
-      selectedBook ? 200 : 50
+      selectedBook ? 200 : 50,
     )
       .then((response) => {
         setResults(response.results)
@@ -59,7 +59,7 @@ const SearchPageContent = () => {
   const handleResultClick = (result: SearchResult) => {
     const bookData = books.find((b) => b.book_number === result.book_number)
     if (!bookData) return
-    const bookId = bookData.book_name_en.replace(/ /g, "-").toLowerCase()
+    const bookId = bookData.book_name_en.replace(/ /g, '-').toLowerCase()
     const chapter = result.chapter || 1
     const verse = result.verse || 1
     const searchQuery = encodeURIComponent(query)
@@ -80,14 +80,14 @@ const SearchPageContent = () => {
 
   if (!query) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <Search size={48} className="mx-auto text-gray-400 mb-4" />
+          <Search size={48} className="mx-auto mb-4 text-gray-400" />
           <h2 className="text-xl font-semibold text-gray-700">No search query</h2>
-          <p className="text-gray-500 mt-2">Enter a search term to find verses</p>
+          <p className="mt-2 text-gray-500">Enter a search term to find verses</p>
           <button
             onClick={() => router.push('/')}
-            className="mt-4 px-4 py-2 bg-red-900 text-white rounded-lg hover:bg-red-800"
+            className="mt-4 rounded-lg bg-[#4C0E0F] px-4 py-2 text-white hover:bg-red-800"
           >
             Go Home
           </button>
@@ -97,20 +97,18 @@ const SearchPageContent = () => {
   }
 
   return (
-    <div className="min-h-screen search-page-bg">
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-4 mb-4">
+    <div className="search-page-bg min-h-screen">
+      <div className="sticky top-0 z-10 border-b bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-4">
+          <div className="mb-4 flex items-center gap-4">
             <button
               onClick={() => router.back()}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="rounded-lg p-2 transition-colors hover:bg-gray-100"
             >
               <ArrowLeft size={24} className="text-gray-600" />
             </button>
             <div className="flex-1">
-              <h1 className="text-xl font-bold text-gray-900">
-                Search Results for "{query}"
-              </h1>
+              <h1 className="text-xl font-bold text-gray-900">Search Results for "{query}"</h1>
               {!isLoading && (
                 <p className="text-sm text-gray-600">
                   Found in <strong>{totalMatches.toLocaleString()}</strong> verses across the Bible
@@ -118,10 +116,10 @@ const SearchPageContent = () => {
               )}
             </div>
           </div>
-          
-          <div className="flex flex-wrap gap-3 items-center">
+
+          <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
-              <Filter size={16} className="text-red-900" />
+              <Filter size={16} className="text-[#4C0E0F]" />
               <span className="text-sm font-medium text-gray-700">Filter:</span>
             </div>
             <div className="flex gap-1">
@@ -133,9 +131,9 @@ const SearchPageContent = () => {
                     setSelectedBook(null)
                     setDisplayLimit(50)
                   }}
-                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
                     selectedTestament === test
-                      ? 'bg-red-900 text-white'
+                      ? 'bg-[#4C0E0F] text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                 >
@@ -149,7 +147,7 @@ const SearchPageContent = () => {
                 setSelectedBook(e.target.value ? parseInt(e.target.value) : null)
                 setDisplayLimit(50)
               }}
-              className="px-3 py-1 rounded text-sm border border-gray-300 hover:border-gray-400 focus:border-red-900 focus:outline-none"
+              className="rounded border border-gray-300 px-3 py-1 text-sm hover:border-gray-400 focus:border-[#4C0E0F] focus:outline-none"
             >
               <option value="">All Books</option>
               {getFilteredBooks().map((book) => (
@@ -162,22 +160,22 @@ const SearchPageContent = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="mx-auto max-w-6xl px-4 py-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg border p-4 sticky top-32">
-              <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <BookOpen size={18} className="text-red-900" />
+            <div className="sticky top-32 rounded-lg border bg-white p-4">
+              <h3 className="mb-3 flex items-center gap-2 font-semibold text-gray-900">
+                <BookOpen size={18} className="text-[#4C0E0F]" />
                 Verses by Book
               </h3>
               {isLoading ? (
                 <div className="space-y-2">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="h-8 bg-gray-100 rounded animate-pulse" />
+                    <div key={i} className="h-8 animate-pulse rounded bg-gray-100" />
                   ))}
                 </div>
               ) : (
-                <div className="space-y-1 max-h-96 overflow-y-auto">
+                <div className="max-h-96 space-y-1 overflow-y-auto">
                   {sortedBookCounts.length === 0 ? (
                     <p className="text-sm text-gray-500">No matches found</p>
                   ) : (
@@ -188,14 +186,14 @@ const SearchPageContent = () => {
                           setSelectedBook(book.bookNumber)
                           setDisplayLimit(50)
                         }}
-                        className={`w-full text-left px-2 py-1.5 rounded text-sm flex items-center justify-between transition-colors ${
+                        className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm transition-colors ${
                           selectedBook === book.bookNumber
-                            ? 'bg-red-100 text-red-900'
+                            ? 'bg-red-100 text-[#4C0E0F]'
                             : 'hover:bg-gray-100'
                         }`}
                       >
                         <span className="truncate">{book.bookName}</span>
-                        <span className="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full font-medium ml-2 flex-shrink-0">
+                        <span className="ml-2 flex-shrink-0 rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800">
                           {book.count.toLocaleString()} verses
                         </span>
                       </button>
@@ -206,7 +204,7 @@ const SearchPageContent = () => {
               {selectedBook && (
                 <button
                   onClick={() => setSelectedBook(null)}
-                  className="mt-3 text-sm text-red-900 hover:text-red-700 font-medium"
+                  className="mt-3 text-sm font-medium text-[#4C0E0F] hover:text-red-700"
                 >
                   Clear book filter
                 </button>
@@ -216,27 +214,25 @@ const SearchPageContent = () => {
 
           <div className="lg:col-span-3">
             {isLoading ? (
-              <div className="bg-white rounded-lg border p-8 text-center">
+              <div className="rounded-lg border bg-white p-8 text-center">
                 <div className="inline-block">
-                  <div className="animate-spin rounded-full h-8 w-8 border-2 border-red-900 border-t-transparent"></div>
+                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#4C0E0F] border-t-transparent"></div>
                 </div>
-                <p className="text-gray-600 mt-4">Searching Bible...</p>
+                <p className="mt-4 text-gray-600">Searching Bible...</p>
               </div>
             ) : results.length === 0 ? (
-              <div className="bg-white rounded-lg border p-8 text-center">
-                <div className="text-4xl mb-4">📖</div>
+              <div className="rounded-lg border bg-white p-8 text-center">
+                <div className="mb-4 text-4xl">📖</div>
                 <h3 className="text-lg font-semibold text-gray-900">No results found</h3>
-                <p className="text-gray-500 mt-2">
-                  Try different keywords or adjust your filters
-                </p>
+                <p className="mt-2 text-gray-500">Try different keywords or adjust your filters</p>
               </div>
             ) : (
-              <div className="bg-white rounded-lg border">
-                <div className="px-4 py-3 bg-gray-50 border-b flex items-center justify-between">
+              <div className="rounded-lg border bg-white">
+                <div className="flex items-center justify-between border-b bg-gray-50 px-4 py-3">
                   <span className="text-sm text-gray-600">
                     Showing {displayedResults.length} of {results.length} results
                     {selectedBook && (
-                      <span className="ml-2 text-red-900">
+                      <span className="ml-2 text-[#4C0E0F]">
                         ({bookCounts[selectedBook]?.count || 0} total in this book)
                       </span>
                     )}
@@ -247,47 +243,49 @@ const SearchPageContent = () => {
                     <div
                       key={`${result.type}-${result.book_number}-${result.chapter}-${result.verse}-${idx}`}
                       onClick={() => handleResultClick(result)}
-                      className="cursor-pointer p-4 hover:bg-red-50 transition-colors border-l-4 border-l-transparent hover:border-l-red-900"
+                      className="cursor-pointer border-l-4 border-l-transparent p-4 transition-colors hover:border-l-[#4C0E0F] hover:bg-red-50"
                     >
                       {result.type === 'book' ? (
                         <div className="flex items-center justify-between">
                           <div>
-                            <div className="font-semibold text-red-900 text-lg">{result.book_name_en}</div>
+                            <div className="text-lg font-semibold text-[#4C0E0F]">
+                              {result.book_name_en}
+                            </div>
                             {result.book_name_am && (
-                              <div className="text-sm text-gray-600 mt-1">{result.book_name_am}</div>
+                              <div className="mt-1 text-sm text-gray-600">
+                                {result.book_name_am}
+                              </div>
                             )}
                           </div>
                           {result.matchCount && result.matchCount > 0 && (
-                            <span className="text-sm bg-red-100 text-red-800 px-3 py-1 rounded-full font-medium">
+                            <span className="rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-800">
                               {result.matchCount.toLocaleString()} verses
                             </span>
                           )}
                         </div>
                       ) : (
                         <div className="space-y-2">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-bold text-red-900">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-bold text-[#4C0E0F]">
                               {result.book_name_en} {result.chapter}:{result.verse}
                             </span>
                             {result.section_title && (
-                              <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded">
+                              <span className="rounded bg-red-50 px-2 py-0.5 text-xs text-red-700">
                                 {result.section_title}
                               </span>
                             )}
                           </div>
-                          <div className="text-gray-700 leading-relaxed">
-                            {result.text}
-                          </div>
+                          <div className="leading-relaxed text-gray-700">{result.text}</div>
                         </div>
                       )}
                     </div>
                   ))}
                 </div>
                 {hasMore && (
-                  <div className="p-4 border-t bg-gray-50">
+                  <div className="border-t bg-gray-50 p-4">
                     <button
                       onClick={() => setDisplayLimit((prev) => prev + 50)}
-                      className="w-full py-2 bg-red-900 text-white rounded-lg hover:bg-red-800 transition-colors font-medium"
+                      className="w-full rounded-lg bg-[#4C0E0F] py-2 font-medium text-white transition-colors hover:bg-red-800"
                     >
                       Load More Results
                     </button>
@@ -304,11 +302,13 @@ const SearchPageContent = () => {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-red-900 border-t-transparent"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-gray-50">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#4C0E0F] border-t-transparent"></div>
+        </div>
+      }
+    >
       <SearchPageContent />
     </Suspense>
   )
