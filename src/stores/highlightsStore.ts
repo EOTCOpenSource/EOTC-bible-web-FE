@@ -84,12 +84,12 @@ interface HighlightsState {
   isLoading: boolean
   error?: string | null
 
-  loadHighlights: () => Promise<void>
+  loadHighlights: (preferredTranslation?: string) => Promise<void>
   addHighlight: (verseRef: VerseRef, color?: HighlightColor) => Promise<void>
   removeHighlight: (id: string) => Promise<void>
   changeColor: (id: string, color: HighlightColor) => Promise<void>
   clearError: () => void
-  hydrateTexts: () => Promise<void>
+  hydrateTexts: (preferredTranslation?: string) => Promise<void>
 }
 
 export const useHighlightsStore = create<HighlightsState>()(
@@ -100,10 +100,15 @@ export const useHighlightsStore = create<HighlightsState>()(
 
     clearError: () => set({ error: null }),
 
-    loadHighlights: async () => {
+    loadHighlights: async (preferredTranslation) => {
       set({ isLoading: true, error: null })
       try {
-        const res = await axiosInstance.get('/api/highlights', { params: { limit: 1000 } })
+        const res = await axiosInstance.get('/api/highlights', {
+          params: {
+            limit: 1000,
+            ...(preferredTranslation ? { preferredTranslation } : {}),
+          },
+        })
         const responseData = res.data?.data || res.data
         const highlightsArray = responseData?.data || responseData
 
@@ -114,7 +119,7 @@ export const useHighlightsStore = create<HighlightsState>()(
           : []
 
         set({ highlights: transformedHighlights, isLoading: false })
-        get().hydrateTexts()
+        await get().hydrateTexts(preferredTranslation)
       } catch (err: any) {
         set({
           isLoading: false,
@@ -247,7 +252,7 @@ export const useHighlightsStore = create<HighlightsState>()(
       }
     },
 
-    hydrateTexts: async () => {
+    hydrateTexts: async (preferredTranslation) => {
       const { highlights } = get()
       const missingText = highlights.filter((h) => !h.text)
       if (missingText.length === 0) return
@@ -259,7 +264,12 @@ export const useHighlightsStore = create<HighlightsState>()(
           try {
             const { book, chapter, verseStart } = h.verseRef
             const res = await axiosInstance.get('/api/verse', {
-              params: { bookId: book, chapter, verse: verseStart }
+              params: {
+                bookId: book,
+                chapter,
+                verse: verseStart,
+                ...(preferredTranslation ? { preferredTranslation } : {}),
+              },
             })
             if (res.data?.text) {
               return { id: h._id, text: res.data.text }

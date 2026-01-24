@@ -6,6 +6,7 @@ import { useHighlightsStore } from '@/stores/highlightsStore'
 import { Trash2, FilePenLine, ExternalLink, PencilLine } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { useSettingsStore } from '@/stores/settingsStore'
 import {
     Dialog,
     DialogContent,
@@ -25,14 +26,29 @@ export default function HighlightsClient() {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const [highlightToDelete, setHighlightToDelete] = useState<string | null>(null) // null means bulk delete if modal open? no, let's be explicit
     const [isBulkDelete, setIsBulkDelete] = useState(false)
+    const [isVersionDropdownOpen, setIsVersionDropdownOpen] = useState(false)
+
+    const { preferredTranslation, updateSettings } = useSettingsStore()
+
+    const versionOptions = [
+        { id: 'en', label: 'English version' },
+        { id: 'am', label: 'Amharic version' },
+        { id: 'gez', label: 'Ge\'ez version' },
+        { id: 'tg', label: 'Tigrinya version' },
+        { id: 'or', label: 'Afaan Oromoo version' },
+    ] as const
+
+    const currentVersionLabel =
+        versionOptions.find((opt) => opt.id === preferredTranslation)?.label ?? 'English version'
 
     // Hardcoded title fallback if translation missing
     // In a real app we'd ensure translations exist
     const title = "Highlights"
 
     useEffect(() => {
-        loadHighlights()
-    }, [loadHighlights])
+        // Reload highlights (and their verse text) whenever the preferred translation changes
+        loadHighlights(preferredTranslation).catch(() => { })
+    }, [loadHighlights, preferredTranslation])
 
     const handleDelete = async (id: string) => {
         setHighlightToDelete(id)
@@ -102,6 +118,16 @@ export default function HighlightsClient() {
         return bookId.charAt(0).toUpperCase() + bookId.slice(1).replace(/-/g, ' ')
     }
 
+    const handleVersionChange = async (id: string) => {
+        try {
+            await updateSettings({ preferredTranslation: id })
+        } catch (error) {
+            console.error('Failed to update preferred translation:', error)
+        } finally {
+            setIsVersionDropdownOpen(false)
+        }
+    }
+
     return (
         <>
             <div className="w-full max-w-4xl mx-auto p-4 md:p-6">
@@ -164,12 +190,43 @@ export default function HighlightsClient() {
                             <div key={highlight._id} className="border border-gray-200 rounded-[20px] px-[27px] py-[16px] bg-white shadow-sm relative hover:shadow-md transition-shadow w-full max-w-[813px] min-h-[167px] mx-auto">
 
                                 {/* Card top row with title */}
-                                <div className="flex justify-between items-start">
+                                <div className="flex justify-between items-start relative">
                                     <h2 className="text-[24px] font-poppins font-normal leading-[90%] tracking-[0.08em] text-black">
                                         {formatBookName(highlight.verseRef.book)} {highlight.verseRef.chapter}
                                         {highlight.verseRef.verseCount > 1 ? `-${highlight.verseRef.verseStart + highlight.verseRef.verseCount - 1}` : ''}
                                     </h2>
-                                    <span className="absolute top-[16px] left-[654px] w-[141px] h-[14px] font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-[#8F8F8F] flex items-center">English version</span>
+
+                                    {/* Version selector */}
+                                    <div className="absolute top-[16px] right-[0px]">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsVersionDropdownOpen((open) => !open)}
+                                            className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-[#8F8F8F] flex items-center gap-1 hover:text-[#621B1C] transition-colors"
+                                        >
+                                            {currentVersionLabel}
+                                            <span className="text-xs">{isVersionDropdownOpen ? '▲' : '▼'}</span>
+                                        </button>
+
+                                        {isVersionDropdownOpen && (
+                                            <div className="mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-20">
+                                                {versionOptions.map((option) => (
+                                                    <button
+                                                        key={option.id}
+                                                        type="button"
+                                                        onClick={() => handleVersionChange(option.id)}
+                                                        className={`flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-gray-100 ${
+                                                            option.id === preferredTranslation ? 'text-[#621B1C] font-medium' : 'text-gray-700'
+                                                        }`}
+                                                    >
+                                                        <span>{option.label}</span>
+                                                        {option.id === preferredTranslation && (
+                                                            <span className="text-xs">✓</span>
+                                                        )}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* Verse Text (Placeholder logic as actual text isn't in store, might need to fetch or just show snippet if backend provides. 

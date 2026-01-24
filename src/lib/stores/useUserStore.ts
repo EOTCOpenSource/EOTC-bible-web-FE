@@ -5,6 +5,7 @@ type User = {
   id: string
   email: string
   name?: string
+  avatarUrl?: string | null
   settings?: {
     theme: 'light' | 'dark'
     fontSize: number
@@ -17,7 +18,6 @@ type AuthState = {
   setUser: (user: User | null) => void
   updateSettings: (settings: Partial<User['settings']>) => void
   loadSession: () => Promise<void>
-  // logout: () => void;
 }
 
 export const useUserStore = create<AuthState>((set) => ({
@@ -55,11 +55,4 @@ export const useUserStore = create<AuthState>((set) => ({
       set({ user: null, isLoggedIn: false })
     }
   },
-  // logout: () => {
-
-  //   axiosInstance
-  //     .post("/api/auth/logout", {}, { withCredentials: true })
-  //     .catch((err) => console.error("Logout error:", err));
-  //   set({ user: null, isLoggedIn: false });
-  // },
 }))

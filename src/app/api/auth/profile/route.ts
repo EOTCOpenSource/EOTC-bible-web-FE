@@ -39,3 +39,35 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    const token = req.cookies.get(AUTH_COOKIE)?.value
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await req.json()
+
+    // Call backend to update profile
+    const res = await serverAxiosInstance.put(`/auth/profile`, body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus: () => true,
+    })
+
+    if (res.status < 200 || res.status >= 300) {
+      return NextResponse.json(
+        { error: res.data?.message || 'Failed to update profile' },
+        { status: res.status },
+      )
+    }
+
+    const userData = res.data?.data?.user || res.data?.user
+    return NextResponse.json({ success: true, user: userData }, { status: 200 })
+  } catch (error: any) {
+    console.error('Update profile API error:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  }
+}
