@@ -132,12 +132,13 @@ export default function HighlightsClient() {
         <>
             <div className="w-full max-w-4xl mx-auto p-4 md:p-6">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-6">
-                    <div className="flex items-center gap-5">
-                        <PencilLine className="h-[40px] w-[40px]" strokeWidth={1} />
-                        <h1 className="text-[30px] font-poppins font-normal leading-[90%] tracking-[0.08em] text-black">
+                {/* Header */}
+                <div className="flex flex-row justify-between items-center mb-6">
+                    <div className="flex items-center gap-3 md:gap-5">
+                        <PencilLine className="h-[24px] w-[24px] md:h-[30px] md:w-[30px]" strokeWidth={1} />
+                        <h5 className="text-[20px] md:text-[25px] font-poppins font-normal leading-[90%] tracking-[0.08em] text-black">
                             {title}
-                        </h1>
+                        </h5>
                     </div>
 
                     <div className="flex items-center gap-4">
@@ -214,9 +215,8 @@ export default function HighlightsClient() {
                                                         key={option.id}
                                                         type="button"
                                                         onClick={() => handleVersionChange(option.id)}
-                                                        className={`flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-gray-100 ${
-                                                            option.id === preferredTranslation ? 'text-[#621B1C] font-medium' : 'text-gray-700'
-                                                        }`}
+                                                        className={`flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-gray-100 ${option.id === preferredTranslation ? 'text-[#621B1C] font-medium' : 'text-gray-700'
+                                                            }`}
                                                     >
                                                         <span>{option.label}</span>
                                                         {option.id === preferredTranslation && (

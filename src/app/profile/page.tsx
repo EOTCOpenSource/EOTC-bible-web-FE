@@ -6,10 +6,10 @@ import Navbar from '@/components/landing/Navbar'
 
 export default function ProfilePage() {
     return (
-        <div className="min-h-screen bg-[#FFFBEB]/30">
+        <div className="min-h-screen bg-gradient-to-b from-[#FFFBEB] to-white">
             <Navbar />
-            <div className="pt-24 p-4 md:p-10">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
+            <div className="pt-[128px] p-4">
+                <div className="max-w-[840px] mx-auto flex flex-col md:flex-row gap-[20px]">
                     <ProfileSidebar />
                     <ProfileMainContent />
                 </div>

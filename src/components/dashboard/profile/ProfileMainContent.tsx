@@ -19,7 +19,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
-export function ProfileMainContent() {
+export const ProfileMainContent = () => {
   const { user, setUser, loadSession } = useUserStore()
   const router = useRouter()
   const [formData, setFormData] = useState({
@@ -126,7 +126,7 @@ export function ProfileMainContent() {
     setIsSaving(true)
     try {
       const updateData: any = {}
-      
+
       if (field === 'firstName' || field === 'lastName') {
         updateData.name = `${formData.firstName} ${formData.lastName}`.trim()
       } else if (field === 'email') {
@@ -136,12 +136,12 @@ export function ProfileMainContent() {
       }
 
       const res = await axiosInstance.put('/api/auth/profile', updateData)
-      
+
       const updatedUser = res.data?.user || res.data?.data?.user
       if (updatedUser) {
         setUser(updatedUser)
       }
-      
+
       setEditingField(null)
       if (field === 'password') {
         setFormData(prev => ({
@@ -152,7 +152,7 @@ export function ProfileMainContent() {
         }))
       }
       toast.success(`${field === 'password' ? 'Password' : field.charAt(0).toUpperCase() + field.slice(1)} updated successfully`)
-      
+
       await loadSession()
     } catch (error: any) {
       console.error('Update error:', error)
@@ -163,7 +163,7 @@ export function ProfileMainContent() {
   }
 
   const handleSaveChanges = async () => {
-     setIsSaving(true)
+    setIsSaving(true)
     try {
       const updateData: any = {
         name: `${formData.firstName} ${formData.lastName}`.trim(),
@@ -185,12 +185,12 @@ export function ProfileMainContent() {
       }
 
       const res = await axiosInstance.put('/api/auth/profile', updateData)
-      
+
       const updatedUser = res.data?.user || res.data?.data?.user
       if (updatedUser) {
         setUser(updatedUser)
       }
-      
+
       toast.success('Profile updated successfully')
       setEditingField(null)
       setFormData(prev => ({
@@ -248,7 +248,7 @@ export function ProfileMainContent() {
               }
             }}
             placeholder={placeholder}
-            className="bg-[#F9FAFB] border-none h-12 rounded-[12px] pr-10 focus-visible:ring-1 focus-visible:ring-gray-200"
+            className="bg-[#F9FAFB] border-none h-10 rounded-[12px] pr-10 focus-visible:ring-1 focus-visible:ring-gray-200"
             readOnly={!isEditing}
             disabled={isSaving}
           />
@@ -298,30 +298,32 @@ export function ProfileMainContent() {
 
   return (
     <>
-      <div className="flex-1 bg-white rounded-[24px] p-8 border border-[#E5E7EB] shadow-sm">
-        <div className="flex flex-col items-center mb-10">
-          <div className="relative">
-            <div className="h-24 w-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md">
+      <div className="w-full md:w-[502px] min-h-[475px] h-auto bg-white rounded-[20px] p-6 border border-gray-100 shadow-sm flex flex-col">
+        <div className="flex flex-col items-center mb-6 flex-shrink-0">
+          <div className="relative group cursor-pointer" onClick={handleAvatarButtonClick}>
+            <div className="h-20 w-20 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden border-4 border-white shadow-sm ring-1 ring-gray-100">
               {user?.avatarUrl ? (
                 <Image
                   src={user.avatarUrl}
                   alt={user?.name || 'Profile avatar'}
-                  width={96}
-                  height={96}
+                  width={80}
+                  height={80}
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <User size={48} className="text-gray-300" />
+                <User size={36} className="text-gray-300" />
               )}
             </div>
             <button
               type="button"
-              onClick={handleAvatarButtonClick}
               disabled={isUploading}
-              className="absolute bottom-0 right-0 bg-white p-1.5 rounded-full border border-[#E5E7EB] shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-70"
+              className="absolute bottom-0 right-0 bg-white p-1.5 rounded-full border border-gray-100 shadow-md hover:bg-gray-50 transition-colors z-10"
             >
-              <Pencil size={14} className="text-[#6B7280]" />
+              <Pencil size={12} className="text-gray-600" />
             </button>
+            <div className="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium text-[10px]">
+              Change
+            </div>
           </div>
           <input
             ref={fileInputRef}
@@ -330,38 +332,42 @@ export function ProfileMainContent() {
             className="hidden"
             onChange={handleAvatarChange}
           />
-          <p className="mt-3 text-sm font-medium text-[#6B7280]">Change your profile picture</p>
+          <p className="mt-2 text-xs font-medium text-gray-500">Change your profile picture</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           {renderEditableField('firstName', 'First Name', formData.firstName)}
           {renderEditableField('lastName', 'Last Name', formData.lastName)}
         </div>
 
-        <div className="space-y-2 mb-8">
+        <div className="space-y-4 mb-4">
           {renderEditableField('email', 'Email Address', formData.email, 'email')}
         </div>
 
-        <div className="space-y-2 mb-12">
+        <div className="space-y-4 mb-6">
           {renderEditableField('password', 'Password', formData.password, 'password')}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <Button
             onClick={handleSaveChanges}
             disabled={isSaving}
-            className="w-full sm:w-auto bg-[#5C1616] hover:bg-[#4A1111] text-white px-8 py-6 rounded-[12px] font-bold flex items-center gap-2 transition-all disabled:opacity-50"
+            className="w-[152px] h-[42px] bg-[#392D2D] hover:bg-[#1A1A19] text-white pl-[10px] pr-[4px] py-[5px] rounded-[8px] gap-[6px] font-medium flex items-center justify-between transition-all disabled:opacity-50 text-sm overflow-hidden"
           >
             {isSaving ? 'Saving...' : 'Save Changes'}
-            <ArrowUpRight size={20} />
+            <div className="bg-white rounded-[6px] h-8 w-8 flex items-center justify-center text-[#392D2D] shrink-0">
+              <ArrowUpRight size={18} strokeWidth={2.5} />
+            </div>
           </Button>
           <Button
             onClick={() => setDeleteDialogOpen(true)}
             variant="outline"
-            className="w-full sm:w-auto border-[#E5E7EB] text-[#5C1616] hover:bg-red-50 hover:text-red-600 hover:border-red-200 px-8 py-6 rounded-[12px] font-bold flex items-center gap-2 transition-all group"
+            className="w-[155px] h-[42px] bg-white border border-[#621B1C] hover:bg-neutral-50 text-[#621B1C] pl-[10px] pr-[4px] py-[5px] rounded-[8px] gap-[6px] font-medium flex items-center justify-between transition-all disabled:opacity-50 text-sm overflow-hidden"
           >
             Delete Account
-            <Trash2 size={20} className="text-[#5C1616] group-hover:text-red-600" />
+            <div className="bg-[#621B1C] rounded-[6px] h-8 w-8 flex items-center justify-center text-white shrink-0">
+              <Trash2 size={18} strokeWidth={2.5} />
+            </div>
           </Button>
         </div>
       </div>

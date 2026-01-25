@@ -13,7 +13,7 @@ import { useBookmarksStore } from '@/stores/bookmarksStore'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { useNotesStore } from '@/stores/useNotesStore'
 import { usePlanStore } from '@/stores/usePlanStore'
-import StatsCard from '@/components/dashboard/StatsCard'
+
 
 interface DashboardClientProps {
   initialUser: UserProfile | null
@@ -107,12 +107,9 @@ export default function DashboardClient() {
     )
   }
 
-  const totalChaptersRead = Object.values(progress.chaptersRead || {}).reduce(
-    (total, chapters) => total + chapters.length,
-    0,
-  )
 
-  console.log('DashboardClient notes count:', notes.length, notes)
+
+
 
   const recentlyRead = bookmarks.slice(0, 5)
 
@@ -200,27 +197,7 @@ export default function DashboardClient() {
         ))}
       </div>
 
-      <div className='flex flex-col justify-center items-center text-center border border-gray-400 rounded-xl px-8 md:px-20 pt-6 pb-3 md:pb-10'>
-        <div className='flex flex-col justify-center items-center text-red-900'>
-          <div className="h-6 w-6 md:h-15 md:w-15">
-            <Award className="h-full w-full" />
-          </div>
-          <h4 className='text-xs md:text-2xl font-medium'>Great Progress!</h4>
-        </div>
-        <p className='text-[6px] md:text-xs font-light'>
-          {totalChaptersRead > 0
-            ? `You've read ${totalChaptersRead} chapters. Keep going!`
-            : 'Start reading to track your progress!'}
-        </p>
-        <div className='relative bg-gray-300 h-1 sm:h-2 my-2 sm:my-5 w-full rounded-xl'>
-          <span
-            className='absolute flex h-full bg-red-900 rounded-xl'
-            style={{
-              width: totalChaptersRead > 0 ? `${Math.min((totalChaptersRead / 100) * 100, 100)}%` : '0%',
-            }}
-          ></span>
-        </div>
-      </div>
+
     </div>
   )
 }
