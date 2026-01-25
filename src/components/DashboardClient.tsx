@@ -6,14 +6,10 @@ import type { UserProfile } from '@/types/api'
 import { ENV } from '@/lib/env'
 import axios from 'axios'
 import { useTranslations } from 'next-intl'
-import { Award, Check, ChevronRight, Play, BookOpen, Edit3, FilePenLine, Calendar } from 'lucide-react'
+import { Award, Check, ChevronRight, Play, BookOpen } from 'lucide-react'
 import { achievements } from '@/data/achievement'
 import { useProgressStore } from '@/stores/progressStore'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
-import { useHighlightsStore } from '@/stores/highlightsStore'
-import { useNotesStore } from '@/stores/useNotesStore'
-import { usePlanStore } from '@/stores/usePlanStore'
-
 
 interface DashboardClientProps {
   initialUser: UserProfile | null
@@ -28,9 +24,6 @@ export default function DashboardClient() {
   const router = useRouter()
   const { progress, loadProgress } = useProgressStore()
   const { bookmarks, loadBookmarks } = useBookmarksStore()
-  const { highlights, loadHighlights } = useHighlightsStore()
-  const { notes, fetchNotes } = useNotesStore()
-  const { plans, fetchPlans } = usePlanStore()
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -58,10 +51,7 @@ export default function DashboardClient() {
     fetchProfile()
     loadProgress().catch(() => { })
     loadBookmarks().catch(() => { })
-    loadHighlights().catch(() => { })
-    fetchNotes().catch(() => { })
-    fetchPlans().catch(() => { })
-  }, [t, loadProgress, loadBookmarks, loadHighlights, fetchNotes, fetchPlans])
+  }, [t, loadProgress, loadBookmarks])
 
   if (loading)
     return (
@@ -107,9 +97,10 @@ export default function DashboardClient() {
     )
   }
 
-
-
-
+  const totalChaptersRead = Object.values(progress.chaptersRead || {}).reduce(
+    (total, chapters) => total + chapters.length,
+    0,
+  )
 
   const recentlyRead = bookmarks.slice(0, 5)
 
@@ -162,19 +153,17 @@ export default function DashboardClient() {
         {achievements.map((achievement, i) => (
           <div
             key={i}
-            className={`mt-4 flex items-center justify-between rounded-lg border border-gray-300 p-1 md:rounded-2xl md:px-6 md:py-2 ${
-              achievement.status === 'Completed'
+            className={`mt-4 flex items-center justify-between rounded-lg border border-gray-300 p-1 md:rounded-2xl md:px-6 md:py-2 ${achievement.status === 'Completed'
                 ? 'bg-[#4C0E0F] px-6 text-white'
                 : 'border border-gray-400 px-3'
-            }`}
+              }`}
           >
             <div className="flex items-center justify-start gap-3">
               <span
-                className={`flex h-5 w-5 items-center justify-center rounded-full border md:h-6 md:w-6 ${
-                  achievement.status === 'Completed'
+                className={`flex h-5 w-5 items-center justify-center rounded-full border md:h-6 md:w-6 ${achievement.status === 'Completed'
                     ? 'bg-white text-[#4C0E0F]'
                     : 'border-[#4C0E0F]'
-                }`}
+                  }`}
               >
                 {achievement.status === 'Completed' ? (
                   <div className="h-4 w-4 md:h-5 md:w-5">

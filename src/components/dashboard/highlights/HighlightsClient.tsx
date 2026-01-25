@@ -229,21 +229,6 @@ export default function HighlightsClient() {
                                     </div>
                                 </div>
 
-                                {/* Verse Text (Placeholder logic as actual text isn't in store, might need to fetch or just show snippet if backend provides. 
-                   Looking at store types, we don't store text content in Highlight type, only VerseRef. 
-                   Ideally we fetch it, but for now I will show a placeholder or just the reference info as "Click to read" 
-                   Wait, the figma shows text. If the backend doesn't return text, I can't show it efficiently without n+1 fetches.
-                   I will assume for now we might not have it or I'll check the API response again. 
-                   Actually, looking at `api/highlights/route.ts`, it wraps `serverAxiosInstance.get('/highlights')`.
-                   Let's assume the backend *might* populate it or we rely on the user navigating. 
-                   For the UI sake, I will put a placeholder text or omit if empty. 
-                   Wait, the Figma clearly shows text. 
-                   If the store `Highlight` type doesn't have it, I can't display it. 
-                   I'll check the store type again. `verseRef` has book, chapter, verseStart. 
-                   I will add a specific note about this limitation or just display the reference nicely.
-                   actually I can try to see if there is `text` or `content` in the raw response in store but it wasn't typed.
-                   Let's just strictly follow current types.
-               */}
                                 <p className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-gray-600 mt-[19px] max-w-[777px] mb-4 line-clamp-3">
                                     {highlight.text || <span className="italic text-gray-400">Click "Edit" to view full context.</span>}
                                 </p>

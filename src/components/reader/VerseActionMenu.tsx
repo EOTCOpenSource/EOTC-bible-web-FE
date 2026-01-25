@@ -79,9 +79,9 @@ export const VerseActionMenu = ({
     if (!query || !text.toLowerCase().includes(query.toLowerCase())) {
       return text
     }
-    
+
     const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'))
-    
+
     return parts.map((part, index) => {
       if (part.toLowerCase() === query.toLowerCase()) {
         return (
@@ -419,9 +419,9 @@ export const VerseActionMenu = ({
           style={
             highlightColor
               ? {
-                  backgroundColor: highlightColor,
-                  opacity: 0.6,
-                }
+                backgroundColor: highlightColor,
+                opacity: 0.6,
+              }
               : undefined
           }
         >

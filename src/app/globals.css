@@ -79,7 +79,7 @@
 
   /* Primary Colors */
   --primary-100: #FAF0EA;
-  --primary-400: #621B1C;
+  --primary-400: hsl(359, 57%, 25%);
   --primary-800: #4C0E0F;
   --primary-900: #06102B;
 
