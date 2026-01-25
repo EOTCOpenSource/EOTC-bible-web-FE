@@ -95,11 +95,11 @@ const Footer = () => {
               <p className="text-gray-400">info@eotcbible.com</p>
               <p className="text-gray-400">Addis Ababa, Ethiopia</p>
               <button
-                className={`mt-2 mb-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-red-900 md:mt-8`}
+                className={`mt-2 mb-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F] md:mt-8`}
               >
                 <span>{t('contactUs')}</span>
                 <div
-                  className={`flex h-7 w-7 items-center justify-center rounded-sm bg-red-900 p-1 text-white`}
+                  className={`flex h-7 w-7 items-center justify-center rounded-sm bg-[#4C0E0F] p-1 text-white`}
                 >
                   <ArrowUpRight size={20} />
                 </div>

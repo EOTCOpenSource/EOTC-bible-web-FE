@@ -62,12 +62,10 @@ const Navbar = () => {
     }
   }, [isNavMenuOpen, closeNavMenu])
 
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         closeNavMenu()
-
 
         if (isNavSearchOpen) toggleNavSearch()
       }
@@ -156,26 +154,18 @@ const Navbar = () => {
                   />
                 </div>
 
-                <button className="flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-red-900 py-2 pr-2 pl-6 text-white md:w-fit">
+                <button className="flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-[#621B1C] py-2 pr-2 pl-6 text-white md:w-fit">
                   <span>{t('getApp')}</span>
-                  <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-red-900">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-[#621B1C]">
                     <ArrowUpRight size={20} />
                   </div>
                 </button>
 
-                {isLoggedIn ? (
-                  <Link href="/dashboard">
-                    <button className="h-[42px] rounded-lg border border-red-900 bg-white px-6 py-2 text-red-900 hover:bg-red-900 hover:text-white">
-                      Dashboard
-                    </button>
-                  </Link>
-                ) : (
-                  <Link href="/login">
-                    <button className="h-[42px] rounded-lg border border-red-900 bg-white px-6 py-2 text-red-900 hover:bg-red-900 hover:text-white">
-                      {t('login')}
-                    </button>
-                  </Link>
-                )}
+                <Link href="/login">
+                  <button className="h-[42px] rounded-lg border border-[#4C0E0F] bg-white px-6 py-2 text-[#4C0E0F] hover:bg-[#4C0E0F] hover:text-white">
+                    {t('login')}
+                  </button>
+                </Link>
 
                 <div className="flex h-[42px] flex-shrink-0 items-center gap-1 rounded-md border p-1">
                   <button className="rounded-full p-2 hover:bg-gray-200">
@@ -211,19 +201,11 @@ const Navbar = () => {
                   />
                 </div>
 
-                {isLoggedIn ? (
-                  <Link href="/dashboard">
-                    <button className="h-[42px] flex-shrink-0 rounded-lg border border-red-900 bg-white px-4 py-2 text-sm text-red-900 hover:bg-red-900 hover:text-white">
-                      Dashboard
-                    </button>
-                  </Link>
-                ) : (
-                  <Link href="/login">
-                    <button className="h-[42px] flex-shrink-0 rounded-lg border border-red-900 bg-white px-4 py-2 text-sm text-red-900 hover:bg-red-900 hover:text-white">
-                      {t('login')}
-                    </button>
-                  </Link>
-                )}
+                <Link href="/login">
+                  <button className="h-[42px] flex-shrink-0 rounded-lg border border-[#4C0E0F] bg-white px-4 py-2 text-sm text-[#4C0E0F] hover:bg-[#4C0E0F] hover:text-white">
+                    {t('login')}
+                  </button>
+                </Link>
 
                 <div className="relative flex-shrink-0">
                   <button onClick={toggleNavMenu}>
@@ -232,7 +214,7 @@ const Navbar = () => {
                   {isNavMenuOpen && (
                     <div className="absolute top-full right-0 z-50 mt-2 rounded-md bg-white p-4 shadow-lg">
                       <div className="flex flex-col gap-3">
-                        <button className="flex h-[42px] items-center gap-2 rounded-lg bg-red-900 px-6 py-2 text-sm text-white">
+                        <button className="flex h-[42px] items-center gap-2 rounded-lg bg-[#621B1C] px-6 py-2 text-sm text-white">
                           <span>{t('getApp')}</span>
                           <ArrowUpRight size={16} />
                         </button>
@@ -254,7 +236,7 @@ const Navbar = () => {
 
             {/* Mobile Controls */}
             <div className="flex items-center gap-2 md:hidden">
-              <button onClick={toggleNavSearch} className="rounded-lg bg-red-900 p-2 text-white">
+              <button onClick={toggleNavSearch} className="rounded-lg bg-[#4C0E0F] p-2 text-white">
                 <Search size={20} />
               </button>
               <button onClick={toggleNavMenu}>
@@ -279,19 +261,11 @@ const Navbar = () => {
               {t('notes')}
             </Link>
             <div className="my-2 border-t"></div>
-            {isLoggedIn ? (
-              <Link href="/dashboard">
-                <button className="h-[42px] w-full rounded-lg border border-red-900 bg-white px-6 py-2 text-left text-red-900 hover:bg-red-900 hover:text-white">
-                  Dashboard
-                </button>
-              </Link>
-            ) : (
-              <Link href="/login">
-                <button className="h-[42px] w-full rounded-lg border border-red-900 bg-white px-6 py-2 text-left text-red-900 hover:bg-red-900 hover:text-white">
-                  {t('login')}
-                </button>
-              </Link>
-            )}
+            <Link href="/login">
+              <button className="h-[42px] w-full rounded-lg border border-[#4C0E0F] bg-white px-6 py-2 text-left text-[#4C0E0F] hover:bg-[#4C0E0F] hover:text-white">
+                {t('login')}
+              </button>
+            </Link>
           </div>
         </div>
       )}
@@ -308,10 +282,7 @@ const Navbar = () => {
                 showResults={true}
               />
             </div>
-            <button
-              onClick={toggleNavSearch}
-              className="rounded-lg p-2 hover:bg-gray-100"
-            >
+            <button onClick={toggleNavSearch} className="rounded-lg p-2 hover:bg-gray-100">
               <X size={24} />
             </button>
           </div>

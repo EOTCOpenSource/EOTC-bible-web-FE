@@ -22,7 +22,7 @@ interface ReadingPageProps {
 
 export default function ReadingPage({ params }: ReadingPageProps) {
   const { slug } = use(params)
-  const t = useTranslations('PlanDetail')                                                                                                                                                    
+  const t = useTranslations('PlanDetail')
   const [selectedDay, setSelectedDay] = useState(1)
 
   const { plan: readingPlan, markItemComplete, isLoading } = useReadingPlan(slug)
@@ -36,9 +36,9 @@ export default function ReadingPage({ params }: ReadingPageProps) {
           <div className="mx-auto max-w-7xl px-4 py-20 text-center">
             <h1 className="text-2xl font-bold text-gray-900">{t('notFound.title')}</h1>
             <p className="mt-2 text-gray-600">{t('notFound.description')}</p>
-            <Link 
+            <Link
               href="/"
-              className="mt-6 inline-block rounded-lg bg-red-900 px-6 py-2 text-white hover:bg-red-800"
+              className="mt-6 inline-block rounded-lg bg-[#4C0E0F] px-6 py-2 text-white hover:bg-red-800"
             >
               {t('notFound.goBack')}
             </Link>
@@ -66,12 +66,12 @@ export default function ReadingPage({ params }: ReadingPageProps) {
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       <Navbar />
-      
+
       <main className="flex-1">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <Link 
+          <Link
             href={`/plans/${slug}`}
-            className="text-sm text-red-900 hover:underline flex items-center gap-1 mb-6"
+            className="mb-6 flex items-center gap-1 text-sm text-[#4C0E0F] hover:underline"
           >
             <ChevronLeft size={16} />
             Back to Plan
@@ -94,14 +94,14 @@ export default function ReadingPage({ params }: ReadingPageProps) {
                 </p>
                 <div className="h-2 w-full rounded-full bg-gray-200">
                   <div
-                    className="h-full rounded-full bg-red-900 transition-all"
+                    className="h-full rounded-full bg-[#4C0E0F] transition-all"
                     style={{ width: `${readingPlan.progress}%` }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-3 space-y-6">
+            <div className="space-y-6 lg:col-span-3">
               <PlanCalendar
                 startDate={readingPlan.startDate || new Date()}
                 totalDays={readingPlan.totalDays}
@@ -110,12 +110,12 @@ export default function ReadingPage({ params }: ReadingPageProps) {
               />
 
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-gray-900 text-lg">Reading for Day {selectedDay}</h3>
-                  {readingPlan.items.find(i => i.day === selectedDay) && (
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-gray-900">Reading for Day {selectedDay}</h3>
+                  {readingPlan.items.find((i) => i.day === selectedDay) && (
                     <Link
-                      href={`/read-online/${readingPlan.items.find(i => i.day === selectedDay)?.bookId}/${readingPlan.items.find(i => i.day === selectedDay)?.chapter}`}
-                      className="rounded-lg bg-red-900 px-6 py-2 text-white hover:bg-red-800 transition-colors text-sm font-medium"
+                      href={`/read-online/${readingPlan.items.find((i) => i.day === selectedDay)?.bookId}/${readingPlan.items.find((i) => i.day === selectedDay)?.chapter}`}
+                      className="rounded-lg bg-[#4C0E0F] px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-red-800"
                     >
                       Start Reading
                     </Link>
@@ -123,14 +123,14 @@ export default function ReadingPage({ params }: ReadingPageProps) {
                 </div>
 
                 <ReadingItemChecklist
-                  items={readingPlan.items.filter(item => item.day === selectedDay)}
+                  items={readingPlan.items.filter((item) => item.day === selectedDay)}
                   onItemComplete={markItemComplete}
                   isLoading={isLoading}
                 />
 
                 {readingPlan.items.length > 1 && (
                   <div className="mt-6">
-                    <h3 className="font-bold text-gray-900 mb-4">All Reading Items</h3>
+                    <h3 className="mb-4 font-bold text-gray-900">All Reading Items</h3>
                     <ReadingItemChecklist
                       items={readingPlan.items}
                       onItemComplete={markItemComplete}
@@ -143,7 +143,7 @@ export default function ReadingPage({ params }: ReadingPageProps) {
           </div>
         </div>
       </main>
-      
+
       <Footer />
       <Subscription />
     </div>

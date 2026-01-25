@@ -118,86 +118,121 @@ export default function DashboardClient() {
   }
 
   return (
-    <div className='flex flex-col gap-6 w-full py-8'>
+    <div className="flex w-full flex-col gap-6 py-8">
       {recentlyRead.length > 0 && (
-        <div className='border border-gray-400 rounded-xl p-2 sm:p-6'>
-          <div className='flex gap-1 items-center text-red-900 p-2 sm:p-0 mb-4'>
+        <div className="rounded-xl border border-gray-400 p-2 sm:p-6">
+          <div className="mb-4 flex items-center gap-1 p-2 text-[#4C0E0F] sm:p-0">
             <BookOpen size={20} />
-            <h4 className='text-lg font-medium'>Recently Read</h4>
+            <h4 className="text-lg font-medium">Recently Read</h4>
           </div>
-          <div className='flex flex-col gap-2'>
+          <div className="flex flex-col gap-2">
             {recentlyRead.map((bookmark) => (
               <div
                 key={bookmark._id}
                 onClick={() =>
                   handleReadBook(bookmark.bookId, bookmark.chapter, bookmark.verseStart)
                 }
-                className='flex justify-between items-center md:px-6 md:py-2 p-1 border border-gray-300 rounded-lg md:rounded-2xl cursor-pointer hover:bg-gray-50'
+                className="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-1 hover:bg-gray-50 md:rounded-2xl md:px-6 md:py-2"
               >
-                <div className='flex justify-start gap-3 items-center'>
-                  <div className='flex flex-col gap-0'>
-                    <p className='text-sm md:text-lg'>
+                <div className="flex items-center justify-start gap-3">
+                  <div className="flex flex-col gap-0">
+                    <p className="text-sm md:text-lg">
                       {bookmark.bookId.replace(/-/g, ' ')} {bookmark.chapter}:{bookmark.verseStart}
-                      {bookmark.verseCount > 1 ? `-${bookmark.verseStart + bookmark.verseCount - 1}` : ''}
+                      {bookmark.verseCount > 1
+                        ? `-${bookmark.verseStart + bookmark.verseCount - 1}`
+                        : ''}
                     </p>
-                    <span className='font-light text-xs md:text-base text-gray-500'>
+                    <span className="text-xs font-light text-gray-500 md:text-base">
                       Click to read
                     </span>
                   </div>
                 </div>
-                <ChevronRight size={16} className='cursor-pointer' />
+                <ChevronRight size={16} className="cursor-pointer" />
               </div>
             ))}
           </div>
         </div>
       )}
 
-      <div className='border border-gray-400 rounded-xl p-2 sm:p-6'>
-        <div className='flex gap-1 items-center text-red-900 p-2 sm:p-0'>
+      <div className="rounded-xl border border-gray-400 p-2 sm:p-6">
+        <div className="flex items-center gap-1 p-2 text-[#4C0E0F] sm:p-0">
           <Award size={20} />
-          <h4 className='text-lg font-medium'>Achievement</h4>
+          <h4 className="text-lg font-medium">Achievement</h4>
         </div>
         {achievements.map((achievement, i) => (
-
-          <div key={i} className={`flex justify-between items-center md:px-6 md:py-2 p-1 mt-4 border border-gray-300 rounded-lg md:rounded-2xl ${achievement.status === "Completed"
-            ? 'bg-red-900 text-white px-6'
-            : 'border border-gray-400 px-3'
-            }`}>
-            <div className='flex justify-start gap-3 items-center'>
-              <span className={`flex h-5 w-5 md:h-6 md:w-6 items-center justify-center rounded-full border ${achievement.status === "Completed"
-                ? 'bg-white text-red-900'
-                : 'border-red-900'
-                }`}>
-                {achievement.status === "Completed" ? (
+          <div
+            key={i}
+            className={`mt-4 flex items-center justify-between rounded-lg border border-gray-300 p-1 md:rounded-2xl md:px-6 md:py-2 ${
+              achievement.status === 'Completed'
+                ? 'bg-[#4C0E0F] px-6 text-white'
+                : 'border border-gray-400 px-3'
+            }`}
+          >
+            <div className="flex items-center justify-start gap-3">
+              <span
+                className={`flex h-5 w-5 items-center justify-center rounded-full border md:h-6 md:w-6 ${
+                  achievement.status === 'Completed'
+                    ? 'bg-white text-[#4C0E0F]'
+                    : 'border-[#4C0E0F]'
+                }`}
+              >
+                {achievement.status === 'Completed' ? (
                   <div className="h-4 w-4 md:h-5 md:w-5">
                     <Check className="h-full w-full" />
                   </div>
-                ) : ''}
+                ) : (
+                  ''
+                )}
               </span>
-              <div className='flex flex-col gap-0'>
-                <p className='text-sm md:text-lg'>{achievement.bookName} {achievement.chapter}</p>
-                <span className='font-light text-xs md:text-base'>
-                  {achievement.status === "Completed" ? 'Completed' : 'Not Started'}
+              <div className="flex flex-col gap-0">
+                <p className="text-sm md:text-lg">
+                  {achievement.bookName} {achievement.chapter}
+                </p>
+                <span className="text-xs font-light md:text-base">
+                  {achievement.status === 'Completed' ? 'Completed' : 'Not Started'}
                 </span>
               </div>
             </div>
-            <span className='cursor-pointer'>{achievement.status === "Completed" ? (
-              <div className="h-4 w-4 md:h-5 md:w-5">
-                <ChevronRight className="h-full w-full" />
-              </div>
-            ) : (
-              <div className='cursor-pointer flex justify-center items-center w-full p-1.5 md:py-0.5  md:px-2 bg-red-900 text-white rounded-sm'>
-                <div className="h-4 w-4 md:h-4 md:w-4">
-                  <Play className="h-full w-full" />
+            <span className="cursor-pointer">
+              {achievement.status === 'Completed' ? (
+                <div className="h-4 w-4 md:h-5 md:w-5">
+                  <ChevronRight className="h-full w-full" />
                 </div>
-                <p className='px-2 text-sm hidden md:block'>Read</p>
-              </div>
-            )}</span>
+              ) : (
+                <div className="flex w-full cursor-pointer items-center justify-center rounded-sm bg-[#4C0E0F] p-1.5 text-white md:px-2 md:py-0.5">
+                  <div className="h-4 w-4 md:h-4 md:w-4">
+                    <Play className="h-full w-full" />
+                  </div>
+                  <p className="hidden px-2 text-sm md:block">Read</p>
+                </div>
+              )}
+            </span>
           </div>
         ))}
       </div>
 
-
+      <div className="flex flex-col items-center justify-center rounded-xl border border-gray-400 px-8 pt-6 pb-3 text-center md:px-20 md:pb-10">
+        <div className="flex flex-col items-center justify-center text-[#4C0E0F]">
+          <div className="h-6 w-6 md:h-15 md:w-15">
+            <Award className="h-full w-full" />
+          </div>
+          <h4 className="text-xs font-medium md:text-2xl">Great Progress!</h4>
+        </div>
+        <p className="text-[6px] font-light md:text-xs">
+          {totalChaptersRead > 0
+            ? `You've read ${totalChaptersRead} chapters. Keep going!`
+            : 'Start reading to track your progress!'}
+        </p>
+        <div className="relative my-2 h-1 w-full rounded-xl bg-gray-300 sm:my-5 sm:h-2">
+          <span
+            className="absolute flex h-full rounded-xl bg-[#4C0E0F]"
+            style={{
+              width:
+                totalChaptersRead > 0 ? `${Math.min((totalChaptersRead / 100) * 100, 100)}%` : '0%',
+            }}
+          ></span>
+        </div>
+      </div>
     </div>
   )
 }

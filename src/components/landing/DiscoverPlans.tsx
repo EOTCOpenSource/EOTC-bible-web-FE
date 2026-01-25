@@ -19,8 +19,8 @@ interface PlanCardProps {
 }
 
 const PlanCard: React.FC<PlanCardProps> = ({ plan }) => {
-  const t = useTranslations('DiscoverPlans');
-  
+  const t = useTranslations('DiscoverPlans')
+
   return (
     <div className="flex overflow-hidden rounded-lg bg-white shadow-md">
       <div className="relative w-1/3">
@@ -61,12 +61,12 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
   isLoading = false,
   error = null,
 }) => {
-  const t = useTranslations('DiscoverPlans');
+  const t = useTranslations('DiscoverPlans')
   const currentPlanPage = useUIStore((state) => state.currentPlanPage)
   const nextPlanPage = useUIStore((state) => state.nextPlanPage)
   const prevPlanPage = useUIStore((state) => state.prevPlanPage)
   const setCurrentPlanPage = useUIStore((state) => state.setCurrentPlanPage)
-// future we will fetch plans from the backend
+  // future we will fetch plans from the backend
   const fallbackPlans: Plan[] = t.raw('fallbackPlans') as Plan[]
 
   const plans = externalPlans || fallbackPlans
@@ -93,7 +93,9 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
     return (
       <section className="flex flex-col py-4">
         <div className="py-12 text-center">
-          <p className="mb-4 text-red-600">{t('error.message')} {error}</p>
+          <p className="mb-4 text-red-600">
+            {t('error.message')} {error}
+          </p>
           <button
             onClick={() => window.location.reload()}
             className="font-semibold text-amber-900 hover:underline"
@@ -107,7 +109,7 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
 
   return (
     <section className="flex flex-col py-4">
-      <h2 
+      <h2
         className="mb-4 ml-8 text-2xl font-bold md:text-3xl"
         dangerouslySetInnerHTML={{ __html: t('title') }}
       />
@@ -150,7 +152,7 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
                       key={i}
                       onClick={() => setCurrentPlanPage(i)}
                       className={`h-2 w-2 rounded-full transition-all ${
-                        currentPlanPage === i ? 'w-6 bg-red-900' : 'bg-gray-300'
+                        currentPlanPage === i ? 'w-6 bg-[#4C0E0F]' : 'bg-gray-300'
                       }`}
                       aria-label={t('pagination.goToPage', { pageNumber: i + 1 })}
                     />
@@ -203,7 +205,7 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
                       key={i}
                       onClick={() => setCurrentPlanPage(i)}
                       className={`h-2 w-2 rounded-full transition-all ${
-                        currentPlanPage === i ? 'w-6 bg-red-900' : 'bg-gray-300'
+                        currentPlanPage === i ? 'w-6 bg-[#4C0E0F]' : 'bg-gray-300'
                       }`}
                       aria-label={t('pagination.goToPage', { pageNumber: i + 1 })}
                     />
@@ -230,12 +232,10 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
 
       <div className="mt-12 text-center">
         <p className="text-lg">{t('footer.title')}</p>
-        <p className="mb-4 text-gray-600">
-          {t('footer.description')}
-        </p>
-        <button className="mx-auto flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-red-900 py-2 pr-2 pl-6 text-white transition-colors hover:bg-red-800 md:w-fit">
+        <p className="mb-4 text-gray-600">{t('footer.description')}</p>
+        <button className="mx-auto flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-[#4C0E0F] py-2 pr-2 pl-6 text-white transition-colors hover:bg-red-800 md:w-fit">
           <span>{t('footer.ctaButton')}</span>
-          <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-red-900">
+          <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-[#4C0E0F]">
             <ArrowUpRight size={20} />
           </div>
         </button>
