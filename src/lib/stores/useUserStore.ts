@@ -24,7 +24,13 @@ export const useUserStore = create<AuthState>((set) => ({
   user: null,
   isLoggedIn: false,
 
-  setUser: (user) => set({ user, isLoggedIn: !!user }),
+  setUser: (user) => {
+    const sanitizedUser = user ? {
+      ...user,
+      avatarUrl: user.avatarUrl?.replace('/avatars/avatars/', '/avatars/').replace('avatars/avatars/', 'avatars/')
+    } : null
+    set({ user: sanitizedUser, isLoggedIn: !!sanitizedUser })
+  },
 
   updateSettings: (newSettings) =>
     set((state) => ({
@@ -49,7 +55,14 @@ export const useUserStore = create<AuthState>((set) => ({
       }
 
       const userData = res.data
-      set({ user: userData.user, isLoggedIn: true })
+      const user = userData.user
+
+      const sanitizedUser = user ? {
+        ...user,
+        avatarUrl: user.avatarUrl?.replace('/avatars/avatars/', '/avatars/').replace('avatars/avatars/', 'avatars/')
+      } : null
+
+      set({ user: sanitizedUser, isLoggedIn: true })
     } catch (err) {
       console.error('Load session error:', err)
       set({ user: null, isLoggedIn: false })

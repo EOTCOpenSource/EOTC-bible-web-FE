@@ -26,7 +26,7 @@ export default function HighlightsClient() {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const [highlightToDelete, setHighlightToDelete] = useState<string | null>(null) // null means bulk delete if modal open? no, let's be explicit
     const [isBulkDelete, setIsBulkDelete] = useState(false)
-    const [isVersionDropdownOpen, setIsVersionDropdownOpen] = useState(false)
+    const [openDropdownId, setOpenDropdownId] = useState<string | null>(null)
 
     const { preferredTranslation, updateSettings } = useSettingsStore()
 
@@ -124,7 +124,7 @@ export default function HighlightsClient() {
         } catch (error) {
             console.error('Failed to update preferred translation:', error)
         } finally {
-            setIsVersionDropdownOpen(false)
+            setOpenDropdownId(null)
         }
     }
 
@@ -201,14 +201,14 @@ export default function HighlightsClient() {
                                     <div className="absolute top-[16px] right-[0px]">
                                         <button
                                             type="button"
-                                            onClick={() => setIsVersionDropdownOpen((open) => !open)}
+                                            onClick={() => setOpenDropdownId(openDropdownId === highlight._id ? null : highlight._id)}
                                             className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-[#8F8F8F] flex items-center gap-1 hover:text-[#621B1C] transition-colors"
                                         >
                                             {currentVersionLabel}
-                                            <span className="text-xs">{isVersionDropdownOpen ? '▲' : '▼'}</span>
+                                            <span className="text-xs">{openDropdownId === highlight._id ? '▲' : '▼'}</span>
                                         </button>
 
-                                        {isVersionDropdownOpen && (
+                                        {openDropdownId === highlight._id && (
                                             <div className="mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-20">
                                                 {versionOptions.map((option) => (
                                                     <button
