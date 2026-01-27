@@ -138,8 +138,9 @@ export const useNotesStore = create<NotesState>()(
           const data = await res.json()
           if (!res.ok) throw new Error(data.message || data.error || 'Failed to fetch notes')
 
-          // Align with backend response: data.data.data is the paginated notes array
-          const notesArray = data.data?.data || (Array.isArray(data) ? data : [])
+
+          // Align with backend response: check data.data, data.notes, or data.data.notes
+          const notesArray = data.data?.data || data.data?.notes || data.notes || (Array.isArray(data.data) ? data.data : []) || (Array.isArray(data) ? data : [])
 
           // Transform notes to extract title from content if title doesn't exist
           const transformedNotes = notesArray.map((note: any) => {

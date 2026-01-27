@@ -2,7 +2,7 @@ import { getLocaleFromCookie } from '@/i18n/locale'
 import { cn } from '@/lib/utils'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { Abyssinica_SIL } from 'next/font/google'
+import { Abyssinica_SIL, Inter, Manrope } from 'next/font/google'
 import Script from 'next/script'
 import { ReactNode } from 'react'
 
@@ -11,8 +11,20 @@ import { supportedLocales } from '@/i18n/routing'
 
 const abyssinicaFont = Abyssinica_SIL({
   subsets: ['ethiopic'],
-  variable: '--font-sans',
+  variable: '--font-abyssinica',
   weight: '400',
+})
+
+const interFont = Inter({
+  subsets: ['latin'],
+  variable: '--font-britti-sans', // Substitute for Britti Sans
+  display: 'swap',
+})
+
+const manropeFont = Manrope({
+  subsets: ['latin'],
+  variable: '--font-polysans', // Substitute for PolySans
+  display: 'swap',
 })
 
 type Props = {
@@ -89,7 +101,12 @@ export default async function LocaleLayout({ children }: Props) {
   return (
     <html lang={resolvedLocale}>
       <body
-        className={cn('bg-background min-h-screen font-sans antialiased', abyssinicaFont.variable)}
+        className={cn(
+          'bg-background min-h-screen font-sans antialiased',
+          abyssinicaFont.variable,
+          interFont.variable,
+          manropeFont.variable,
+        )}
       >
         <NextIntlClientProvider locale={resolvedLocale} messages={messages}>
           {children}

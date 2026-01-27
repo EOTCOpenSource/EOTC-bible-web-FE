@@ -49,8 +49,8 @@ export default function DashboardClient() {
     }
 
     fetchProfile()
-    loadProgress().catch(() => {})
-    loadBookmarks().catch(() => {})
+    loadProgress().catch(() => { })
+    loadBookmarks().catch(() => { })
   }, [t, loadProgress, loadBookmarks])
 
   if (loading)
@@ -153,19 +153,17 @@ export default function DashboardClient() {
         {achievements.map((achievement, i) => (
           <div
             key={i}
-            className={`mt-4 flex items-center justify-between rounded-lg border border-gray-300 p-1 md:rounded-2xl md:px-6 md:py-2 ${
-              achievement.status === 'Completed'
+            className={`mt-4 flex items-center justify-between rounded-lg border border-gray-300 p-1 md:rounded-2xl md:px-6 md:py-2 ${achievement.status === 'Completed'
                 ? 'bg-[#4C0E0F] px-6 text-white'
                 : 'border border-gray-400 px-3'
-            }`}
+              }`}
           >
             <div className="flex items-center justify-start gap-3">
               <span
-                className={`flex h-5 w-5 items-center justify-center rounded-full border md:h-6 md:w-6 ${
-                  achievement.status === 'Completed'
+                className={`flex h-5 w-5 items-center justify-center rounded-full border md:h-6 md:w-6 ${achievement.status === 'Completed'
                     ? 'bg-white text-[#4C0E0F]'
                     : 'border-[#4C0E0F]'
-                }`}
+                  }`}
               >
                 {achievement.status === 'Completed' ? (
                   <div className="h-4 w-4 md:h-5 md:w-5">

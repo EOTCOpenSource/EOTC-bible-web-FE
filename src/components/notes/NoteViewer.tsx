@@ -5,7 +5,7 @@ import { useNotesStore } from '@/stores/useNotesStore'
 import { X, SquarePen, Globe, Lock } from 'lucide-react'
 import { format } from 'date-fns'
 
-export function NoteViewer() {
+export const NoteViewer = () => {
     const { viewingNote, setViewingNote, setEditingNote } = useNotesStore()
     const contentRef = useRef<HTMLDivElement>(null)
 

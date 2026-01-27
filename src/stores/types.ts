@@ -42,6 +42,7 @@ export interface Highlight {
   verseRef: VerseRef
   color: HighlightColor
   createdAt: string
+  text?: string
 }
 
 export interface BookMark {

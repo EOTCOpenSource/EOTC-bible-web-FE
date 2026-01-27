@@ -23,7 +23,7 @@ export const highlightColorToHex = (color: HighlightColor): string => {
     green: '#3BAD49',
     pink: '#FF4B26',
     blue: '#5778C5',
-    red: '#621B1C',
+    red: '#b61f21ff',
     purple: '#704A6A',
   }
   return hexMap[color] || '#FFE062' // Default to yellow
