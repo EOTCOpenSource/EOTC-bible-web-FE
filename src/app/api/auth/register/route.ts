@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     let data
     try {
       data = await res.json()
-    } catch (error) {
+    } catch {
       const text = await res.text()
       return NextResponse.json(
         { error: `Failed to parse backend response: ${text}` },
@@ -35,7 +35,6 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const token: string = data.token // returned by backend
     const response = NextResponse.json({ user: data.user, message: data.message }, { status: 200 })
 
     return response

@@ -5,16 +5,17 @@ import serverAxiosInstance from '@/lib/server-axios'
 
 export async function PATCH(
   _: Request,
-  { params }: { params: { id: string; dayNumber: string } }
+  { params }: { params: Promise<{ id: string; dayNumber: string }> }
 ) {
-    const cookieStore = await cookies()
+  const cookieStore = await cookies()
+  const { id, dayNumber } = await params
   const token = cookieStore.get(ENV.jwtCookieName)?.value
   if (!token) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const res = await serverAxiosInstance.patch(
-    `/reading-plans/${params.id}/days/${params.dayNumber}/complete`,
+    `/reading-plans/${id}/days/${dayNumber}/complete`,
     {},
     {
       headers: { Authorization: `Bearer ${token}` },

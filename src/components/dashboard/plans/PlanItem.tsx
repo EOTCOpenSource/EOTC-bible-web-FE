@@ -9,7 +9,6 @@ interface PlanItemProps {
 
 const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
   const {
-    _id,
     name,
     startDate,
     durationInDays,

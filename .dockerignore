@@ -4,4 +4,10 @@ npm-debug.log
 Dockerfile
 .dockerignore
 .git
-.next/cache
+.next
+.vscode
+README.md
+.env.local
+.env
+.logs
+.env.*

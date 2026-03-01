@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    # Replace with your actual image name on GHCR after the first build
+    # Format: ghcr.io/<github-username>/<repo-name>:latest
+    # Example: ghcr.io/eyob13-coder/eotc-bible-web-fe:latest
+    image: ghcr.io/eyob13-coder/eotc-bible-web-fe:latest
+    container_name: eotc-bible-web
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      # Add other environment variables here
+      # - NEXT_PUBLIC_API_URL=https://api.example.com
+    # networks:
+    #   - app-network
+
+# networks:
+#   app-network:
+#     driver: bridge

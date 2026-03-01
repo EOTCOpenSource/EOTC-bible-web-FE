@@ -28,7 +28,7 @@ const transformBackendProgress = (backendData: any): Progress => {
   const chaptersRead: Record<string, number[]> = {}
   if (progressData.chaptersRead) {
     if (typeof progressData.chaptersRead === 'object' && !Array.isArray(progressData.chaptersRead)) {
-      Object.entries(progressData.chaptersRead).forEach(([key, value]) => {
+      Object.entries(progressData.chaptersRead).forEach(([key]) => {
         const [bookId, chapterStr] = key.split(':')
         if (bookId && chapterStr) {
           if (!chaptersRead[bookId]) {

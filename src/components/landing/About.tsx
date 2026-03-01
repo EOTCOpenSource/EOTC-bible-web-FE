@@ -3,6 +3,7 @@
 import { useUIStore } from '@/stores/uiStore'
 import { ArrowUpRight, MoveLeft, MoveRight } from 'lucide-react'
 import React from 'react'
+import Image from 'next/image'
 
 import { useLocalizedContent } from '@/hooks/use-localized-context'
 import amLocale from '../../messages/am.json'
@@ -41,9 +42,11 @@ const About: React.FC = () => {
               {about.hero.title.line3}{' '}
               <span className="text-yellow-400 italic">{about.hero.title.highlight}</span>
             </h2>
-            <img
+            <Image
               src="/unique-scriptures.png"
               alt={about.hero.imageAlt || 'Unique Scriptures'}
+              width={600}
+              height={400}
               className="mb-8 h-auto w-full rounded-lg object-cover shadow-lg sm:h-96 md:mb-0"
             />
           </div>

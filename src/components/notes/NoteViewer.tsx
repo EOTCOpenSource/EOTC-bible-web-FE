@@ -11,15 +11,6 @@ export const NoteViewer = () => {
 
     useEffect(() => {
         if (viewingNote && contentRef.current) {
-            const parts = viewingNote.content.split('\n\n')
-            // If we have parts, the content is the rest, otherwise it's the whole content if title logic differs, 
-            // but usually the store/list logic handles title separation. 
-            // Let's rely on what the list does or just display viewingNote.content as is if it contains the title too?
-            // In NoteEditor: 
-            // const parts = editingNote.content.split('\n\n')
-            // setTitle(editingNote.title || parts[0])
-            // innerHTML = parts.slice(1).join('\n\n')
-
             // We should mirror this display logic.
 
             let contentToDisplay = viewingNote.content

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { Trash2, FilePenLine, ExternalLink, PencilLine } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -19,7 +18,6 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function HighlightsClient() {
-    const t = useTranslations('Highlights') // Assuming you have translations, or fallback to hardcoded for now if not
     const { highlights, loadHighlights, removeHighlight, isLoading } = useHighlightsStore()
     const router = useRouter()
     const [selected, setSelected] = useState<string[]>([])
@@ -230,7 +228,7 @@ export default function HighlightsClient() {
                                 </div>
 
                                 <p className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-gray-600 mt-[19px] max-w-[777px] mb-4 line-clamp-3">
-                                    {highlight.text || <span className="italic text-gray-400">Click "Edit" to view full context.</span>}
+                                    {highlight.text || <span className="italic text-gray-400">Click &quot;Edit&quot; to view full context.</span>}
                                 </p>
 
 

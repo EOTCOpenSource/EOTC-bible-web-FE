@@ -4,20 +4,21 @@ import { ENV } from '@/lib/env'
 import serverAxiosInstance from '@/lib/server-axios'
 
 interface Params {
-  params:  { id: string }
+  params: Promise<{ id: string }>
 }
 
 // GET /api/reading-plans/:id
 export async function GET(_: NextRequest, { params }: Params) {
   try {
     const cookieStore = await cookies()
+    const { id } = await params
     const token = cookieStore.get(ENV.jwtCookieName)?.value
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const res = await serverAxiosInstance.get(
-      `/reading-plans/${params.id}`,
+      `/reading-plans/${id}`,
       {
         headers: { Authorization: `Bearer ${token}` },
         validateStatus: () => true,
@@ -42,15 +43,15 @@ export async function GET(_: NextRequest, { params }: Params) {
 export async function PUT(req: NextRequest, { params }: Params) {
   try {
     const cookieStore = await cookies()
+    const { id } = await params
     const token = cookieStore.get(ENV.jwtCookieName)?.value
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await req.json()
-    // const paramsRequired = await params.id
     const res = await serverAxiosInstance.put(
-      `/reading-plans/${params.id}`,
+      `/reading-plans/${id}`,
       body,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -76,13 +77,14 @@ export async function PUT(req: NextRequest, { params }: Params) {
 export async function DELETE(_: NextRequest, { params }: Params) {
   try {
     const cookieStore = await cookies()
+    const { id } = await params
     const token = cookieStore.get(ENV.jwtCookieName)?.value
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const res = await serverAxiosInstance.delete(
-      `/reading-plans/${params.id}`,
+      `/reading-plans/${id}`,
       {
         headers: { Authorization: `Bearer ${token}` },
         validateStatus: () => true,

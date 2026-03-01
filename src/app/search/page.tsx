@@ -108,7 +108,7 @@ const SearchPageContent = () => {
               <ArrowLeft size={24} className="text-gray-600" />
             </button>
             <div className="flex-1">
-              <h1 className="text-xl font-bold text-gray-900">Search Results for "{query}"</h1>
+              <h1 className="text-xl font-bold text-gray-900">Search Results for &quot;{query}&quot;</h1>
               {!isLoading && (
                 <p className="text-sm text-gray-600">
                   Found in <strong>{totalMatches.toLocaleString()}</strong> verses across the Bible
@@ -131,11 +131,10 @@ const SearchPageContent = () => {
                     setSelectedBook(null)
                     setDisplayLimit(50)
                   }}
-                  className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
-                    selectedTestament === test
+                  className={`rounded px-3 py-1 text-sm font-medium transition-colors ${selectedTestament === test
                       ? 'bg-[#4C0E0F] text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
+                    }`}
                 >
                   {test === 'all' ? 'All' : test === 'old' ? 'Old Testament' : 'New Testament'}
                 </button>
@@ -186,11 +185,10 @@ const SearchPageContent = () => {
                           setSelectedBook(book.bookNumber)
                           setDisplayLimit(50)
                         }}
-                        className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm transition-colors ${
-                          selectedBook === book.bookNumber
+                        className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm transition-colors ${selectedBook === book.bookNumber
                             ? 'bg-red-100 text-[#4C0E0F]'
                             : 'hover:bg-gray-100'
-                        }`}
+                          }`}
                       >
                         <span className="truncate">{book.bookName}</span>
                         <span className="ml-2 flex-shrink-0 rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800">

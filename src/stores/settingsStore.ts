@@ -22,7 +22,7 @@ interface SettingsState {
 export const useSettingsStore = create<SettingsState>()(
   devtools(
     persist(
-      (set, get) => ({
+      (set) => ({
         preferredTranslation: undefined,
         theme: undefined,
         fontSize: undefined,

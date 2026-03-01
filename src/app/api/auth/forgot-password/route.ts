@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     const data = await res.json()
     return NextResponse.json(data, { status: res.status })
-  } catch (err: any) {
+  } catch {
     return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 })
   }
 }

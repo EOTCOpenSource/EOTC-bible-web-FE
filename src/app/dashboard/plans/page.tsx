@@ -3,8 +3,7 @@
 import React, { useEffect } from 'react'
 import PlansList from '@/components/dashboard/plans/PlansList'
 import { useProgressStore } from '@/stores/progressStore'
-import { PlusIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+
 import { PlanDialogForm } from '@/components/forms/PlanDialogForm'
 
 // TODO: implement plans concept instead of bookmarks page

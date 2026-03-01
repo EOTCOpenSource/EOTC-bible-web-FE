@@ -5,16 +5,17 @@ import serverAxiosInstance from '@/lib/server-axios'
 
 export async function GET(
   _: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-    const cookieStore = await cookies()
+  const cookieStore = await cookies()
+  const { id } = await params
   const token = cookieStore.get(ENV.jwtCookieName)?.value
   if (!token) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const res = await serverAxiosInstance.get(
-    `/reading-plans/${params.id}/progress`,
+    `/reading-plans/${id}/progress`,
     {
       headers: { Authorization: `Bearer ${token}` },
       validateStatus: () => true,

@@ -1,7 +1,7 @@
 'use client'
 
 import { format } from 'date-fns'
-import { FileText, Globe } from 'lucide-react'
+import { Globe } from 'lucide-react'
 import type { Note } from '@/stores/useNotesStore'
 
 interface PublicNoteCardProps {

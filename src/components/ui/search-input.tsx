@@ -30,16 +30,16 @@ export const SearchInput = ({
   onDebouncedChange,
   debounceDelay = 300,
   showResults = false,
-}: SearchInputProps) =>{
+}: SearchInputProps) => {
   // Global state - shared across all components
   const { searchQuery, setSearchQuery, clearSearch } = useUIStore()
   const { searchResults, setSearchResultsWithCounts, isLoading, setLoading, selectedTestament, setSelectedTestament, selectedBook, setSelectedBook, totalMatches, bookCounts } = useSearchStore()
   const router = useRouter()
-  
+
   // Local state - unique to this component instance
   const [showDropdown, setShowDropdown] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  
+
   const [debouncedQuery] = useDebounce(searchQuery, debounceDelay)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -218,25 +218,24 @@ export const SearchInput = ({
             <Filter size={16} className="text-[#4C0E0F]" />
             <span className="text-xs sm:text-sm font-semibold text-gray-700">Refine your search</span>
           </div>
-          
+
           {/* Filter Options */}
           <div className="p-2 md:p-3 flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 items-start sm:items-center">
             {/* Testament Filter */}
             <div className="flex gap-0.5 sm:gap-1 md:gap-2 w-full sm:w-auto">
-            {['all', 'old', 'new'].map((test) => (
-              <button
-                key={test}
-                onClick={() => setSelectedTestament(test as 'all' | 'old' | 'new')}
-                className={`px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded text-xs sm:text-sm md:text-base font-medium transition-colors ${
-                  selectedTestament === test
-                    ? 'bg-[#4C0E0F] text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                {test === 'all' ? 'All' : test === 'old' ? 'OT' : 'NT'}
-              </button>
-            ))}
-          </div>
+              {['all', 'old', 'new'].map((test) => (
+                <button
+                  key={test}
+                  onClick={() => setSelectedTestament(test as 'all' | 'old' | 'new')}
+                  className={`px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded text-xs sm:text-sm md:text-base font-medium transition-colors ${selectedTestament === test
+                      ? 'bg-[#4C0E0F] text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                >
+                  {test === 'all' ? 'All' : test === 'old' ? 'OT' : 'NT'}
+                </button>
+              ))}
+            </div>
 
             {/* Book Filter */}
             <select
@@ -257,7 +256,7 @@ export const SearchInput = ({
 
       {/* Search Results Dropdown */}
       {shouldShowDropdown && (
-        <div className="absolute top-full left-0 right-0 max-h-96 overflow-y-auto rounded-lg border bg-white shadow-lg z-50" style={{marginTop: searchQuery.trim() && showResults ? '175px' : '3px'}}>
+        <div className="absolute top-full left-0 right-0 max-h-96 overflow-y-auto rounded-lg border bg-white shadow-lg z-50" style={{ marginTop: searchQuery.trim() && showResults ? '175px' : '3px' }}>
           {/* Loading State */}
           {isLoading && (
             <div className="p-6 text-center">
@@ -348,7 +347,7 @@ export const SearchInput = ({
                           )}
                         </div>
                         <div className="text-xs text-gray-700 leading-relaxed line-clamp-2 pl-1">
-                          "{result.text}"
+                          &quot;{result.text}&quot;
                         </div>
                       </div>
                     )}

@@ -1,5 +1,5 @@
 export const ENV = {
-  backendBaseUrl: process.env.BACKEND_BASE_URL || process.env.BACKEND_URL || '',
+  backendBaseUrl: process.env.BACKEND_BASE_URL || process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || '',
   jwtCookieName: process.env.JWT_COOKIE_NAME ?? 'auth_token',
   node_env: process.env.NODE_ENV || 'development',
   appName: process.env.APP_NAME || '80 weahadu bible',

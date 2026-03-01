@@ -3,6 +3,7 @@
 import React from 'react'
 import { Heart, Sun, ArrowUpRight, Bookmark, Send } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 
 const VerseOfTheDay = () => {
   const t = useTranslations('VerseOfTheDay')
@@ -47,7 +48,13 @@ const VerseOfTheDay = () => {
           </div>
         </div>
         <div className="mt-8 w-full md:mt-0 md:w-1/2">
-          <img src="/verse-of-the-day-image.png" alt={t('alt')} className="rounded-lg shadow-lg" />
+          <Image
+            src="/verse-of-the-day-image.png"
+            alt={t('alt')}
+            width={600}
+            height={400}
+            className="rounded-lg shadow-lg"
+          />
         </div>
       </div>
     </section>

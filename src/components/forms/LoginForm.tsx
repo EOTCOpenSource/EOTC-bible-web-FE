@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import Image from 'next/image'
 export default function LoginForm() {
   const router = useRouter()
   const { loadSession } = useUserStore()
@@ -30,7 +31,7 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginFormSchema) => {
     setLoading(true)
     try {
-      const res = await axios.post('/api/auth/login', data, {
+      await axios.post('/api/auth/login', data, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       })
@@ -120,10 +121,13 @@ export default function LoginForm() {
         disabled={loading}
         className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9c9c9] p-1 text-gray-700 hover:bg-gray-400 disabled:bg-gray-400"
       >
-        <img
+        <Image
           src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png"
           alt="google logo"
+          width={30}
+          height={30}
           className="w-[30px]"
+          unoptimized
         />
         {loading ? t('loading') : t('continueWithGoogle')}
       </button>

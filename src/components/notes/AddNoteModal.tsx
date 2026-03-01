@@ -74,7 +74,7 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
               <p className="mb-1 font-semibold">
                 {verseContext.book} {verseContext.chapter}:{verseContext.verse}
               </p>
-              <p className="italic">"{verseContext.text}"</p>
+              <p className="italic">&quot;{verseContext.text}&quot;</p>
             </div>
           )}
           <div className="space-y-2">

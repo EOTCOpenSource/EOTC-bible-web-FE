@@ -1,8 +1,7 @@
 import axios from 'axios'
-import { ENV } from './env'
 
 const axiosInstance = axios.create({
-  baseURL: ENV.backendBaseUrl,
+  baseURL: '',
   withCredentials: true,
 })
 

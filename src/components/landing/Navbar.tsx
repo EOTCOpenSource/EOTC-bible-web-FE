@@ -10,9 +10,7 @@ import clsx from 'clsx'
 import { useEffect } from 'react'
 import { SearchInput } from '../ui/search-input'
 import { useUserStore } from '@/lib/stores/useUserStore'
-import { useAuthStore } from '@/stores/authStore'
-import { useRouter } from 'next/navigation'
-import { useProgressStore } from '@/stores/progressStore'
+import Image from 'next/image'
 
 const Navbar = () => {
   const {
@@ -25,8 +23,6 @@ const Navbar = () => {
   } = useUIStore()
 
   const { isLoggedIn, loadSession } = useUserStore()
-  const { logout } = useAuthStore()
-  const router = useRouter()
 
   useEffect(() => {
     loadSession()
@@ -67,15 +63,6 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [closeNavMenu, isNavSearchOpen, toggleNavSearch])
 
-  const handleLogout = async () => {
-    try {
-      await logout()
-      router.push('/login')
-    } catch (error) {
-      console.error('Logout error:', error)
-      router.push('/login')
-    }
-  }
 
 
   return (
@@ -93,7 +80,7 @@ const Navbar = () => {
             {/* Left Section */}
             <div className="flex items-center space-x-8">
               <Link href="/" className="flex items-center space-x-2">
-                <img src="/logo.png" alt="EOTCBible Logo" className="h-8 w-8" />
+                <Image src="/logo.png" alt="EOTCBible Logo" className="h-8 w-8" width={32} height={32} />
                 <span className="text-xl font-bold">{t('siteName')}</span>
               </Link>
               <div className="hidden items-center space-x-8 md:flex">

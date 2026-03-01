@@ -16,21 +16,11 @@ export async function GET(req: NextRequest) {
         const bibleDataPath = path.join(process.cwd(), "src", "data", "bible-data");
         const files = await fs.readdir(bibleDataPath);
 
-        const targetFile = files.find(f => {
-            // Heuristic to match bookId to filename. 
-            // Filenames like "01_Genesis.json". bookId like "genesis" or "1-john".
-            // Existing code in api/books/route.ts lowercases and replaces spaces with dashes.
-            // So "1 John" -> "1-john". File: "62_1_John.json" => book_name_en: "1 John".
-            // We need to match the ID back to the file.
-            // Easiest is to read all (cached ideally) or iterate.
-            return f.endsWith(".json");
-        });
 
         // Better approach: Since we don't know the file prefix, we might have to scan.
         // Optimization: Cache this mapping? For now, scan.
 
         let foundBook = null;
-        let foundContent = "";
 
         for (const file of files) {
             if (!file.endsWith(".json")) continue;

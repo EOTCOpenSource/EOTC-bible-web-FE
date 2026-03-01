@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { DotIcon, Eye, EyeOff } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -10,6 +9,7 @@ import { toast } from 'sonner'
 import { registerFormSchema, type RegisterFormSchema } from '@/lib/form-validation'
 import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function RegisterForm() {
   const t = useTranslations('Auth.register')
@@ -197,10 +197,13 @@ export default function RegisterForm() {
         disabled={loading}
         className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9c9c9] p-1 text-gray-700 hover:bg-gray-400 disabled:bg-gray-400"
       >
-        <img
+        <Image
           src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png"
           alt="google logo"
+          width={30}
+          height={30}
           className="w-[30px]"
+          unoptimized
         />
         {loading ? '...' : t('continueWithGoogle')}
       </button>

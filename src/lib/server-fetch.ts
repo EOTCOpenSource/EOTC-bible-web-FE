@@ -37,7 +37,7 @@ export async function serverApiFetch<T>(path: string, options: RequestInit = {})
 
   try {
     return (await res.json()) as T
-  } catch (error) {
+  } catch {
     const text = await res.text()
     throw new Error(`Failed to parse JSON response: ${text}`)
   }

@@ -8,13 +8,12 @@ import Link from 'next/link'
 import { Moon, Settings, User } from 'lucide-react'
 import { LanguageSelector } from '../shared/language-selector'
 import { useTranslations } from 'next-intl'
-
+import Image from 'next/image'
 
 export default function Navbar() {
   const { user, loadSession } = useUserStore()
 
   const t = useTranslations('Dashboard')
-  const translate = useTranslations('Navigation')
 
   useEffect(() => {
     loadSession()
@@ -25,7 +24,7 @@ export default function Navbar() {
       {/* Left: Logo and Welcome */}
       <div className="flex flex-col items-start gap-1">
         <Link href="/" className="flex items-center gap-3">
-          <img src="/logo.png" alt="EOTCBible Logo" className="h-10 w-10" />
+          <Image src="/logo.png" alt="EOTCBible Logo" className="h-10 w-10" width={40} height={40} />
           <div className="flex flex-row items-center gap-1">
             <span className="text-[13px] md:text-xl font-bold leading-none text-[#392D2D] tracking-tight">EOTC</span>
             <span className="text-[13px] md:text-xl font-bold leading-none text-[#392D2D] tracking-tight">Bible</span>

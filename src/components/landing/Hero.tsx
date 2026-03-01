@@ -2,6 +2,7 @@
 import React from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 
 const Hero = () => {
   const t = useTranslations('Hero')
@@ -42,16 +43,16 @@ const Hero = () => {
           {/* MOBILE LAYOUT */}
           <div className="block text-center md:hidden">
             <div className="flex items-center justify-center">
-              <img src="/app-icon.png" alt={t('appCard.appIconAlt')} className="mr-3 h-10 w-10" />
+              <Image src="/app-icon.png" alt={t('appCard.appIconAlt')} className="mr-3 h-10 w-10" width={40} height={40} />
               <h3 className="text-lg font-bold">{t('appCard.mobileTitle')}</h3>
             </div>
             <p className="mt-2 text-sm">{t('appCard.mobileDescription')}</p>
             <div className="mt-4 flex justify-center space-x-2">
               <a href="#" target="_blank" rel="noopener noreferrer">
-                <img src="/google-play-badge.svg" alt={t('appCard.googlePlayAlt')} width="128" />
+                <Image src="/google-play-badge.svg" alt={t('appCard.googlePlayAlt')} width={128} height={40} />
               </a>
               <a href="#" target="_blank" rel="noopener noreferrer">
-                <img src="/app-store-badge.png" alt={t('appCard.appStoreAlt')} width="128" />
+                <Image src="/app-store-badge.png" alt={t('appCard.appStoreAlt')} width={128} height={40} />
               </a>
             </div>
           </div>
@@ -62,9 +63,11 @@ const Hero = () => {
               <div className="relative flex h-56 w-full items-start justify-center rounded-2xl border-4 border-gray-900 bg-white p-2 pt-4 shadow-lg">
                 <div className="absolute top-2 h-2 w-8 rounded-full bg-gray-800"></div>
                 <div className="mt-6 flex h-auto w-full items-center justify-center rounded-lg bg-white p-1">
-                  <img
+                  <Image
                     src="/qr-code.png"
                     alt={t('appCard.qrAlt')}
+                    width={112}
+                    height={112}
                     className="h-full w-full object-contain"
                   />
                 </div>
@@ -72,16 +75,16 @@ const Hero = () => {
             </div>
             <div className="flex-1">
               <div className="flex items-center">
-                <img src="/app-icon.png" alt={t('appCard.appIconAlt')} className="mr-3 h-10 w-10" />
+                <Image src="/app-icon.png" alt={t('appCard.appIconAlt')} className="mr-3 h-10 w-10" width={40} height={40} />
                 <h3 className="text-lg font-bold">{t('appCard.mobileTitle')}</h3>
               </div>
               <p className="mt-2 text-sm">{t('appCard.mobileDescription')}</p>
               <div className="mt-4 flex space-x-2">
                 <a href="#" target="_blank" rel="noopener noreferrer">
-                  <img src="/google-play-badge.svg" alt={t('appCard.googlePlayAlt')} width="128" />
+                  <Image src="/google-play-badge.svg" alt={t('appCard.googlePlayAlt')} width={128} height={40} />
                 </a>
                 <a href="#" target="_blank" rel="noopener noreferrer">
-                  <img src="/app-store-badge.png" alt={t('appCard.appStoreAlt')} width="128" />
+                  <Image src="/app-store-badge.png" alt={t('appCard.appStoreAlt')} width={128} height={40} />
                 </a>
               </div>
             </div>

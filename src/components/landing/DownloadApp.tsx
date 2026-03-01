@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 
 const DownloadApp = () => {
   const t = useTranslations('DownloadApp')
@@ -27,25 +28,31 @@ const DownloadApp = () => {
                 </p>
                 <div className="mt-8 flex justify-center space-x-4 md:justify-start">
                   <a href="#" target="_blank" rel="noopener noreferrer">
-                    <img
+                    <Image
                       src="/google-play-badge.svg"
                       alt={t('googlePlayAlt')}
+                      width={128}
+                      height={40}
                       className="w-32 md:w-32"
                     />
                   </a>
                   <a href="#" target="_blank" rel="noopener noreferrer">
-                    <img
+                    <Image
                       src="/app-store-badge.png"
                       alt={t('appStoreAlt')}
+                      width={128}
+                      height={40}
                       className="w-32 md:w-32"
                     />
                   </a>
                 </div>
               </div>
               <div className="mt-8 md:absolute md:-top-12 md:right-0 md:mt-0 md:pb-0">
-                <img
+                <Image
                   src="/mobile-hand.png"
                   alt={t('mobileAlt')}
+                  width={292}
+                  height={386}
                   className="h-[386px] w-[292px]"
                 />
               </div>

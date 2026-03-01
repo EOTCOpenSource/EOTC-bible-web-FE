@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useState } from 'react'
 import { DotIcon, Eye, EyeOff } from 'lucide-react'
-import { useTranslations } from 'next-intl' 
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 type ResetPasswordForm = {
@@ -17,11 +17,10 @@ type ResetPasswordForm = {
 export default function ResetPasswordPage() {
   const { token } = useParams()
   const router = useRouter()
-  const [message, setMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
-  const t = useTranslations('Auth.resetPassword') 
+  const t = useTranslations('Auth.resetPassword')
   const {
     register,
     handleSubmit,
@@ -49,12 +48,10 @@ export default function ResetPasswordPage() {
 
   const onSubmit = async (data: ResetPasswordForm) => {
     if (!allCriteriaValid) {
-      setMessage('Password does not meet all requirements.')
       return
     }
 
     setIsSubmitting(true)
-    setMessage('')
 
     try {
       const res = await axios.post('/api/auth/reset-password', {
@@ -62,8 +59,9 @@ export default function ResetPasswordPage() {
         ...data,
       })
 
-      setMessage(res.data.message)
-      res.status == 200 && toast.success(res.data.message || 'Password reset successful')
+      if (res.status === 200) {
+        toast.success(res.data.message || 'Password reset successful')
+      }
       if (res.data.success) {
         reset()
         setTimeout(() => router.push('/login'), 600)
@@ -71,7 +69,6 @@ export default function ResetPasswordPage() {
     } catch (error: any) {
       const msg =
         error?.response?.data?.error || error?.message || 'Password reset failed'
-      setMessage(msg)
       toast.error(msg)
       console.error(error)
     } finally {

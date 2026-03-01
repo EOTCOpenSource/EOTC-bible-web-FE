@@ -17,7 +17,7 @@ import {
 import { Button } from '@/components/ui/button'
 
 export const NoteEditor = () => {
-  const { editingNote, setEditingNote, updateNote, addNote, deleteNote, isLoading } = useNotesStore()
+  const { editingNote, setEditingNote, updateNote, addNote, deleteNote } = useNotesStore()
   const [title, setTitle] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)

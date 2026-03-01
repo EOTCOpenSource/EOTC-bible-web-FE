@@ -1,8 +1,8 @@
 'use client'
 
-import { Share2, Bookmark, Copy, Highlighter, MessageSquare, Plus, Check } from 'lucide-react'
+import { Share2, Bookmark, Copy, Highlighter, MessageSquare, Check } from 'lucide-react'
 import { AddNoteModal } from '@/components/notes/AddNoteModal'
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useRouter } from 'next/navigation'
@@ -51,7 +51,7 @@ export const VerseActionMenu = ({
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
-  const getDefaultRange = (): SelectedVerseRange => {
+  const getDefaultRange = useCallback((): SelectedVerseRange => {
     const numericVerse = typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber, 10)
     const safeVerse = Number.isFinite(numericVerse) ? numericVerse : 0
     return {
@@ -59,7 +59,7 @@ export const VerseActionMenu = ({
       end: safeVerse,
       count: 1,
     }
-  }
+  }, [verseNumber])
 
   const [selectedVerses, setSelectedVerses] = useState<SelectedVerseRange>(getDefaultRange)
   const [copied, setCopied] = useState(false)
@@ -128,13 +128,13 @@ export const VerseActionMenu = ({
         return false
 
       const range = selectedVerses ?? getDefaultRange()
-      const verseNumber = Number(range.start)
-      if (!Number.isFinite(verseNumber)) return false
+      const currentVerseStart = Number(range.start)
+      if (!Number.isFinite(currentVerseStart)) return false
 
       const count = Number(verseCount) || 1
-      return verseNumber >= verseStart && verseNumber < verseStart + count
+      return currentVerseStart >= verseStart && currentVerseStart < verseStart + count
     })
-  }, [bookId, chapter, highlights, selectedVerses])
+  }, [bookId, chapter, highlights, selectedVerses, getDefaultRange])
 
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
 
@@ -183,7 +183,7 @@ export const VerseActionMenu = ({
   }
 
   // Helper function to get all selected verse numbers
-  const getSelectedVerseRange = (selection: Selection) => {
+  const getSelectedVerseRange = useCallback((selection: Selection) => {
     if (!selection || selection.rangeCount === 0) return null
 
     const range = selection.getRangeAt(0)
@@ -193,37 +193,37 @@ export const VerseActionMenu = ({
 
     // Get all verse spans within the container
     const verseSpans = Array.from(container.querySelectorAll('[data-verse]'))
-    const selectedVerses: number[] = []
+    const selectedVersesList: number[] = []
 
     verseSpans.forEach((span) => {
       const verseNum = parseInt((span as HTMLElement).dataset.verse || '0', 10)
 
       // Check if this verse span intersects with the selection
       if (selection.containsNode(span, true)) {
-        selectedVerses.push(verseNum)
+        selectedVersesList.push(verseNum)
       }
     })
 
-    if (selectedVerses.length === 0) {
+    if (selectedVersesList.length === 0) {
       // Fallback: try to find verse from the selection's ancestor
       const startVerse = findVerseNumber(range.startContainer)
       const endVerse = findVerseNumber(range.endContainer)
 
-      if (startVerse) selectedVerses.push(startVerse)
-      if (endVerse && endVerse !== startVerse) selectedVerses.push(endVerse)
+      if (startVerse) selectedVersesList.push(startVerse)
+      if (endVerse && endVerse !== startVerse) selectedVersesList.push(endVerse)
     }
 
-    if (selectedVerses.length === 0) return null
+    if (selectedVersesList.length === 0) return null
 
     // Sort and get range
-    selectedVerses.sort((a, b) => a - b)
+    selectedVersesList.sort((a, b) => a - b)
 
     return {
-      start: selectedVerses[0],
-      end: selectedVerses[selectedVerses.length - 1],
-      count: selectedVerses[selectedVerses.length - 1] - selectedVerses[0] + 1,
+      start: selectedVersesList[0],
+      end: selectedVersesList[selectedVersesList.length - 1],
+      count: selectedVersesList[selectedVersesList.length - 1] - selectedVersesList[0] + 1,
     }
-  }
+  }, [containerId])
   useEffect(() => {
     const handleSelectionChange = () => {
       const selection = window.getSelection()
@@ -288,7 +288,7 @@ export const VerseActionMenu = ({
 
     document.addEventListener('selectionchange', handleSelectionChange)
     return () => document.removeEventListener('selectionchange', handleSelectionChange)
-  }, [containerId, verseNumber])
+  }, [containerId, getDefaultRange, getSelectedVerseRange])
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

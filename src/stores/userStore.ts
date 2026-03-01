@@ -14,7 +14,7 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>()(
-  devtools((set, get) => ({
+  devtools((set) => ({
     user: null,
     isAuthenticated: false,
     isLoading: false,

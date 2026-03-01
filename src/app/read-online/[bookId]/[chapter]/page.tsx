@@ -8,7 +8,7 @@ async function getBookData(bookId: string) {
   try {
     const bookData = books.find((b) => b.book_name_en.replace(/ /g, "-").toLowerCase() === bookId);
     if (!bookData) return null;
-    
+
     const files = await fs.readdir(bibleDataPath);
     for (const file of files) {
       if (file.includes(bookData.file_name)) {
@@ -26,11 +26,9 @@ async function getBookData(bookId: string) {
 export default async function ReaderPage({
   params,
 }: {
-  params: { bookId: string; chapter: string };
+  params: Promise<{ bookId: string; chapter: string }>;
 }) {
-  const awaitedParams = await params;
-  const bookId = awaitedParams.bookId;
-  const chapter = awaitedParams.chapter;
+  const { bookId, chapter } = await params;
   const bookData = await getBookData(bookId);
 
   if (!bookData) {

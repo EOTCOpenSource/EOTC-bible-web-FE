@@ -3,16 +3,16 @@ import { ENV } from '@/lib/env'
 import { cookies } from 'next/headers'
 import serverAxiosInstance from '@/lib/server-axios'
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const cookieStore: any = cookies()
+    const cookieStore = await cookies()
     const token = cookieStore.get(ENV.jwtCookieName)?.value
 
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { id } = params
+    const { id } = await params
 
     const res = await serverAxiosInstance.delete(
       `/bookmarks/${id}`, // backend: http://localhost:8000/api/v1/bookmarks/:id

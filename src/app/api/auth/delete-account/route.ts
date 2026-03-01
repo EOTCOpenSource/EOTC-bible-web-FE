@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import serverAxiosInstance from '@/lib/server-axios'
 
 export async function DELETE() {
-  const cookieStore: any = cookies()
+  const cookieStore = await cookies()
   const token = cookieStore.get(ENV.jwtCookieName)?.value
 
   if (!token) {

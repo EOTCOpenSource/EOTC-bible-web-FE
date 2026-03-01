@@ -35,13 +35,14 @@ export function generateStaticParams() {
   return supportedLocales.locales.map((locale) => ({ locale }))
 }
 
-export async function generateMetadata(props: Omit<Props, 'children'>) {
+export async function generateMetadata() {
   const locale = await getLocaleFromCookie()
 
   // Specify the namespace for translations
   const t = await getTranslations('Index')
 
   return {
+    metadataBase: new URL('https://eotcbible.org'),
     title: t('title'),
     description: t('description'),
     openGraph: {
