@@ -3,6 +3,9 @@ export const ENV = {
   jwtCookieName: process.env.JWT_COOKIE_NAME ?? 'auth_token',
   node_env: process.env.NODE_ENV || 'development',
   appName: process.env.APP_NAME || '80 weahadu bible',
+  googleClientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '',
+  facebookAppId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || '',
+  telegramBotName: process.env.NEXT_PUBLIC_TELEGRAM_BOT_NAME || '',
 }
 
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production'

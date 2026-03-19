@@ -5,9 +5,9 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Abyssinica_SIL, Inter, Manrope } from 'next/font/google'
 import Script from 'next/script'
 import { ReactNode } from 'react'
-
 import './globals.css'
 import { supportedLocales } from '@/i18n/routing'
+import GoogleAuthProvider from '@/components/auth/GoogleAuthProvider'
 
 const abyssinicaFont = Abyssinica_SIL({
   subsets: ['ethiopic'],
@@ -110,7 +110,9 @@ export default async function LocaleLayout({ children }: Props) {
         )}
       >
         <NextIntlClientProvider locale={resolvedLocale} messages={messages}>
-          {children}
+          <GoogleAuthProvider>
+            {children}
+          </GoogleAuthProvider>
         </NextIntlClientProvider>
 
         <Script id="schema-script" type="application/ld+json">

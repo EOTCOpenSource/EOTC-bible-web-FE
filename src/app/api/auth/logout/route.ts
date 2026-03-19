@@ -5,7 +5,7 @@ import serverAxiosInstance from '@/lib/server-axios'
 
 const AUTH_COOKIE = ENV.jwtCookieName
 
-export async function POST(req: NextRequest) {
+export const POST = async (req: NextRequest) => {
   try {
     const token = req.cookies.get(AUTH_COOKIE)?.value
     if (!token) {

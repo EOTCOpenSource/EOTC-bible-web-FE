@@ -5,6 +5,16 @@ import { devtools } from 'zustand/middleware'
 import axiosInstance from '@/lib/axios'
 import type { User } from './types'
 
+interface TelegramAuthData {
+  id: number
+  first_name: string
+  last_name?: string
+  username?: string
+  photo_url?: string
+  auth_date: number
+  hash: string
+}
+
 interface AuthState {
   user: User | null
   isAuthenticated: boolean
@@ -19,7 +29,9 @@ interface AuthState {
   // Auth actions
   register: (data: { name: string; email: string; password: string }) => Promise<void>
   login: (data: { email: string; password: string }) => Promise<void>
-  loginWithGoogle: (googleToken: string) => Promise<void>
+  loginWithGoogle: (idToken: string) => Promise<void>
+  loginWithFacebook: (accessToken: string) => Promise<void>
+  loginWithTelegram: (telegramData: TelegramAuthData) => Promise<void>
   logout: () => Promise<void>
   fetchCurrentUser: () => Promise<void>
   clearError: () => void
@@ -86,13 +98,39 @@ export const useAuthStore = create<AuthState>()(
       }
     },
 
-    loginWithGoogle: async (googleToken: string) => {
+    loginWithGoogle: async (idToken: string) => {
       set({ isLoading: true, error: null, success: null })
       try {
-        await axiosInstance.post('/api/auth/google', { token: googleToken })
+        await axiosInstance.post('/api/auth/social/google', { idToken })
         await get().fetchCurrentUser()
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? 'Google login failed' })
+        throw err
+      } finally {
+        set({ isLoading: false })
+      }
+    },
+
+    loginWithFacebook: async (accessToken: string) => {
+      set({ isLoading: true, error: null, success: null })
+      try {
+        await axiosInstance.post('/api/auth/social/facebook', { accessToken })
+        await get().fetchCurrentUser()
+      } catch (err: any) {
+        set({ error: err?.response?.data?.error ?? 'Facebook login failed' })
+        throw err
+      } finally {
+        set({ isLoading: false })
+      }
+    },
+
+    loginWithTelegram: async (telegramData: TelegramAuthData) => {
+      set({ isLoading: true, error: null, success: null })
+      try {
+        await axiosInstance.post('/api/auth/social/telegram', telegramData)
+        await get().fetchCurrentUser()
+      } catch (err: any) {
+        set({ error: err?.response?.data?.error ?? 'Telegram login failed' })
         throw err
       } finally {
         set({ isLoading: false })
