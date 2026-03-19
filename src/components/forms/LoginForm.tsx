@@ -11,6 +11,9 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import Image from 'next/image'
+import GoogleSignInButton from '@/components/auth/GoogleSignInButton'
+import FacebookSignInButton from '@/components/auth/FacebookSignInButton'
+import TelegramSignInButton from '@/components/auth/TelegramSignInButton'
 export default function LoginForm() {
   const router = useRouter()
   const { loadSession } = useUserStore()
@@ -116,21 +119,16 @@ export default function LoginForm() {
         <div className="flex-1 border-t border-gray-300"></div>
       </div>
 
-      {/* Google Login */}
-      <button
-        disabled={loading}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9c9c9] p-1 text-gray-700 hover:bg-gray-400 disabled:bg-gray-400"
-      >
-        <Image
-          src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png"
-          alt="google logo"
-          width={30}
-          height={30}
-          className="w-[30px]"
-          unoptimized
-        />
-        {loading ? t('loading') : t('continueWithGoogle')}
-      </button>
+      {/* Social Login Buttons */}
+      <div className="space-y-3">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center sm:justify-between">
+          <GoogleSignInButton />
+          <FacebookSignInButton />
+        </div>
+        <div className="flex justify-center">
+            <TelegramSignInButton />
+        </div>
+      </div>
     </form>
   )
 }

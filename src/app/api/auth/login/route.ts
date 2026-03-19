@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ENV } from '@/lib/env'
 import serverAxiosInstance from '@/lib/server-axios'
 
-export async function POST(req: NextRequest) {
+export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json()
 

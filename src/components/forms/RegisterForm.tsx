@@ -10,6 +10,9 @@ import { registerFormSchema, type RegisterFormSchema } from '@/lib/form-validati
 import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import GoogleSignInButton from '@/components/auth/GoogleSignInButton'
+import FacebookSignInButton from '@/components/auth/FacebookSignInButton'
+import TelegramSignInButton from '@/components/auth/TelegramSignInButton'
 
 export default function RegisterForm() {
   const t = useTranslations('Auth.register')
@@ -192,21 +195,16 @@ export default function RegisterForm() {
         <div className="flex-1 border-t border-gray-300"></div>
       </div>
 
-      {/* Google Button */}
-      <button
-        disabled={loading}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9c9c9] p-1 text-gray-700 hover:bg-gray-400 disabled:bg-gray-400"
-      >
-        <Image
-          src="https://hackaday.com/wp-content/uploads/2016/08/google-g-logo.png"
-          alt="google logo"
-          width={30}
-          height={30}
-          className="w-[30px]"
-          unoptimized
-        />
-        {loading ? '...' : t('continueWithGoogle')}
-      </button>
+      {/* Social Login Buttons */}
+      <div className="space-y-3">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center sm:justify-between">
+          <GoogleSignInButton />
+          <FacebookSignInButton />
+        </div>
+        <div className="flex justify-center">
+            <TelegramSignInButton />
+        </div>
+      </div>
     </form>
   )
 }
