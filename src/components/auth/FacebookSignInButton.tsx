@@ -16,7 +16,7 @@ declare global {
 }
 
 export default function FacebookSignInButton() {
-    const { loginWithFacebook, isLoading } = useAuthStore()
+    const { loginWithFacebook } = useAuthStore()
     const { loadSession } = useUserStore()
     const router = useRouter()
     const [sdkReady, setSdkReady] = useState(false)
@@ -52,7 +52,7 @@ export default function FacebookSignInButton() {
     }, [appId])
 
     const handleLogin = useCallback(() => {
-        if (!window.FB || loading || isLoading) return
+        if (!window.FB || loading) return
 
         setLoading(true)
         window.FB.login(
@@ -77,7 +77,7 @@ export default function FacebookSignInButton() {
             },
             { scope: 'public_profile,email' },
         )
-    }, [loginWithFacebook, loadSession, router, loading, isLoading])
+    }, [loginWithFacebook, loadSession, router, loading])
 
     if (!appId) return null
 
@@ -87,13 +87,13 @@ export default function FacebookSignInButton() {
                 type="button"
                 variant="outline"
                 onClick={handleLogin}
-                disabled={!sdkReady || loading || isLoading}
+                disabled={!sdkReady || loading}
                 className="flex w-[225px] h-[40px] cursor-pointer items-center justify-center gap-2 rounded-[4px] border border-[#dadce0] bg-white px-3 py-2 text-sm font-medium text-[#3c4043] shadow-sm transition-all hover:bg-gray-50 hover:text-[#3c4043] disabled:cursor-not-allowed disabled:opacity-50"
             >
                 <svg className="h-5 w-5" fill="#1877F2" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
-                {loading || isLoading ? 'Signing in...' : 'Continue with Facebook'}
+                {loading ? 'Signing in...' : 'Continue with Facebook'}
             </Button>
         </div>
     )

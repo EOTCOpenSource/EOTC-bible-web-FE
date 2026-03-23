@@ -14,7 +14,7 @@ declare global {
 }
 
 export default function TelegramSignInButton() {
-    const { loginWithTelegram, isLoading } = useAuthStore()
+    const { loginWithTelegram } = useAuthStore()
     const { loadSession } = useUserStore()
     const router = useRouter()
     const containerRef = useRef<HTMLDivElement>(null)
@@ -51,7 +51,7 @@ export default function TelegramSignInButton() {
         container.innerHTML = ''
 
         const script = document.createElement('script')
-        script.src = 'https://telegram.org/js/telegram-widget.js?22'
+        script.src = 'https://telegram.org/js/telegram-widget.js?23'
         script.setAttribute('data-telegram-login', botName)
         script.setAttribute('data-size', 'large')
         script.setAttribute('data-onauth', 'onTelegramAuth(user)')
@@ -70,7 +70,7 @@ export default function TelegramSignInButton() {
     return (
         <div className="w-full">
             <div ref={containerRef} className="flex w-full justify-center" />
-            {(loading || isLoading) && (
+            {loading && (
                 <p className="mt-1 text-center text-xs text-gray-500">Signing in with Telegram...</p>
             )}
         </div>
