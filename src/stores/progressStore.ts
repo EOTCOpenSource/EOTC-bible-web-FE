@@ -69,6 +69,10 @@ export const useProgressStore = create<ProgressState>()(
         const transformedProgress = transformBackendProgress(res.data)
         set({ progress: transformedProgress, isLoading: false })
       } catch (err: any) {
+        if (err?.response?.status === 401) {
+          set({ isLoading: false, progress: initialProgress, error: null })
+          return
+        }
         set({
           isLoading: false,
           error: err?.response?.data?.error ?? err?.message ?? 'Failed to load progress',

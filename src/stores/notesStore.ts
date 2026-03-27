@@ -58,6 +58,10 @@ export const useNotesStore = create<NotesState>()(
           : []
         set({ notes, isLoading: false })
       } catch (err: any) {
+        if (err?.response?.status === 401) {
+          set({ isLoading: false, notes: [], error: null })
+          return
+        }
         set({
           isLoading: false,
           error: err?.response?.data?.error ?? err?.message ?? 'Failed to load notes',

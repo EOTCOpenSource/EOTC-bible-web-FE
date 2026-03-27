@@ -121,6 +121,10 @@ export const useHighlightsStore = create<HighlightsState>()(
         set({ highlights: transformedHighlights, isLoading: false })
         await get().hydrateTexts(preferredTranslation)
       } catch (err: any) {
+        if (err?.response?.status === 401) {
+          set({ isLoading: false, highlights: [], error: null })
+          return
+        }
         set({
           isLoading: false,
           error: err?.response?.data?.error || err?.message || 'Failed to load highlights',

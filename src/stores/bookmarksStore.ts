@@ -65,6 +65,10 @@ export const useBookmarksStore = create<BookmarksState>()(
           get().loadBibleBook(bookId)
         }
       } catch (err: any) {
+        if (err?.response?.status === 401) {
+          set({ isLoading: false, bookmarks: [], error: null })
+          return
+        }
         set({ isLoading: false, error: err?.response?.data?.error ?? err?.message ?? 'Unknown' })
         throw err
       }

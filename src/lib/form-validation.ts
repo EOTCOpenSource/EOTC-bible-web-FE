@@ -1,4 +1,3 @@
-// lib/form-validation.ts
 import { z } from "zod";
 
 export const registerFormSchema = z
@@ -21,10 +20,10 @@ export const registerFormSchema = z
     message: "Passwords do not match",
   });
 
-  export const loginFormSchema = z.object({
-    email: z.string().email("Please enter a valid email"),
-    password: z.string().min(1, "Password is required"),
-  });
+export const loginFormSchema = z.object({
+  email: z.string().email("Please enter a valid email"),
+  password: z.string().min(1, "Password is required"),
+});
 
 export type LoginFormSchema = z.infer<typeof loginFormSchema>;
 export type RegisterFormSchema = z.infer<typeof registerFormSchema>;
