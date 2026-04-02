@@ -22,7 +22,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan }) => {
   const t = useTranslations('DiscoverPlans')
 
   return (
-    <div className="flex overflow-hidden rounded-lg bg-white shadow-md">
+    <div className="flex overflow-hidden rounded-lg bg-white dark:bg-neutral-800 shadow-md">
       <div className="relative w-1/3">
         <Image
           src={plan.image}
@@ -35,12 +35,12 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan }) => {
       <div className="flex w-2/3 flex-col justify-between p-4">
         <div>
           <h3 className="text-lg font-bold">{plan.title}</h3>
-          <p className="mt-2 text-sm text-gray-600">{plan.description}</p>
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{plan.description}</p>
         </div>
         <div>
           <a
             href={plan.slug ? `/plans/${plan.slug}` : '#'}
-            className="font-semibold text-amber-900 hover:underline"
+            className="font-semibold text-amber-900 dark:text-amber-400 hover:underline"
           >
             {t('planDetailsCta')}
           </a>
@@ -108,7 +108,7 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
   }
 
   return (
-    <section className="flex flex-col py-4">
+    <section id="plans" className="flex flex-col py-4">
       <h2
         className="mb-4 ml-8 text-2xl font-bold md:text-3xl"
         dangerouslySetInnerHTML={{ __html: t('title') }}
@@ -117,7 +117,7 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
       {isLoading ? (
         <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-52 animate-pulse rounded-lg bg-gray-200" />
+            <div key={i} className="h-52 animate-pulse rounded-lg bg-gray-200 dark:bg-neutral-700" />
           ))}
         </div>
       ) : (
@@ -232,7 +232,7 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
 
       <div className="mt-12 text-center">
         <p className="text-lg">{t('footer.title')}</p>
-        <p className="mb-4 text-gray-600">{t('footer.description')}</p>
+        <p className="mb-4 text-gray-600 dark:text-gray-400">{t('footer.description')}</p>
         <button className="mx-auto flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-[#4C0E0F] py-2 pr-2 pl-6 text-white transition-colors hover:bg-red-800 md:w-fit">
           <span>{t('footer.ctaButton')}</span>
           <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-[#4C0E0F]">

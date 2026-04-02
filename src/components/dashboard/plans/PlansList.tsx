@@ -15,7 +15,7 @@ const PlanList: React.FC = () => {
     return (
       <div className="flex w-full flex-col gap-4">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="flex flex-col space-y-2 rounded-lg border p-4 shadow-sm">
+          <div key={i} className="flex flex-col space-y-2 rounded-lg border dark:border-neutral-800 p-4 shadow-sm">
             <Skeleton className="h-6 w-3/4" />
             <Skeleton className="h-4 w-1/2" />
             <Skeleton className="h-16 w-full" />

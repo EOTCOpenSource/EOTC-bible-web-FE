@@ -106,10 +106,10 @@ export default function DashboardClient() {
   return (
     <div className="flex w-full flex-col gap-6 py-8">
       {recentlyRead.length > 0 && (
-        <div className="rounded-xl border border-gray-400 p-2 sm:p-6">
-          <div className="mb-4 flex items-center gap-1 p-2 text-[#4C0E0F] sm:p-0">
+        <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-2 sm:p-6">
+          <div className="mb-4 flex items-center gap-1 p-2 text-[#4C0E0F] dark:text-red-400 sm:p-0">
             <BookOpen size={20} />
-            <h4 className="text-lg font-medium">Recently Read</h4>
+            <h4 className="text-lg font-medium text-black dark:text-white">Recently Read</h4>
           </div>
           <div className="flex flex-col gap-2">
             {recentlyRead.map((bookmark) => (
@@ -118,11 +118,11 @@ export default function DashboardClient() {
                 onClick={() =>
                   handleReadBook(bookmark.bookId, bookmark.chapter, bookmark.verseStart)
                 }
-                className="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-1 hover:bg-gray-50 md:rounded-2xl md:px-6 md:py-2"
+                className="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 dark:border-neutral-800 p-1 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors md:rounded-2xl md:px-6 md:py-2"
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="flex flex-col gap-0">
-                    <p className="text-sm md:text-lg">
+                    <p className="text-sm md:text-lg text-black dark:text-white">
                       {bookmark.bookId.replace(/-/g, ' ')} {bookmark.chapter}:{bookmark.verseStart}
                       {bookmark.verseCount > 1
                         ? `-${bookmark.verseStart + bookmark.verseCount - 1}`
@@ -133,31 +133,31 @@ export default function DashboardClient() {
                     </span>
                   </div>
                 </div>
-                <ChevronRight size={16} className="cursor-pointer" />
+                <ChevronRight size={16} className="cursor-pointer text-black dark:text-gray-400" />
               </div>
             ))}
           </div>
         </div>
       )}
 
-      <div className="rounded-xl border border-gray-400 p-2 sm:p-6">
-        <div className="flex items-center gap-1 p-2 text-[#4C0E0F] sm:p-0">
+      <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-2 sm:p-6">
+        <div className="flex items-center gap-1 p-2 text-[#4C0E0F] dark:text-red-400 sm:p-0">
           <Award size={20} />
-          <h4 className="text-lg font-medium">Achievement</h4>
+          <h4 className="text-lg font-medium text-black dark:text-white">Achievement</h4>
         </div>
         {achievements.map((achievement, i) => (
           <div
             key={i}
-            className={`mt-4 flex items-center justify-between rounded-lg border border-gray-300 p-1 md:rounded-2xl md:px-6 md:py-2 ${achievement.status === 'Completed'
-              ? 'bg-[#4C0E0F] px-6 text-white'
-              : 'border border-gray-400 px-3'
+            className={`mt-4 flex items-center justify-between rounded-lg border p-1 md:rounded-2xl md:px-6 md:py-2 ${achievement.status === 'Completed'
+              ? 'bg-[#4C0E0F] dark:bg-red-900/40 border-transparent text-white dark:text-red-400'
+              : 'border-gray-300 dark:border-neutral-800 bg-transparent px-3 text-black dark:text-white'
               }`}
           >
             <div className="flex items-center justify-start gap-3">
               <span
                 className={`flex h-5 w-5 items-center justify-center rounded-full border md:h-6 md:w-6 ${achievement.status === 'Completed'
-                  ? 'bg-white text-[#4C0E0F]'
-                  : 'border-[#4C0E0F]'
+                  ? 'bg-white text-[#4C0E0F] dark:bg-transparent dark:text-red-400 dark:border-red-400'
+                  : 'border-[#4C0E0F] dark:border-red-400'
                   }`}
               >
                 {achievement.status === 'Completed' ? (
@@ -172,7 +172,7 @@ export default function DashboardClient() {
                 <p className="text-sm md:text-lg">
                   {achievement.bookName} {achievement.chapter}
                 </p>
-                <span className="text-xs font-light md:text-base">
+                <span className="text-xs font-light md:text-base text-gray-500 dark:text-gray-400">
                   {achievement.status === 'Completed' ? 'Completed' : 'Not Started'}
                 </span>
               </div>
@@ -195,19 +195,19 @@ export default function DashboardClient() {
         ))}
       </div>
 
-      <div className="flex flex-col items-center justify-center rounded-xl border border-gray-400 px-8 pt-6 pb-3 text-center md:px-20 md:pb-10">
-        <div className="flex flex-col items-center justify-center text-[#4C0E0F]">
+      <div className="flex flex-col items-center justify-center rounded-xl border border-gray-400 dark:border-neutral-800 px-8 pt-6 pb-3 text-center md:px-20 md:pb-10">
+        <div className="flex flex-col items-center justify-center text-[#4C0E0F] dark:text-red-400">
           <div className="h-6 w-6 md:h-15 md:w-15">
             <Award className="h-full w-full" />
           </div>
-          <h4 className="text-xs font-medium md:text-2xl">Great Progress!</h4>
+          <h4 className="text-xs font-medium md:text-2xl text-black dark:text-white mt-2">Great Progress!</h4>
         </div>
-        <p className="text-[6px] font-light md:text-xs">
+        <p className="text-[10px] sm:text-[12px] font-light md:text-sm text-gray-600 dark:text-gray-400 mt-1">
           {totalChaptersRead > 0
             ? `You've read ${totalChaptersRead} chapters. Keep going!`
             : 'Start reading to track your progress!'}
         </p>
-        <div className="relative my-2 h-1 w-full rounded-xl bg-gray-300 sm:my-5 sm:h-2">
+        <div className="relative my-2 h-1 w-full rounded-xl bg-gray-300 dark:bg-neutral-800 sm:my-5 sm:h-2">
           <span
             className="absolute flex h-full rounded-xl bg-[#4C0E0F]"
             style={{

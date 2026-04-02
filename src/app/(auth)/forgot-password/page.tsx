@@ -70,24 +70,24 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <section className="flex min-h-screen items-center justify-center p-4">
-      <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 text-center shadow-lg">
+    <section className="flex min-h-screen items-center justify-center p-4 dark:bg-neutral-900">
+      <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 text-center shadow-lg dark:bg-neutral-800 dark:border dark:border-neutral-700">
         {!emailSent ? (
           <>
-            <h1 className="text-2xl font-bold">{t('title')}</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <h1 className="text-2xl font-bold dark:text-white">{t('title')}</h1>
+            <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
               {t('description')}
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-2">
-              <label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 {t('fields.emailAddress')}
               </label>
               <Input
                 id="email"
                 type="email"
                 placeholder={t('placeholders.email')}
-                className="rounded border p-2 focus:ring-2 focus:outline-none"
+                className="rounded border p-2 focus:ring-2 focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
                 {...register('email', {
                   required: t('validation.emailRequired'),
                   pattern: {
@@ -107,35 +107,35 @@ export default function ForgotPasswordPage() {
               </Button>
             </form>
 
-            <p className="mt-4 text-gray-700">
+            <p className="mt-4 text-gray-700 dark:text-gray-300">
               {t('rememberedPassword')}{' '}
-              <a href="/login" className="text-[#621B1C] underline">
+              <a href="/login" className="text-[#621B1C] underline dark:text-blue-400">
                 {t('buttons.login')}
               </a>
             </p>
           </>
         ) : (
           <>
-            <h1 className="text-2xl font-bold">{t('emailSent.title')}</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <h1 className="text-2xl font-bold dark:text-white">{t('emailSent.title')}</h1>
+            <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
               {t('emailSent.description')}: <br />
               <strong>{maskEmail(userEmail)}</strong>.
               <br />
               {t('emailSent.checkSpam')}
             </p>
 
-            <p className="mt-10 text-sm font-bold text-gray-700">
+            <p className="mt-10 text-sm font-bold text-gray-700 dark:text-gray-300">
               {t('emailSent.didNotReceive')}{' '}
               <button
                 onClick={handleResend}
                 disabled={isSubmitting}
-                className="ml-1 text-[#621B1C] underline disabled:opacity-70"
+                className="ml-1 text-[#621B1C] underline disabled:opacity-70 dark:text-red-400"
               >
                 {isSubmitting ? t('buttons.resending') : t('buttons.resendEmail')}
               </button>
               <br />
               {t('emailSent.wrongEmail')}{' '}
-              <button onClick={handleChangeEmail} className="ml-1 text-[#621B1C] underline">
+              <button onClick={handleChangeEmail} className="ml-1 text-[#621B1C] underline dark:text-red-400">
                 {t('buttons.changeEmail')}
               </button>
             </p>

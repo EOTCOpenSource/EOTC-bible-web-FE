@@ -3,16 +3,20 @@ import React from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import { useUserStore } from '@/lib/stores/useUserStore'
 
 type FeatureProps = {
   title: string
   description: string
   image: string
+  link: string
   reverse?: boolean
 }
 
-const Feature: React.FC<FeatureProps> = ({ title, description, image, reverse }) => {
+const Feature: React.FC<FeatureProps> = ({ title, description, image, link, reverse }) => {
   const t = useTranslations('KeyFeatures')
+  const { isLoggedIn } = useUserStore()
   return (
     <div
       className={`mx-auto flex w-full flex-col-reverse items-center justify-center gap-8 md:h-[405px] md:max-w-[1065px] md:flex-row md:justify-between md:gap-0 ${
@@ -20,17 +24,19 @@ const Feature: React.FC<FeatureProps> = ({ title, description, image, reverse })
       }`}
     >
       <div className="flex flex-col justify-center md:w-[365px]">
-        <h3 className="text-2xl font-bold text-[#1A1A19]">{title}</h3>
-        <p className="mt-4 text-gray-600">{description}</p>
-        <button
-          aria-label={`Try ${title} feature now`}
-          className="mt-8 flex w-fit items-center space-x-2 rounded-lg border border-[#392D2D] bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F] transition hover:bg-red-50"
-        >
-          <span className="text-[#392D2D]">{title.includes('Try') ? title : t('tryNow')}</span>
-          <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#392D2D] p-1 text-white">
-            <ArrowUpRight size={20} />
-          </div>
-        </button>
+        <h3 className="text-2xl font-bold text-[#1A1A19] dark:text-white">{title}</h3>
+        <p className="mt-4 text-gray-600 dark:text-gray-300">{description}</p>
+        <Link href={isLoggedIn ? link : '/login'} className="mt-8 flex w-fit">
+          <button
+            aria-label={`Try ${title} feature now`}
+            className="flex w-fit items-center space-x-2 rounded-lg border border-[#392D2D] dark:border-gray-600 bg-white dark:bg-neutral-800 py-2 pr-2 pl-6 text-lg text-[#4C0E0F] dark:text-gray-200 transition hover:bg-red-50 dark:hover:bg-neutral-700"
+          >
+            <span className="text-[#392D2D] dark:text-gray-200">{title.includes('Try') ? title : t('tryNow')}</span>
+            <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#392D2D] p-1 text-white">
+              <ArrowUpRight size={20} />
+            </div>
+          </button>
+        </Link>
       </div>
 
       <div className="w-full md:h-[405px] md:w-[546px]">
@@ -53,36 +59,42 @@ const KeyFeatures: React.FC = () => {
       title: t('feature1.title'),
       description: t('feature1.description'),
       image: '/Feature1.png',
+      link: '/dashboard/bookmarks',
     },
     {
       title: t('feature2.title'),
       description: t('feature2.description'),
       image: '/Feature2.png',
+      link: '/dashboard/plans',
     },
     {
       title: t('feature3.title'),
       description: t('feature3.description'),
       image: '/Feature1.png',
+      link: '/dashboard',
     },
     {
       title: t('feature4.title'),
       description: t('feature4.description'),
       image: '/Feature2.png',
+      link: '/dashboard',
     },
     {
       title: t('feature5.title'),
       description: t('feature5.description'),
       image: '/Feature1.png',
+      link: '/dashboard',
     },
     {
       title: t('feature6.title'),
       description: t('feature6.description'),
       image: '/Feature2.png',
+      link: '/dashboard/notes',
     },
   ]
 
   return (
-    <section className="bg-gray-50 py-20">
+    <section id="features" className="bg-gray-50 dark:bg-neutral-900 py-20">
       <div className="container mx-auto px-4">
         <h2 className="font-polysans mx-auto text-center text-[36px] leading-tight font-semibold md:h-[82px] md:w-[500px]">
           {t('sectionTitle')}

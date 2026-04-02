@@ -1,13 +1,14 @@
 'use client'
 
 import { useUIStore } from '@/stores/uiStore'
-import { ArrowUpRight, Menu, Moon, Search, User, X } from 'lucide-react'
+import { ArrowUpRight, Menu, Moon, Sun, Search, User, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { LanguageSelector } from '../shared/language-selector'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import { useEffect } from 'react'
+import { useTheme } from 'next-themes'
 import { SearchInput } from '../ui/search-input'
 import { useUserStore } from '@/lib/stores/useUserStore'
 import Image from 'next/image'
@@ -31,6 +32,11 @@ const Navbar = () => {
   const t = useTranslations('Navigation')
   const pathname = usePathname()
   const isReaderPage = pathname.includes('/read-online')
+  const { theme, setTheme } = useTheme()
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
 
   const showFullNavbar = !isReaderPage || (isReaderPage && !isReadOnlineSidebarOpen)
 
@@ -74,7 +80,7 @@ const Navbar = () => {
         'md:left-[calc(50%+150px)] md:w-[calc(100%-300px)]',
       )}
     >
-      <div className="rounded-md bg-white shadow-lg backdrop-blur-sm">
+      <div className="rounded-md bg-white dark:bg-neutral-900 shadow-lg backdrop-blur-sm">
         <div className="px-4 py-2 md:px-8">
           <div className="flex items-center justify-between gap-2">
             {/* Left Section */}
@@ -84,13 +90,13 @@ const Navbar = () => {
                 <span className="text-xl font-bold">{t('siteName')}</span>
               </Link>
               <div className="hidden items-center space-x-8 md:flex">
-                <Link href="/read-online" className="text-black hover:text-gray-900">
+                <Link href="/read-online" className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                   {t('bible')}
                 </Link>
-                <Link href="#" className="text-black hover:text-gray-900">
+                <Link href={isLoggedIn ? "/dashboard/plans" : "/login"} className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                   {t('plans')}
                 </Link>
-                <Link href="/dashboard/notes" className="text-black hover:text-gray-900">
+                <Link href={isLoggedIn ? "/dashboard/notes" : "/login"} className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                   {t('notes')}
                 </Link>
               </div>
@@ -107,16 +113,18 @@ const Navbar = () => {
                   />
                 </div>
 
-                <button className="flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-red-900 py-2 pr-2 pl-6 text-white md:w-fit">
-                  <span>{t('getApp')}</span>
-                  <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-red-900">
-                    <ArrowUpRight size={20} />
-                  </div>
-                </button>
+                <Link href="/#download" className="flex h-[42px] w-fit">
+                  <button className="flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-red-900 py-2 pr-2 pl-6 text-white md:w-fit">
+                    <span>{t('getApp')}</span>
+                    <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-red-900">
+                      <ArrowUpRight size={20} />
+                    </div>
+                  </button>
+                </Link>
 
                 {isLoggedIn ? (
                   <Link href="/dashboard">
-                    <button className="h-[42px] rounded-lg border border-red-900 bg-white px-6 py-2 text-red-900 hover:bg-red-900 hover:text-white">
+                    <button className="h-[42px] rounded-lg border border-red-900 bg-white dark:bg-neutral-800 px-6 py-2 text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
                       Dashboard
                     </button>
                   </Link>
@@ -128,9 +136,9 @@ const Navbar = () => {
                   </Link>
                 )}
 
-                <div className="flex h-[42px] flex-shrink-0 items-center gap-1 rounded-md border p-1">
-                  <button className="rounded-full p-2 hover:bg-gray-200">
-                    <Moon size={18} />
+                <div className="flex h-[42px] flex-shrink-0 items-center gap-1 rounded-md border dark:border-neutral-700 p-1">
+                  <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                    {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                   </button>
                   <LanguageSelector />
                   {isLoggedIn ? (
@@ -181,15 +189,17 @@ const Navbar = () => {
                     <Menu size={24} />
                   </button>
                   {isNavMenuOpen && (
-                    <div className="absolute top-full right-0 z-50 mt-2 rounded-md bg-white p-4 shadow-lg">
+                    <div className="absolute top-full right-0 z-50 mt-2 rounded-md bg-white dark:bg-neutral-900 p-4 shadow-lg">
                       <div className="flex flex-col gap-3">
-                        <button className="flex h-[42px] items-center gap-2 rounded-lg bg-red-900 px-6 py-2 text-sm text-white">
-                          <span>{t('getApp')}</span>
-                          <ArrowUpRight size={16} />
-                        </button>
+                        <Link href="/#download" className="flex h-[42px] w-full">
+                          <button className="flex h-[42px] w-full items-center gap-2 rounded-lg bg-red-900 px-6 py-2 text-sm text-white">
+                            <span>{t('getApp')}</span>
+                            <ArrowUpRight size={16} />
+                          </button>
+                        </Link>
                         <div className="flex h-[42px] items-center gap-2 rounded-md border p-1">
-                          <button className="rounded-full p-2 hover:bg-gray-200">
-                            <Moon size={18} />
+                          <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                           </button>
                           <LanguageSelector />
                           <button className="rounded-full p-2 hover:bg-gray-200">
@@ -218,27 +228,27 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isNavMenuOpen && (
-        <div className="absolute top-full left-0 mt-2 w-full rounded-md bg-white shadow-lg md:hidden">
+        <div className="absolute top-full left-0 mt-2 w-full rounded-md bg-white dark:bg-neutral-900 shadow-lg md:hidden">
           <div className="flex flex-col space-y-2 p-4">
-            <Link href="/read-online" className="py-2 text-black hover:text-gray-900">
+            <Link href="/read-online" className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
               {t('bible')}
             </Link>
-            <Link href="#" className="py-2 text-black hover:text-gray-900">
+            <Link href={isLoggedIn ? "/dashboard/plans" : "/login"} className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
               {t('plans')}
             </Link>
-            <Link href="/dashboard/notes" className="py-2 text-black hover:text-gray-900">
+            <Link href={isLoggedIn ? "/dashboard/notes" : "/login"} className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
               {t('notes')}
             </Link>
-            <div className="my-2 border-t"></div>
+            <div className="my-2 border-t dark:border-neutral-700"></div>
             {isLoggedIn ? (
               <Link href="/dashboard">
-                <button className="h-[42px] w-full rounded-lg border border-red-900 bg-white px-6 py-2 text-left text-red-900 hover:bg-red-900 hover:text-white">
+                <button className="h-[42px] w-full rounded-lg border border-red-900 dark:border-red-700 bg-white dark:bg-neutral-800 px-6 py-2 text-left text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
                   Dashboard
                 </button>
               </Link>
             ) : (
               <Link href="/login">
-                <button className="h-[42px] w-full rounded-lg border border-red-900 bg-white px-6 py-2 text-left text-red-900 hover:bg-red-900 hover:text-white">
+                <button className="h-[42px] w-full rounded-lg border border-red-900 dark:border-red-700 bg-white dark:bg-neutral-800 px-6 py-2 text-left text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
                   {t('login')}
                 </button>
               </Link>
@@ -249,7 +259,7 @@ const Navbar = () => {
 
       {/* Mobile Search */}
       {isNavSearchOpen && (
-        <div className="absolute top-full left-4 mt-2 rounded-md bg-white p-2 shadow-lg md:hidden">
+        <div className="absolute top-full left-4 mt-2 rounded-md bg-white dark:bg-neutral-900 p-2 shadow-lg md:hidden">
           <div className="flex items-center gap-2">
             <div className="flex-1">
               <SearchInput
@@ -261,7 +271,7 @@ const Navbar = () => {
             </div>
             <button
               onClick={toggleNavSearch}
-              className="rounded-lg p-2 hover:bg-gray-100"
+              className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-neutral-700"
             >
               <X size={24} />
             </button>

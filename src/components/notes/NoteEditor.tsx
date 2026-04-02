@@ -118,7 +118,7 @@ export const NoteEditor = () => {
       <div className="flex flex-col gap-3 sm:gap-4 w-full max-w-full md:max-w-[813px]">
         <div className="flex items-center justify-between">
           {!editingNote && (
-            <h2 className="text-[20px] bg-[ #000000B2] font-poppins font-weight-400 h-[29px]">
+            <h2 className="text-[20px] bg-[ #000000B2] font-poppins font-weight-400 h-[29px] text-black dark:text-white">
               Write new note
             </h2>
           )}
@@ -134,7 +134,7 @@ export const NoteEditor = () => {
               </button>
               <button
                 onClick={() => setEditingNote(null)}
-                className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
                 title="Cancel edit"
               >
                 <X size={20} />
@@ -142,22 +142,22 @@ export const NoteEditor = () => {
             </div>
           )}
         </div>
-        <div className="rounded-[20px] border border-[#C9C9C9] bg-[#FFFAFA] p-4 xs:p-6 sm:p-8 shadow-sm md:min-h-[334px] flex flex-col gap-3 sm:gap-4 md:gap-[17px]">
+        <div className="rounded-[20px] border border-[#C9C9C9] dark:border-neutral-700 bg-[#FFFAFA] dark:bg-[#1A1A1A] p-4 xs:p-6 sm:p-8 shadow-sm md:min-h-[334px] flex flex-col gap-3 sm:gap-4 md:gap-[17px]">
           <div className="flex flex-row justify-between items-center w-full gap-2">
             <input
               type="text"
               placeholder="Note title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="text-base sm:text-lg md:text-[24px] font-medium font-weight-400 font-poppins placeholder-gray-300 focus:outline-none bg-transparent text-gray-900 flex-1 min-w-0"
+              className="text-base sm:text-lg md:text-[24px] font-medium font-weight-400 font-poppins placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none bg-transparent text-gray-900 dark:text-white flex-1 min-w-0"
             />
-            <span className="text-xs sm:text-sm md:text-[14px] text-gray-400 whitespace-nowrap flex-shrink-0">{format(new Date(), 'dd-MM-yyyy')}</span>
+            <span className="text-xs sm:text-sm md:text-[14px] text-gray-400 dark:text-gray-500 whitespace-nowrap flex-shrink-0">{format(new Date(), 'dd-MM-yyyy')}</span>
           </div>
 
           <div
             ref={editorRef}
             contentEditable
-            className="w-full flex-1 min-h-[150px] resize-none text-[20px] bg-[ #000000B2] font-poppins font-weight-400 focus:outline-none bg-transparent overflow-y-auto"
+            className="w-full flex-1 min-h-[150px] resize-none text-[20px] bg-[ #000000B2] font-poppins font-weight-400 focus:outline-none bg-transparent text-black dark:text-gray-200 overflow-y-auto"
             onInput={(e) => {
               if (e.currentTarget.innerHTML === '') {
                 e.currentTarget.innerHTML = ''
@@ -168,7 +168,7 @@ export const NoteEditor = () => {
 
           <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-end sm:justify-between mt-auto pt-4 gap-3 sm:gap-3 md:gap-4 w-full min-w-0">
             <div
-              className="flex items-center gap-1.5 sm:gap-3 md:gap-4 lg:gap-6 text-gray-500 bg-white/50 px-2 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full border border-gray-100 overflow-x-auto flex-shrink sm:flex-shrink-0 min-w-0 max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+              className="flex items-center gap-1.5 sm:gap-3 md:gap-4 lg:gap-6 text-gray-500 dark:text-gray-400 bg-white/50 dark:bg-neutral-800/50 px-2 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full border border-gray-100 dark:border-neutral-700 overflow-x-auto flex-shrink sm:flex-shrink-0 min-w-0 max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             >
               <button
                 onMouseDown={(e) => {
@@ -231,14 +231,14 @@ export const NoteEditor = () => {
                   checked={isPublic}
                   onCheckedChange={(checked) => setIsPublic(checked as boolean)}
                 />
-                <label htmlFor="public-note-editor" className="text-xs sm:text-sm text-gray-700 select-none cursor-pointer whitespace-nowrap">
+                <label htmlFor="public-note-editor" className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 select-none cursor-pointer whitespace-nowrap">
                   Public
                 </label>
               </div>
               <button
                 onClick={handleSave}
                 disabled={isSaving || isDeleting || !title}
-                className="flex items-center justify-center rounded-[8px] bg-[#000000] py-2 sm:py-[12px] px-3 sm:px-4 md:px-5 lg:px-[48px] text-xs sm:text-[14px] font-medium text-white hover:bg-gray-800 disabled:opacity-50 transition-colors w-full sm:w-auto sm:flex-none sm:min-w-[90px] md:min-w-[110px] lg:w-[158px] h-[32px] sm:h-[34px] tracking-tight flex-shrink-0"
+                className="flex items-center justify-center rounded-[8px] bg-[#000000] dark:bg-neutral-800 py-2 sm:py-[12px] px-3 sm:px-4 md:px-5 lg:px-[48px] text-xs sm:text-[14px] font-medium text-white hover:bg-gray-800 dark:hover:bg-neutral-700 disabled:opacity-50 transition-colors w-full sm:w-auto sm:flex-none sm:min-w-[90px] md:min-w-[110px] lg:w-[158px] h-[32px] sm:h-[34px] tracking-tight flex-shrink-0 border dark:border-neutral-600"
               >
                 {isSaving ? 'Saving...' : <span className="whitespace-nowrap">Save<span className="ml-0.5">Note</span></span>}
               </button>

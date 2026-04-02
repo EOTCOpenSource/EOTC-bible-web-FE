@@ -21,17 +21,17 @@ export function LanguageSelector() {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-            setIsDropdownOpen(false);
-        }
+      if (event.key === 'Escape') {
+        setIsDropdownOpen(false);
+      }
     };
 
     if (isDropdownOpen) {
-        document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
-        document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isDropdownOpen]);
 

@@ -65,9 +65,9 @@ export function AppSidebar() {
           <SidebarGroupContent className="grid w-full grid-cols-[1.1fr_1.15fr_.64fr]">
             <SidebarMenuItem className="m-0 w-full p-0">
               <SidebarMenuButton
-                className={`w-max cursor-pointer rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${selectedTestament === 'old'
-                  ? 'bg-[#392D2D] text-[#FFFDF8]'
-                  : 'bg-[#FFFDF8] text-[#1A1A19]'
+                className={`w-max cursor-pointer rounded-none border border-[#C8C8C8] dark:border-neutral-800 px-2 py-2 text-sm font-medium hover:bg-[#392D2D] dark:hover:bg-[#222] hover:text-[#FFFDF8] dark:hover:text-white md:px-3 md:py-3 ${selectedTestament === 'old'
+                  ? 'bg-[#392D2D] dark:bg-black text-[#FFFDF8] dark:text-white'
+                  : 'bg-[#FFFDF8] dark:bg-[#1A1A1C] text-[#1A1A19] dark:text-gray-400'
                   }`}
                 onClick={() => {
                   setSelectedTestament('old')
@@ -82,9 +82,9 @@ export function AppSidebar() {
             </SidebarMenuItem>
             <SidebarMenuItem className="m-0 w-full p-0">
               <SidebarMenuButton
-                className={`w-max cursor-pointer rounded-none border border-[#C8C8C8] px-2 py-2 text-sm font-medium hover:bg-[#392D2D] hover:text-[#FFFDF8] md:px-3 md:py-3 ${selectedTestament === 'new'
-                  ? 'bg-[#392D2D] text-[#FFFDF8]'
-                  : 'border border-[#C8C8C8] bg-[#FFFDF8] text-[#1A1A19]'
+                className={`w-max cursor-pointer rounded-none border border-[#C8C8C8] dark:border-neutral-800 px-2 py-2 text-sm font-medium hover:bg-[#392D2D] dark:hover:bg-[#222] hover:text-[#FFFDF8] dark:hover:text-white md:px-3 md:py-3 ${selectedTestament === 'new'
+                  ? 'bg-[#392D2D] dark:bg-black text-[#FFFDF8] dark:text-white'
+                  : 'bg-[#FFFDF8] dark:bg-[#1A1A1C] text-[#1A1A19] dark:text-gray-400'
                   }`}
                 onClick={() => {
                   setSelectedTestament('new')
@@ -97,14 +97,14 @@ export function AppSidebar() {
                 New Testment
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem className="m-0 flex items-center rounded-none border-y-1 border-[#C8C8C8] bg-[#FFFDF8] px-2 text-sm font-medium text-[#1A1A19]">
+            <SidebarMenuItem className="m-0 flex items-center rounded-none border-y-1 border-[#C8C8C8] dark:border-neutral-800 bg-[#FFFDF8] dark:bg-[#1A1A1C] px-2 text-sm font-medium text-[#1A1A19] dark:text-gray-400">
               Chapters
             </SidebarMenuItem>
           </SidebarGroupContent>
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="flex flex-col overflow-hidden bg-[#FFFDF8]">
+      <SidebarContent className="flex flex-col overflow-hidden bg-[#FFFDF8] dark:bg-[#1A1A1C]">
         <SidebarGroup className="overflow-hidden p-2">
           <SidebarGroupContent className="grid h-full grid-cols-8">
             <div
@@ -117,8 +117,8 @@ export function AppSidebar() {
                   <SidebarMenuItem key={book.book_number}>
                     <SidebarMenuButton
                       className={`rounded-none p-4 py-5 text-base ${current.book === book.book_name_am
-                        ? 'bg-[#F2EFE8] text-[#1A1A19]'
-                        : 'bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]'
+                        ? 'bg-[#F2EFE8] dark:bg-neutral-800 text-[#1A1A19] dark:text-white'
+                        : 'bg-[#FFFDF6] dark:bg-transparent hover:bg-[#F2EFE8] dark:hover:bg-neutral-800/50 hover:text-[#1A1A19] dark:text-gray-400 dark:hover:text-gray-200'
                         }`}
                       onClick={() => handleBookClick(book)}
                     >
@@ -145,8 +145,8 @@ export function AppSidebar() {
                         <SidebarMenuItem key={chapter} className="mx-1 w-full">
                           <SidebarMenuButton
                             className={`rounded-none p-4 py-5 text-base ${isSelected
-                              ? 'bg-[#F2EFE8] text-[#1A1A19]'
-                              : 'bg-[#FFFDF6] hover:bg-[#F2EFE8] hover:text-[#1A1A19]'
+                              ? 'bg-[#F2EFE8] dark:bg-neutral-800 text-[#1A1A19] dark:text-white'
+                              : 'bg-[#FFFDF6] dark:bg-transparent hover:bg-[#F2EFE8] dark:hover:bg-neutral-800/50 hover:text-[#1A1A19] dark:text-gray-400 dark:hover:text-gray-200'
                               }`}
                             onClick={() => handleChapterClick(chapter)}
                           >

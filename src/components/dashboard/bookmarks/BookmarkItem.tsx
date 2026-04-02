@@ -72,9 +72,9 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ bookmark }) => {
       : bookmark.verseStart
 
   return (
-    <div className="flex flex-col space-y-2 rounded-lg border p-4 shadow-sm">
+    <div className="flex flex-col space-y-2 rounded-lg border dark:border-neutral-800 p-4 shadow-sm bg-white dark:bg-[#1A1A1A]">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">
+        <h3 className="text-lg font-semibold text-black dark:text-white">
           {bookName || <Skeleton className="inline-block h-5 w-32" />} {bookmark.chapter}:
           {verseRange}
         </h3>
@@ -85,12 +85,12 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ bookmark }) => {
       {isLoadingVerse ? (
         <Skeleton className="h-16 w-full" />
       ) : (
-        <p className="line-clamp-3 text-sm text-yellow-600 dark:text-gray-400">
+        <p className="line-clamp-3 text-sm text-yellow-600 dark:text-yellow-500">
           {verseText || 'Verse not found.'}
         </p>
       )}
       <div className="flex justify-end">
-        <Button variant="link" onClick={handleReadMore} className="p-0 text-sm text-yellow-600">
+        <Button variant="link" onClick={handleReadMore} className="p-0 text-sm text-yellow-600 dark:text-yellow-500">
           Read more
           <ArrowRight />
         </Button>

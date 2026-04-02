@@ -53,19 +53,19 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="min-w-md space-y-1 p-4">
-      <h2 className="my-0 py-0 text-2xl font-semibold">{t('title')}</h2>
-      <p className="mb-4 text-sm text-gray-600">
+      <h2 className="my-0 py-0 text-2xl font-semibold dark:text-white">{t('title')}</h2>
+      <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
         {t('noAccount')}{' '}
-        <a className="text-blue-500 underline" href="/register">
+        <a className="text-blue-500 underline dark:text-blue-400" href="/register">
           {t('signup')}
         </a>
       </p>
       <div>
-        <label htmlFor="email" className="text-sm text-gray-700">
+        <label htmlFor="email" className="text-sm text-gray-700 dark:text-gray-300">
           {t('fields.email')}
         </label>
         <input
-          className="w-full rounded-lg border p-2"
+          className="w-full rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white p-2"
           placeholder={t('placeholders.email')}
           id="email"
           type="email"
@@ -76,11 +76,11 @@ export default function LoginForm() {
 
       {/* Password */}
       <div>
-        <label htmlFor="password" className="text-sm text-gray-700">
+        <label htmlFor="password" className="text-sm text-gray-700 dark:text-gray-300">
           {t('fields.password')}
         </label>
         <input
-          className="w-full rounded-lg border p-2"
+          className="w-full rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white p-2"
           placeholder={t('placeholders.password')}
           type="password"
           id="password"
@@ -92,14 +92,14 @@ export default function LoginForm() {
       </div>
 
       {/* Remember me + Forgot password */}
-      <div className="my-3 flex items-center justify-between text-gray-700">
+      <div className="my-3 flex items-center justify-between text-gray-700 dark:text-gray-300">
         <div>
-          <input type="checkbox" name="checkbox" id="checkbox" />
+          <input type="checkbox" name="checkbox" id="checkbox" className="dark:border-neutral-700 dark:bg-neutral-800" />
           <label htmlFor="checkbox"> {t('rememberMe')}</label>
         </div>
         <Link
           href="/forgot-password"
-          className="text-blue-500 underline"
+          className="text-blue-500 underline dark:text-blue-400"
         >
           {t('forgotPassword')}
         </Link>
@@ -114,9 +114,9 @@ export default function LoginForm() {
       </button>
 
       <div className="my-2 flex items-center gap-4">
-        <div className="flex-1 border-t border-gray-300"></div>
-        <span className="text-sm text-gray-500">{t('or')}</span>
-        <div className="flex-1 border-t border-gray-300"></div>
+        <div className="flex-1 border-t border-gray-300 dark:border-neutral-700"></div>
+        <span className="text-sm text-gray-500 dark:text-gray-400">{t('or')}</span>
+        <div className="flex-1 border-t border-gray-300 dark:border-neutral-700"></div>
       </div>
 
       {/* Social Login Buttons */}

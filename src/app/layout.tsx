@@ -8,6 +8,7 @@ import { ReactNode } from 'react'
 import './globals.css'
 import { supportedLocales } from '@/i18n/routing'
 import GoogleAuthProvider from '@/components/auth/GoogleAuthProvider'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const abyssinicaFont = Abyssinica_SIL({
   subsets: ['ethiopic'],
@@ -100,7 +101,7 @@ export default async function LocaleLayout({ children }: Props) {
   }
 
   return (
-    <html lang={resolvedLocale}>
+    <html lang={resolvedLocale} suppressHydrationWarning>
       <body
         className={cn(
           'bg-background min-h-screen font-sans antialiased',
@@ -110,9 +111,11 @@ export default async function LocaleLayout({ children }: Props) {
         )}
       >
         <NextIntlClientProvider locale={resolvedLocale} messages={messages}>
-          <GoogleAuthProvider>
-            {children}
-          </GoogleAuthProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <GoogleAuthProvider>
+              {children}
+            </GoogleAuthProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
 
         <Script id="schema-script" type="application/ld+json">

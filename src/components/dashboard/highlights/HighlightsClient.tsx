@@ -134,7 +134,7 @@ export default function HighlightsClient() {
                 <div className="flex flex-row justify-between items-center mb-6">
                     <div className="flex items-center gap-3 md:gap-5">
                         <PencilLine className="h-[24px] w-[24px] md:h-[30px] md:w-[30px]" strokeWidth={1} />
-                        <h5 className="text-[20px] md:text-[25px] font-poppins font-normal leading-[90%] tracking-[0.08em] text-black">
+                        <h5 className="text-[20px] md:text-[25px] font-poppins font-normal leading-[90%] tracking-[0.08em] text-black dark:text-white">
                             {title}
                         </h5>
                     </div>
@@ -142,16 +142,16 @@ export default function HighlightsClient() {
                     <div className="flex items-center gap-4">
                         {/* Select All Checkbox - Functional implementation */}
                         <div className="flex items-center gap-2 cursor-pointer" onClick={handleSelectAll}>
-                            <div className={`h-5 w-5 rounded-full border border-gray-400 flex items-center justify-center ${selected.length === highlights.length && highlights.length > 0 ? 'bg-blue-500 border-blue-500' : ''}`}>
+                            <div className={`h-5 w-5 rounded-full border border-gray-400 dark:border-gray-600 flex items-center justify-center ${selected.length === highlights.length && highlights.length > 0 ? 'bg-blue-500 border-blue-500' : ''}`}>
                                 {selected.length === highlights.length && highlights.length > 0 && <div className="h-2 w-2 bg-white rounded-full" />}
                             </div>
-                            <span className="text-gray-600 text-sm">Select all</span>
+                            <span className="text-gray-600 dark:text-gray-300 text-sm">Select all</span>
                         </div>
 
                         <button
                             onClick={handleBulkDelete}
                             disabled={selected.length === 0}
-                            className={`p-2 rounded-full hover:bg-gray-100 ${selected.length === 0 ? 'text-gray-300' : 'text-gray-600'}`}
+                            className={`p-2 rounded-full hover:bg-gray-100 dark:hover:bg-neutral-800 ${selected.length === 0 ? 'text-gray-300 dark:text-gray-600' : 'text-gray-600 dark:text-gray-300'}`}
                         >
                             <Trash2 className="h-5 w-5" />
                         </button>
@@ -163,7 +163,7 @@ export default function HighlightsClient() {
                     {isLoading ? (
                         // Skeleton Loader
                         [...Array(3)].map((_, i) => (
-                            <div key={i} className="border border-gray-200 rounded-[20px] p-4 md:p-6 bg-white shadow-sm w-full max-w-[813px] min-h-[167px] mx-auto">
+                            <div key={i} className="border border-gray-200 dark:border-neutral-800 rounded-[20px] p-4 md:p-6 bg-white dark:bg-[#1A1A1A] shadow-sm w-full max-w-[813px] min-h-[167px] mx-auto">
                                 <div className="flex justify-between items-start mb-4">
                                     <Skeleton className="h-6 w-1/3" />
                                     <Skeleton className="h-4 w-20" />
@@ -186,11 +186,11 @@ export default function HighlightsClient() {
                         </div>
                     ) : (
                         highlights.map((highlight) => (
-                            <div key={highlight._id} className="border border-gray-200 rounded-[20px] px-[27px] py-[16px] bg-white shadow-sm relative hover:shadow-md transition-shadow w-full max-w-[813px] min-h-[167px] mx-auto">
+                            <div key={highlight._id} className="border border-gray-200 dark:border-neutral-800 rounded-[20px] px-[27px] py-[16px] bg-white dark:bg-[#1A1A1A] shadow-sm relative hover:shadow-md transition-shadow w-full max-w-[813px] min-h-[167px] mx-auto">
 
                                 {/* Card top row with title */}
                                 <div className="flex justify-between items-start relative">
-                                    <h2 className="text-[24px] font-poppins font-normal leading-[90%] tracking-[0.08em] text-black">
+                                    <h2 className="text-[24px] font-poppins font-normal leading-[90%] tracking-[0.08em] text-black dark:text-white">
                                         {formatBookName(highlight.verseRef.book)} {highlight.verseRef.chapter}
                                         {highlight.verseRef.verseCount > 1 ? `-${highlight.verseRef.verseStart + highlight.verseRef.verseCount - 1}` : ''}
                                     </h2>
@@ -200,20 +200,20 @@ export default function HighlightsClient() {
                                         <button
                                             type="button"
                                             onClick={() => setOpenDropdownId(openDropdownId === highlight._id ? null : highlight._id)}
-                                            className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-[#8F8F8F] flex items-center gap-1 hover:text-[#621B1C] transition-colors"
+                                            className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-[#8F8F8F] flex items-center gap-1 hover:text-[#621B1C] dark:hover:text-red-400 transition-colors"
                                         >
                                             {currentVersionLabel}
                                             <span className="text-xs">{openDropdownId === highlight._id ? '▲' : '▼'}</span>
                                         </button>
 
                                         {openDropdownId === highlight._id && (
-                                            <div className="mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg z-20">
+                                            <div className="mt-2 w-56 rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#2A2A2A] shadow-lg z-20">
                                                 {versionOptions.map((option) => (
                                                     <button
                                                         key={option.id}
                                                         type="button"
                                                         onClick={() => handleVersionChange(option.id)}
-                                                        className={`flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-gray-100 ${option.id === preferredTranslation ? 'text-[#621B1C] font-medium' : 'text-gray-700'
+                                                        className={`flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-neutral-700 ${option.id === preferredTranslation ? 'text-[#621B1C] dark:text-red-400 font-medium' : 'text-gray-700 dark:text-gray-200'
                                                             }`}
                                                     >
                                                         <span>{option.label}</span>
@@ -227,7 +227,7 @@ export default function HighlightsClient() {
                                     </div>
                                 </div>
 
-                                <p className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-gray-600 mt-[19px] max-w-[777px] mb-4 line-clamp-3">
+                                <p className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-gray-600 dark:text-gray-300 mt-[19px] max-w-[777px] mb-4 line-clamp-3">
                                     {highlight.text || <span className="italic text-gray-400">Click &quot;Edit&quot; to view full context.</span>}
                                 </p>
 

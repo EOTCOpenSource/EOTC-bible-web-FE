@@ -8,14 +8,14 @@ import { useProgressStore } from '@/stores/progressStore'
 
 const RightSidebar = () => {
   const router = useRouter()
-  const { verse, isLoading: verseLoading, loadRandomVerse } = useDailyVerseStore()
+  const { verse, isLoading: verseLoading, loadDailyVerse } = useDailyVerseStore()
   const { progress, loadProgress } = useProgressStore()
   const [month, setMonth] = React.useState<Date | undefined>(new Date())
 
   useEffect(() => {
-    loadRandomVerse().catch(() => {})
+    loadDailyVerse().catch(() => {})
     loadProgress().catch(() => {})
-  }, [loadRandomVerse, loadProgress])
+  }, [loadDailyVerse, loadProgress])
 
   const streakDates: Date[] = []
   if (progress.streak?.lastDate) {
@@ -55,10 +55,10 @@ const RightSidebar = () => {
 
   return (
     <div className="flex w-full flex-col gap-8 py-3 md:gap-6">
-      <div className="rounded-xl border border-gray-400 p-6">
-        <div className="flex items-center gap-1 text-[#4C0E0F]">
+      <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-6">
+        <div className="flex items-center gap-1 text-[#4C0E0F] dark:text-red-400">
           <Award size={20} />
-          <h4 className="text-lg font-medium">Achievement</h4>
+          <h4 className="text-lg font-medium text-black dark:text-white">Achievement</h4>
         </div>
         {progress.streak?.current ? (
           <div className="mt-4 flex flex-col items-center justify-between gap-2">
@@ -69,9 +69,9 @@ const RightSidebar = () => {
                   {progress.streak.lastDate ? 'Active' : 'Inactive'}
                 </span>
               </div>
-              <ChevronRight size={16} className="cursor-pointer" />
+              <ChevronRight size={16} className="cursor-pointer dark:text-gray-400" />
             </div>
-            <hr className="h-[1.5px] w-full bg-gray-300" />
+            <hr className="h-[1.5px] w-full bg-gray-300 dark:bg-neutral-800 border-none" />
           </div>
         ) : null}
         {totalChaptersRead > 0 ? (
@@ -81,14 +81,14 @@ const RightSidebar = () => {
                 <p className="text-sm">{totalChaptersRead} Chapters</p>
                 <span className="text-[10px] text-gray-400">Total read</span>
               </div>
-              <ChevronRight size={16} className="cursor-pointer" />
+              <ChevronRight size={16} className="cursor-pointer dark:text-gray-400" />
             </div>
-            <hr className="h-[1.5px] w-full bg-gray-300" />
+            <hr className="h-[1.5px] w-full bg-gray-300 dark:bg-neutral-800 border-none" />
           </div>
         ) : null}
 
         <div className="flex items-center justify-center pt-5">
-          <button className="flex cursor-pointer items-center justify-end text-[#4C0E0F]">
+          <button className="flex cursor-pointer items-center justify-end text-[#4C0E0F] dark:text-red-400">
             <p>View More</p>
             <ArrowRight size={18} />
           </button>
@@ -97,23 +97,23 @@ const RightSidebar = () => {
 
       <button
         onClick={handleContinueReading}
-        className="cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-lg text-white hover:bg-red-800"
+        className="cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-lg text-white hover:bg-red-800 transition-colors"
       >
         Continue Reading
       </button>
 
-      <div className="rounded-xl border border-gray-400 p-6">
-        <div className="flex items-center gap-1 text-[#4C0E0F]">
+      <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-6">
+        <div className="flex items-center gap-1 text-[#4C0E0F] dark:text-red-400">
           <BookMarked size={20} />
-          <h4 className="text-lg font-medium">Daily Verse</h4>
+          <h4 className="text-lg font-medium text-black dark:text-white">Daily Verse</h4>
         </div>
         {verseLoading ? (
-          <div className="py-3 text-[#4C0E0F]">Loading verse...</div>
+          <div className="py-3 text-[#4C0E0F] dark:text-red-400">Loading verse...</div>
         ) : verse ? (
           <>
-            <div className="text-[#4C0E0F]">
+            <div className="text-[#4C0E0F] dark:text-red-400">
               <p className="py-3 text-sm">{verse.text}</p>
-              <h4 className="text-right font-medium">{verse.reference}</h4>
+              <h4 className="text-right font-medium text-black dark:text-white">{verse.reference}</h4>
             </div>
             <div className="px-9">
               <button
@@ -125,7 +125,7 @@ const RightSidebar = () => {
             </div>
           </>
         ) : (
-          <div className="py-3 text-[#4C0E0F]">Failed to load verse</div>
+          <div className="py-3 text-[#4C0E0F] dark:text-red-400">Failed to load verse</div>
         )}
       </div>
 
@@ -135,10 +135,10 @@ const RightSidebar = () => {
         onSelect={() => {}}
         month={month}
         onMonthChange={setMonth}
-        className="bg-background w-full rounded-xl border border-gray-200 p-3 md:mx-auto md:w-auto md:max-w-md lg:mx-0 lg:w-full lg:max-w-none"
+        className="bg-background w-full rounded-xl border border-gray-200 dark:border-neutral-800 p-3 md:mx-auto md:w-auto md:max-w-md lg:mx-0 lg:w-full lg:max-w-none"
         captionLayout="dropdown"
         classNames={{
-          day: 'w-full p-0 text-sm font-normal rounded-full hover:bg-background hover:text-foreground',
+          day: 'w-full p-0 text-sm font-normal rounded-full hover:bg-background hover:text-foreground dark:text-gray-200',
         }}
         modifiers={{
           streak: streakDates,

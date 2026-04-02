@@ -7,7 +7,7 @@ const DownloadApp = () => {
   const t = useTranslations('DownloadApp')
 
   return (
-    <section className="relative overflow-hidden bg-gray-50 py-20">
+    <section id="download" className="relative overflow-hidden bg-gray-50 dark:bg-neutral-900 py-20">
       <div
         className="absolute inset-0 -rotate-33 transform bg-cover bg-center md:rotate-0"
         style={{ backgroundImage: "url('/download-app-card-bg.png')" }}

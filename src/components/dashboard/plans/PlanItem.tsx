@@ -31,7 +31,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
   end.setDate(start.getDate() + durationInDays - 1)
 
   return (
-    <div className="relative rounded-lg border p-4 pl-22 transition hover:shadow-md">
+    <div className="relative rounded-lg border dark:border-neutral-800 bg-white dark:bg-[#1A1A1A] p-4 pl-22 transition hover:shadow-md dark:hover:shadow-neutral-900">
       {/* Ribbon */}
       <div className="absolute top-0 left-5 flex flex-col items-center gap-1 text-xs">
         <svg
@@ -55,7 +55,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
           (() => {
             const d = new Date(lastCompletedDate)
             return (
-              <span className="flex flex-col items-center text-lg leading-tight text-[#4C0E0F]">
+              <span className="flex flex-col items-center text-lg leading-tight text-[#4C0E0F] dark:text-gray-100 z-10 pt-1">
                 <span className="font-bold">
                   {d.toLocaleDateString(undefined, { month: 'short' })}
                 </span>
@@ -66,14 +66,14 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
       </div>
 
       <div className="space-y-3 md:max-w-[150px] lg:max-w-[none]">
-        <div className="text-lg font-medium">
+        <div className="text-lg font-medium text-black dark:text-white">
           {startBook === endBook
             ? `${startBook} ${startChapter}-${endChapter}`
             : `${startBook} ${startChapter} - ${endBook} ${endChapter}`}
-          <span className="text-md text-muted-foreground"> ( {name} )</span>
+          <span className="text-md text-muted-foreground dark:text-gray-400"> ( {name} )</span>
         </div>
 
-        <div className="text-muted-foreground flex justify-between text-sm">
+        <div className="text-muted-foreground dark:text-gray-400 flex justify-between text-sm">
           <div>
             {completedDays} of {totalDays} days completed
           </div>
@@ -81,7 +81,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
         </div>
 
         {/* Progress bar */}
-        <div className="bg-muted h-2 w-full rounded">
+        <div className="bg-muted dark:bg-neutral-800 h-2 w-full rounded">
           <div
             className={cn(
               'bg-primary h-full rounded transition-all',
@@ -91,7 +91,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
           />
         </div>
 
-        <div className="text-muted-foreground text-xs">
+        <div className="text-muted-foreground dark:text-gray-400 text-xs">
           {start.toLocaleDateString()} – {end.toLocaleDateString()}
         </div>
       </div>

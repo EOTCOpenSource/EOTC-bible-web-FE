@@ -5,15 +5,21 @@ import { useEffect } from 'react'
 import { useUserStore } from '@/lib/stores/useUserStore'
 import LogoutButton from '../LogoutButton'
 import Link from 'next/link'
-import { Moon, Settings, User } from 'lucide-react'
+import { Moon, Sun, Settings, User } from 'lucide-react'
 import { LanguageSelector } from '../shared/language-selector'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
+import { useTheme } from 'next-themes'
 
 export default function Navbar() {
   const { user, loadSession } = useUserStore()
 
   const t = useTranslations('Dashboard')
+  const { theme, setTheme } = useTheme()
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
 
   useEffect(() => {
     loadSession()
@@ -38,8 +44,8 @@ export default function Navbar() {
       {/* Right: Actions */}
       <div className="flex items-center gap-1 border border-border rounded-xl p-1.5 shadow-sm bg-background/50 backdrop-blur-sm">
         <LanguageSelector />
-        <button className="rounded-full p-2 hover:bg-accent text-foreground transition-colors">
-          <Moon size={20} strokeWidth={1.5} />
+        <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-accent text-foreground transition-colors">
+          {theme === 'dark' ? <Sun size={20} strokeWidth={1.5} /> : <Moon size={20} strokeWidth={1.5} />}
         </button>
         <button className="rounded-full p-2 hover:bg-accent text-foreground transition-colors">
           <Settings size={20} strokeWidth={1.5} />

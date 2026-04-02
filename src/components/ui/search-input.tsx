@@ -173,7 +173,7 @@ export const SearchInput = ({
 
       <div
         className={cn(
-          'flex items-center overflow-hidden rounded-lg border',
+          'flex items-center overflow-hidden rounded-lg border dark:border-neutral-700',
           variant === 'compact' ? 'h-[38px]' : 'h-[42px]',
           containerClassName,
         )}
@@ -191,7 +191,7 @@ export const SearchInput = ({
             onFocus={handleFocus}
             placeholder={placeholder}
             className={cn(
-              'h-full flex-1 bg-gray-100 px-2 sm:px-3 md:px-4 py-2 focus:outline-none',
+              'h-full flex-1 bg-gray-100 dark:bg-neutral-800 dark:text-white dark:placeholder-gray-400 px-2 sm:px-3 md:px-4 py-2 focus:outline-none',
               className,
             )}
           />
@@ -199,7 +199,7 @@ export const SearchInput = ({
             {searchQuery && (
               <button
                 onClick={handleClear}
-                className="flex items-center justify-center rounded-md p-1 sm:p-2 bg-gray-200 hover:bg-gray-300 transition-colors text-gray-700 hover:text-gray-900 cursor-pointer"
+                className="flex items-center justify-center rounded-md p-1 sm:p-2 bg-gray-200 dark:bg-neutral-700 hover:bg-gray-300 dark:hover:bg-neutral-600 transition-colors text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white cursor-pointer"
                 aria-label="Clear search"
                 title="Clear search"
               >
@@ -212,11 +212,11 @@ export const SearchInput = ({
 
       {/* Filter Panel - Below Search */}
       {showResults && searchQuery.trim() && showDropdown && (
-        <div className="absolute top-full -left-2 right-0 mt-4 bg-white border rounded-lg shadow-md z-40">
+        <div className="absolute top-full -left-2 right-0 mt-4 bg-white dark:bg-neutral-900 border dark:border-neutral-700 rounded-lg shadow-md z-40">
           {/* Filter Header */}
-          <div className="flex items-center gap-2 px-3 py-2 border-b bg-gray-50 rounded-t-lg">
-            <Filter size={16} className="text-[#4C0E0F]" />
-            <span className="text-xs sm:text-sm font-semibold text-gray-700">Refine your search</span>
+          <div className="flex items-center gap-2 px-3 py-2 border-b dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-t-lg">
+            <Filter size={16} className="text-[#4C0E0F] dark:text-red-400" />
+            <span className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200">Refine your search</span>
           </div>
 
           {/* Filter Options */}
@@ -229,7 +229,7 @@ export const SearchInput = ({
                   onClick={() => setSelectedTestament(test as 'all' | 'old' | 'new')}
                   className={`px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded text-xs sm:text-sm md:text-base font-medium transition-colors ${selectedTestament === test
                       ? 'bg-[#4C0E0F] text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-neutral-800 dark:text-gray-300 dark:hover:bg-neutral-700'
                     }`}
                 >
                   {test === 'all' ? 'All' : test === 'old' ? 'OT' : 'NT'}
@@ -241,7 +241,7 @@ export const SearchInput = ({
             <select
               value={selectedBook || ''}
               onChange={(e) => setSelectedBook(e.target.value ? parseInt(e.target.value) : null)}
-              className="px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded text-xs sm:text-sm md:text-base border border-gray-300 hover:border-gray-400 focus:border-[#4C0E0F] focus:outline-none cursor-pointer w-full sm:w-auto"
+              className="px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded text-xs sm:text-sm md:text-base border border-gray-300 dark:border-neutral-700 hover:border-gray-400 focus:border-[#4C0E0F] focus:outline-none cursor-pointer w-full sm:w-auto dark:bg-neutral-800 dark:text-white"
             >
               <option value="">All Books</option>
               {getFilteredBooks().map((book: any) => (
@@ -256,7 +256,7 @@ export const SearchInput = ({
 
       {/* Search Results Dropdown */}
       {shouldShowDropdown && (
-        <div className="absolute top-full left-0 right-0 max-h-96 overflow-y-auto rounded-lg border bg-white shadow-lg z-50" style={{ marginTop: searchQuery.trim() && showResults ? '175px' : '3px' }}>
+        <div className="absolute top-full left-0 right-0 max-h-96 overflow-y-auto rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-lg z-50" style={{ marginTop: searchQuery.trim() && showResults ? '175px' : '3px' }}>
           {/* Loading State */}
           {isLoading && (
             <div className="p-6 text-center">
@@ -273,8 +273,8 @@ export const SearchInput = ({
               <div className="inline-block mb-3">
                 <div className="text-3xl">📖</div>
               </div>
-              <p className="text-gray-900 font-medium text-sm mb-1">{getNoResultsMessage()}</p>
-              <p className="text-gray-500 text-xs">{getSuggestionMessage()}</p>
+              <p className="text-gray-900 dark:text-white font-medium text-sm mb-1">{getNoResultsMessage()}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-xs">{getSuggestionMessage()}</p>
               {(selectedBook || selectedTestament !== 'all') && (
                 <button
                   onClick={() => {
@@ -292,7 +292,7 @@ export const SearchInput = ({
           {/* Results State */}
           {!isLoading && searchResults.length > 0 && (
             <div>
-              <div className="px-3 py-2 bg-gray-50 border-b text-xs text-gray-600 flex items-center justify-between">
+              <div className="px-3 py-2 bg-gray-50 dark:bg-neutral-800 border-b dark:border-neutral-700 text-xs text-gray-600 dark:text-gray-300 flex items-center justify-between">
                 <span>
                   Showing {searchResults.length} of <strong>{totalMatches.toLocaleString()}</strong> verses
                 </span>
@@ -302,7 +302,7 @@ export const SearchInput = ({
                       router.push(`/search?q=${encodeURIComponent(debouncedQuery)}`)
                       setShowDropdown(false)
                     }}
-                    className="flex items-center gap-1 text-[#4C0E0F] hover:text-red-700 font-medium"
+                    className="flex items-center gap-1 text-[#4C0E0F] dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium"
                   >
                     Show All <ChevronRight size={14} />
                   </button>
@@ -313,14 +313,14 @@ export const SearchInput = ({
                   <div
                     key={`${result.type}-${result.book_number}-${result.chapter}-${result.verse}-${idx}`}
                     onClick={() => handleResultClick(result)}
-                    className="cursor-pointer p-3 hover:bg-red-50 transition-colors border-l-4 border-l-transparent hover:border-l-[#4C0E0F]"
+                    className="cursor-pointer p-3 hover:bg-red-50 dark:hover:bg-neutral-800/50 transition-colors border-l-4 border-l-transparent hover:border-l-[#4C0E0F] dark:hover:border-l-red-500"
                   >
                     {result.type === 'book' ? (
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="font-semibold text-[#4C0E0F] text-base">{result.book_name_en}</div>
+                          <div className="font-semibold text-[#4C0E0F] dark:text-red-400 text-base">{result.book_name_en}</div>
                           {result.book_name_am && (
-                            <div className="text-sm text-gray-600 mt-1">{result.book_name_am}</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">{result.book_name_am}</div>
                           )}
                         </div>
                         {result.matchCount && result.matchCount > 0 && (
@@ -332,7 +332,7 @@ export const SearchInput = ({
                     ) : (
                       <div className="space-y-1">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-bold text-[#4C0E0F] text-sm">
+                          <span className="font-bold text-[#4C0E0F] dark:text-red-400 text-sm">
                             {result.book_short_name_en} {result.chapter}:{result.verse}
                           </span>
                           {bookCounts[result.book_number] && (
@@ -346,7 +346,7 @@ export const SearchInput = ({
                             </span>
                           )}
                         </div>
-                        <div className="text-xs text-gray-700 leading-relaxed line-clamp-2 pl-1">
+                        <div className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed line-clamp-2 pl-1">
                           &quot;{result.text}&quot;
                         </div>
                       </div>
@@ -356,7 +356,7 @@ export const SearchInput = ({
               </div>
               {/* Show All Button at Bottom */}
               {totalMatches > searchResults.length && (
-                <div className="p-3 border-t bg-gray-50">
+                <div className="p-3 border-t dark:border-neutral-700 bg-gray-50 dark:bg-neutral-800">
                   <button
                     onClick={() => {
                       router.push(`/search?q=${encodeURIComponent(debouncedQuery)}`)

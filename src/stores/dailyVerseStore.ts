@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
+import { devtools, persist } from 'zustand/middleware'
 import { books } from '@/data/data'
 import type { BibleBook } from './types'
 
@@ -11,16 +11,39 @@ interface DailyVerse {
   verse: number
 }
 
+interface VerseStats {
+  likes: number
+  shares: number
+  bookmarks: number
+  userLiked: boolean
+  userShared: boolean
+  userBookmarked: boolean
+}
+
 interface DailyVerseState {
   verse: DailyVerse | null
   isLoading: boolean
   error?: string | null
-  loadRandomVerse: () => Promise<void>
+  stats: VerseStats | null
+  loadDailyVerse: () => Promise<void>
   clearError: () => void
+  initStats: (likesStr: string, sharesStr: string, bookmarksStr: string) => void
+  toggleLike: () => void
+  toggleShare: () => void
+  toggleBookmark: () => void
 }
 
-const getRandomVerse = async (): Promise<DailyVerse> => {
-  const randomBook = books[Math.floor(Math.random() * books.length)]
+const getSeededRandom = (seed: number) => {
+  const x = Math.sin(seed) * 10000
+  return x - Math.floor(x)
+}
+
+const getDailyVerse = async (): Promise<DailyVerse> => {
+  const today = new Date()
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
+
+  const randomBookIndex = Math.floor(getSeededRandom(seed) * books.length)
+  const randomBook = books[randomBookIndex]
   const bookData: BibleBook = await import(`@/data/bible-data/${randomBook.file_name}.json`).then(
     (m) => m.default,
   )
@@ -29,7 +52,8 @@ const getRandomVerse = async (): Promise<DailyVerse> => {
     throw new Error('Book has no chapters')
   }
 
-  const randomChapter = bookData.chapters[Math.floor(Math.random() * bookData.chapters.length)]
+  const randomChapterIndex = Math.floor(getSeededRandom(seed + 1) * bookData.chapters.length)
+  const randomChapter = bookData.chapters[randomChapterIndex]
   if (!randomChapter.sections || randomChapter.sections.length === 0) {
     throw new Error('Chapter has no sections')
   }
@@ -42,7 +66,8 @@ const getRandomVerse = async (): Promise<DailyVerse> => {
     throw new Error('Chapter has no verses')
   }
 
-  const randomVerse = allVerses[Math.floor(Math.random() * allVerses.length)]
+  const randomVerseIndex = Math.floor(getSeededRandom(seed + 2) * allVerses.length)
+  const randomVerse = allVerses[randomVerseIndex]
 
   const bookName = randomBook.book_short_name_en || randomBook.book_name_en
   const reference = `${bookName} ${randomChapter.chapter}:${randomVerse.verse}`
@@ -56,22 +81,91 @@ const getRandomVerse = async (): Promise<DailyVerse> => {
   }
 }
 
+const parseStat = (str: string) => {
+  const num = parseFloat(str)
+  if (str.toLowerCase().includes('k')) return num * 1000
+  if (str.toLowerCase().includes('m')) return num * 1000000
+  return num || 0
+}
+
 export const useDailyVerseStore = create<DailyVerseState>()(
-  devtools((set) => ({
-    verse: null,
-    isLoading: false,
-    error: null,
+  devtools(
+    persist(
+      (set, get) => ({
+        verse: null,
+        isLoading: false,
+        error: null,
+        stats: null,
 
-    clearError: () => set({ error: null }),
+        clearError: () => set({ error: null }),
 
-    loadRandomVerse: async () => {
-      set({ isLoading: true, error: null })
-      try {
-        const verse = await getRandomVerse()
-        set({ verse, isLoading: false })
-      } catch (err: any) {
-        set({ isLoading: false, error: err?.message ?? 'Failed to load daily verse' })
+        loadDailyVerse: async () => {
+          set({ isLoading: true, error: null })
+          try {
+            const verse = await getDailyVerse()
+            set({ verse, isLoading: false })
+          } catch (err: any) {
+            set({ isLoading: false, error: err?.message ?? 'Failed to load daily verse' })
+          }
+        },
+
+        initStats: (likesStr, sharesStr, bookmarksStr) => {
+          if (!get().stats) {
+            set({
+              stats: {
+                likes: parseStat(likesStr),
+                shares: parseStat(sharesStr),
+                bookmarks: parseStat(bookmarksStr),
+                userLiked: false,
+                userShared: false,
+                userBookmarked: false,
+              },
+            })
+          }
+        },
+
+        toggleLike: () =>
+          set((state) => {
+            if (!state.stats) return state
+            const { userLiked, likes } = state.stats
+            return {
+              stats: {
+                ...state.stats,
+                userLiked: !userLiked,
+                likes: userLiked ? likes - 1 : likes + 1,
+              },
+            }
+          }),
+
+        toggleShare: () =>
+          set((state) => {
+            if (!state.stats) return state
+            const { userShared, shares } = state.stats
+            return {
+              stats: {
+                ...state.stats,
+                userShared: !userShared,
+                shares: userShared ? shares - 1 : shares + 1,
+              },
+            }
+          }),
+
+        toggleBookmark: () =>
+          set((state) => {
+            if (!state.stats) return state
+            const { userBookmarked, bookmarks } = state.stats
+            return {
+              stats: {
+                ...state.stats,
+                userBookmarked: !userBookmarked,
+                bookmarks: userBookmarked ? bookmarks - 1 : bookmarks + 1,
+              },
+            }
+          }),
+      }),
+      {
+        name: 'daily-verse-storage',
       }
-    },
-  })),
+    )
+  )
 )

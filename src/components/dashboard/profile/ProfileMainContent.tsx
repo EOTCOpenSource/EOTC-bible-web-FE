@@ -235,7 +235,7 @@ export const ProfileMainContent = () => {
 
     return (
       <div className="space-y-2">
-        <Label className="text-sm font-medium text-[#9CA3AF]">{label}</Label>
+        <Label className="text-sm font-medium text-[#9CA3AF] dark:text-gray-400">{label}</Label>
         <div className="relative">
           <Input
             type={isPasswordField && !isEditing ? 'password' : type}
@@ -248,7 +248,7 @@ export const ProfileMainContent = () => {
               }
             }}
             placeholder={placeholder}
-            className="bg-[#F9FAFB] border-none h-10 rounded-[12px] pr-10 focus-visible:ring-1 focus-visible:ring-gray-200"
+            className="bg-[#F9FAFB] dark:bg-[#3D2D2D] dark:text-white border-none h-10 rounded-[12px] pr-10 focus-visible:ring-1 focus-visible:ring-gray-200 dark:focus-visible:ring-gray-600"
             readOnly={!isEditing}
             disabled={isSaving}
           />
@@ -287,7 +287,7 @@ export const ProfileMainContent = () => {
               value={formData.confirmPassword}
               onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
               placeholder="Confirm new password"
-              className="bg-[#F9FAFB] border-none h-12 rounded-[12px] focus-visible:ring-1 focus-visible:ring-gray-200"
+                className="bg-[#F9FAFB] dark:bg-[#3D2D2D] dark:text-white border-none h-12 rounded-[12px] focus-visible:ring-1 focus-visible:ring-gray-200 dark:focus-visible:ring-gray-600"
               disabled={isSaving}
             />
           </>
@@ -298,10 +298,10 @@ export const ProfileMainContent = () => {
 
   return (
     <>
-      <div className="w-full md:w-[502px] min-h-[475px] h-auto bg-white rounded-[20px] p-6 border border-gray-100 shadow-sm flex flex-col">
+      <div className="w-full md:w-[502px] min-h-[475px] h-auto bg-white dark:bg-[#2A2020] rounded-[20px] p-6 border border-gray-100 dark:border-[#3D2D2D] shadow-sm flex flex-col">
         <div className="flex flex-col items-center mb-6 flex-shrink-0">
           <div className="relative group cursor-pointer" onClick={handleAvatarButtonClick}>
-            <div className="h-20 w-20 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden border-4 border-white shadow-sm ring-1 ring-gray-100">
+            <div className="h-20 w-20 rounded-full bg-gray-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden border-4 border-white dark:border-[#3D2D2D] shadow-sm ring-1 ring-gray-100 dark:ring-neutral-600">
               {user?.avatarUrl ? (
                 <Image
                   src={user.avatarUrl}
@@ -317,7 +317,7 @@ export const ProfileMainContent = () => {
             <button
               type="button"
               disabled={isUploading}
-              className="absolute bottom-0 right-0 bg-white p-1.5 rounded-full border border-gray-100 shadow-md hover:bg-gray-50 transition-colors z-10"
+              className="absolute bottom-0 right-0 bg-white dark:bg-neutral-700 p-1.5 rounded-full border border-gray-100 dark:border-neutral-600 shadow-md hover:bg-gray-50 dark:hover:bg-neutral-600 transition-colors z-10"
             >
               <Pencil size={12} className="text-gray-600" />
             </button>
@@ -332,7 +332,7 @@ export const ProfileMainContent = () => {
             className="hidden"
             onChange={handleAvatarChange}
           />
-          <p className="mt-2 text-xs font-medium text-gray-500">Change your profile picture</p>
+          <p className="mt-2 text-xs font-medium text-gray-500 dark:text-gray-400">Change your profile picture</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -362,7 +362,7 @@ export const ProfileMainContent = () => {
           <Button
             onClick={() => setDeleteDialogOpen(true)}
             variant="outline"
-            className="w-[155px] h-[42px] bg-white border border-[#621B1C] hover:bg-neutral-50 text-[#621B1C] pl-[10px] pr-[4px] py-[5px] rounded-[8px] gap-[6px] font-medium flex items-center justify-between transition-all disabled:opacity-50 text-sm overflow-hidden"
+            className="w-[155px] h-[42px] bg-white dark:bg-transparent border border-[#621B1C] hover:bg-neutral-50 dark:hover:bg-[#3D2D2D] text-[#621B1C] dark:text-red-400 pl-[10px] pr-[4px] py-[5px] rounded-[8px] gap-[6px] font-medium flex items-center justify-between transition-all disabled:opacity-50 text-sm overflow-hidden"
           >
             Delete Account
             <div className="bg-[#621B1C] rounded-[6px] h-8 w-8 flex items-center justify-center text-white shrink-0">

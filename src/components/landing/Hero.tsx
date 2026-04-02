@@ -3,6 +3,7 @@ import React from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Hero = () => {
   const t = useTranslations('Hero')
@@ -30,16 +31,18 @@ const Hero = () => {
           </p>
           <h1 className="mt-2 text-4xl font-bold md:text-6xl">{t('title')}</h1>
           <p className="mt-4 text-lg">{t('description')}</p>
-          <button className="mt-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F]">
-            <span>{t('button')}</span>
-            <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#4C0E0F] p-1 text-white">
-              <ArrowUpRight size={20} />
-            </div>
-          </button>
+          <Link href="/read-online" className="mt-8 flex w-fit">
+            <button className="flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F]">
+              <span>{t('button')}</span>
+              <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#4C0E0F] p-1 text-white">
+                <ArrowUpRight size={20} />
+              </div>
+            </button>
+          </Link>
         </div>
 
         {/* APP DOWNLOAD CARD */}
-        <div className="mx-auto mt-8 mb-8 w-full max-w-md rounded-lg bg-gradient-to-t from-gray-100 to-white p-6 text-black shadow-lg md:absolute md:right-6 md:bottom-4 md:mb-0 md:w-[480px]">
+        <div className="mx-auto mt-8 mb-8 w-full max-w-md rounded-lg bg-gradient-to-t from-gray-100 to-white dark:from-neutral-800 dark:to-neutral-900 p-6 text-black dark:text-white shadow-lg md:absolute md:right-6 md:bottom-4 md:mb-0 md:w-[480px]">
           {/* MOBILE LAYOUT */}
           <div className="block text-center md:hidden">
             <div className="flex items-center justify-center">

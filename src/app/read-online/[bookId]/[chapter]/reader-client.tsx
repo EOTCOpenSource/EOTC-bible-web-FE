@@ -7,9 +7,9 @@ import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { getHighlightInlineColor } from '@/lib/highlight-utils'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, TouchEvent } from 'react'
 import type { HighlightColor } from '@/stores/types'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 
 interface ReaderClientProps {
   bookData: any
@@ -27,6 +27,7 @@ export default function ReaderClient({
   bookId,
 }: ReaderClientProps) {
   const { open: isSidebarOpen } = useSidebar()
+  const router = useRouter()
   const searchParams = useSearchParams()
 
   const { highlights, loadHighlights } = useHighlightsStore()
@@ -34,19 +35,26 @@ export default function ReaderClient({
   const [animatedVerses, setAnimatedVerses] = useState<Set<number>>(new Set())
   const [searchQuery, setSearchQuery] = useState<string | null>(null)
 
+  // SWIPE STATE
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 50
+
   useEffect(() => {
     loadHighlights()
   }, [bookId, chapterData.chapter, loadHighlights])
 
-  
+
   useEffect(() => {
     const hash = window.location.hash
     const search = searchParams.get('search')
-    
+
     if (search) {
       setSearchQuery(search)
     }
-    
+
     if (hash) {
       const verseCount = parseInt(searchParams.get('verseCount') || '1', 10)
       const verseStart = parseInt(hash.substring(2), 10)
@@ -70,7 +78,7 @@ export default function ReaderClient({
         setTimeout(() => {
           setAnimatedVerses(new Set())
         }, 10000)
-        
+
         // Clear search highlight after 15 seconds
         setTimeout(() => {
           setSearchQuery(null)
@@ -119,6 +127,29 @@ export default function ReaderClient({
   }, [highlights, bookId, chapterData.chapter])
 
   // handlers
+  const onTouchStart = (e: TouchEvent) => {
+    setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMove = (e: TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe && nextChapter) {
+      router.push(`/read-online/${bookId}/${nextChapter}`)
+    }
+    if (isRightSwipe && prevChapter) {
+      router.push(`/read-online/${bookId}/${prevChapter}`)
+    }
+  }
+
   const handleBookmark = (verse: number | string) => {
     console.log('Bookmark verse:', verse)
     // TODO: Implement bookmark logic - save to localStorage or database
@@ -130,23 +161,28 @@ export default function ReaderClient({
   }
 
   return (
-    <div className="relative h-full w-full">
+    <div
+      className="relative h-full w-full"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       {/* LEFT ARROW */}
       <div
         className={clsx(
           'fixed top-1/2 z-10 -translate-y-1/2 transition-all',
-          isSidebarOpen ? 'left-[312px]' : 'left-32',
+          isSidebarOpen ? 'left-2 md:left-[312px]' : 'left-2 md:left-8 lg:left-32',
         )}
       >
         {prevChapter ? (
           <Link
             href={`/read-online/${bookId}/${prevChapter}`}
-            className="block rounded-md bg-gray-200 p-2 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700"
+            className="block rounded-md bg-gray-200 dark:bg-gray-300 p-2 hover:bg-gray-300 dark:hover:bg-white text-black transition-colors"
           >
             <ChevronLeft className="h-6 w-6" />
           </Link>
         ) : (
-          <div className="cursor-not-allowed rounded-md bg-gray-200 p-2 opacity-50 dark:bg-gray-800">
+          <div className="cursor-not-allowed rounded-md bg-gray-200 dark:bg-gray-300 p-2 opacity-50 text-black">
             <ChevronLeft className="h-6 w-6" />
           </div>
         )}
@@ -159,7 +195,7 @@ export default function ReaderClient({
           isSidebarOpen ? 'md:px-20' : 'md:px-16',
         )}
       >
-        <h1 className="mb-4 text-center text-2xl font-bold sm:text-3xl">
+        <h1 className="mb-4 text-center text-2xl font-bold sm:text-3xl dark:text-white">
           {bookData.book_name_am + ' ' + chapterData.chapter}
         </h1>
 
@@ -169,12 +205,12 @@ export default function ReaderClient({
           return (
             <div key={sIndex}>
               {section.title && (
-                <h3 className="mt-4 mb-2 text-center text-lg font-bold sm:text-xl">
+                <h3 className="mt-4 mb-2 text-center text-lg font-bold sm:text-xl dark:text-gray-200">
                   {section.title}
                 </h3>
               )}
 
-              <div id={sectionId} className="text-justify text-base sm:text-lg">
+              <div id={sectionId} className="text-justify text-base sm:text-lg dark:text-gray-300 prose prose-gray dark:prose-invert max-w-none">
                 {section.verses.map((verse: any) => (
                   <VerseActionMenu
                     key={verse.verse}
@@ -201,19 +237,19 @@ export default function ReaderClient({
       {/* RIGHT ARROW */}
       <div
         className={clsx(
-          'fixed top-1/2 right-8 z-10 -translate-y-1/2 transition-all',
-          isSidebarOpen ? 'mr-6' : 'mr-24',
+          'fixed top-1/2 z-10 -translate-y-1/2 transition-all',
+          isSidebarOpen ? 'right-2 md:right-6 lg:right-24' : 'right-2 md:right-8 lg:right-32',
         )}
       >
         {nextChapter ? (
           <Link
             href={`/read-online/${bookId}/${nextChapter}`}
-            className="block rounded-md bg-gray-200 p-2 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700"
+            className="block rounded-md bg-gray-200 dark:bg-gray-300 p-2 hover:bg-gray-300 dark:hover:bg-white text-black transition-colors"
           >
             <ChevronRight className="h-6 w-6" />
           </Link>
         ) : (
-          <div className="cursor-not-allowed rounded-md bg-gray-200 p-2 opacity-50 dark:bg-gray-800">
+          <div className="cursor-not-allowed rounded-md bg-gray-200 dark:bg-gray-300 p-2 opacity-50 text-black">
             <ChevronRight className="h-6 w-6" />
           </div>
         )}

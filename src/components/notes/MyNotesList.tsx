@@ -42,7 +42,7 @@ export const MyNotesList = ({
 
   return (
     <div
-      className={`xs:mb-3 mt-3 w-full rounded-xl border border-gray-200 bg-[#FFFAFA] p-3 shadow-sm transition-all duration-300 sm:mt-4 sm:mb-4 sm:p-4 md:mb-6 md:p-6 mb-2${
+      className={`xs:mb-3 mt-3 w-full rounded-xl border border-gray-200 dark:border-neutral-800 bg-[#FFFAFA] dark:bg-[#1A1A1A] p-3 shadow-sm transition-all duration-300 sm:mt-4 sm:mb-4 sm:p-4 md:mb-6 md:p-6 mb-2${
         isExpanded
           ? 'mb-2 h-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px]'
           : ''
@@ -50,20 +50,20 @@ export const MyNotesList = ({
     >
       <div className="mb-2 flex flex-row items-center justify-between gap-2 sm:mb-3 md:mb-4 lg:mb-6">
         <div className="flex items-center gap-2">
-          <FileText className="h-4 w-4 text-[#4C0E0F] sm:h-5 sm:w-5" />
-          <h2 className="font-inter font-weight-500 text-lg leading-none font-medium text-[#621B1C] sm:text-xl md:text-[24px]">
+          <FileText className="h-4 w-4 text-[#4C0E0F] dark:text-red-400 sm:h-5 sm:w-5" />
+          <h2 className="font-inter font-weight-500 text-lg leading-none font-medium text-[#621B1C] dark:text-red-400 sm:text-xl md:text-[24px]">
             My Notes
           </h2>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="ml-2 flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2 py-1 text-xs font-medium text-gray-500 transition-colors hover:text-gray-900">
+              <button className="ml-2 flex items-center gap-1.5 rounded-md border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-300 transition-colors hover:text-gray-900 dark:hover:text-white">
                 <Filter className="h-3.5 w-3.5" />
                 <span className="capitalize">
                   {filter === 'all' ? 'All Notes' : filter + ' Notes'}
                 </span>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-[150px]">
+            <DropdownMenuContent align="start" className="w-[150px] dark:bg-neutral-800 dark:border-neutral-700">
               <DropdownMenuItem
                 onClick={() => setFilter('all')}
                 className="flex items-center justify-between"
@@ -91,15 +91,15 @@ export const MyNotesList = ({
         {!isExpanded && (
           <button
             onClick={onToggleExpandAction}
-            className="font-weight-400 font-poppins flex items-center gap-1 text-[20px] font-[20px] transition-colors sm:text-sm"
+            className="font-weight-400 font-poppins flex items-center gap-1 text-[20px] font-[20px] text-black dark:text-white transition-colors sm:text-sm"
           >
-            See all <ArrowUpRight className="sm:h-[15px h-[20px] w-[20px] sm:w-[15px]" />
+            See all <ArrowUpRight className="sm:h-[15px h-[20px] w-[20px] sm:w-[15px] dark:text-white" />
           </button>
         )}
         {isExpanded && (
           <button
             onClick={onToggleExpandAction}
-            className="text-xs font-medium text-[#4C0E0F] transition-colors hover:text-red-800 sm:text-sm"
+            className="text-xs font-medium text-[#4C0E0F] dark:text-red-400 transition-colors hover:text-red-800 dark:hover:text-red-300 sm:text-sm"
           >
             Back to Editor
           </button>
@@ -149,13 +149,13 @@ export const MyNotesList = ({
                 <div
                   key={note.id || note._id || `note-${index}`}
                   onClick={handleNoteClick}
-                  className="group flex min-h-[80px] w-full cursor-pointer flex-col items-start justify-between gap-3 rounded-[12px] border border-[#C9C9C9] bg-[#FFFBFB] p-3 transition-colors hover:bg-gray-50 min-[375px]:flex-row min-[375px]:items-center min-[375px]:gap-0 sm:min-h-[91px] sm:rounded-[16px] sm:p-4 md:rounded-[20px] md:p-6"
+                  className="group flex min-h-[80px] w-full cursor-pointer flex-col items-start justify-between gap-3 rounded-[12px] border border-[#C9C9C9] dark:border-neutral-700 bg-[#FFFBFB] dark:bg-[#2A2A2A] p-3 transition-colors hover:bg-gray-50 dark:hover:bg-neutral-800 min-[375px]:flex-row min-[375px]:items-center min-[375px]:gap-0 sm:min-h-[91px] sm:rounded-[16px] sm:p-4 md:rounded-[20px] md:p-6"
                 >
                   <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4 md:gap-6">
                     <div className="flex h-[35px] w-[30px] flex-shrink-0 items-center justify-center rounded-lg bg-[#7C2D2D] text-white shadow-sm sm:h-[40px] sm:w-[35px] md:h-[45px] md:w-[40px]">
                       <FileText className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                     </div>
-                    <h3 className="flex-1 truncate text-sm font-medium text-gray-900 sm:text-base md:text-[20px]">
+                    <h3 className="flex-1 truncate text-sm font-medium text-gray-900 dark:text-white sm:text-base md:text-[20px]">
                       {noteTitle}
                     </h3>
                   </div>
@@ -171,13 +171,13 @@ export const MyNotesList = ({
                           <Lock className="h-3 w-3 text-gray-400" />
                         </div>
                       )}
-                      <p className="font-inter font-weight-400 text-xs font-medium tracking-wider whitespace-nowrap uppercase sm:text-sm md:text-[14px]">
+                      <p className="font-inter font-weight-400 text-xs font-medium tracking-wider whitespace-nowrap uppercase text-gray-900 dark:text-gray-300 sm:text-sm md:text-[14px]">
                         {format(new Date(note.createdAt), 'dd-MM-yyyy')}
                       </p>
                     </div>
                     <button
                       onClick={handleEditClick}
-                      className="p-1 text-gray-400 transition-all hover:text-gray-900"
+                      className="p-1 text-gray-400 dark:text-gray-500 transition-all hover:text-gray-900 dark:hover:text-white"
                       aria-label="Edit note"
                     >
                       <SquarePen className="h-4 w-4 sm:h-5 sm:w-5" />

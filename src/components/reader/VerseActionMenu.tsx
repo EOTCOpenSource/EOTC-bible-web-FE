@@ -376,14 +376,12 @@ export const VerseActionMenu = ({
         if (error?.response?.status === 401 || error?.status === 401) {
           redirectToLogin()
         }
-        // Don't reset selection state on error so user doesn't lose their place
       }
     }
   }
 
   const handleNote = () => {
-    // For notes, do an optimistic check since we're calling a callback
-    // If the callback makes an API call, it should handle 401 itself
+
     if (!isAuthenticated()) {
       redirectToLogin()
       return
@@ -406,9 +404,58 @@ export const VerseActionMenu = ({
     window.getSelection()?.removeAllRanges()
   }
 
+  const pressTimer = useRef<NodeJS.Timeout | null>(null)
+  const isPressing = useRef(false)
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    // If text is being selected natively on desktop, don't interrupt
+    const selection = window.getSelection()
+    if (selection && selection.toString().trim().length > 0) return
+
+    isPressing.current = true
+    const clientX = e.clientX
+    const clientY = e.clientY
+
+    pressTimer.current = setTimeout(() => {
+      if (!isPressing.current) return
+
+      const verseNum = typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber as string, 10)
+      setSelectedVerses({ start: verseNum, end: verseNum, count: 1 })
+      setSelectedText(verseText)
+
+      // Calculate position so the menu appears right above the user's finger
+      setMenuPosition({
+        top: clientY + window.scrollY - 55, // 55px above the touch point
+        left: clientX + window.scrollX,
+      })
+
+      setShowMenu(true)
+    }, 500) // 500ms long press delay
+  }
+
+  const cancelPress = () => {
+    isPressing.current = false
+    if (pressTimer.current) {
+      clearTimeout(pressTimer.current)
+      pressTimer.current = null
+    }
+  }
+
   return (
     <>
-      <span ref={verseRef} data-verse={verseNumber} id={`v${verseNumber}`}>
+      <span
+        ref={verseRef}
+        data-verse={verseNumber}
+        id={`v${verseNumber}`}
+        onPointerDown={handlePointerDown}
+        onPointerUp={cancelPress}
+        onPointerMove={cancelPress}
+        onPointerCancel={cancelPress}
+        onPointerLeave={cancelPress}
+        onContextMenu={(e) => { e.preventDefault(); cancelPress() }}
+        className={cn("cursor-pointer select-none transition-colors", showMenu && "bg-primary/20 dark:bg-primary/40 rounded px-1 -mx-1")}
+        style={{ WebkitUserSelect: 'none', userSelect: 'none', WebkitTouchCallout: 'none' }}
+      >
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
         <span
           className={cn(
@@ -420,7 +467,7 @@ export const VerseActionMenu = ({
             highlightColor
               ? {
                 backgroundColor: highlightColor,
-                opacity: 0.6,
+                opacity: showMenu ? 0.9 : 0.6,
               }
               : undefined
           }

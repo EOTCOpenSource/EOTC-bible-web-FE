@@ -78,8 +78,8 @@ export default function OtpForm() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-between gap-[10px] text-center">
       <div className="flex flex-col gap-[10px]">
-        <h2 className="text-3xl font-semibold text-[#1F2937]">{t('title')}</h2>
-        <p className="text-md h-[65px] w-[330px] font-normal">
+        <h2 className="text-3xl font-semibold text-[#1F2937] dark:text-white">{t('title')}</h2>
+        <p className="text-md h-[65px] w-[330px] font-normal dark:text-gray-300">
           {t('subtitle')}{' '}
           <span className="font-bold">{clientEmail ? maskEmail(clientEmail) : ''}</span>
         </p>
@@ -97,7 +97,7 @@ export default function OtpForm() {
                   <InputOTPSlot
                     key={i}
                     index={i}
-                    className="h-[60px] w-[60px] rounded-[8px] border border-gray-300"
+                    className="h-[60px] w-[60px] rounded-[8px] border border-gray-300 dark:border-neutral-600 dark:bg-neutral-800 dark:text-white"
                     onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, i)}
                     ref={(el) => {
                       inputRefs.current[i] = el as HTMLInputElement
@@ -114,8 +114,8 @@ export default function OtpForm() {
           disabled={otpStatus === 'pending' || otpValue.length !== 6}
           className={`h-[48px] w-full rounded-md py-3 text-base font-medium text-white transition-colors ${
             otpStatus === 'pending' || otpValue.length !== 6
-              ? 'cursor-not-allowed bg-gray-300'
-              : 'cursor-pointer bg-[#7B1D1D] hover:bg-[#5f1515]'
+              ? 'cursor-not-allowed bg-gray-300 dark:bg-neutral-700 dark:text-neutral-400'
+              : 'cursor-pointer bg-[#7B1D1D] hover:bg-[#5f1515] dark:bg-[#992424] dark:hover:bg-[#b02929]'
           }`}
         >
           {otpStatus === 'pending' ? t('loading') : t('buttons.verify')}
@@ -124,16 +124,16 @@ export default function OtpForm() {
 
       <div className="flex items-center justify-center gap-1 pt-3 text-center">
         {otpCountdown > 0 ? (
-          <p className="text-[14px] text-[#4B5563]">
+          <p className="text-[14px] text-[#4B5563] dark:text-gray-400">
             {t('resendCountdown', { seconds: otpCountdown })}
           </p>
         ) : (
           <>
-            <p className="text-[14px] text-[#4B5563]">{t('didNotReceive')}</p>
+            <p className="text-[14px] text-[#4B5563] dark:text-gray-400">{t('didNotReceive')}</p>
             <button
               type="button"
               onClick={handleResendOtp}
-              className="cursor-pointer text-sm font-medium text-[#7B1D1D] hover:underline"
+              className="cursor-pointer text-sm font-medium text-[#7B1D1D] hover:underline dark:text-red-400"
             >
               {t('buttons.resend')}
             </button>

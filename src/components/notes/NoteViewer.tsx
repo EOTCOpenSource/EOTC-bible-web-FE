@@ -36,20 +36,20 @@ export const NoteViewer = () => {
     return (
         <div className="flex flex-col gap-3 sm:gap-4 w-full max-w-full md:max-w-[813px]">
             <div className="flex items-center justify-between">
-                <h2 className="text-[20px] bg-[ #000000B2] font-poppins font-weight-400 h-[29px]">
+                <h2 className="text-[20px] bg-[ #000000B2] font-poppins font-weight-400 h-[29px] text-black dark:text-white">
                     View Note
                 </h2>
                 <div className="flex items-center gap-3 ml-auto">
                     <button
                         onClick={handleEdit}
-                        className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
                         title="Edit note"
                     >
                         <SquarePen size={20} />
                     </button>
                     <button
                         onClick={() => setViewingNote(null)}
-                        className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
                         title="Close view"
                     >
                         <X size={20} />
@@ -57,29 +57,29 @@ export const NoteViewer = () => {
                 </div>
             </div>
 
-            <div className="rounded-[20px] border border-[#C9C9C9] bg-[#FFFAFA] p-4 xs:p-6 sm:p-8 shadow-sm md:min-h-[334px] flex flex-col gap-3 sm:gap-4 md:gap-[17px]">
-                <div className="flex flex-row justify-between items-center w-full gap-2 border-b border-gray-100 pb-4">
-                    <h1 className="text-base sm:text-lg md:text-[24px] font-medium font-weight-400 font-poppins text-gray-900 flex-1 min-w-0">
+            <div className="rounded-[20px] border border-[#C9C9C9] dark:border-neutral-700 bg-[#FFFAFA] dark:bg-[#1A1A1A] p-4 xs:p-6 sm:p-8 shadow-sm md:min-h-[334px] flex flex-col gap-3 sm:gap-4 md:gap-[17px]">
+                <div className="flex flex-row justify-between items-center w-full gap-2 border-b border-gray-100 dark:border-neutral-700 pb-4">
+                    <h1 className="text-base sm:text-lg md:text-[24px] font-medium font-weight-400 font-poppins text-gray-900 dark:text-white flex-1 min-w-0">
                         {viewingNote.title || 'Untitled'}
                     </h1>
-                    <span className="text-xs sm:text-sm md:text-[14px] text-gray-400 whitespace-nowrap flex-shrink-0">
+                    <span className="text-xs sm:text-sm md:text-[14px] text-gray-400 dark:text-gray-500 whitespace-nowrap flex-shrink-0">
                         {format(new Date(viewingNote.createdAt), 'dd-MM-yyyy')}
                     </span>
                 </div>
 
                 <div
                     ref={contentRef}
-                    className="w-full flex-1 min-h-[150px] resize-none text-[20px] font-poppins font-weight-400 text-gray-800 overflow-y-auto"
+                    className="w-full flex-1 min-h-[150px] resize-none text-[20px] font-poppins font-weight-400 text-gray-800 dark:text-gray-200 overflow-y-auto"
                 />
 
                 <div className="flex justify-end mt-auto pt-4">
                     {viewingNote.visibility === 'public' ? (
-                        <div className="flex items-center gap-2 text-blue-600 bg-blue-50 px-3 py-1 rounded-full text-sm">
+                        <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/40 px-3 py-1 rounded-full text-sm">
                             <Globe size={14} />
                             <span>Public Note</span>
                         </div>
                     ) : (
-                        <div className="flex items-center gap-2 text-gray-500 bg-gray-100 px-3 py-1 rounded-full text-sm">
+                        <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-neutral-800 px-3 py-1 rounded-full text-sm">
                             <Lock size={14} />
                             <span>Private Note</span>
                         </div>

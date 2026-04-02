@@ -10,7 +10,7 @@ export default function BackButton() {
   const t = useTranslations("Auth")
 
   return (
-    <div className="absolute top-4 left-4 flex items-center bg-gray-200 rounded-md">
+    <div className="absolute top-4 left-4 flex items-center bg-gray-200 dark:bg-neutral-800 dark:text-gray-200 rounded-md">
       <Button
         variant={"ghost"}
         onClick={() => router.back()}

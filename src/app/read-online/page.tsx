@@ -15,7 +15,7 @@ function BookLink({ book }: { book: Book }) {
   return (
     <Link
       href={`/read-online/${book.id}/1`}
-      className="bg-transparent block px-4 py-3 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0"
+      className="block px-4 py-3 text-gray-900 dark:text-gray-200 bg-white dark:bg-[#1f090a] hover:bg-gray-50 dark:hover:bg-[#4a1c1e] transition-colors border border-gray-200 dark:border-[#521c1f] rounded-md"
     >
       {book.name}
     </Link>
@@ -25,10 +25,13 @@ function BookLink({ book }: { book: Book }) {
 function TestamentSection({ title, bookList }: { title: string; bookList: Book[] }) {
   return (
     <div className="flex-1">
-      <button className="w-full bg-gray-800 dark:bg-gray-700 text-white font-bold py-3 px-4 text-center mb-4 rounded">
-        {title}
-      </button>
-      <div className="bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div className="flex items-center justify-center gap-2 mb-6">
+        <span className="text-yellow-600 dark:text-[#C59B4E] font-serif text-2xl">❖</span>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white text-center">
+          {title}
+        </h2>
+      </div>
+      <div className="flex flex-col gap-2">
         {bookList.map((book) => (
           <BookLink key={book.id} book={book} />
         ))}
@@ -89,15 +92,15 @@ export default function ReadOnlinePage() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent p-6 sm:p-8 md:p-12">
+    <div className="min-h-[calc(100vh-80px)] w-full bg-[#FFFDF8] dark:bg-[#321315] p-6 sm:p-8 md:p-12 mb-reverse">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-3">
             Online EOTC Bible
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
-            Explore the Ethiopian Bible with 81 books. Choose a book to start reading.
+          <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg">
+            Explore the Ethiopian Bible with 81 books. <br className="hidden sm:block" /> Choose a book to start reading.
           </p>
         </div>
 

@@ -72,10 +72,10 @@ const About: React.FC = () => {
                 {allCards.map((card, index) => (
                   <div
                     key={`${card.title}-${index}`}
-                    className="h-[188px] w-full flex-shrink-0 snap-center rounded-lg bg-white p-6 text-left shadow-md sm:w-[303px]"
+                    className="h-[188px] w-full flex-shrink-0 snap-center rounded-lg bg-white dark:bg-neutral-800 p-6 text-left shadow-md sm:w-[303px]"
                   >
-                    <h3 className="font-bold text-amber-900">{card.title}</h3>
-                    <p className="text-sm text-gray-600">{card.description}</p>
+                    <h3 className="font-bold text-amber-900 dark:text-amber-400">{card.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{card.description}</p>
                   </div>
                 ))}
               </div>

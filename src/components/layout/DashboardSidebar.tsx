@@ -11,15 +11,15 @@ const DashboardSidebar = () => {
     const isActive = pathname === path
     const baseStyle =
       'flex justify-center md:justify-start items-center gap-2 w-full rounded-md md:px-6 py-1 text-lg transition-colors'
-    const activeStyle = 'md:bg-[#4C0E0F] md:text-white text-[#4C0E0F]'
+    const activeStyle = 'md:bg-[#4C0E0F] md:text-white text-[#4C0E0F] dark:md:bg-red-900/40 dark:text-red-400'
     const inactiveStyle =
-      'text-black hover:text-[#4C0E0F] md:hover:bg-[#4C0E0F] md:hover:text-white'
+      'text-black dark:text-gray-300 hover:text-[#4C0E0F] dark:hover:text-red-400 md:hover:bg-[#4C0E0F] md:hover:text-white dark:md:hover:bg-red-900/40'
 
     return `${baseStyle} ${isActive ? activeStyle : inactiveStyle}`
   }
 
   return (
-    <nav className="m-3 flex rounded-xl border-[1.5px] py-1 sm:mx-6 md:h-screen md:flex-col md:gap-2 md:border-0 md:py-4 md:pb-2">
+    <nav className="m-3 flex rounded-xl border-[1.5px] dark:border-neutral-800 py-1 sm:mx-6 md:h-screen md:flex-col md:gap-2 md:border-0 md:py-4 md:pb-2">
       <Link href="/dashboard" className={getLinkClass('/dashboard')}>
         <Home size={20} />
         <p className="hidden md:block">Home</p>

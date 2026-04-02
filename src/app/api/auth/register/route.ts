@@ -25,10 +25,10 @@ export async function POST(req: NextRequest) {
     }
 
     let data
+    const text = await res.text()
     try {
-      data = await res.json()
+      data = JSON.parse(text)
     } catch {
-      const text = await res.text()
       return NextResponse.json(
         { error: `Failed to parse backend response: ${text}` },
         { status: 500 },

@@ -63,7 +63,7 @@ export default function PublicNoteDetailPage() {
                 <p className="text-red-500">{error || 'Note not found'}</p>
                 <button
                     onClick={() => router.back()}
-                    className="text-gray-600 hover:text-gray-900 underline"
+                    className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white underline"
                 >
                     Go Back
                 </button>
@@ -75,18 +75,18 @@ export default function PublicNoteDetailPage() {
         <div className="max-w-4xl mx-auto w-full space-y-6">
             <button
                 onClick={() => router.back()}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
                 <ArrowLeft className="w-4 h-4" /> Back to Public Notes
             </button>
 
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div className="p-6 md:p-8 border-b border-gray-100 bg-gray-50/50">
-                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{note.title}</h1>
+            <div className="bg-white dark:bg-[#1A1A1A] rounded-xl border border-gray-200 dark:border-neutral-800 shadow-sm overflow-hidden">
+                <div className="p-6 md:p-8 border-b border-gray-100 dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-800/50">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">{note.title}</h1>
 
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-300">
                         {note.bookId && note.chapter && (
-                            <div className="flex items-center gap-1.5 bg-white px-2 py-1 rounded-md border border-gray-100">
+                            <div className="flex items-center gap-1.5 bg-white dark:bg-[#2A2A2A] px-2 py-1 rounded-md border border-gray-100 dark:border-neutral-700">
                                 <Book className="w-4 h-4" />
                                 <span>{note.bookId} {note.chapter}:{note.verseStart}</span>
                             </div>
@@ -104,8 +104,8 @@ export default function PublicNoteDetailPage() {
                     </div>
                 </div>
 
-                <div className="p-6 md:p-8 prose prose-gray max-w-none">
-                    <div className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-gray-800">
+                <div className="p-6 md:p-8 prose prose-gray dark:prose-invert max-w-none">
+                    <div className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-gray-800 dark:text-gray-200">
                         {note.content}
                     </div>
                 </div>

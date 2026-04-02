@@ -70,21 +70,21 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 p-2">
-      <h2 className="my-0 py-0 text-3xl font-semibold">{t('title')}</h2>
-      <p className="mb-4 text-sm text-gray-600">
+      <h2 className="my-0 py-0 text-3xl font-semibold dark:text-white">{t('title')}</h2>
+      <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
         {t('haveAccount')}{' '}
-        <a className="text-blue-500 underline" href="/login">
+        <a className="text-blue-500 underline dark:text-blue-400" href="/login">
           {t('login')}
         </a>
       </p>
 
       {/* Name */}
       <div>
-        <label className="text-sm text-gray-700" htmlFor="name">
+        <label className="text-sm text-gray-700 dark:text-gray-300" htmlFor="name">
           {t('fields.name')}
         </label>
         <input
-          className="w-full rounded border p-2"
+          className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary"
           placeholder={t('placeholders.name')}
           id="name"
           type="text"
@@ -95,11 +95,11 @@ export default function RegisterForm() {
 
       {/* Email */}
       <div>
-        <label className="text-sm text-gray-700" htmlFor="email">
+        <label className="text-sm text-gray-700 dark:text-gray-300" htmlFor="email">
           {t('fields.email')}
         </label>
         <input
-          className="w-full rounded border p-2"
+          className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary"
           placeholder={t('placeholders.email')}
           id="email"
           type="email"
@@ -111,12 +111,12 @@ export default function RegisterForm() {
       {/* Password */}
       <div className="items-baseline space-y-2 md:flex md:gap-2">
         <div className="flex-1">
-          <label className="text-sm text-gray-700" htmlFor="password">
+          <label className="text-sm text-gray-700 dark:text-gray-300" htmlFor="password">
             {t('fields.password')}
           </label>
           <div className="relative">
             <input
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary"
               placeholder={t('placeholders.password')}
               id="password"
               autoComplete="off"
@@ -126,7 +126,7 @@ export default function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-2.5 right-3 cursor-pointer text-gray-600"
+              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 dark:text-gray-400"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -136,12 +136,12 @@ export default function RegisterForm() {
 
         {/* Confirm Password */}
         <div className="flex-1">
-          <label className="text-sm text-gray-700" htmlFor="confirm-password">
+          <label className="text-sm text-gray-700 dark:text-gray-300" htmlFor="confirm-password">
             {t('fields.confirmPassword')}
           </label>
           <div className="relative">
             <input
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary"
               placeholder={t('placeholders.confirmPassword')}
               id="confirm-password"
               type={showConfirmPassword ? 'text' : 'password'}
@@ -150,7 +150,7 @@ export default function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute top-2.5 right-3 cursor-pointer text-gray-600"
+              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 dark:text-gray-400"
             >
               {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -164,19 +164,19 @@ export default function RegisterForm() {
       {/* Password Criteria */}
       <ul className="mb-1 flex flex-wrap items-center text-sm">
         {passwordCriteria.map((c, i) => (
-          <li key={i} className={c.valid ? 'text-green-600' : 'text-gray-500'}>
+          <li key={i} className={c.valid ? 'text-green-600 dark:text-green-500' : 'text-gray-500 dark:text-gray-500'}>
             <DotIcon className="-mr-2 inline" /> {c.label}
           </li>
         ))}
       </ul>
 
       {/* Terms */}
-      <div className="mb-3 flex items-center gap-2">
-        <input type="checkbox" id="checkbox" />
+      <div className="mb-3 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+        <input type="checkbox" id="checkbox" className="dark:bg-neutral-800 dark:border-neutral-700" />
         <label className="text-sm" htmlFor="checkbox">
           {t('agreeTo')}{' '}
         </label>
-        <a href="#" className="text-sm text-[#4C0E0F] underline">
+        <a href="#" className="text-sm text-[#4C0E0F] dark:text-red-400 underline">
           {t('terms')}
         </a>
       </div>
@@ -184,15 +184,15 @@ export default function RegisterForm() {
       {/* Submit Button */}
       <button
         disabled={loading}
-        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#491415] disabled:bg-gray-400"
+        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#491415] disabled:bg-gray-400 dark:disabled:bg-gray-700"
       >
         {loading ? t('loading') : t('register')}
       </button>
 
       <div className="my-1 flex items-center gap-3">
-        <div className="flex-1 border-t border-gray-300"></div>
-        <span className="text-sm text-gray-500">{t('or')}</span>
-        <div className="flex-1 border-t border-gray-300"></div>
+        <div className="flex-1 border-t border-gray-300 dark:border-neutral-700"></div>
+        <span className="text-sm text-gray-500 dark:text-gray-400">{t('or')}</span>
+        <div className="flex-1 border-t border-gray-300 dark:border-neutral-700"></div>
       </div>
 
       {/* Social Login Buttons */}
