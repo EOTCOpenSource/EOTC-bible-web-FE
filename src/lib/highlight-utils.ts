@@ -8,10 +8,12 @@ export const hexToHighlightColor = (hex: string): HighlightColor => {
     '#5778C5': 'blue', // Blue
     '#621B1C': 'red', // Dark red
     '#704A6A': 'purple', // Purple
+    '#B61F21': 'red', // Red (alt)
   }
 
-  const normalizedHex = hex.toUpperCase()
-  return colorMap[normalizedHex] || 'yellow' // Default to yellow if no match
+  const normalizedHex = hex.trim().toUpperCase()
+  const withoutAlpha = normalizedHex.length === 9 ? normalizedHex.slice(0, 7) : normalizedHex
+  return colorMap[withoutAlpha] || 'yellow' // Default to yellow if no match
 }
 
 //Maps HighlightColor type to hex color codes

@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { useUserStore } from '@/lib/stores/useUserStore'
-import { hexToHighlightColor } from '@/lib/highlight-utils'
+import { getHighlightBackgroundColor, hexToHighlightColor } from '@/lib/highlight-utils'
 import type { VerseRef } from '@/stores/types'
 
 interface VerseActionMenuProps {
@@ -35,6 +35,27 @@ type SelectedVerseRange = {
   count: number
 }
 
+const VERSE_MENU_APPROX_WIDTH = 280
+const VERSE_MENU_APPROX_HEIGHT = 56
+const VERSE_MENU_EDGE_PADDING = 12
+
+const clampVerseMenuPosition = (clientX: number, clientY: number) => {
+  const halfWidth = VERSE_MENU_APPROX_WIDTH / 2
+  const minLeft = halfWidth + VERSE_MENU_EDGE_PADDING
+  const maxLeft = Math.max(minLeft, window.innerWidth - halfWidth - VERSE_MENU_EDGE_PADDING)
+
+  const preferredTop = clientY - 64
+  const fallbackTop = clientY + 24
+  const unclampedTop = preferredTop < VERSE_MENU_EDGE_PADDING ? fallbackTop : preferredTop
+  const minTop = VERSE_MENU_EDGE_PADDING
+  const maxTop = Math.max(minTop, window.innerHeight - VERSE_MENU_APPROX_HEIGHT - VERSE_MENU_EDGE_PADDING)
+
+  return {
+    left: Math.min(maxLeft, Math.max(minLeft, clientX)),
+    top: Math.min(maxTop, Math.max(minTop, unclampedTop)),
+  }
+}
+
 export const VerseActionMenu = ({
   verseNumber,
   verseText,
@@ -51,6 +72,10 @@ export const VerseActionMenu = ({
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
+  const highlightBgClass = useMemo(() => {
+    if (!highlightColor) return null
+    return getHighlightBackgroundColor(hexToHighlightColor(highlightColor))
+  }, [highlightColor])
   const getDefaultRange = useCallback((): SelectedVerseRange => {
     const numericVerse = typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber, 10)
     const safeVerse = Number.isFinite(numericVerse) ? numericVerse : 0
@@ -264,9 +289,12 @@ export const VerseActionMenu = ({
 
           if (!initialPositionSet.current) {
             const rect = range.getBoundingClientRect()
+            const clientX = rect.left + rect.width / 2
+            const clientY = rect.top
+            const position = clampVerseMenuPosition(clientX, clientY)
             setMenuPosition({
-              top: rect.top + window.scrollY - 50,
-              left: rect.left + window.scrollX + rect.width / 2,
+              top: position.top,
+              left: position.left,
             })
             initialPositionSet.current = true
           }
@@ -291,7 +319,7 @@ export const VerseActionMenu = ({
   }, [containerId, getDefaultRange, getSelectedVerseRange])
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e: Event) => {
       if (showMenu) {
         const menuElement = document.querySelector('[data-verse-menu="true"]')
         if (menuElement && !menuElement.contains(e.target as Node)) {
@@ -305,7 +333,11 @@ export const VerseActionMenu = ({
     }
 
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside, { passive: true })
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
   }, [showMenu])
 
   const handleCopy = async () => {
@@ -406,6 +438,7 @@ export const VerseActionMenu = ({
 
   const pressTimer = useRef<NodeJS.Timeout | null>(null)
   const isPressing = useRef(false)
+  const pressStartPoint = useRef<{ x: number; y: number } | null>(null)
 
   const handlePointerDown = (e: React.PointerEvent) => {
     // If text is being selected natively on desktop, don't interrupt
@@ -415,6 +448,7 @@ export const VerseActionMenu = ({
     isPressing.current = true
     const clientX = e.clientX
     const clientY = e.clientY
+    pressStartPoint.current = { x: clientX, y: clientY }
 
     pressTimer.current = setTimeout(() => {
       if (!isPressing.current) return
@@ -424,17 +458,23 @@ export const VerseActionMenu = ({
       setSelectedText(verseText)
 
       // Calculate position so the menu appears right above the user's finger
-      setMenuPosition({
-        top: clientY + window.scrollY - 55, // 55px above the touch point
-        left: clientX + window.scrollX,
-      })
+      setMenuPosition(clampVerseMenuPosition(clientX, clientY))
 
       setShowMenu(true)
     }, 500) // 500ms long press delay
   }
 
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isPressing.current || !pressStartPoint.current) return
+    const dx = Math.abs(e.clientX - pressStartPoint.current.x)
+    const dy = Math.abs(e.clientY - pressStartPoint.current.y)
+    // Allow small finger jitter on mobile without canceling the long-press
+    if (dx > 10 || dy > 10) cancelPress()
+  }
+
   const cancelPress = () => {
     isPressing.current = false
+    pressStartPoint.current = null
     if (pressTimer.current) {
       clearTimeout(pressTimer.current)
       pressTimer.current = null
@@ -449,28 +489,26 @@ export const VerseActionMenu = ({
         id={`v${verseNumber}`}
         onPointerDown={handlePointerDown}
         onPointerUp={cancelPress}
-        onPointerMove={cancelPress}
+        onPointerMove={handlePointerMove}
         onPointerCancel={cancelPress}
         onPointerLeave={cancelPress}
         onContextMenu={(e) => { e.preventDefault(); cancelPress() }}
         className={cn("cursor-pointer select-none transition-colors", showMenu && "bg-primary/20 dark:bg-primary/40 rounded px-1 -mx-1")}
-        style={{ WebkitUserSelect: 'none', userSelect: 'none', WebkitTouchCallout: 'none' }}
+        style={{
+          WebkitUserSelect: 'none',
+          userSelect: 'none',
+          WebkitTouchCallout: 'none',
+          touchAction: 'manipulation',
+        }}
       >
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
         <span
           className={cn(
             'transition-colors duration-200',
             highlightColor && 'rounded px-1 py-0.5',
+            highlightBgClass,
             shouldAnimate && 'highlight-verse-animation',
           )}
-          style={
-            highlightColor
-              ? {
-                backgroundColor: highlightColor,
-                opacity: showMenu ? 0.9 : 0.6,
-              }
-              : undefined
-          }
         >
           {renderTextWithHighlight(verseText, searchQuery)}{' '}
         </span>
@@ -479,7 +517,7 @@ export const VerseActionMenu = ({
       {showMenu && (
         <div
           data-verse-menu="true"
-          className="animate-in fade-in slide-in-from-top-2 fixed z-50 duration-200"
+          className="animate-in fade-in slide-in-from-top-2 fixed z-[100] duration-200"
           style={{
             top: `${menuPosition.top}px`,
             left: `${menuPosition.left}px`,
