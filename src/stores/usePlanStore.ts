@@ -36,6 +36,8 @@ interface PlanState {
   fetchPlans: () => Promise<void>
   createPlan: (payload: CreatePlanPayload) => Promise<void>
   updatePlan: (id: string, payload: UpdatePlanPayload) => Promise<void>
+  fetchPlanById: (id: string) => Promise<ReadingPlan>
+  markDayComplete: (id: string, dayNumber: number) => Promise<void>
   deletePlan: (id: string) => Promise<void>
 }
 
@@ -139,6 +141,53 @@ export const usePlanStore = create<PlanState>((set) => ({
         isMutating: false,
         error: err?.response?.data?.error || err?.message || 'Failed to delete plan',
       })
+    }
+  },
+
+  /* -------- Fetch single plan -------- */
+  fetchPlanById: async (id: string) => {
+    set({ isFetching: true, error: null })
+    try {
+      const res = await axiosInstance.get(`/api/reading-plans/${id}`)
+      const plan = res.data?.data?.plan || res.data?.data
+      
+      set((state) => {
+        // update the plan in the list if it exists
+        const exists = state.plans.some((p) => p._id === plan._id)
+        return {
+          plans: exists
+            ? state.plans.map((p) => (p._id === plan._id ? plan : p))
+            : [...state.plans, plan],
+          isFetching: false,
+        }
+      })
+      return plan
+    } catch (err: any) {
+      set({
+        isFetching: false,
+        error: err?.response?.data?.error || err?.message || 'Failed to load plan',
+      })
+      throw err
+    }
+  },
+
+  /* -------- Mark Day Complete -------- */
+  markDayComplete: async (id: string, dayNumber: number) => {
+    set({ isMutating: true, error: null })
+    try {
+      const res = await axiosInstance.patch(`/api/reading-plans/${id}/days/${dayNumber}/complete`)
+      const updatedPlan = res.data?.data?.plan || res.data?.data
+
+      set((state) => ({
+        plans: state.plans.map((plan) => (plan._id === id ? updatedPlan : plan)),
+        isMutating: false,
+      }))
+    } catch (err: any) {
+      set({
+        isMutating: false,
+        error: err?.response?.data?.error || err?.message || 'Failed to mark day complete',
+      })
+      throw err
     }
   },
 }))
