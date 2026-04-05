@@ -53,7 +53,7 @@ export default function Page() {
           <a
             target="_blank"
             rel="noopener"
-            href="https://eyob-5x.sentry.io/issues/?project=4510852252958720"
+            href="https://nehemiah-jk.sentry.io/issues/?project=4511164285648976"
           >
             Issues Page
           </a>
