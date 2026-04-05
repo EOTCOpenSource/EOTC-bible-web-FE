@@ -38,15 +38,60 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
 
   const [name, setName] = React.useState(initialData?.name || '')
   const [startBook, setStartBook] = React.useState(initialData?.startBook || '')
-  const [startChapter, setStartChapter] = React.useState(1)
+  const [startChapter, setStartChapter] = React.useState(initialData?.startChapter || 1)
   const [endBook, setEndBook] = React.useState(initialData?.endBook || '')
-  const [endChapter, setEndChapter] = React.useState(1)
+  const [endChapter, setEndChapter] = React.useState(initialData?.endChapter || 1)
   const [startDate, setStartDate] = React.useState<Date>(
     initialData?.createdAt ? new Date(initialData.createdAt) : new Date(),
   )
   const [durationInDays, setDurationInDays] = React.useState(initialData?.durationInDays || 1)
+  const [errors, setErrors] = React.useState<Record<string, string>>({})
+
+  const [touched, setTouched] = React.useState<Record<string, boolean>>({})
+
+  const validate = (showAll = false) => {
+    const newErrors: Record<string, string> = {}
+    if (showAll || touched.name || name) if (!name.trim()) newErrors.name = 'Plan name is required'
+    if (showAll || touched.startBook || startBook) if (!startBook) newErrors.startBook = 'Start book is required'
+    if (showAll || touched.endBook || endBook) if (!endBook) newErrors.endBook = 'End book is required'
+
+    const sBook = books.find((b) => b.book_name_en === startBook)
+    if (sBook && (startChapter < 1 || startChapter > sBook.chapters)) {
+      newErrors.startChapter = `Must be between 1 and ${sBook.chapters}`
+    }
+
+    const eBook = books.find((b) => b.book_name_en === endBook)
+    if (eBook && (endChapter < 1 || endChapter > eBook.chapters)) {
+      newErrors.endChapter = `Must be between 1 and ${eBook.chapters}`
+    }
+
+    if (durationInDays < 1) newErrors.durationInDays = 'Duration must be at least 1 day'
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  React.useEffect(() => {
+    validate()
+  }, [name, startBook, endBook, startChapter, endChapter, durationInDays, touched])
+
+  // AUTO-ADJUST CHAPTERS
+  React.useEffect(() => {
+    const sBook = books.find((b) => b.book_name_en === startBook)
+    if (sBook && startChapter > sBook.chapters) {
+      setStartChapter(sBook.chapters)
+    }
+  }, [startBook])
+
+  React.useEffect(() => {
+    const eBook = books.find((b) => b.book_name_en === endBook)
+    if (eBook && endChapter > eBook.chapters) {
+      setEndChapter(eBook.chapters)
+    }
+  }, [endBook])
 
   const handleSubmit = async () => {
+    if (!validate(true)) return
     if (!startDate) return
 
     const payload = {
@@ -108,20 +153,35 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
             <div className="space-y-1">
               <label className="text-sm font-medium">Plan name</label>
               <Input
-                className="h-11"
+                className={cn('h-11', errors.name && 'border-red-500 focus-visible:ring-red-500')}
                 placeholder="e.g. Morning Reading"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setName(e.target.value)
+                  setTouched((t) => ({ ...t, name: true }))
+                }}
+                onBlur={() => setTouched((t) => ({ ...t, name: true }))}
               />
+              {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
             </div>
 
             {/* START BOOK + CHAPTER */}
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-sm font-medium">Start book</label>
-                <Select value={startBook} onValueChange={setStartBook}>
-                  <SelectTrigger size={'lg'} className="w-full">
-                    <SelectValue placeholder="Genesis" />
+                <Select
+                  value={startBook}
+                  onValueChange={(val) => {
+                    setStartBook(val)
+                    setTouched((t) => ({ ...t, startBook: true }))
+                  }}
+                  
+                >
+                  <SelectTrigger
+                    size={'lg'}
+                    className={cn('w-full', errors.startBook && 'border-red-500')}
+                  >
+                    <SelectValue placeholder="Genesis" className='placeholder-low-opacity'/>
                   </SelectTrigger>
                   <SelectContent>
                     {books.map((book) => (
@@ -131,18 +191,23 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
                     ))}
                   </SelectContent>
                 </Select>
+                {errors.startBook && <p className="text-xs text-red-500">{errors.startBook}</p>}
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm font-medium">Chapter</label>
                 <Input
-                  className="h-11"
+                  className={cn(
+                    'h-11',
+                    errors.startChapter && 'border-red-500 focus-visible:ring-red-500',
+                  )}
                   type="number"
                   min={1}
                   placeholder="1"
                   value={startChapter}
                   onChange={(e) => setStartChapter(Number(e.target.value))}
                 />
+                {errors.startChapter && <p className="text-xs text-red-500">{errors.startChapter}</p>}
               </div>
             </div>
 
@@ -150,8 +215,17 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-sm font-medium">End book</label>
-                <Select value={endBook} onValueChange={setEndBook}>
-                  <SelectTrigger className="w-full" size={'lg'}>
+                <Select
+                  value={endBook}
+                  onValueChange={(val) => {
+                    setEndBook(val)
+                    setTouched((t) => ({ ...t, endBook: true }))
+                  }}
+                >
+                  <SelectTrigger
+                    className={cn('w-full', errors.endBook && 'border-red-500')}
+                    size={'lg'}
+                  >
                     <SelectValue placeholder="Exodus" />
                   </SelectTrigger>
                   <SelectContent>
@@ -162,18 +236,23 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
                     ))}
                   </SelectContent>
                 </Select>
+                {errors.endBook && <p className="text-xs text-red-500">{errors.endBook}</p>}
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm font-medium">Chapter</label>
                 <Input
-                  className="h-11"
+                  className={cn(
+                    'h-11',
+                    errors.endChapter && 'border-red-500 focus-visible:ring-red-500',
+                  )}
                   type="number"
                   min={1}
                   placeholder="20"
                   value={endChapter}
                   onChange={(e) => setEndChapter(Number(e.target.value))}
                 />
+                {errors.endChapter && <p className="text-xs text-red-500">{errors.endChapter}</p>}
               </div>
             </div>
 
@@ -207,25 +286,63 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
               <div className="space-y-1">
                 <label className="text-sm font-medium">Duration (days)</label>
                 <Input
-                  className="h-11"
+                  className={cn(
+                    'h-11',
+                    errors.durationInDays && 'border-red-500 focus-visible:ring-red-500',
+                  )}
                   type="number"
                   min={1}
                   placeholder="30"
                   value={durationInDays}
                   onChange={(e) => setDurationInDays(Number(e.target.value))}
                 />
+                {errors.durationInDays && (
+                  <p className="text-xs text-red-500">{errors.durationInDays}</p>
+                )}
               </div>
             </div>
 
+            {/* PLAN PREVIEW */}
+            {(name || startBook || endBook) && (
+              <div className="rounded-lg bg-slate-50 p-4 space-y-2 border border-dashed border-slate-300">
+                <p className="text-[10px] font-bold uppercase text-slate-500 tracking-wider">
+                  Plan Preview
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-[#4C0E0F]/10 flex items-center justify-center text-[#4C0E0F]">
+                    <CalendarIcon size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-[#4C0E0F] text-sm truncate">
+                      {name || 'New Plan'}
+                    </h4>
+                    <p className="text-xs text-slate-600">
+                      Reading {startBook || '...'} {startChapter} — {endBook || '...'} {endChapter}
+                    </p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      Starting {format(startDate, 'MMM d, yyyy')} • {durationInDays} days
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* SUBMIT */}
-            <Button onClick={handleSubmit} disabled={isFetching} className="h-11">
-              {isFetching
-                ? initialData
-                  ? 'Updating...'
-                  : 'Creating...'
-                : initialData
-                  ? 'Update Plan'
-                  : 'Create Plan'}
+            <Button
+              onClick={handleSubmit}
+              disabled={isFetching || Object.keys(errors).length > 0}
+              className="h-11 relative overflow-hidden"
+            >
+              {isFetching ? (
+                <div className="flex items-center gap-2">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  {initialData ? 'Updating...' : 'Creating...'}
+                </div>
+              ) : initialData ? (
+                'Update Plan'
+              ) : (
+                'Create Plan'
+              )}
             </Button>
           </div>
         </DialogContent>
