@@ -10,6 +10,8 @@ import { getHighlightInlineColor } from '@/lib/highlight-utils'
 import { useEffect, useMemo, useState, TouchEvent } from 'react'
 import type { HighlightColor } from '@/stores/types'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { useReadingTracker } from '@/hooks/useReadingTracker'
+import { useProgressStore } from '@/stores/progressStore'
 
 interface ReaderClientProps {
   bookData: any
@@ -31,6 +33,7 @@ export default function ReaderClient({
   const searchParams = useSearchParams()
 
   const { highlights, loadHighlights } = useHighlightsStore()
+  const { syncVerseReadings, flushVerseQueue } = useProgressStore()
 
   const [animatedVerses, setAnimatedVerses] = useState<Set<number>>(new Set())
   const [searchQuery, setSearchQuery] = useState<string | null>(null)
@@ -42,9 +45,77 @@ export default function ReaderClient({
   // the required distance between touchStart and touchEnd to be detected as a swipe
   const minSwipeDistance = 50
 
+  // Reading tracker - detects if user is actually reading
+  const { setCurrentVerse, isVerseRead } = useReadingTracker({
+    minReadDuration: 3000, // 3 seconds minimum on a verse to count as "read"
+    engagementWindow: 20000, // keep counting while user is plausibly reading
+    idleTimeout: 30000, // 30 seconds of no activity = idle
+    syncInterval: 10000, // Sync progress every 10 seconds
+    onSyncProgress: async (verses) => {
+      await syncVerseReadings(verses)
+    },
+  })
+
+  // Verse visibility tracking (IntersectionObserver) - detects which verse is being viewed
   useEffect(() => {
+    const verseElements = Array.from(document.querySelectorAll<HTMLElement>('[id^="v"]')).filter(
+      (el) => /^v\d+$/.test(el.id),
+    )
+
+    if (verseElements.length === 0) return
+
+    let current: number | null = null
+    const ratios = new Map<number, number>()
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = (entry.target as HTMLElement).id
+          const verseNum = parseInt(id.slice(1), 10)
+          if (!Number.isFinite(verseNum)) continue
+
+          if (!entry.isIntersecting) {
+            ratios.delete(verseNum)
+            continue
+          }
+
+          ratios.set(verseNum, entry.intersectionRatio)
+        }
+
+        let bestVerse: number | null = null
+        let bestRatio = 0
+        for (const [verseNum, ratio] of ratios.entries()) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio
+            bestVerse = verseNum
+          }
+        }
+
+        // Long verses can have low ratios; keep this threshold permissive.
+        if (!bestVerse || bestRatio < 0.12) return
+
+        if (current !== bestVerse) {
+          current = bestVerse
+          setCurrentVerse(bookId, chapterData.chapter, bestVerse)
+        }
+      },
+      {
+        root: null,
+        // Focus on the middle band of the screen (like "what I'm reading now")
+        rootMargin: '-20% 0px -20% 0px',
+        threshold: [0, 0.05, 0.1, 0.15, 0.25, 0.5, 0.75, 1],
+      },
+    )
+
+    for (const el of verseElements) observer.observe(el)
+
+    return () => observer.disconnect()
+  }, [bookId, chapterData.chapter, setCurrentVerse])
+
+  useEffect(() => {
+    flushVerseQueue().catch(() => {})
     loadHighlights()
-  }, [bookId, chapterData.chapter, loadHighlights])
+  }, [bookId, chapterData.chapter, flushVerseQueue, loadHighlights])
 
 
   useEffect(() => {
@@ -211,23 +282,27 @@ export default function ReaderClient({
               )}
 
               <div id={sectionId} className="text-justify text-base sm:text-lg dark:text-gray-300 prose prose-gray dark:prose-invert max-w-none">
-                {section.verses.map((verse: any) => (
-                  <VerseActionMenu
-                    key={verse.verse}
-                    verseNumber={verse.verse}
-                    verseText={verse.text}
-                    bookId={bookId}
-                    bookName={bookData.book_name_am}
-                    chapter={chapterData.chapter}
-                    containerId={sectionId}
-                    onBookmark={handleBookmark}
-                    onNote={handleNote}
-                    highlightColor={highlightsMap.get(verse.verse)?.colorHex}
-                    highlightId={highlightsMap.get(verse.verse)?._id}
-                    shouldAnimate={animatedVerses.has(verse.verse)}
-                    searchQuery={searchQuery || undefined}
-                  />
-                ))}
+                {section.verses.map((verse: any) => {
+                  const isRead = isVerseRead(bookId, chapterData.chapter, verse.verse)
+                  return (
+                    <VerseActionMenu
+                      key={verse.verse}
+                      verseNumber={verse.verse}
+                      verseText={verse.text}
+                      bookId={bookId}
+                      bookName={bookData.book_name_am}
+                      chapter={chapterData.chapter}
+                      containerId={sectionId}
+                      onBookmark={handleBookmark}
+                      onNote={handleNote}
+                      highlightColor={highlightsMap.get(verse.verse)?.colorHex}
+                      highlightId={highlightsMap.get(verse.verse)?._id}
+                      shouldAnimate={animatedVerses.has(verse.verse)}
+                      searchQuery={searchQuery || undefined}
+                      isRead={isRead}
+                    />
+                  )
+                })}
               </div>
             </div>
           )

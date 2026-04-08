@@ -17,7 +17,7 @@ export default function DashboardClient() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const { progress, loadProgress } = useProgressStore()
+  const { progress, loadProgress, flushVerseQueue } = useProgressStore()
   const { bookmarks, loadBookmarks } = useBookmarksStore()
 
   useEffect(() => {
@@ -44,9 +44,10 @@ export default function DashboardClient() {
     }
 
     fetchProfile()
+    flushVerseQueue().catch(() => {})
     loadProgress().catch(() => { })
     loadBookmarks().catch(() => { })
-  }, [t, loadProgress, loadBookmarks])
+  }, [t, flushVerseQueue, loadProgress, loadBookmarks])
 
   if (loading)
     return (

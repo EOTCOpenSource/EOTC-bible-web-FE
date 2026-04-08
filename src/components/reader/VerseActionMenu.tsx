@@ -10,8 +10,9 @@ import { cn } from '@/lib/utils'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { useUserStore } from '@/lib/stores/useUserStore'
-import { getHighlightBackgroundColor, hexToHighlightColor } from '@/lib/highlight-utils'
+import { hexToHighlightColor } from '@/lib/highlight-utils'
 import type { VerseRef } from '@/stores/types'
+import { useTheme } from 'next-themes'
 
 interface VerseActionMenuProps {
   verseNumber: number | string
@@ -27,6 +28,7 @@ interface VerseActionMenuProps {
   highlightId?: string
   shouldAnimate?: boolean
   searchQuery?: string
+  isRead?: boolean // Whether this verse has been read (for visual feedback)
 }
 
 type SelectedVerseRange = {
@@ -68,14 +70,31 @@ export const VerseActionMenu = ({
   highlightId,
   shouldAnimate = false,
   searchQuery,
+  isRead = false,
 }: VerseActionMenuProps) => {
   const [showMenu, setShowMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
   const [selectedText, setSelectedText] = useState('')
-  const highlightBgClass = useMemo(() => {
-    if (!highlightColor) return null
-    return getHighlightBackgroundColor(hexToHighlightColor(highlightColor))
-  }, [highlightColor])
+  const { resolvedTheme } = useTheme()
+  const highlightStyle = useMemo(() => {
+    if (!highlightColor) return undefined
+
+    const normalized = highlightColor.trim().toUpperCase()
+    const withoutAlpha = normalized.length === 9 ? normalized.slice(0, 7) : normalized
+    const isYellow = withoutAlpha === '#FFE062'
+
+    const isDark =
+      resolvedTheme === 'dark' ||
+      (resolvedTheme == null && document?.documentElement?.classList?.contains('dark'))
+
+    // Keep the exact background color, but ensure yellow remains readable in dark mode.
+    // Only affects yellow; all other highlight colors remain untouched.
+    if (isYellow && isDark) {
+      return { backgroundColor: highlightColor, color: '#111827' } as const
+    }
+
+    return { backgroundColor: highlightColor } as const
+  }, [highlightColor, resolvedTheme])
   const getDefaultRange = useCallback((): SelectedVerseRange => {
     const numericVerse = typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber, 10)
     const safeVerse = Number.isFinite(numericVerse) ? numericVerse : 0
@@ -163,7 +182,9 @@ export const VerseActionMenu = ({
 
   const verseReference = `${bookName} ${chapter}:${verseNumber}`.trim()
 
-  const highlightColors = ['#621B1C', '#FFE062', '#3BAD49', '#FF4B26', '#5778C5', '#704A6A']
+  // Keep these in sync with the actual stored colors (HighlightColor -> hex) so the rendered highlight
+  // exactly matches the user-selected color in both light and dark mode.
+  const highlightColors = ['#B61F21', '#FFE062', '#3BAD49', '#FF6A00', '#5778C5', '#704A6A']
 
   const handleHighlightSelection = async (colorHex: string) => {
     const verseRange = selectedVerses ?? getDefaultRange()
@@ -493,7 +514,11 @@ export const VerseActionMenu = ({
         onPointerCancel={cancelPress}
         onPointerLeave={cancelPress}
         onContextMenu={(e) => { e.preventDefault(); cancelPress() }}
-        className={cn("cursor-pointer select-none transition-colors", showMenu && "bg-primary/20 dark:bg-primary/40 rounded px-1 -mx-1")}
+        className={cn(
+          'cursor-pointer select-none transition-colors',
+          showMenu &&
+            'bg-primary/20 dark:bg-primary/60 dark:ring-1 dark:ring-primary/40 rounded px-1 -mx-1',
+        )}
         style={{
           WebkitUserSelect: 'none',
           userSelect: 'none',
@@ -504,13 +529,19 @@ export const VerseActionMenu = ({
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
         <span
           className={cn(
-            'transition-colors duration-200',
+            'transition-colors duration-200 relative',
             highlightColor && 'rounded px-1 py-0.5',
-            highlightBgClass,
             shouldAnimate && 'highlight-verse-animation',
+            isRead && 'read-verse',
           )}
+          style={highlightStyle}
         >
-          {renderTextWithHighlight(verseText, searchQuery)}{' '}
+          {renderTextWithHighlight(verseText, searchQuery)}
+          {isRead && (
+            <span className="absolute -right-3 top-0.5 text-[10px] text-green-600 dark:text-green-400 opacity-60">
+              ✓
+            </span>
+          )}{' '}
         </span>
       </span>
 

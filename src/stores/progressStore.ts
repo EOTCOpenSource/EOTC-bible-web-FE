@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import axiosInstance from '@/lib/axios'
 import type { Progress, VerseRef } from './types'
+import type { VerseReadEvent } from '@/hooks/useReadingTracker'
 
 interface ProgressState {
   progress: Progress
@@ -10,9 +11,86 @@ interface ProgressState {
 
   markChapterRead: (book: string, chapter: number) => Promise<void>
   setLastRead: (v: VerseRef) => Promise<void>
+  syncVerseReadings: (readings: VerseReadEvent[]) => Promise<void>
+  flushVerseQueue: () => Promise<void>
   loadProgress: () => Promise<void>
   resetProgressLocal: () => void
   clearError: () => void
+}
+
+const READING_QUEUE_KEY = 'eotc-reading-queue-v1'
+const MAX_QUEUE_ITEMS = 1000
+
+type QueuedVerseReadEvent = VerseReadEvent
+
+const canUseBrowserStorage = () => typeof window !== 'undefined' && !!window.localStorage
+
+const readQueueFromStorage = (): QueuedVerseReadEvent[] => {
+  if (!canUseBrowserStorage()) return []
+  try {
+    const raw = window.localStorage.getItem(READING_QUEUE_KEY)
+    if (!raw) return []
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) ? (parsed as QueuedVerseReadEvent[]) : []
+  } catch {
+    return []
+  }
+}
+
+const writeQueueToStorage = (queue: QueuedVerseReadEvent[]) => {
+  if (!canUseBrowserStorage()) return
+  try {
+    window.localStorage.setItem(READING_QUEUE_KEY, JSON.stringify(queue.slice(-MAX_QUEUE_ITEMS)))
+  } catch {
+    // ignore storage failures (quota, private mode, etc.)
+  }
+}
+
+const toVerseKey = (e: Pick<VerseReadEvent, 'bookId' | 'chapter' | 'verse'>) =>
+  `${e.bookId.toLowerCase()}:${e.chapter}:${e.verse}`
+
+const mergeQueue = (existing: QueuedVerseReadEvent[], incoming: QueuedVerseReadEvent[]) => {
+  const map = new Map<string, QueuedVerseReadEvent>()
+  for (const item of existing) map.set(toVerseKey(item), item)
+  for (const item of incoming) {
+    const key = toVerseKey(item)
+    const prev = map.get(key)
+    if (!prev) {
+      map.set(key, item)
+      continue
+    }
+    map.set(key, {
+      ...prev,
+      // Keep the most recent timestamp and the largest readDuration we observed.
+      timestamp: Math.max(prev.timestamp, item.timestamp),
+      readDuration: Math.max(prev.readDuration, item.readDuration),
+    })
+  }
+  return Array.from(map.values()).slice(-MAX_QUEUE_ITEMS)
+}
+
+let drainInFlight = false
+let drainRetryTimer: number | null = null
+let drainBackoffMs = 1000
+
+const scheduleDrain = (drainFn: () => Promise<void>) => {
+  if (typeof window === 'undefined') return
+  if (drainRetryTimer != null) return
+  const jitter = Math.floor(Math.random() * 250)
+  const delay = Math.min(60_000, drainBackoffMs) + jitter
+  drainRetryTimer = window.setTimeout(() => {
+    drainRetryTimer = null
+    void drainFn()
+  }, delay)
+  drainBackoffMs = Math.min(60_000, drainBackoffMs * 2)
+}
+
+const resetBackoff = () => {
+  drainBackoffMs = 1000
+  if (typeof window !== 'undefined' && drainRetryTimer != null) {
+    window.clearTimeout(drainRetryTimer)
+    drainRetryTimer = null
+  }
 }
 
 const initialProgress: Progress = {
@@ -125,6 +203,91 @@ export const useProgressStore = create<ProgressState>()(
         })
         throw err
       }
+    },
+
+    flushVerseQueue: async () => {
+      // Drain whatever is in localStorage (survives refresh/offline).
+      await get().syncVerseReadings([])
+    },
+
+    syncVerseReadings: async (readings) => {
+      const queue = mergeQueue(readQueueFromStorage(), readings || [])
+      writeQueueToStorage(queue)
+
+      // Optimistic update - mark chapters as "started" locally as soon as we see verse events.
+      if (readings && readings.length > 0) {
+        set((s) => {
+          const chapters = { ...s.progress.chaptersRead }
+          for (const reading of readings) {
+            const book = reading.bookId
+            const chapter = reading.chapter
+            if (!chapters[book]) {
+              chapters[book] = []
+            }
+            if (!chapters[book].includes(chapter)) {
+              chapters[book].push(chapter)
+            }
+          }
+          return {
+            progress: { ...s.progress, chaptersRead: chapters },
+            error: null,
+          }
+        })
+      }
+
+      const drain = async () => {
+        if (drainInFlight) return
+        if (typeof navigator !== 'undefined' && navigator.onLine === false) return
+
+        const stored = readQueueFromStorage()
+        if (stored.length === 0) {
+          resetBackoff()
+          return
+        }
+
+        drainInFlight = true
+        try {
+          // Send in smaller batches to reduce payload risk.
+          const batchSize = 200
+          const toSend = stored.slice(0, batchSize)
+
+          await axiosInstance.post('/api/progress/sync-verses', {
+            readings: toSend.map((r) => ({
+              bookId: r.bookId,
+              chapter: r.chapter,
+              verse: r.verse,
+              readDuration: r.readDuration,
+              timestamp: r.timestamp,
+            })),
+          })
+
+          // Remove sent items (dedupe by verse key).
+          const sentKeys = new Set(toSend.map((r) => toVerseKey(r)))
+          const remaining = stored.filter((r) => !sentKeys.has(toVerseKey(r)))
+          writeQueueToStorage(remaining)
+
+          resetBackoff()
+
+          // If more remains, keep draining.
+          if (remaining.length > 0) {
+            drainInFlight = false
+            await drain()
+            return
+          }
+
+          // Refresh progress from server after successful drain.
+          await get().loadProgress()
+        } catch (err: any) {
+          set({
+            error: err?.response?.data?.error ?? err?.message ?? 'Failed to sync verse readings',
+          })
+          scheduleDrain(drain)
+        } finally {
+          drainInFlight = false
+        }
+      }
+
+      await drain()
     },
 
     resetProgressLocal: () => set({ progress: initialProgress }),

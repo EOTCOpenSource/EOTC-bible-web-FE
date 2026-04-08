@@ -54,6 +54,31 @@ const Navbar = () => {
     }
   }, [isNavMenuOpen, closeNavMenu])
 
+  useEffect(() => {
+    if (!isNavMenuOpen) return
+
+    const handlePointerDown = (event: MouseEvent | TouchEvent) => {
+      const target = event.target as Node | null
+      if (!target) return
+
+      const menuElements = Array.from(document.querySelectorAll('[data-nav-menu="true"]'))
+      const toggleElements = Array.from(
+        document.querySelectorAll('[data-nav-menu-toggle="true"]'),
+      )
+
+      const clickedInsideMenu = [...menuElements, ...toggleElements].some((el) => el.contains(target))
+      if (!clickedInsideMenu) closeNavMenu()
+    }
+
+    document.addEventListener('mousedown', handlePointerDown, true)
+    document.addEventListener('touchstart', handlePointerDown, true)
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown, true)
+      document.removeEventListener('touchstart', handlePointerDown, true)
+    }
+  }, [isNavMenuOpen, closeNavMenu])
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -185,11 +210,14 @@ const Navbar = () => {
                 )}
 
                 <div className="relative flex-shrink-0">
-                  <button onClick={toggleNavMenu}>
+                  <button onClick={toggleNavMenu} data-nav-menu-toggle="true">
                     <Menu size={24} />
                   </button>
                   {isNavMenuOpen && (
-                    <div className="absolute top-full right-0 z-50 mt-2 rounded-md bg-white dark:bg-neutral-900 p-4 shadow-lg">
+                    <div
+                      data-nav-menu="true"
+                      className="absolute top-full right-0 z-50 mt-2 rounded-md bg-white dark:bg-neutral-900 p-4 shadow-lg"
+                    >
                       <div className="flex flex-col gap-3">
                         <Link href="/#download" className="flex h-[42px] w-full">
                           <button className="flex h-[42px] w-full items-center gap-2 rounded-lg bg-red-900 px-6 py-2 text-sm text-white">
@@ -218,7 +246,7 @@ const Navbar = () => {
               <button onClick={toggleNavSearch} className="rounded-lg bg-red-900 p-2 text-white">
                 <Search size={20} />
               </button>
-              <button onClick={toggleNavMenu}>
+              <button onClick={toggleNavMenu} data-nav-menu-toggle="true">
                 {isNavMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
@@ -228,7 +256,10 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isNavMenuOpen && (
-        <div className="absolute top-full left-0 mt-2 w-full rounded-md bg-white dark:bg-neutral-900 shadow-lg md:hidden">
+        <div
+          data-nav-menu="true"
+          className="absolute top-full left-0 mt-2 w-full rounded-md bg-white dark:bg-neutral-900 shadow-lg md:hidden"
+        >
           <div className="flex flex-col space-y-2 p-4">
             <Link href="/read-online" className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
               {t('bible')}
