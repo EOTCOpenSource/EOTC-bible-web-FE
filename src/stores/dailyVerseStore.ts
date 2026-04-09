@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { books } from '@/data/data'
-import { toEthiopianDate } from '@/lib/ethiopianCalendar'
+import { gregorianToJdn, toEthiopianDateFromGregorian } from '@/lib/ethiopianCalendar'
 import type { BibleBook } from './types'
 
 interface DailyVerse {
@@ -47,17 +47,33 @@ type VerseSelection = {
   occasion?: string
 }
 
-const toLocalDayKey = (d: Date) => {
-  const y = d.getFullYear()
-  const m = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  return `${y}-${m}-${day}`
+const ETHIOPIA_TZ = 'Africa/Addis_Ababa'
+
+const getEthiopiaYmd = () => {
+  const parts = new Intl.DateTimeFormat('en', {
+    timeZone: ETHIOPIA_TZ,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date())
+
+  const year = Number(parts.find((p) => p.type === 'year')?.value)
+  const month = Number(parts.find((p) => p.type === 'month')?.value)
+  const day = Number(parts.find((p) => p.type === 'day')?.value)
+
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
+    const d = new Date()
+    return { year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate() }
+  }
+
+  return { year, month, day }
 }
 
-const MS_PER_DAY = 24 * 60 * 60 * 1000
-const startOfLocalDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate())
-const diffDaysLocal = (a: Date, b: Date) =>
-  Math.round((startOfLocalDay(a).getTime() - startOfLocalDay(b).getTime()) / MS_PER_DAY)
+const toYmdKey = (year: number, month: number, day: number) =>
+  `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+
+const weekdayFromYmd = (year: number, month: number, day: number) =>
+  new Date(Date.UTC(year, month - 1, day)).getUTCDay() // 0=Sun..6=Sat
 
 // Meeus Julian algorithm + 13-day shift (valid for 1900-2099) to get Orthodox Easter in Gregorian.
 const orthodoxEasterGregorianUtc = (year: number) => {
@@ -267,20 +283,23 @@ const resolveEthiopianDaysUntil = (etMonth: number, etDay: number, targetMonth: 
 }
 
 const resolveDailyVerseSelection = (today: Date): VerseSelection => {
-  const et = toEthiopianDate(today)
+  const { year, month, day } = getEthiopiaYmd()
+  const et = toEthiopianDateFromGregorian(year, month, day)
+  const weekday = weekdayFromYmd(year, month, day)
+  const todayJdn = gregorianToJdn(year, month, day)
 
   // 1) Major fixed feasts (Ethiopian date)
   const fixed = FIXED_FEASTS_BY_ETH_MM_DD[`${et.month}-${et.day}`]
   if (fixed) return fixed
 
   // 2) Moveable feasts (relative to Fasika)
-  const easterUtc = orthodoxEasterGregorianUtc(today.getFullYear())
-  const easterLocal = new Date(
+  const easterUtc = orthodoxEasterGregorianUtc(year)
+  const easterJdn = gregorianToJdn(
     easterUtc.getUTCFullYear(),
-    easterUtc.getUTCMonth(),
+    easterUtc.getUTCMonth() + 1,
     easterUtc.getUTCDate(),
   )
-  const offset = diffDaysLocal(today, easterLocal)
+  const offset = todayJdn - easterJdn
   const moveable = HOLY_WEEK_BY_EASTER_OFFSET[offset]
   if (moveable) return moveable
 
@@ -335,22 +354,22 @@ const resolveDailyVerseSelection = (today: Date): VerseSelection => {
   }
 
   // 6) Weekday observances
-  const weekday = WEEKDAY_OBSERVANCE[today.getDay()]
-  if (weekday) return weekday
+  const weekdayObs = WEEKDAY_OBSERVANCE[weekday]
+  if (weekdayObs) return weekdayObs
 
   // 7) Stable Ethiopian-calendar plan (30-day month-based)
   return { loc: getPsalmLocationForEthiopianDate(et.month, et.day), occasion: 'Daily Reading' }
 }
 
 const getDailyVerse = async (): Promise<DailyVerse> => {
-  const today = new Date()
-  const selection = resolveDailyVerseSelection(today)
+  const selection = resolveDailyVerseSelection(new Date())
 
   try {
     const verse = await getVerseAtLocation(selection.loc)
     return { ...verse, occasion: selection.occasion }
   } catch {
-    const et = toEthiopianDate(today)
+    const { year, month, day } = getEthiopiaYmd()
+    const et = toEthiopianDateFromGregorian(year, month, day)
     const verse = await getVerseAtLocation(getPsalmLocationForEthiopianDate(et.month, et.day))
     return { ...verse, occasion: 'Daily Reading' }
   }
@@ -378,7 +397,8 @@ export const useDailyVerseStore = create<DailyVerseState>()(
         loadDailyVerse: async () => {
           set({ isLoading: true, error: null })
           try {
-            const todayKey = toLocalDayKey(new Date())
+            const { year, month, day } = getEthiopiaYmd()
+            const todayKey = toYmdKey(year, month, day)
             const existing = get().verse
             const existingKey = get().verseDayKey
 
@@ -450,6 +470,18 @@ export const useDailyVerseStore = create<DailyVerseState>()(
       }),
       {
         name: 'daily-verse-storage',
+        version: 2,
+        migrate: (persisted: any, version) => {
+          if (version < 2) {
+            return {
+              ...persisted,
+              verse: null,
+              verseDayKey: null,
+              error: null,
+            }
+          }
+          return persisted
+        },
       }
     )
   )

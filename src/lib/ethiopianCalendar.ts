@@ -10,7 +10,7 @@ const ETHIOPIAN_EPOCH_JDN = 1723856
 
 const mod = (n: number, m: number) => ((n % m) + m) % m
 
-const gregorianToJdn = (year: number, month: number, day: number) => {
+export const gregorianToJdn = (year: number, month: number, day: number) => {
   const a = Math.floor((14 - month) / 12)
   const y = year + 4800 - a
   const m = month + 12 * a - 3
@@ -25,12 +25,11 @@ const gregorianToJdn = (year: number, month: number, day: number) => {
   )
 }
 
-// Converts a Gregorian date (local time) to Ethiopian calendar date.
-export const toEthiopianDate = (date: Date): EthiopianDate => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-
+export const toEthiopianDateFromGregorian = (
+  year: number,
+  month: number,
+  day: number,
+): EthiopianDate => {
   const jdn = gregorianToJdn(year, month, day)
   const daysSinceEpoch = jdn - ETHIOPIAN_EPOCH_JDN
   const cycleRemainder = mod(daysSinceEpoch, 1461) // 4-year cycle length
@@ -51,3 +50,7 @@ export const toEthiopianDate = (date: Date): EthiopianDate => {
   return { year: etYear, month: etMonth, day: etDay }
 }
 
+// Converts a Gregorian date (local time) to Ethiopian calendar date.
+export const toEthiopianDate = (date: Date): EthiopianDate => {
+  return toEthiopianDateFromGregorian(date.getFullYear(), date.getMonth() + 1, date.getDate())
+}
