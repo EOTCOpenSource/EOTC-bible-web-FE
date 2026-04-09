@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Trophy, Flame, BookOpen, Star, Zap, Crown, Filter, ChevronRight, TrendingUp } from 'lucide-react'
+import { Trophy, Flame, BookOpen, Star, Zap, Crown, Filter, ChevronRight, TrendingUp, Award } from 'lucide-react'
 import Link from 'next/link'
 import { useAchievementsStore } from '@/stores/achievementStore'
 import { useProgressStore } from '@/stores/progressStore'
@@ -84,7 +84,7 @@ export default function AchievementsPage() {
             {/* ── Header ─────────────────────────────────────────────── */}
             <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4C0E0F] text-white">
-                    <Trophy size={20} />
+                    <Award size={20} />
                 </div>
                 <div>
                     <h1 className="text-2xl font-bold text-black dark:text-white">Achievements</h1>

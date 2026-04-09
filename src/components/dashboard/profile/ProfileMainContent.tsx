@@ -10,6 +10,8 @@ import Image from 'next/image'
 import { toast } from 'sonner'
 import axiosInstance from '@/lib/axios'
 import { useRouter } from 'next/navigation'
+import { useAchievementsStore } from '@/stores/achievementStore'
+import AchievementCard from '@/components/achievements/AchievementCard'
 import {
   Dialog,
   DialogContent,
@@ -52,6 +54,32 @@ export const ProfileMainContent = () => {
       })
     }
   }, [user])
+
+  const { achievements, loadAchievements } = useAchievementsStore()
+
+  useEffect(() => {
+    loadAchievements()
+  }, [loadAchievements])
+
+  const unlocked = achievements.filter(a => a.unlocked)
+  const locked = achievements.filter(a => !a.unlocked)
+
+  const tierValue: Record<string, number> = { bronze: 1, silver: 2, gold: 3, platinum: 4 }
+
+  const latestUnlocked = unlocked.length > 0
+    ? [...unlocked].sort((a, b) => {
+      if (tierValue[a.tier] !== tierValue[b.tier]) return tierValue[b.tier] - tierValue[a.tier]
+      return b.target - a.target
+    })[0]
+    : null
+
+  const upcoming = locked.length > 0
+    ? [...locked].sort((a, b) => {
+      const pctA = a.progressValue / a.target
+      const pctB = b.progressValue / b.target
+      return pctB - pctA
+    })[0]
+    : null
 
   const handleAvatarButtonClick = () => {
     fileInputRef.current?.click()
@@ -301,7 +329,7 @@ export const ProfileMainContent = () => {
               value={formData.confirmPassword}
               onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
               placeholder="Confirm new password"
-                className="bg-[#F9FAFB] dark:bg-[#3D2D2D] dark:text-white border-none h-12 rounded-[12px] focus-visible:ring-1 focus-visible:ring-gray-200 dark:focus-visible:ring-gray-600"
+              className="bg-[#F9FAFB] dark:bg-[#3D2D2D] dark:text-white border-none h-12 rounded-[12px] focus-visible:ring-1 focus-visible:ring-gray-200 dark:focus-visible:ring-gray-600"
               disabled={isSaving}
             />
           </>
@@ -313,40 +341,55 @@ export const ProfileMainContent = () => {
   return (
     <>
       <div className="w-full md:w-[502px] min-h-[475px] h-auto bg-white dark:bg-[#2A2020] rounded-[20px] p-6 border border-gray-100 dark:border-[#3D2D2D] shadow-sm flex flex-col">
-        <div className="flex flex-col items-center mb-6 flex-shrink-0">
-          <div className="relative group cursor-pointer" onClick={handleAvatarButtonClick}>
-            <div className="h-20 w-20 rounded-full bg-gray-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden border-4 border-white dark:border-[#3D2D2D] shadow-sm ring-1 ring-gray-100 dark:ring-neutral-600">
-              {user?.avatarUrl ? (
-                <Image
-                  src={user.avatarUrl}
-                  alt={user?.name || 'Profile avatar'}
-                  width={80}
-                  height={80}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <User size={36} className="text-gray-300" />
-              )}
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 flex-shrink-0">
+          <div className="flex flex-col items-center flex-shrink-0">
+            <div className="relative group cursor-pointer" onClick={handleAvatarButtonClick}>
+              <div className="h-20 w-20 rounded-full bg-gray-50 dark:bg-neutral-700 flex items-center justify-center overflow-hidden border-4 border-white dark:border-[#3D2D2D] shadow-sm ring-1 ring-gray-100 dark:ring-neutral-600">
+                {user?.avatarUrl ? (
+                  <Image
+                    src={user.avatarUrl}
+                    alt={user?.name || 'Profile avatar'}
+                    width={80}
+                    height={80}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <User size={36} className="text-gray-300" />
+                )}
+              </div>
+              <button
+                type="button"
+                disabled={isUploading}
+                className="absolute bottom-0 right-0 bg-white dark:bg-neutral-700 p-1.5 rounded-full border border-gray-100 dark:border-neutral-600 shadow-md hover:bg-gray-50 dark:hover:bg-neutral-600 transition-colors z-10"
+              >
+                <Pencil size={12} className="text-gray-600 dark:text-gray-200" />
+              </button>
+              <div className="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium text-[10px]">
+                Change
+              </div>
             </div>
-            <button
-              type="button"
-              disabled={isUploading}
-              className="absolute bottom-0 right-0 bg-white dark:bg-neutral-700 p-1.5 rounded-full border border-gray-100 dark:border-neutral-600 shadow-md hover:bg-gray-50 dark:hover:bg-neutral-600 transition-colors z-10"
-            >
-              <Pencil size={12} className="text-gray-600 dark:text-gray-200" />
-            </button>
-            <div className="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium text-[10px]">
-              Change
-            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleAvatarChange}
+            />
+            <p className="mt-2 text-xs font-medium text-gray-500 dark:text-gray-400">Change your profile picture</p>
           </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleAvatarChange}
-          />
-          <p className="mt-2 text-xs font-medium text-gray-500 dark:text-gray-400">Change your profile picture</p>
+
+          <div className="flex flex-col w-full gap-3 overflow-hidden">
+            {latestUnlocked && (
+              <div className="transform scale-95 origin-top-left -ml-2 w-[105%]">
+                <AchievementCard achievement={latestUnlocked} />
+              </div>
+            )}
+            {upcoming && (
+              <div className="transform scale-95 origin-top-left -ml-2 w-[105%] md:mt-[-10px]">
+                <AchievementCard achievement={upcoming} />
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

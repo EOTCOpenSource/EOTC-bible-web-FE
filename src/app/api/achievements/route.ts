@@ -46,20 +46,33 @@ export async function GET() {
             return NextResponse.json({ error: 'Unauthorized. Please login first.' }, { status: 401 })
         }
 
-        const res = await serverAxiosInstance.get('/progress', {
-            headers: { Authorization: `Bearer ${token}` },
-            validateStatus: () => true,
-        })
+        const [progressRes, achievementsRes] = await Promise.all([
+            serverAxiosInstance.get('/progress', {
+                headers: { Authorization: `Bearer ${token}` },
+                validateStatus: () => true,
+            }),
+            serverAxiosInstance.get('/achievements', {
+                headers: { Authorization: `Bearer ${token}` },
+                validateStatus: () => true,
+            })
+        ])
 
-        if (res.status < 200 || res.status >= 300) {
+        if (progressRes.status < 200 || progressRes.status >= 300) {
             return NextResponse.json(
-                { error: res.data?.message || 'Failed to fetch progress' },
-                { status: res.status }
+                { error: progressRes.data?.message || 'Failed to fetch progress' },
+                { status: progressRes.status }
             )
         }
 
-        const progress = transformBackendProgress(res.data)
-        const achievements = computeAchievements(progress)
+        const progress = transformBackendProgress(progressRes.data)
+        const computedAchievements = computeAchievements(progress)
+
+        // Merge persisted achievements
+        const unlockedIds = new Set<string>(achievementsRes.data?.unlockedIds || [])
+        const achievements = computedAchievements.map((ach) => ({
+            ...ach,
+            unlocked: ach.unlocked || unlockedIds.has(ach.id),
+        }))
 
         return NextResponse.json({ achievements, progress })
     } catch (error: any) {
