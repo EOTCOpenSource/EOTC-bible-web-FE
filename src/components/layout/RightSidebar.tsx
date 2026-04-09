@@ -1,21 +1,24 @@
 'use client'
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Award, ChevronRight, ArrowRight, BookMarked } from 'lucide-react'
+import { Award, ChevronRight, BookMarked, BookOpen, Flame } from 'lucide-react'
 import { Calendar } from '../ui/calendar'
 import { useDailyVerseStore } from '@/stores/dailyVerseStore'
 import { useProgressStore } from '@/stores/progressStore'
+import { useAchievementsStore } from '@/stores/achievementStore'
 
 const RightSidebar = () => {
   const router = useRouter()
   const { verse, isLoading: verseLoading, loadDailyVerse } = useDailyVerseStore()
   const { progress, loadProgress } = useProgressStore()
+  const { achievements, loadAchievements } = useAchievementsStore()
   const [month, setMonth] = React.useState<Date | undefined>(new Date())
 
   useEffect(() => {
     loadDailyVerse().catch(() => {})
     loadProgress().catch(() => {})
-  }, [loadDailyVerse, loadProgress])
+    loadAchievements().catch(() => {})
+  }, [loadDailyVerse, loadProgress, loadAchievements])
 
   const streakDates: Date[] = []
   if (progress.streak?.lastDate) {
@@ -26,6 +29,47 @@ const RightSidebar = () => {
       streakDates.push(date)
     }
   }
+
+  // Build a Set of date keys for O(1) lookup when computing chain connectors
+  const streakKeySet = React.useMemo(() => {
+    const s = new Set<string>()
+    for (const d of streakDates) {
+      s.add(`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`)
+    }
+    return s
+  }, [streakDates])
+
+  // Compute chain connector dates:
+  // - chainLeft: streak day whose PREVIOUS day is also a streak day AND same week row (not Sunday)
+  // - chainRight: streak day whose NEXT day is also a streak day AND same week row (not Saturday)
+  const { chainLeft, chainRight } = React.useMemo(() => {
+    const left: Date[] = []
+    const right: Date[] = []
+
+    for (const d of streakDates) {
+      const dayOfWeek = d.getDay()
+
+      // Check previous day (connect left) — skip if Sunday (start of row)
+      if (dayOfWeek !== 0) {
+        const prev = new Date(d)
+        prev.setDate(prev.getDate() - 1)
+        if (streakKeySet.has(`${prev.getFullYear()}-${prev.getMonth()}-${prev.getDate()}`)) {
+          left.push(d)
+        }
+      }
+
+      // Check next day (connect right) — skip if Saturday (end of row)
+      if (dayOfWeek !== 6) {
+        const next = new Date(d)
+        next.setDate(next.getDate() + 1)
+        if (streakKeySet.has(`${next.getFullYear()}-${next.getMonth()}-${next.getDate()}`)) {
+          right.push(d)
+        }
+      }
+    }
+
+    return { chainLeft: left, chainRight: right }
+  }, [streakDates, streakKeySet])
 
   const handleContinueReading = () => {
     if (progress.lastRead) {
@@ -52,47 +96,54 @@ const RightSidebar = () => {
     (total, chapters) => total + chapters.length,
     0,
   )
+  const totalAchievements = achievements.length
+  const achievementsUnlocked = achievements.filter(a => a.unlocked).length
+  const achievementPct = totalAchievements > 0 ? Math.round((achievementsUnlocked / totalAchievements) * 100) : 0
 
   return (
     <div className="flex w-full flex-col gap-8 py-3 md:gap-6">
-      <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-6">
-        <div className="flex items-center gap-1 text-[#4C0E0F] dark:text-red-400">
-          <Award size={20} />
-          <h4 className="text-lg font-medium text-black dark:text-white">Achievement</h4>
+      <div className="rounded-xl border border-transparent bg-gradient-to-r from-[#4C0E0F]/20 to-red-900/10 p-5 dark:border-neutral-800 dark:from-red-900/20 dark:to-[#4C0E0F]/20">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-[#4C0E0F] dark:text-red-400">
+            <Award size={20} />
+            <h4 className="text-lg font-bold text-black dark:text-white">Achievements</h4>
+          </div>
+          <span className="rounded-full bg-[#4C0E0F] px-2.5 py-0.5 text-[10px] font-bold text-white dark:bg-red-900/50 dark:text-red-300">
+            {achievementsUnlocked}/{totalAchievements > 0 ? totalAchievements : 26}
+          </span>
         </div>
-        {progress.streak?.current ? (
-          <div className="mt-4 flex flex-col items-center justify-between gap-2">
-            <div className="flex w-full items-center justify-between">
-              <div className="flex flex-col gap-0">
-                <p className="text-sm">{progress.streak.current}-Day Streak</p>
-                <span className="text-[10px] text-gray-400">
-                  {progress.streak.lastDate ? 'Active' : 'Inactive'}
-                </span>
-              </div>
-              <ChevronRight size={16} className="cursor-pointer dark:text-gray-400" />
-            </div>
-            <hr className="h-[1.5px] w-full bg-gray-300 dark:bg-neutral-800 border-none" />
-          </div>
-        ) : null}
-        {totalChaptersRead > 0 ? (
-          <div className="mt-4 flex flex-col items-center justify-between gap-2">
-            <div className="flex w-full items-center justify-between">
-              <div className="flex flex-col gap-0">
-                <p className="text-sm">{totalChaptersRead} Chapters</p>
-                <span className="text-[10px] text-gray-400">Total read</span>
-              </div>
-              <ChevronRight size={16} className="cursor-pointer dark:text-gray-400" />
-            </div>
-            <hr className="h-[1.5px] w-full bg-gray-300 dark:bg-neutral-800 border-none" />
-          </div>
-        ) : null}
 
-        <div className="flex items-center justify-center pt-5">
-          <button className="flex cursor-pointer items-center justify-end text-[#4C0E0F] dark:text-red-400">
-            <p>View More</p>
-            <ArrowRight size={18} />
-          </button>
+        <div className="mb-4">
+          <div className="mb-1.5 flex items-end justify-between">
+            <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{achievementPct}% complete</p>
+            <p className="text-[10px] text-gray-500">{achievementsUnlocked} of {totalAchievements > 0 ? totalAchievements : 26} achievements</p>
+          </div>
+          <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-neutral-800">
+            <div
+              className="h-full rounded-full bg-[#4C0E0F] transition-all duration-1000 dark:bg-red-500"
+              style={{ width: `${achievementPct}%` }}
+            />
+          </div>
         </div>
+
+        <div className="border-b border-gray-300 pb-4 dark:border-neutral-800 flex items-center gap-4 text-xs font-medium text-gray-600 dark:text-gray-400">
+          <div className="flex items-center gap-1.5">
+            <BookOpen size={14} className="opacity-70" />
+            <span>{totalChaptersRead} chapters</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Flame size={14} className="text-orange-500 opacity-70" />
+            <span>{progress.streak?.current || 0} day streak</span>
+          </div>
+        </div>
+
+        <button 
+          onClick={() => router.push('/dashboard/achievements')}
+          className="mt-4 flex w-full items-center justify-between rounded-lg border border-[#4C0E0F]/20 px-4 py-2 text-sm font-medium text-[#4C0E0F] transition-colors hover:bg-[#4C0E0F]/5 dark:border-red-500/20 dark:text-red-400 dark:hover:bg-red-500/10"
+        >
+          <span>See all {totalAchievements > 0 ? totalAchievements : 26} achievements</span>
+          <ChevronRight size={16} />
+        </button>
       </div>
 
       <button
@@ -142,9 +193,13 @@ const RightSidebar = () => {
         }}
         modifiers={{
           streak: streakDates,
+          streakChainLeft: chainLeft,
+          streakChainRight: chainRight,
         }}
         modifiersClassNames={{
-          streak: 'bg-[#4C0E0F] text-white rounded-full',
+          streak: 'streak-day',
+          streakChainLeft: 'streak-chain-left',
+          streakChainRight: 'streak-chain-right',
         }}
       />
     </div>

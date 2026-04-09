@@ -22,6 +22,7 @@ interface VerseStats {
 
 interface DailyVerseState {
   verse: DailyVerse | null
+  verseDayKey: string | null
   isLoading: boolean
   error?: string | null
   stats: VerseStats | null
@@ -38,9 +39,18 @@ const getSeededRandom = (seed: number) => {
   return x - Math.floor(x)
 }
 
-const getDailyVerse = async (): Promise<DailyVerse> => {
-  const today = new Date()
-  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
+const toLocalDayKey = (d: Date) => {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+const getDailyVerse = async (dayKey: string): Promise<DailyVerse> => {
+  // dayKey is "YYYY-MM-DD" in the user's local timezone.
+  // Using it as the seed input guarantees one verse per day, stable across reloads.
+  const [y, m, d] = dayKey.split('-').map((n) => parseInt(n, 10))
+  const seed = y * 10000 + m * 100 + d
 
   const randomBookIndex = Math.floor(getSeededRandom(seed) * books.length)
   const randomBook = books[randomBookIndex]
@@ -93,6 +103,7 @@ export const useDailyVerseStore = create<DailyVerseState>()(
     persist(
       (set, get) => ({
         verse: null,
+        verseDayKey: null,
         isLoading: false,
         error: null,
         stats: null,
@@ -102,8 +113,17 @@ export const useDailyVerseStore = create<DailyVerseState>()(
         loadDailyVerse: async () => {
           set({ isLoading: true, error: null })
           try {
-            const verse = await getDailyVerse()
-            set({ verse, isLoading: false })
+            const todayKey = toLocalDayKey(new Date())
+            const existing = get().verse
+            const existingKey = get().verseDayKey
+
+            if (existing && existingKey === todayKey) {
+              set({ isLoading: false })
+              return
+            }
+
+            const verse = await getDailyVerse(todayKey)
+            set({ verse, verseDayKey: todayKey, isLoading: false })
           } catch (err: any) {
             set({ isLoading: false, error: err?.message ?? 'Failed to load daily verse' })
           }

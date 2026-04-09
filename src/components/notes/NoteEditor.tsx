@@ -23,6 +23,7 @@ export const NoteEditor = () => {
   const [isDeleting, setIsDeleting] = useState(false)
   const [isPublic, setIsPublic] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [titleError, setTitleError] = useState(false)
   const editorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export const NoteEditor = () => {
     } else {
       setTitle('')
       setIsPublic(false)
+      setTitleError(false)
       if (editorRef.current) editorRef.current.innerHTML = ''
     }
   }, [editingNote])
@@ -50,7 +52,18 @@ export const NoteEditor = () => {
 
   const handleSave = async () => {
     const content = editorRef.current?.innerHTML || ''
-    if (!title || !content || content === '<br>' || !content.trim()) return
+    
+    if (!title.trim()) {
+      setTitleError(true)
+      toast.error('Please enter a title for your note')
+      return
+    }
+    setTitleError(false)
+
+    if (!content || content === '<br>' || !content.trim()) {
+      toast.error('Please enter some content for your note')
+      return
+    }
 
     setIsSaving(true)
     try {
@@ -148,8 +161,17 @@ export const NoteEditor = () => {
               type="text"
               placeholder="Note title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="text-base sm:text-lg md:text-[24px] font-medium font-weight-400 font-poppins placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none bg-transparent text-gray-900 dark:text-white flex-1 min-w-0"
+              onChange={(e) => {
+                setTitle(e.target.value)
+                if (titleError && e.target.value.trim() !== '') {
+                  setTitleError(false)
+                }
+              }}
+              className={`text-base sm:text-lg md:text-[24px] font-medium font-weight-400 font-poppins placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none bg-transparent flex-1 min-w-0 ${
+                titleError 
+                  ? 'text-red-500 dark:text-red-400 border-b-2 border-red-500 placeholder-red-300 dark:placeholder-red-700/50 rounded-none' 
+                  : 'text-gray-900 dark:text-white'
+              }`}
             />
             <span className="text-xs sm:text-sm md:text-[14px] text-gray-400 dark:text-gray-500 whitespace-nowrap flex-shrink-0">{format(new Date(), 'dd-MM-yyyy')}</span>
           </div>
@@ -237,7 +259,7 @@ export const NoteEditor = () => {
               </div>
               <button
                 onClick={handleSave}
-                disabled={isSaving || isDeleting || !title}
+                disabled={isSaving || isDeleting}
                 className="flex items-center justify-center rounded-[8px] bg-[#000000] dark:bg-neutral-800 py-2 sm:py-[12px] px-3 sm:px-4 md:px-5 lg:px-[48px] text-xs sm:text-[14px] font-medium text-white hover:bg-gray-800 dark:hover:bg-neutral-700 disabled:opacity-50 transition-colors w-full sm:w-auto sm:flex-none sm:min-w-[90px] md:min-w-[110px] lg:w-[158px] h-[32px] sm:h-[34px] tracking-tight flex-shrink-0 border dark:border-neutral-600"
               >
                 {isSaving ? 'Saving...' : <span className="whitespace-nowrap">Save<span className="ml-0.5">Note</span></span>}

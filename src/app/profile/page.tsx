@@ -3,6 +3,7 @@
 import { ProfileSidebar } from '@/components/dashboard/profile/ProfileSidebar'
 import { ProfileMainContent } from '@/components/dashboard/profile/ProfileMainContent'
 import Navbar from '@/components/landing/Navbar'
+import { Toaster } from '@/components/ui/sonner'
 
 export default function ProfilePage() {
     return (
@@ -14,6 +15,7 @@ export default function ProfilePage() {
                     <ProfileMainContent />
                 </div>
             </div>
+            <Toaster position="top-right" />
         </div>
     )
 }

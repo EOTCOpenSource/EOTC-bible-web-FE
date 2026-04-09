@@ -16,10 +16,11 @@ export default function LogoutButton() {
       router.push('/login')
     }
   }
+
   return (
     <button
       onClick={handleLogout}
-      className="rounded-full p-2 hover:bg-gray-200"
+      className="rounded-xl p-2 hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors flex items-center justify-center w-10 h-10"
     >
       <div className="h-4 w-4 md:h-5 md:w-5">
         <LogOut className="h-full w-full" />

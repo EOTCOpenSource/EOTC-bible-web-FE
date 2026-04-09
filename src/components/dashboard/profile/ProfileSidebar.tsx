@@ -24,7 +24,7 @@ const languageNames: Record<string, string> = {
 export const ProfileSidebar = () => {
   const { user } = useUserStore()
   const { theme: settingsTheme, updateSettings } = useSettingsStore()
-  const { setTheme: setNextTheme } = useTheme()
+  const { theme: nextTheme, resolvedTheme, setTheme: setNextTheme } = useTheme()
   const {
     dailyReadingEnabled,
     isLoading: notificationsLoading,
@@ -35,14 +35,17 @@ export const ProfileSidebar = () => {
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
   const router = useRouter()
   const currentLocale = useLocale()
-
-  const currentTheme = settingsTheme || 'light'
-  const currentLanguage = languageNames[currentLocale] || 'English'
+  
+  const [mounted, setMounted] = useState(false)
 
   // Fetch notification status on mount
   useEffect(() => {
+    setMounted(true)
     loadNotificationStatus().catch(() => {})
   }, [loadNotificationStatus])
+
+  const currentLanguage = languageNames[currentLocale] || 'English'
+  const displayTheme = mounted ? (nextTheme === 'system' ? 'System' : (resolvedTheme === 'dark' ? 'Dark' : 'Light')) : ''
 
   const handleNotificationToggle = async () => {
     if (notificationsLoading) return
@@ -103,8 +106,8 @@ export const ProfileSidebar = () => {
     {
       id: 'theme',
       label: 'Theme',
-      icon: currentTheme === 'dark' ? Moon : Sun,
-      value: currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1),
+      icon: mounted && resolvedTheme === 'dark' ? Moon : Sun,
+      value: displayTheme,
       onClick: () => setIsThemeDropdownOpen(!isThemeDropdownOpen)
     },
     {
@@ -201,7 +204,7 @@ export const ProfileSidebar = () => {
                         className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg hover:bg-gray-50 dark:hover:bg-[#3D2D2D] transition-colors"
                       >
                         <span className="capitalize text-gray-700 dark:text-gray-200 font-medium">{themeOption}</span>
-                        {currentTheme === themeOption && <Check size={16} className="text-black dark:text-white" />}
+                        {nextTheme === themeOption && <Check size={16} className="text-black dark:text-white" />}
                       </button>
                     ))}
                   </div>
@@ -213,16 +216,21 @@ export const ProfileSidebar = () => {
               {item.id === 'language' && isLanguageDropdownOpen && (
                 <>
                   <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-[#2A2020] rounded-xl border border-gray-100 dark:border-[#3D2D2D] shadow-xl overflow-hidden p-1">
-                    {Object.entries(languageNames).map(([locale, name]) => (
+                    {Object.entries(languageNames).map(([locale, name]) => {
+                      const isAvailable = locale === 'en' || locale === 'am'
+                      return (
                       <button
                         key={locale}
-                        onClick={() => handleLanguageChange(locale)}
-                        className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg hover:bg-gray-50 dark:hover:bg-[#3D2D2D] transition-colors"
+                        onClick={() => isAvailable && handleLanguageChange(locale)}
+                        disabled={!isAvailable}
+                        className={cn("flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg transition-colors", isAvailable ? "hover:bg-gray-50 dark:hover:bg-[#3D2D2D]" : "opacity-50 cursor-not-allowed")}
                       >
                         <span className="text-gray-700 dark:text-gray-200 font-medium">{name}</span>
-                        {locale === currentLocale && <Check size={16} className="text-black dark:text-white" />}
+                        {!isAvailable ? (
+                          <span className="text-xs text-gray-500">Coming soon</span>
+                        ) : locale === currentLocale && <Check size={16} className="text-black dark:text-white" />}
                       </button>
-                    ))}
+                    )})}
                   </div>
                   <div className="fixed inset-0 z-40" onClick={() => setIsLanguageDropdownOpen(false)} />
                 </>

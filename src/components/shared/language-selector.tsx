@@ -57,7 +57,7 @@ export function LanguageSelector() {
     <div className="relative">
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="relative rounded-full p-2 hover:bg-gray-200"
+        className="relative rounded-xl p-2 hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors flex items-center justify-center w-10 h-10"
         disabled={isChanging}
       >
         {isChanging ? (

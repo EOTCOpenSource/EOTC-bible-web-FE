@@ -128,7 +128,8 @@
       "errors": {
         "passwordMismatch": "ቃሎት ኣይደለቁም",
         "emptyResponse": "ካብ አገልግሎት ባዶ መልስ ተቐባ",
-        "failed": "መመዝገቢያ ኣይተሳነ"
+        "failed": "መመዝገቢያ ኣይተሳነ",
+        "termsRequired": "መመሪያዎችን ፍተሻታትን መቀበል ኣለካ"
       },
       "success": "መመዝገቢያ ተሳክቶ",
       "agreeTo": "መፍቀድካ አሎኒ",

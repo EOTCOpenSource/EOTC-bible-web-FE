@@ -1,6 +1,6 @@
 'use client'
 
-import { Book, Calendar, Home, NotebookPen, PenLine, Globe } from 'lucide-react'
+import { Book, Calendar, Home, NotebookPen, PenLine, Globe, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -19,7 +19,7 @@ const DashboardSidebar = () => {
   }
 
   return (
-    <nav className="m-3 flex rounded-xl border-[1.5px] dark:border-neutral-800 py-1 sm:mx-6 md:h-screen md:flex-col md:gap-2 md:border-0 md:py-4 md:pb-2">
+    <nav className="m-3 hidden md:flex rounded-xl border-[1.5px] dark:border-neutral-800 py-1 sm:mx-6 md:h-screen md:flex-col md:gap-2 md:border-0 md:py-4 md:pb-2">
       <Link href="/dashboard" className={getLinkClass('/dashboard')}>
         <Home size={20} />
         <p className="hidden md:block">Home</p>

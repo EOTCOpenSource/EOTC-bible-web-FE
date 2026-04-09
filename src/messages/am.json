@@ -128,7 +128,8 @@
       "errors": {
         "passwordMismatch": "የውስጥ ቃሎች አይደለቁም",
         "emptyResponse": "ከአገልጋዩ ባዶ መልስ ተቀብሏል",
-        "failed": "መመዝገቢያ አልተሳካም"
+        "failed": "መመዝገቢያ አልተሳካም",
+        "termsRequired": "የመመሪያዎችና ውሎች ስምምነት አስፈላጊ ነው"
       },
       "success": "መመዝገቢያ ተሳክቷል",
       "agreeTo": "እርስዎ ይፈቅዱታል",

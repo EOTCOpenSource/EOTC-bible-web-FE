@@ -128,7 +128,8 @@
       "errors": {
         "passwordMismatch": "Passwords do not match",
         "emptyResponse": "Empty response from server",
-        "failed": "Registration failed"
+        "failed": "Registration failed",
+        "termsRequired": "You must agree to the Terms and Conditions"
       },
       "success": "Registration successful",
       "agreeTo": "I agree to the",

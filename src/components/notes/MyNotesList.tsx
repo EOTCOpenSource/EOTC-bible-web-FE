@@ -26,6 +26,7 @@ export const MyNotesList = ({
   const setViewingNote = useNotesStore((state) => state.setViewingNote)
 
   const [filter, setFilter] = useState<'all' | 'public' | 'private'>('private')
+  const [expandedNoteId, setExpandedNoteId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchNotes()
@@ -127,12 +128,12 @@ export const MyNotesList = ({
                 })()
 
               const handleNoteClick = () => {
-                setViewingNote(note)
-                setEditingNote(null)
-                if (onToggleExpandAction && isExpanded) {
-                  onToggleExpandAction()
+                const noteId = note.id || note._id || ''
+                if (expandedNoteId === noteId) {
+                  setExpandedNoteId(null)
+                } else {
+                  setExpandedNoteId(noteId as string)
                 }
-                window.scrollTo({ top: 0, behavior: 'smooth' })
               }
 
               const handleEditClick = (e: React.MouseEvent) => {
@@ -148,41 +149,53 @@ export const MyNotesList = ({
               return (
                 <div
                   key={note.id || note._id || `note-${index}`}
-                  onClick={handleNoteClick}
-                  className="group flex min-h-[80px] w-full cursor-pointer flex-col items-start justify-between gap-3 rounded-[12px] border border-[#C9C9C9] dark:border-neutral-700 bg-[#FFFBFB] dark:bg-[#2A2A2A] p-3 transition-colors hover:bg-gray-50 dark:hover:bg-neutral-800 min-[375px]:flex-row min-[375px]:items-center min-[375px]:gap-0 sm:min-h-[91px] sm:rounded-[16px] sm:p-4 md:rounded-[20px] md:p-6"
+                  className="group flex w-full flex-col gap-3 rounded-[12px] border border-[#C9C9C9] dark:border-neutral-700 bg-[#FFFBFB] dark:bg-[#2A2A2A] p-3 transition-colors hover:bg-gray-50 dark:hover:bg-neutral-800 sm:rounded-[16px] sm:p-4 md:rounded-[20px] md:p-6"
                 >
-                  <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4 md:gap-6">
-                    <div className="flex h-[35px] w-[30px] flex-shrink-0 items-center justify-center rounded-lg bg-[#7C2D2D] text-white shadow-sm sm:h-[40px] sm:w-[35px] md:h-[45px] md:w-[40px]">
-                      <FileText className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
+                  {/* Card Header (Clickable for Accordion) */}
+                  <div 
+                    onClick={handleNoteClick}
+                    className="flex min-h-[50px] w-full cursor-pointer flex-col items-start justify-between gap-3 min-[375px]:flex-row min-[375px]:items-center min-[375px]:gap-0"
+                  >
+                    <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4 md:gap-6">
+                      <div className="flex h-[35px] w-[30px] flex-shrink-0 items-center justify-center rounded-lg bg-[#7C2D2D] text-white shadow-sm sm:h-[40px] sm:w-[35px] md:h-[45px] md:w-[40px]">
+                        <FileText className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
+                      </div>
+                      <h3 className="flex-1 truncate text-sm font-medium text-gray-900 dark:text-white sm:text-base md:text-[20px]">
+                        {noteTitle}
+                      </h3>
                     </div>
-                    <h3 className="flex-1 truncate text-sm font-medium text-gray-900 dark:text-white sm:text-base md:text-[20px]">
-                      {noteTitle}
-                    </h3>
+
+                    <div className="flex flex-shrink-0 flex-col items-end gap-1">
+                      <div className="flex items-center gap-1.5">
+                        {note.visibility === 'public' ? (
+                          <div title="Public Note" className="rounded-full bg-blue-100 p-0.5">
+                            <Globe className="h-3 w-3 text-blue-600" />
+                          </div>
+                        ) : (
+                          <div title="Private Note" className="rounded-full bg-gray-100 p-0.5">
+                            <Lock className="h-3 w-3 text-gray-400" />
+                          </div>
+                        )}
+                        <p className="font-inter font-weight-400 text-xs font-medium tracking-wider whitespace-nowrap uppercase text-gray-900 dark:text-gray-300 sm:text-sm md:text-[14px]">
+                          {format(new Date(note.createdAt), 'dd-MM-yyyy')}
+                        </p>
+                      </div>
+                      <button
+                        onClick={handleEditClick}
+                        className="p-1 text-gray-400 dark:text-gray-500 transition-all hover:text-gray-900 dark:hover:text-white"
+                        aria-label="Edit note"
+                      >
+                        <SquarePen className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="flex flex-shrink-0 flex-col items-end gap-1">
-                    <div className="flex items-center gap-1.5">
-                      {note.visibility === 'public' ? (
-                        <div title="Public Note" className="rounded-full bg-blue-100 p-0.5">
-                          <Globe className="h-3 w-3 text-blue-600" />
-                        </div>
-                      ) : (
-                        <div title="Private Note" className="rounded-full bg-gray-100 p-0.5">
-                          <Lock className="h-3 w-3 text-gray-400" />
-                        </div>
-                      )}
-                      <p className="font-inter font-weight-400 text-xs font-medium tracking-wider whitespace-nowrap uppercase text-gray-900 dark:text-gray-300 sm:text-sm md:text-[14px]">
-                        {format(new Date(note.createdAt), 'dd-MM-yyyy')}
-                      </p>
+                  {/* Accordion Content */}
+                  {expandedNoteId === (note.id || note._id) && (
+                    <div className="mt-2 w-full border-t border-gray-200 dark:border-neutral-700 pt-4 text-sm sm:text-base text-gray-700 dark:text-gray-300 prose prose-sm dark:prose-invert max-w-none">
+                      <div dangerouslySetInnerHTML={{ __html: note.content }} />
                     </div>
-                    <button
-                      onClick={handleEditClick}
-                      className="p-1 text-gray-400 dark:text-gray-500 transition-all hover:text-gray-900 dark:hover:text-white"
-                      aria-label="Edit note"
-                    >
-                      <SquarePen className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </button>
-                  </div>
+                  )}
                 </div>
               )
             })}

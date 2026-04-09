@@ -128,7 +128,8 @@
       "errors": {
         "passwordMismatch": "Jecha iccitii wal hin faana",
         "emptyResponse": "Deebiin adeemsa irraa hin jiru",
-        "failed": "Galmeen irratti kufe"
+        "failed": "Galmeen irratti kufe",
+        "termsRequired": "Shuruudota fi haqaalee fudachuun dirqama"
       },
       "success": "Galmeen milkaa’eera",
       "agreeTo": "Ani waliigaleera",

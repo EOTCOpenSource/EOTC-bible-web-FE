@@ -6,11 +6,10 @@ import type { UserProfile } from '@/types/api'
 import { ENV } from '@/lib/env'
 import axios from 'axios'
 import { useTranslations } from 'next-intl'
-import { Award, Check, ChevronRight, Play, BookOpen } from 'lucide-react'
-import { achievements } from '@/data/achievement'
+import { Award, ChevronRight, BookOpen } from 'lucide-react'
 import { useProgressStore } from '@/stores/progressStore'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
-
+import { useAchievementsStore } from '@/stores/achievementStore'
 export default function DashboardClient() {
   const t = useTranslations('Dashboard')
   const [user, setUser] = useState<any>(null)
@@ -19,6 +18,7 @@ export default function DashboardClient() {
   const router = useRouter()
   const { progress, loadProgress, flushVerseQueue } = useProgressStore()
   const { bookmarks, loadBookmarks } = useBookmarksStore()
+  const { achievements, loadAchievements } = useAchievementsStore()
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -44,10 +44,11 @@ export default function DashboardClient() {
     }
 
     fetchProfile()
-    flushVerseQueue().catch(() => {})
+    flushVerseQueue().catch(() => { })
     loadProgress().catch(() => { })
     loadBookmarks().catch(() => { })
-  }, [t, flushVerseQueue, loadProgress, loadBookmarks])
+    loadAchievements().catch(() => { })
+  }, [t, flushVerseQueue, loadProgress, loadBookmarks, loadAchievements])
 
   if (loading)
     return (
@@ -93,107 +94,92 @@ export default function DashboardClient() {
     )
   }
 
-  const totalChaptersRead = Object.values(progress.chaptersRead || {}).reduce(
-    (total, chapters) => total + chapters.length,
-    0,
-  )
+  const totalAchievements = achievements.length
+  const achievementsUnlocked = achievements.filter((a: any) => a.unlocked).length
+  const achievementPct = totalAchievements > 0 ? Math.round((achievementsUnlocked / totalAchievements) * 100) : 0
 
-  const recentlyRead = bookmarks.slice(0, 5)
+  const lastRead = progress.lastRead
 
-  const handleReadBook = (bookId: string, chapter: number, verseStart: number) => {
-    router.push(`/read-online/${bookId}/${chapter}#v${verseStart}`)
+  const recentlyReadItems: any[] = []
+  if (lastRead) {
+    recentlyReadItems.push({
+      id: 'last-read',
+      bookId: lastRead.book,
+      chapter: lastRead.chapter,
+      verseStart: lastRead.verseStart,
+      subtitle: 'Click to continue reading'
+    })
+  } else if (progress.chaptersRead && Object.keys(progress.chaptersRead).length > 0) {
+    // Fallback to recent chapters from tracking if lastRead is not explicitly set
+    const books = Object.keys(progress.chaptersRead)
+    for (const book of books) {
+      const chapters = progress.chaptersRead[book]
+      if (chapters && chapters.length > 0) {
+        recentlyReadItems.push({
+          id: `recent-${book}-${chapters[chapters.length - 1]}`,
+          bookId: book,
+          chapter: chapters[chapters.length - 1],
+          verseStart: 1,
+          subtitle: 'Click to read'
+        })
+      }
+      if (recentlyReadItems.length >= 3) break
+    }
+  }
+
+  // If absolutely no tracking data is found, fallback to their latest bookmarks so the UI doesn't disappear
+  if (recentlyReadItems.length === 0 && bookmarks && bookmarks.length > 0) {
+    bookmarks.slice(0, 5).forEach((bookmark) => {
+      recentlyReadItems.push({
+        id: bookmark._id,
+        bookId: bookmark.bookId,
+        chapter: bookmark.chapter,
+        verseStart: bookmark.verseStart,
+        subtitle: 'Click to read'
+      })
+    })
+  }
+
+  const handleReadBook = (bookId: string, chapter: number, verseStart?: number) => {
+    router.push(`/read-online/${bookId}/${chapter}${verseStart ? `#v${verseStart}` : ''}`)
   }
 
   return (
     <div className="flex w-full flex-col gap-6 py-8">
-      {recentlyRead.length > 0 && (
-        <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-2 sm:p-6">
-          <div className="mb-4 flex items-center gap-1 p-2 text-[#4C0E0F] dark:text-red-400 sm:p-0">
-            <BookOpen size={20} />
-            <h4 className="text-lg font-medium text-black dark:text-white">Recently Read</h4>
-          </div>
-          <div className="flex flex-col gap-2">
-            {recentlyRead.map((bookmark) => (
+      <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-2 sm:p-6">
+        <div className="mb-4 flex items-center gap-1 p-2 text-[#4C0E0F] dark:text-red-400 sm:p-0">
+          <BookOpen size={20} />
+          <h4 className="text-lg font-medium text-black dark:text-white">Recently Read</h4>
+        </div>
+        <div className="flex flex-col gap-2">
+          {recentlyReadItems.length > 0 ? (
+            recentlyReadItems.map((item) => (
               <div
-                key={bookmark._id}
+                key={item.id}
                 onClick={() =>
-                  handleReadBook(bookmark.bookId, bookmark.chapter, bookmark.verseStart)
+                  handleReadBook(item.bookId, item.chapter, item.verseStart)
                 }
                 className="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 dark:border-neutral-800 p-1 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors md:rounded-2xl md:px-6 md:py-2"
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="flex flex-col gap-0">
-                    <p className="text-sm md:text-lg text-black dark:text-white">
-                      {bookmark.bookId.replace(/-/g, ' ')} {bookmark.chapter}:{bookmark.verseStart}
-                      {bookmark.verseCount > 1
-                        ? `-${bookmark.verseStart + bookmark.verseCount - 1}`
-                        : ''}
+                    <p className="text-sm md:text-lg text-black dark:text-white capitalize">
+                      {item.bookId.replace(/-/g, ' ')} {item.chapter}{item.verseStart && item.id === 'last-read' ? `:${item.verseStart}` : ''}
                     </p>
                     <span className="text-xs font-light text-gray-500 md:text-base">
-                      Click to read
+                      {item.subtitle}
                     </span>
                   </div>
                 </div>
                 <ChevronRight size={16} className="cursor-pointer text-black dark:text-gray-400" />
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-2 sm:p-6">
-        <div className="flex items-center gap-1 p-2 text-[#4C0E0F] dark:text-red-400 sm:p-0">
-          <Award size={20} />
-          <h4 className="text-lg font-medium text-black dark:text-white">Achievement</h4>
-        </div>
-        {achievements.map((achievement, i) => (
-          <div
-            key={i}
-            className={`mt-4 flex items-center justify-between rounded-lg border p-1 md:rounded-2xl md:px-6 md:py-2 ${achievement.status === 'Completed'
-              ? 'bg-[#4C0E0F] dark:bg-red-900/40 border-transparent text-white dark:text-red-400'
-              : 'border-gray-300 dark:border-neutral-800 bg-transparent px-3 text-black dark:text-white'
-              }`}
-          >
-            <div className="flex items-center justify-start gap-3">
-              <span
-                className={`flex h-5 w-5 items-center justify-center rounded-full border md:h-6 md:w-6 ${achievement.status === 'Completed'
-                  ? 'bg-white text-[#4C0E0F] dark:bg-transparent dark:text-red-400 dark:border-red-400'
-                  : 'border-[#4C0E0F] dark:border-red-400'
-                  }`}
-              >
-                {achievement.status === 'Completed' ? (
-                  <div className="h-4 w-4 md:h-5 md:w-5">
-                    <Check className="h-full w-full" />
-                  </div>
-                ) : (
-                  ''
-                )}
-              </span>
-              <div className="flex flex-col gap-0">
-                <p className="text-sm md:text-lg">
-                  {achievement.bookName} {achievement.chapter}
-                </p>
-                <span className="text-xs font-light md:text-base text-gray-500 dark:text-gray-400">
-                  {achievement.status === 'Completed' ? 'Completed' : 'Not Started'}
-                </span>
-              </div>
+            ))
+          ) : (
+            <div className="p-4 text-center text-sm md:text-base text-gray-500 dark:text-gray-400">
+              You haven't read any chapters yet. Start your journey!
             </div>
-            <span className="cursor-pointer">
-              {achievement.status === 'Completed' ? (
-                <div className="h-4 w-4 md:h-5 md:w-5">
-                  <ChevronRight className="h-full w-full" />
-                </div>
-              ) : (
-                <div className="flex w-full cursor-pointer items-center justify-center rounded-sm bg-[#4C0E0F] p-1.5 text-white md:px-2 md:py-0.5">
-                  <div className="h-4 w-4 md:h-4 md:w-4">
-                    <Play className="h-full w-full" />
-                  </div>
-                  <p className="hidden px-2 text-sm md:block">Read</p>
-                </div>
-              )}
-            </span>
-          </div>
-        ))}
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col items-center justify-center rounded-xl border border-gray-400 dark:border-neutral-800 px-8 pt-6 pb-3 text-center md:px-20 md:pb-10">
@@ -204,17 +190,14 @@ export default function DashboardClient() {
           <h4 className="text-xs font-medium md:text-2xl text-black dark:text-white mt-2">Great Progress!</h4>
         </div>
         <p className="text-[10px] sm:text-[12px] font-light md:text-sm text-gray-600 dark:text-gray-400 mt-1">
-          {totalChaptersRead > 0
-            ? `You've read ${totalChaptersRead} chapters. Keep going!`
-            : 'Start reading to track your progress!'}
+          {achievementsUnlocked > 0
+            ? `You've unlocked ${achievementsUnlocked} out of ${totalAchievements} achievements. Keep going!`
+            : 'Start reading to track your progress and unlock achievements!'}
         </p>
         <div className="relative my-2 h-1 w-full rounded-xl bg-gray-300 dark:bg-neutral-800 sm:my-5 sm:h-2">
           <span
-            className="absolute flex h-full rounded-xl bg-[#4C0E0F]"
-            style={{
-              width:
-                totalChaptersRead > 0 ? `${Math.min((totalChaptersRead / 100) * 100, 100)}%` : '0%',
-            }}
+            className="absolute flex h-full rounded-xl bg-[#4C0E0F] dark:bg-red-500 transition-all duration-1000"
+            style={{ width: `${achievementPct}%` }}
           ></span>
         </div>
       </div>

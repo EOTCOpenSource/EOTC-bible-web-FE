@@ -13,7 +13,6 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import GoogleSignInButton from '@/components/auth/GoogleSignInButton'
 import FacebookSignInButton from '@/components/auth/FacebookSignInButton'
-import TelegramSignInButton from '@/components/auth/TelegramSignInButton'
 export default function LoginForm() {
   const router = useRouter()
   const { loadSession } = useUserStore()
@@ -124,9 +123,6 @@ export default function LoginForm() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center sm:justify-between">
           <GoogleSignInButton />
           <FacebookSignInButton />
-        </div>
-        <div className="flex justify-center">
-            <TelegramSignInButton />
         </div>
       </div>
     </form>

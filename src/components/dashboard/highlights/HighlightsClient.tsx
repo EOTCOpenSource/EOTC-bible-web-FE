@@ -24,20 +24,8 @@ export default function HighlightsClient() {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const [highlightToDelete, setHighlightToDelete] = useState<string | null>(null) // null means bulk delete if modal open? no, let's be explicit
     const [isBulkDelete, setIsBulkDelete] = useState(false)
-    const [openDropdownId, setOpenDropdownId] = useState<string | null>(null)
 
     const { preferredTranslation, updateSettings } = useSettingsStore()
-
-    const versionOptions = [
-        { id: 'en', label: 'English version' },
-        { id: 'am', label: 'Amharic version' },
-        { id: 'gez', label: 'Ge\'ez version' },
-        { id: 'tg', label: 'Tigrinya version' },
-        { id: 'or', label: 'Afaan Oromoo version' },
-    ] as const
-
-    const currentVersionLabel =
-        versionOptions.find((opt) => opt.id === preferredTranslation)?.label ?? 'English version'
 
     // Hardcoded title fallback if translation missing
     // In a real app we'd ensure translations exist
@@ -116,16 +104,6 @@ export default function HighlightsClient() {
         return bookId.charAt(0).toUpperCase() + bookId.slice(1).replace(/-/g, ' ')
     }
 
-    const handleVersionChange = async (id: string) => {
-        try {
-            await updateSettings({ preferredTranslation: id })
-        } catch (error) {
-            console.error('Failed to update preferred translation:', error)
-        } finally {
-            setOpenDropdownId(null)
-        }
-    }
-
     return (
         <>
             <div className="w-full max-w-4xl mx-auto p-4 md:p-6">
@@ -194,37 +172,6 @@ export default function HighlightsClient() {
                                         {formatBookName(highlight.verseRef.book)} {highlight.verseRef.chapter}
                                         {highlight.verseRef.verseCount > 1 ? `-${highlight.verseRef.verseStart + highlight.verseRef.verseCount - 1}` : ''}
                                     </h2>
-
-                                    {/* Version selector */}
-                                    <div className="absolute top-[16px] right-[0px]">
-                                        <button
-                                            type="button"
-                                            onClick={() => setOpenDropdownId(openDropdownId === highlight._id ? null : highlight._id)}
-                                            className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-[#8F8F8F] flex items-center gap-1 hover:text-[#621B1C] dark:hover:text-red-400 transition-colors"
-                                        >
-                                            {currentVersionLabel}
-                                            <span className="text-xs">{openDropdownId === highlight._id ? '▲' : '▼'}</span>
-                                        </button>
-
-                                        {openDropdownId === highlight._id && (
-                                            <div className="mt-2 w-56 rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#2A2A2A] shadow-lg z-20">
-                                                {versionOptions.map((option) => (
-                                                    <button
-                                                        key={option.id}
-                                                        type="button"
-                                                        onClick={() => handleVersionChange(option.id)}
-                                                        className={`flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-neutral-700 ${option.id === preferredTranslation ? 'text-[#621B1C] dark:text-red-400 font-medium' : 'text-gray-700 dark:text-gray-200'
-                                                            }`}
-                                                    >
-                                                        <span>{option.label}</span>
-                                                        {option.id === preferredTranslation && (
-                                                            <span className="text-xs">✓</span>
-                                                        )}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
                                 </div>
 
                                 <p className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-gray-600 dark:text-gray-300 mt-[19px] max-w-[777px] mb-4 line-clamp-3">

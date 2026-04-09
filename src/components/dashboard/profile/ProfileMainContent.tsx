@@ -36,6 +36,7 @@ export const ProfileMainContent = () => {
   const [isDeleting, setIsDeleting] = useState(false)
 
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+  const inputRefs = useRef<Record<string, HTMLInputElement | null>>({})
   const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
@@ -88,6 +89,18 @@ export const ProfileMainContent = () => {
 
   const handleFieldEdit = (field: string) => {
     setEditingField(field)
+    setTimeout(() => {
+      const input = inputRefs.current[field]
+      if (input) {
+        input.focus()
+        const len = input.value.length
+        try {
+          input.setSelectionRange(len, len)
+        } catch (e) {
+          // Ignore unsupported types like 'email'
+        }
+      }
+    }, 0)
   }
 
   const handleFieldCancel = () => {
@@ -238,6 +251,7 @@ export const ProfileMainContent = () => {
         <Label className="text-sm font-medium text-[#9CA3AF] dark:text-gray-400">{label}</Label>
         <div className="relative">
           <Input
+            ref={(el) => { inputRefs.current[field] = el as HTMLInputElement | null }}
             type={isPasswordField && !isEditing ? 'password' : type}
             value={isEditing && isPasswordField ? formData.newPassword : value}
             onChange={(e) => {
@@ -319,7 +333,7 @@ export const ProfileMainContent = () => {
               disabled={isUploading}
               className="absolute bottom-0 right-0 bg-white dark:bg-neutral-700 p-1.5 rounded-full border border-gray-100 dark:border-neutral-600 shadow-md hover:bg-gray-50 dark:hover:bg-neutral-600 transition-colors z-10"
             >
-              <Pencil size={12} className="text-gray-600" />
+              <Pencil size={12} className="text-gray-600 dark:text-gray-200" />
             </button>
             <div className="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium text-[10px]">
               Change

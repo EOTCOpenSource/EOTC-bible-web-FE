@@ -259,3 +259,60 @@
 .dark .search-page-bg {
   background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.95), rgba(10, 10, 10, 0.9)), url('/hero-image.png');
 }
+
+/* ── Streak Calendar Chain ────────────────────────────────────── */
+
+/* Streak day: dark circle */
+.streak-day button {
+  background-color: #4C0E0F !important;
+  color: white !important;
+  border-radius: 9999px !important;
+  position: relative;
+  z-index: 2;
+}
+
+.dark .streak-day button {
+  background-color: #7f1d1d !important;
+  color: #fecaca !important;
+}
+
+/* The day cell needs relative positioning for pseudo-element connectors */
+.streak-day,
+.streak-chain-left,
+.streak-chain-right {
+  position: relative !important;
+}
+
+/* Left connector: line from left edge to center */
+.streak-chain-left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 50%;
+  height: 3px;
+  background-color: #4C0E0F;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.dark .streak-chain-left::before {
+  background-color: #7f1d1d;
+}
+
+/* Right connector: line from center to right edge */
+.streak-chain-right::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 50%;
+  height: 3px;
+  background-color: #4C0E0F;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.dark .streak-chain-right::after {
+  background-color: #7f1d1d;
+}
