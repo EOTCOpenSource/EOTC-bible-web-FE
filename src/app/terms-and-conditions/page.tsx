@@ -287,8 +287,8 @@ export default function TermsAndConditionsPage() {
               </h2>
               <p className="ml-14">
                 If you have any questions about these Terms, please contact us at:{' '}
-                <a href="mailto:eyobgeremew618@gmail.com" className="text-red-700 underline hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
-                  eyobgeremew618@gmail.com
+                <a href="mailto:eotcopensource@gmail.com" className="text-red-700 underline hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+                  eotcopensource@gmail.com
                 </a>
               </p>
             </section>
