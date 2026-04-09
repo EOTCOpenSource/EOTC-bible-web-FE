@@ -32,11 +32,28 @@ interface AchievementDefinition {
 const totalChapters = (chaptersRead: Record<string, number[]>): number =>
     Object.values(chaptersRead || {}).reduce((sum, chs) => sum + chs.length, 0)
 
+const toBookSlug = (bookNameEn: string) => bookNameEn.toLowerCase().replace(/\s+/g, '-')
+
+const getChaptersReadForKey = (chaptersRead: Record<string, number[]>, wanted: string) => {
+    const keys = Object.keys(chaptersRead || {})
+    const found = keys.find((k) => k === wanted || k.toLowerCase() === wanted.toLowerCase())
+    return found ? chaptersRead[found] : undefined
+}
+
+// Achievements are keyed by `books[].file_name` (e.g. "16-enoch"), but reading/progress tracking often uses
+// the route slug based on `book_name_en` (e.g. "enoch"). Support both so achievements reflect real progress.
 const bookChaptersRead = (chaptersRead: Record<string, number[]>, fileNamePrefix: string): number => {
-    const key = Object.keys(chaptersRead || {}).find(
-        (k) => k === fileNamePrefix || k.toLowerCase() === fileNamePrefix.toLowerCase()
-    )
-    return key ? chaptersRead[key].length : 0
+    const direct = getChaptersReadForKey(chaptersRead, fileNamePrefix)
+    if (direct) return direct.length
+
+    const book = books.find((b) => b.file_name === fileNamePrefix)
+    if (!book) return 0
+
+    const slug = toBookSlug(book.book_name_en)
+    const bySlug = getChaptersReadForKey(chaptersRead, slug)
+    if (bySlug) return bySlug.length
+
+    return 0
 }
 
 const isBookComplete = (chaptersRead: Record<string, number[]>, fileNamePrefix: string, totalChapterCount: number): boolean => {

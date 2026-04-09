@@ -7,11 +7,12 @@ import clsx from 'clsx'
 import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { getHighlightInlineColor } from '@/lib/highlight-utils'
-import { useEffect, useMemo, useState, TouchEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, TouchEvent } from 'react'
 import type { HighlightColor } from '@/stores/types'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { useReadingTracker } from '@/hooks/useReadingTracker'
+import type { VerseReadEvent } from '@/hooks/useReadingTracker'
 import { useProgressStore } from '@/stores/progressStore'
+import { useReadingTracker } from '@/hooks/useReadingTracker'
 
 interface ReaderClientProps {
   bookData: any
@@ -33,8 +34,7 @@ export default function ReaderClient({
   const searchParams = useSearchParams()
 
   const { highlights, loadHighlights } = useHighlightsStore()
-  const { syncVerseReadings, flushVerseQueue } = useProgressStore()
-
+  const { progress, markChapterRead, syncVerseReadings, flushVerseQueue } = useProgressStore()
   const [animatedVerses, setAnimatedVerses] = useState<Set<number>>(new Set())
   const [searchQuery, setSearchQuery] = useState<string | null>(null)
 
@@ -47,14 +47,88 @@ export default function ReaderClient({
 
   // Reading tracker - detects if user is actually reading
   const { setCurrentVerse, isVerseRead } = useReadingTracker({
-    minReadDuration: 3000, // 3 seconds minimum on a verse to count as "read"
+    minReadDuration: 5000, // 5 seconds minimum on a verse to count as "read"
+    minEngagementEvents: 2, // require multiple interactions while on a verse
     engagementWindow: 20000, // keep counting while user is plausibly reading
     idleTimeout: 30000, // 30 seconds of no activity = idle
     syncInterval: 10000, // Sync progress every 10 seconds
     onSyncProgress: async (verses) => {
+      // Track chapter completion based on accumulated real reading.
+      maybeMarkChapterCompleteFromReads(verses)
       await syncVerseReadings(verses)
     },
   })
+
+  const chapterTotalVerses = useMemo(() => {
+    return (
+      chapterData.sections?.reduce((sum: number, s: any) => sum + (s.verses?.length || 0), 0) ?? 0
+    )
+  }, [chapterData.sections])
+
+  const chapterReadStatsRef = useRef<{
+    verseKeys: Set<number>
+    activeMs: number
+    completed: boolean
+    reachedBottom: boolean
+  }>({
+    verseKeys: new Set<number>(),
+    activeMs: 0,
+    completed: false,
+    reachedBottom: false,
+  })
+
+  useEffect(() => {
+    chapterReadStatsRef.current = {
+      verseKeys: new Set<number>(),
+      activeMs: 0,
+      completed: false,
+      reachedBottom: false,
+    }
+  }, [bookId, chapterData.chapter])
+
+  const isChapterAlreadyRead = useMemo(() => {
+    const chapters = progress.chaptersRead?.[bookId] || []
+    return chapters.includes(chapterData.chapter)
+  }, [progress.chaptersRead, bookId, chapterData.chapter])
+
+  const maybeCompleteChapter = async () => {
+    if (chapterReadStatsRef.current.completed) return
+    if (isChapterAlreadyRead) {
+      chapterReadStatsRef.current.completed = true
+      return
+    }
+
+    const uniqueVerses = chapterReadStatsRef.current.verseKeys.size
+    const activeMs = chapterReadStatsRef.current.activeMs
+    const minVerses = Math.max(3, Math.min(12, Math.ceil(chapterTotalVerses * 0.12)))
+
+    // Two paths to completion:
+    // - User reached near bottom AND demonstrated some reading.
+    // - User stayed and read enough even without reaching bottom (e.g., very long/short screens).
+    const passViaBottom =
+      chapterReadStatsRef.current.reachedBottom && activeMs >= 45_000 && uniqueVerses >= minVerses
+    const passViaTime = activeMs >= 120_000 && uniqueVerses >= Math.max(6, Math.ceil(minVerses * 1.5))
+
+    if (!passViaBottom && !passViaTime) return
+
+    try {
+      await markChapterRead(bookId, chapterData.chapter)
+      chapterReadStatsRef.current.completed = true
+    } catch {
+      // ignore; backend/auth errors handled by store
+    }
+  }
+
+  const maybeMarkChapterCompleteFromReads = (verses: VerseReadEvent[]) => {
+    if (!verses || verses.length === 0) return
+    for (const v of verses) {
+      if (v.bookId !== bookId) continue
+      if (v.chapter !== chapterData.chapter) continue
+      chapterReadStatsRef.current.verseKeys.add(v.verse)
+      chapterReadStatsRef.current.activeMs += v.readDuration || 0
+    }
+    void maybeCompleteChapter()
+  }
 
   // Verse visibility tracking (IntersectionObserver) - detects which verse is being viewed
   useEffect(() => {
@@ -116,6 +190,21 @@ export default function ReaderClient({
     flushVerseQueue().catch(() => {})
     loadHighlights()
   }, [bookId, chapterData.chapter, flushVerseQueue, loadHighlights])
+
+  useEffect(() => {
+    const onScroll = () => {
+      const doc = document.documentElement
+      const maxScroll = doc.scrollHeight - doc.clientHeight
+      if (maxScroll <= 0) return
+      const pct = doc.scrollTop / maxScroll
+      if (pct >= 0.9) {
+        chapterReadStatsRef.current.reachedBottom = true
+        void maybeCompleteChapter()
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [bookId, chapterData.chapter])
 
 
   useEffect(() => {

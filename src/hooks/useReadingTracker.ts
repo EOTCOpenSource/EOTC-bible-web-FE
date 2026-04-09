@@ -11,6 +11,9 @@ export interface VerseReadEvent {
 export interface ReadingTrackerConfig {
   // Minimum active reading time (ms) required to count a verse as "read".
   minReadDuration?: number // default: 3000
+  // Minimum number of engagement events (scroll/click/keypress/etc.) while on a verse
+  // before we consider it eligible to be counted as read. Helps prevent "open + wait" gaming.
+  minEngagementEvents?: number // default: 2
   // After any user activity, we count time for this long as "engaged reading".
   // This prevents "open page + wait + click next" from counting as reading.
   engagementWindow?: number // default: 8000
@@ -31,6 +34,7 @@ const toKey = (bookId: string, chapter: number, verse: number): VerseKey =>
 
 export function useReadingTracker({
   minReadDuration = 3000,
+  minEngagementEvents = 2,
   engagementWindow = 8000,
   idleTimeout = 30000,
   syncInterval = 10000,
@@ -47,7 +51,7 @@ export function useReadingTracker({
   const lastTickAtRef = useRef<number>(Date.now())
   const lastActivityAtRef = useRef<number>(Date.now())
   const engagedUntilRef = useRef<number>(0)
-  const hadEngagementSinceVerseStartRef = useRef<boolean>(false)
+  const engagementEventsSinceVerseStartRef = useRef<number>(0)
 
   const [isTabVisible, setIsTabVisible] = useState(true)
   const [isIdle, setIsIdle] = useState(false)
@@ -64,8 +68,8 @@ export function useReadingTracker({
       const current = currentVerseRef.current
       if (!current) return
 
-      // Must have at least one engagement event while on this verse.
-      if (!hadEngagementSinceVerseStartRef.current) return
+      // Must have enough engagement events while on this verse.
+      if (engagementEventsSinceVerseStartRef.current < minEngagementEvents) return
 
       const activeMs = currentVerseActiveMsRef.current
       if (activeMs < minReadDuration) return
@@ -89,7 +93,7 @@ export function useReadingTracker({
       versesToSyncRef.current.push(event)
       onVerseRead?.(event)
     },
-    [isTabVisible, minReadDuration, onVerseRead],
+    [isTabVisible, minEngagementEvents, minReadDuration, onVerseRead],
   )
 
   const setCurrentVerse = useCallback(
@@ -100,7 +104,7 @@ export function useReadingTracker({
       currentVerseActiveMsRef.current = 0
       lastTickAtRef.current = Date.now()
       engagedUntilRef.current = 0
-      hadEngagementSinceVerseStartRef.current = false
+      engagementEventsSinceVerseStartRef.current = 0
       lastActivityAtRef.current = Date.now()
       setIsIdle(false)
     },
@@ -143,7 +147,7 @@ export function useReadingTracker({
       const now = Date.now()
       lastActivityAtRef.current = now
       engagedUntilRef.current = now + engagementWindow
-      hadEngagementSinceVerseStartRef.current = true
+      engagementEventsSinceVerseStartRef.current += 1
       if (isIdle) setIsIdle(false)
     }
 
@@ -219,4 +223,3 @@ export function useReadingTracker({
     _versesToSyncRef: versesToSyncRef,
   }
 }
-
