@@ -57,7 +57,7 @@ export const PlanCalendar = ({
     <div className="flex items-center gap-2 dark:bg-background border-2 border-gray-300 rounded-lg bg-white p-3">
       <Button
         onClick={scrollLeft}
-        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-600 transition-colors hover:bg-gray-50"
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-600 transition-colors hover:bg-gray-50"
         aria-label="Previous days"
         size="sm"
         variant="outline"
@@ -82,7 +82,7 @@ export const PlanCalendar = ({
             <button
               key={day.day}
               onClick={() => onDaySelect(day.day)}
-              className={`flex min-w-[60px] flex-shrink-0 flex-col items-center justify-center rounded-lg p-3 transition-colors border-2 ${
+              className={`flex min-w-[60px] shrink-0 flex-col items-center justify-center rounded-lg p-3 transition-colors border-2 ${
                 day.isSelected
                   ? 'bg-[#4C0E0F] text-white border-[#4C0E0F]'
                   : statusColors
@@ -97,7 +97,7 @@ export const PlanCalendar = ({
 
       <Button
         onClick={scrollRight}
-        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-600 transition-colors hover:bg-gray-50"
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-gray-300 text-gray-600 transition-colors hover:bg-gray-50"
         aria-label="Next days"
         size="sm"
         variant="outline"

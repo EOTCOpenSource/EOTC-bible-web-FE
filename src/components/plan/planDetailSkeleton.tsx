@@ -7,7 +7,7 @@ export const PlanDetailSkeleton = () => {
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="overflow-hidden rounded-xl bg-white shadow-sm">
             <div className="flex flex-col lg:flex-row">
-              <div className="h-64 w-full flex-shrink-0 animate-pulse bg-gray-200 lg:h-96 lg:w-[400px]" />
+              <div className="h-64 w-full shrink-0 animate-pulse bg-gray-200 lg:h-96 lg:w-[400px]" />
 
               <div className="flex flex-1 flex-col space-y-6 p-6 lg:p-8">
                 <div className="h-4 w-48 animate-pulse rounded bg-gray-200" />

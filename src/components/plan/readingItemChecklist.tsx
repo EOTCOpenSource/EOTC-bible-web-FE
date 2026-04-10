@@ -53,7 +53,7 @@ export const ReadingItemChecklist = ({
             className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
           >
             <div className="flex flex-1 items-center gap-4">
-              <div className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border-2 ${isMarked ? 'border-green-600 bg-green-50' : 'border-gray-300'}`}>
+              <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 ${isMarked ? 'border-green-600 bg-green-50' : 'border-gray-300'}`}>
                 {isMarked ? <Check size={16} className="text-green-600" /> : <span className="text-xs text-gray-500">{index + 1}</span>}
               </div>
 
@@ -68,7 +68,7 @@ export const ReadingItemChecklist = ({
             <Link
               href={`/read-online/${bookId.toLowerCase()}/${chapter}`}
               onClick={() => markItemLocallyRead(id)}
-              className="flex flex-shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[#4C0E0F] transition-colors hover:bg-red-50"
+              className="flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[#4C0E0F] transition-colors hover:bg-red-50"
             >
               <span className="text-sm font-medium">Read</span>
               <ChevronRight size={16} />
