@@ -56,12 +56,15 @@ const About: React.FC = () => {
             <p className="text-gray-200 md:w-2/3">{about.hero.description}</p>
 
             {/* CTA Button */}
-            <button className="mt-8 flex items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F]">
+            <a
+              href="mailto:eotcopensource@gmail.com"
+              className="mt-8 flex w-fit items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F] transition-colors hover:bg-gray-100"
+            >
               <span>{about.hero.ctaText}</span>
               <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#4C0E0F] p-1 text-white">
                 <ArrowUpRight size={20} />
               </div>
-            </button>
+            </a>
 
             {/* Cards Carousel */}
             <div className="relative mt-28">

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Heart, Sun, ArrowUpRight, Bookmark, Send } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
@@ -9,6 +9,47 @@ import { useDailyVerseStore } from '@/stores/dailyVerseStore'
 import { useProgressStore } from '@/stores/progressStore'
 import { useUserStore } from '@/lib/stores/useUserStore'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
+
+const HEART_PARTICLES = 14
+
+const HeartConfetti = ({ burstId }: { burstId: number }) => {
+  const particles = useMemo(() => {
+    return Array.from({ length: HEART_PARTICLES }, () => {
+      const angle = Math.random() * Math.PI * 2
+      const distance = 28 + Math.random() * 36
+      const x = Math.cos(angle) * distance
+      const y = Math.sin(angle) * distance - (18 + Math.random() * 18)
+      const rotate = -35 + Math.random() * 70
+      const delay = Math.random() * 40
+      const duration = 520 + Math.random() * 220
+      const scale = 0.85 + Math.random() * 0.6
+      return { x, y, rotate, delay, duration, scale }
+    })
+  }, [burstId])
+
+  return (
+    <span className="heart-confetti" aria-hidden="true">
+      {particles.map((p, idx) => (
+        <span
+          key={idx}
+          className="heart-confetti__particle"
+          style={
+            {
+              ['--x' as any]: `${p.x}px`,
+              ['--y' as any]: `${p.y}px`,
+              ['--r' as any]: `${p.rotate}deg`,
+              ['--d' as any]: `${p.delay}ms`,
+              ['--t' as any]: `${p.duration}ms`,
+              ['--s' as any]: p.scale,
+            } as React.CSSProperties
+          }
+        >
+          ♥
+        </span>
+      ))}
+    </span>
+  )
+}
 
 const VerseOfTheDay = () => {
   const t = useTranslations('VerseOfTheDay')
@@ -25,6 +66,7 @@ const VerseOfTheDay = () => {
   const { progress, loadProgress } = useProgressStore()
   const { isLoggedIn } = useUserStore()
   const { addBookmark } = useBookmarksStore()
+  const [likeBurstId, setLikeBurstId] = useState(0)
 
   useEffect(() => {
     loadDailyVerse().catch(() => {})
@@ -53,6 +95,11 @@ const VerseOfTheDay = () => {
       return num.toLocaleString()
     }
     return original
+  }
+
+  const handleLikeClick = () => {
+    toggleLike()
+    setLikeBurstId((n) => n + 1)
   }
 
   const handleShare = async () => {
@@ -132,13 +179,14 @@ const VerseOfTheDay = () => {
           )}
           <div className="mt-8 flex select-none items-center space-x-8 text-gray-500 dark:text-gray-400">
             <div
-              onClick={toggleLike}
-              className={`flex cursor-pointer items-center space-x-2 rounded-sm border p-2 transition-colors ${
+              onClick={handleLikeClick}
+              className={`relative overflow-visible flex cursor-pointer items-center space-x-2 rounded-sm border p-2 transition-colors ${
                 stats?.userLiked
                   ? 'border-red-500 bg-red-100 text-red-600 dark:border-red-500 dark:bg-red-900/30 dark:text-red-400'
                   : 'border-transparent bg-red-100/50 hover:bg-red-100 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700'
               }`}
             >
+              {likeBurstId > 0 ? <HeartConfetti key={likeBurstId} burstId={likeBurstId} /> : null}
               <Heart size={20} className={stats?.userLiked ? 'fill-current' : ''} />
               <span>{renderStat(stats?.likes, t('likes'))}</span>
             </div>

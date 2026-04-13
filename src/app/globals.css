@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* Tailwind v4 automatic source detection can pick up class-like tokens from build artifacts/logs.
+   Restrict scanning to real source files to avoid generating invalid utilities like `mask-[url(...)]`. */
+@source "../**/*.{js,jsx,ts,tsx,mdx}";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -258,6 +262,48 @@
 
 .dark .search-page-bg {
   background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.95), rgba(10, 10, 10, 0.9)), url('/hero-image.png');
+}
+
+/* Verse of the Day: heart confetti burst */
+.heart-confetti {
+  pointer-events: none;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 1px;
+  height: 1px;
+  z-index: 10;
+  transform: translateY(-50%);
+}
+
+.heart-confetti__particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ef4444; /* red-500 */
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0;
+  transform: translate(0, 0) rotate(0deg) scale(1);
+  animation: heart-confetti-pop var(--t, 650ms) ease-out var(--d, 0ms) forwards;
+}
+
+.dark .heart-confetti__particle {
+  color: #fb7185; /* rose-400 */
+}
+
+@keyframes heart-confetti-pop {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(0.75);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x, 0), var(--y, -40px)) rotate(var(--r, 0deg)) scale(var(--s, 1));
+  }
 }
 
 /* ── Streak Calendar Chain ────────────────────────────────────── */

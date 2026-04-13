@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
-    "build": "next build",
+    "build": "node scripts/prebuild-windows-bin-fix.mjs && next build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "node scripts/prebuild-windows-bin-fix.mjs && tsc -p tsconfig.json --noEmit",
+    "lint:eslint": "node scripts/prebuild-windows-bin-fix.mjs && node node_modules/eslint/bin/eslint.js .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

@@ -222,13 +222,13 @@ export default function RegisterForm() {
 
       {/* Terms Modal */}
       <Dialog open={showTermsModal} onOpenChange={setShowTermsModal}>
-        <DialogContent className="max-w-3xl max-h-[80vh] p-0">
-          <DialogHeader className="px-6 pt-6 pb-4 border-b dark:border-neutral-800">
+        <DialogContent className="max-w-3xl max-h-[80vh] flex flex-col gap-0 overflow-hidden p-0">
+          <DialogHeader className="px-6 pt-6 pb-4 border-b dark:border-neutral-800 shrink-0">
             <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
               Terms and Conditions
             </DialogTitle>
           </DialogHeader>
-          <ScrollArea className="max-h-[60vh] px-6 py-4">
+          <ScrollArea className="flex-1 px-6 py-4">
             <div className="space-y-6 text-sm text-gray-700 dark:text-gray-300">
               <section>
                 <h3 className="font-semibold text-gray-900 dark:text-white">1. Acceptance of Terms</h3>
@@ -306,8 +306,8 @@ export default function RegisterForm() {
                 <h3 className="font-semibold text-gray-900 dark:text-white">10. Contact Information</h3>
                 <p className="mt-2 leading-relaxed">
                   For questions about these Terms, contact us at:{' '}
-                  <a href="mailto:eyobgeremew618@gmail.com" className="text-red-700 underline dark:text-red-400">
-                    eyobgeremew618@gmail.com
+                  <a href="mailto:eotcopensource@gmail.com" className="text-red-700 underline dark:text-red-400">
+                    eotcopensource@gmail.com
                   </a>
                 </p>
               </section>
@@ -322,7 +322,7 @@ export default function RegisterForm() {
               </div>
             </div>
           </ScrollArea>
-          <div className="flex justify-end gap-3 border-t dark:border-neutral-800 px-6 py-4">
+          <div className="flex justify-end gap-3 border-t dark:border-neutral-800 px-6 py-4 shrink-0 bg-white dark:bg-neutral-900">
             <button
               type="button"
               onClick={() => setShowTermsModal(false)}

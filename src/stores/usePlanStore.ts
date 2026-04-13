@@ -34,7 +34,7 @@ interface PlanState {
   error: string | null
 
   fetchPlans: () => Promise<void>
-  createPlan: (payload: CreatePlanPayload) => Promise<void>
+  createPlan: (payload: CreatePlanPayload) => Promise<ReadingPlan>
   updatePlan: (id: string, payload: UpdatePlanPayload) => Promise<void>
   fetchPlanById: (id: string) => Promise<ReadingPlan>
   markDayComplete: (id: string, dayNumber: number) => Promise<void>
@@ -52,12 +52,7 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isFetching: true, error: null })
 
     try {
-      const res = await axios.get('/api/reading-plans', {
-        params: { page, limit },
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // if your backend requires auth
-        },
-      })
+      const res = await axiosInstance.get('/api/reading-plans', { params: { page, limit } })
 
       // Correct path: data.data.items
       const plans: ReadingPlan[] = res.data?.data?.data ?? []
@@ -83,7 +78,7 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isMutating: true, error: null })
 
     try {
-      const res = await axios.post('/api/reading-plans', payload)
+      const res = await axiosInstance.post('/api/reading-plans', payload)
 
       // Be explicit about where the plan lives in the response
       const newPlan: ReadingPlan | null = res.data?.data?.plan ?? null
@@ -96,11 +91,14 @@ export const usePlanStore = create<PlanState>((set) => ({
         plans: [...state.plans, newPlan],
         isMutating: false,
       }))
+
+      return newPlan
     } catch (err: any) {
       set({
         isMutating: false,
         error: err?.response?.data?.error || err?.message || 'Failed to create plan',
       })
+      throw err
     }
   },
 
@@ -130,7 +128,7 @@ export const usePlanStore = create<PlanState>((set) => ({
     set({ isMutating: true, error: null })
 
     try {
-      await axios.delete(`/api/reading-plans/${id}`)
+      await axiosInstance.delete(`/api/reading-plans/${id}`)
 
       set((state) => ({
         plans: state.plans.filter((plan) => plan._id !== id),

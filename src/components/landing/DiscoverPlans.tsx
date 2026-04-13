@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react'
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useUIStore } from '@/stores/uiStore'
 import { useTranslations } from 'next-intl'
 
@@ -233,12 +234,15 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
       <div className="mt-12 text-center">
         <p className="text-lg">{t('footer.title')}</p>
         <p className="mb-4 text-gray-600 dark:text-gray-400">{t('footer.description')}</p>
-        <button className="mx-auto flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-[#4C0E0F] py-2 pr-2 pl-6 text-white transition-colors hover:bg-red-800 md:w-fit">
+        <Link
+          href="/plans"
+          className="mx-auto flex h-[42px] w-fit items-center space-x-2 rounded-lg bg-[#4C0E0F] py-2 pr-2 pl-6 text-white transition-colors hover:bg-red-800 md:w-fit"
+        >
           <span>{t('footer.ctaButton')}</span>
-          <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-[#4C0E0F]">
+          <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-white p-1 text-[#4C0E0F]">
             <ArrowUpRight size={20} />
-          </div>
-        </button>
+          </span>
+        </Link>
       </div>
     </section>
   )
