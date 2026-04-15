@@ -8,6 +8,7 @@ import { useProgressStore } from '@/stores/progressStore'
 import AchievementCard from '@/components/achievements/AchievementCard'
 import CircularProgress from '@/components/achievements/CircularProgress'
 import type { AchievementCategory } from '@/lib/achievements'
+import { useSearchParams } from 'next/navigation'
 
 const CATEGORIES: { value: AchievementCategory | 'all'; label: string; icon: React.ReactNode }[] = [
     { value: 'all', label: 'All', icon: <Star size={13} /> },
@@ -29,6 +30,8 @@ export default function AchievementsPage() {
     const { progress, loadProgress } = useProgressStore()
     const [filter, setFilter] = useState<AchievementCategory | 'all'>('all')
     const [showUnlockedOnly, setShowUnlockedOnly] = useState(false)
+    const searchParams = useSearchParams()
+    const highlightedAchievementId = searchParams.get('highlight')
 
     useEffect(() => {
         loadAchievements().catch(() => { })
@@ -274,7 +277,7 @@ export default function AchievementsPage() {
                         <AchievementCard
                             key={a.id}
                             achievement={a}
-                            highlight={nextUp[0]?.id === a.id}
+                            highlight={nextUp[0]?.id === a.id || a.id === highlightedAchievementId}
                         />
                     ))}
                 </div>

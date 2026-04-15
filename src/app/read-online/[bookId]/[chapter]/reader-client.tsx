@@ -47,10 +47,10 @@ export default function ReaderClient({
 
   // Reading tracker - detects if user is actually reading
   const { setCurrentVerse, isVerseRead } = useReadingTracker({
-    minReadDuration: 5000, // 5 seconds minimum on a verse to count as "read"
-    minEngagementEvents: 2, // require multiple interactions while on a verse
-    engagementWindow: 20000, // keep counting while user is plausibly reading
-    idleTimeout: 30000, // 30 seconds of no activity = idle
+    minReadDuration: 8000, // 8 seconds minimum on a verse to count as "read" (up from 5s)
+    minEngagementEvents: 3, // require 3+ interactions while on a verse (up from 2)
+    engagementWindow: 25000, // keep counting while user is plausibly reading
+    idleTimeout: 20000, // 20 seconds of no activity = idle (stricter)
     syncInterval: 10000, // Sync progress every 10 seconds
     onSyncProgress: async (verses) => {
       // Track chapter completion based on accumulated real reading.
@@ -100,14 +100,18 @@ export default function ReaderClient({
 
     const uniqueVerses = chapterReadStatsRef.current.verseKeys.size
     const activeMs = chapterReadStatsRef.current.activeMs
-    const minVerses = Math.max(3, Math.min(12, Math.ceil(chapterTotalVerses * 0.12)))
 
-    // Two paths to completion:
-    // - User reached near bottom AND demonstrated some reading.
-    // - User stayed and read enough even without reaching bottom (e.g., very long/short screens).
+    // STRicter requirements to prevent false achievements:
+    // - Require 20% of verses read (up from 12%)
+    // - More verses for short chapters
+    const minVerses = Math.max(5, Math.min(15, Math.ceil(chapterTotalVerses * 0.20)))
+
+    // Two paths to completion - both now stricter:
+    // Path 1: User reached near bottom AND demonstrated meaningful reading (60s up from 45s)
+    // Path 2: User stayed and read significantly more (180s up from 120s, for edge cases)
     const passViaBottom =
-      chapterReadStatsRef.current.reachedBottom && activeMs >= 45_000 && uniqueVerses >= minVerses
-    const passViaTime = activeMs >= 120_000 && uniqueVerses >= Math.max(6, Math.ceil(minVerses * 1.5))
+      chapterReadStatsRef.current.reachedBottom && activeMs >= 60_000 && uniqueVerses >= minVerses
+    const passViaTime = activeMs >= 180_000 && uniqueVerses >= Math.max(10, Math.ceil(minVerses * 2))
 
     if (!passViaBottom && !passViaTime) return
 

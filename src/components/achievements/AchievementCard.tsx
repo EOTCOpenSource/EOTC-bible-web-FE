@@ -7,6 +7,7 @@ import CircularProgress from '@/components/achievements/CircularProgress'
 interface AchievementCardProps {
     achievement: AchievementResult
     highlight?: boolean
+    highlightedAchievementId?: string | null
 }
 
 const TIER_RING: Record<string, string> = {
@@ -55,15 +56,16 @@ export default function AchievementCard({ achievement, highlight = false }: Achi
     const pct = Math.round((achievement.progressValue / achievement.target) * 100)
     const ringColor = TIER_RING[achievement.tier]
     const nearComplete = !achievement.unlocked && pct >= 60
+    const isEmailHighlight = highlight && !achievement.unlocked
 
     return (
         <div
             className={`group relative flex items-center gap-4 rounded-2xl border p-4 transition-all duration-300 ${achievement.unlocked
                 ? `bg-gradient-to-br ${TIER_BG[achievement.tier]} ${TIER_BORDER[achievement.tier]} shadow-md ${TIER_GLOW[achievement.tier]}`
-                : nearComplete
+                : nearComplete || isEmailHighlight
                     ? `bg-white dark:bg-neutral-900 border-gray-200 dark:border-neutral-800 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-neutral-700`
                     : 'bg-gray-50 dark:bg-neutral-900/50 border-gray-200 dark:border-neutral-800 opacity-80 hover:opacity-100'
-                } ${highlight ? 'ring-2 ring-offset-1 ring-[#4C0E0F]/30 dark:ring-red-400/30' : ''}`}
+                } ${highlight ? 'ring-2 ring-offset-1 ring-[#4C0E0F]/30 dark:ring-red-400/30 animate-pulse' : ''}`}
         >
             {achievement.unlocked ? (
                 <div className="relative shrink-0">

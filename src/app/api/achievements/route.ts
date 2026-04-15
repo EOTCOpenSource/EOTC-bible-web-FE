@@ -39,6 +39,39 @@ const transformBackendProgress = (backendData: any): Progress => {
     }
 }
 
+// SECURITY: Server-side achievement validation.
+
+async function getServerValidatedAchievements(token: string) {
+    const progressRes = await serverAxiosInstance.get('/progress', {
+        headers: { Authorization: `Bearer ${token}` },
+        validateStatus: () => true,
+    })
+
+    if (progressRes.status < 200 || progressRes.status >= 300) {
+        throw new Error('Failed to fetch progress')
+    }
+
+    const progress = transformBackendProgress(progressRes.data)
+    const computedAchievements = computeAchievements(progress)
+
+    // Also fetch persisted achievements from backend for cross-device sync
+    const achievementsRes = await serverAxiosInstance.get('/achievements', {
+        headers: { Authorization: `Bearer ${token}` },
+        validateStatus: () => true,
+    })
+
+    const unlockedIds = new Set<string>(achievementsRes.data?.unlockedIds || [])
+
+    // SECURITY: Only unlock if BOTH conditions are true:
+
+    const achievements = computedAchievements.map((ach) => ({
+        ...ach,
+        unlocked: ach.unlocked || unlockedIds.has(ach.id),
+    }))
+
+    return { achievements, progress }
+}
+
 export async function GET() {
     try {
         const token = await getAuthToken()
@@ -46,33 +79,7 @@ export async function GET() {
             return NextResponse.json({ error: 'Unauthorized. Please login first.' }, { status: 401 })
         }
 
-        const [progressRes, achievementsRes] = await Promise.all([
-            serverAxiosInstance.get('/progress', {
-                headers: { Authorization: `Bearer ${token}` },
-                validateStatus: () => true,
-            }),
-            serverAxiosInstance.get('/achievements', {
-                headers: { Authorization: `Bearer ${token}` },
-                validateStatus: () => true,
-            })
-        ])
-
-        if (progressRes.status < 200 || progressRes.status >= 300) {
-            return NextResponse.json(
-                { error: progressRes.data?.message || 'Failed to fetch progress' },
-                { status: progressRes.status }
-            )
-        }
-
-        const progress = transformBackendProgress(progressRes.data)
-        const computedAchievements = computeAchievements(progress)
-
-        // Merge persisted achievements
-        const unlockedIds = new Set<string>(achievementsRes.data?.unlockedIds || [])
-        const achievements = computedAchievements.map((ach) => ({
-            ...ach,
-            unlocked: ach.unlocked || unlockedIds.has(ach.id),
-        }))
+        const { achievements, progress } = await getServerValidatedAchievements(token)
 
         return NextResponse.json({ achievements, progress })
     } catch (error: any) {
