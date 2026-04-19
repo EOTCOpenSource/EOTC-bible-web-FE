@@ -1,67 +1,67 @@
 {
   "Index": {
     "title": "የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያን መጽሐፍ ቅዱስ",
-    "description": "የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያን መጽሐፍ ቅዱስ በግእዝ፣ አማርኛ እና እንግሊዝኛ",
-    "heroTitle": "የኢትዮጵያ ኦርቶዶክስ መጽሐፍ ቅዱስ",
-    "siteName": "ኢኦተቤ",
-    "heroSubtitle": "በግእዝ፣ አማርኛ እና እንግሊዝኛ ያሉትን ቅዱሳን ጽሑፎች ያግኙ",
-    "heroButton": "መጽሐፍ ቅዱስ ያንቡ",
-    "featuredBible": "የቀኑ የመጽሐፍ ቅዱስ ጥቅሶች",
+    "description": "የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያንን መጽሐፍ ቅዱስ በግእዝ፣ በአማርኛ እና በእንግሊዝኛ የያዘ ዲጂታል መድረክ",
+    "siteName": "የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ",
+    "heroTitle": "የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያን መጽሐፍ ቅዱስ",
+    "heroSubtitle": "በግእዝ፣ በአማርኛ እና በእንግሊዝኛ ያሉትን የመጽሐፍ ቅዱስ ጽሑፎች ያግኙ",
+    "heroButton": "መጽሐፍ ቅዱስ ያንብቡ",
+    "featuredBible": "የተመረጡ የመጽሐፍ ቅዱስ ጥቅሶች",
     "dailyReading": "ዕለታዊ ንባብ",
     "prayers": "ጸሎቶች እና መዝሙሮች",
     "saints": "የቀኑ ቅዱሳን",
     "calendar": "የቤተክርስቲያን የቀን መቁጠሪያ",
     "aboutTitle": "ስለ ኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያን",
-    "aboutDescription": "ኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያን በዓለም ከሚገኙ በጣም አሮጌ የክርስትና ቤተክርስቲያናት አንዷ ስትሆን ጥንታዊ የመጽሐፍ ቅዱስ ልማዶችን እና ጽሑፎችን ትጠብቃለች።",
+    "aboutDescription": "የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያን በዓለም ካሉ ጥንታዊ የክርስትና አብያተ ክርስቲያናት አንዷ ስትሆን ጥንታዊ የመጽሐፍ ቅዱስ ትውፊቶችን ጠብቃ ትገኛለች።",
     "contact": "አግኙን",
-    "copyright": "© {year} የኢትዮጵያ ኦርቶዶክስ መጽሐፍ ቅዱስ። ሁሉም መብቶች የተጠበቁ ናቸው።",
+    "copyright": "© {year} የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ:: ሁሉም መብቶች የተጠበቁ ናቸው።",
     "version": "እትም",
     "book": "መጽሐፍ",
     "chapter": "ምዕራፍ",
-    "verse": "ዒንቁ",
-    "search": "መጽሐፍ ቅዱስ ፈልግ...",
-    "oldTestament": "መጽሐፍ ቅዱስ ብሉይ ኪዳን",
-    "newTestament": "መጽሐፍ ቅዱስ ሐዲስ ኪዳን",
-    "deuterocanonical": "ዲዩተሮካኖኒካል መጻሕፍት",
+    "verse": "ቁጥር",
+    "search": "መጽሐፍ ቅዱስን ይፈልጉ...",
+    "oldTestament": "ብሉይ ኪዳን",
+    "newTestament": "ሐዲስ ኪዳን",
+    "deuterocanonical": "አዋልድ መጻሕፍት",
     "bibleVersions": "የመጽሐፍ ቅዱስ እትሞች",
     "language": "ቋንቋ"
   },
   "Navigation": {
     "home": "መነሻ",
-    "siteName": "ኢኦተቤ",
     "bible": "መጽሐፍ ቅዱስ",
+    "siteName": "የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ",
     "prayers": "ጸሎቶች",
     "saints": "ቅዱሳን",
-    "calendar": "የቤተክርስቲያን የቀን መቁጠሪያ",
-    "about": "ስለ ኢትዮጵያ ኦርቶዶክስ",
+    "calendar": "የቀን መቁጠሪያ",
+    "about": "ስለ ቤተክርስቲያን",
     "language": "ቋንቋ",
     "contact": "አግኙን",
-    "plans": "ፕላኖች",
+    "plans": "የንባብ ዕቅዶች",
     "notes": "ማስታወሻዎች",
     "search": "ፈልግ",
-    "getApp": "አፕሉን ያውርዱ",
+    "getApp": "መተግበሪያውን ያውርዱ",
     "login": "ግባ"
   },
   "Common": {
-    "loading": "በማቅረብ ላይ...",
+    "loading": "በማውረድ ላይ...",
     "submit": "አስገባ",
     "cancel": "ሰርዝ",
     "save": "አስቀምጥ",
-    "delete": "ሰርዝ",
-    "edit": "አርትዕ",
+    "delete": "አጥፋ",
+    "edit": "አስተካክል",
     "create": "ፍጠር",
     "update": "አዘምን",
     "confirm": "አረጋግጥ",
-    "back": "ተመለስ",
-    "next": "ቀጣዩ",
+    "back": "ወደ ኋላ",
+    "next": "ቀጣይ",
     "previous": "የበፊቱ",
     "close": "ዝጋ",
     "open": "ክፈት",
     "search": "ፈልግ",
-    "filter": "ማጣሪያ",
-    "sort": "ቅደም ተከተል",
-    "view": "አሳይ",
-    "readMore": "ተጨማሪ አንብብ",
+    "filter": "አጣራ",
+    "sort": "አደራጅ",
+    "view": "ተመልከት",
+    "readMore": "ተጨማሪ ያንብቡ",
     "download": "አውርድ",
     "upload": "ጫን",
     "success": "ተሳክቷል!",
@@ -69,80 +69,80 @@
     "warning": "ማስጠንቀቂያ!",
     "info": "መረጃ",
     "required": "ይህ መስክ አስፈላጊ ነው",
-    "invalidEmail": "እባክዎ ትክክለኛ ኢሜል ያስገቡ",
-    "passwordLength": "የይለፍ ቃል ቢያንስ 8 ቁምፊ ሊኖረው ይገባል"
+    "invalidEmail": "እባክዎ ትክክለኛ ኢሜይል ያስገቡ",
+    "passwordLength": "የይለፍ ቃል ቢያንስ 8 ፊደላት ሊኖሩት ይገባል"
   },
   "Forms": {
     "firstName": "ስም",
     "lastName": "የአባት ስም",
-    "email": "የኢሜል አድራሻ",
+    "email": "የኢሜይል አድራሻ",
     "phone": "ስልክ ቁጥር",
     "message": "መልእክት",
-    "subject": "ርዕስ",
+    "subject": "ጉዳዩ",
     "password": "የይለፍ ቃል",
     "confirmPassword": "የይለፍ ቃል አረጋግጥ",
-    "company": "ኩባንያ",
+    "company": "ድርጅት",
     "address": "አድራሻ",
     "city": "ከተማ",
     "country": "አገር",
     "postalCode": "የፖስታ ኮድ"
   },
   "Auth": {
-    "signIn": "እንደገና ግባ",
-    "signUp": "መመዝገቢያ",
-    "rememberMe": "አስታውሱኝ",
+    "signIn": "ግባ",
+    "signUp": "ተመዝገብ",
+    "rememberMe": "አስታውሰኝ",
     "noAccount": "መለያ የለዎትም?",
     "hasAccount": "መለያ አለዎት?",
-    "verifyOtp": "OTP ያረጋግጡ",
-    "resendCode": "ኮድ እንደገና ይላኩ",
-    "backToLogin": "ወደ መግቢያ ተመለስ",
-    "back": "ተመለስ",
+    "verifyOtp": "የምስጢር ኮዱን (OTP) ያረጋግጡ",
+    "resendCode": "ኮዱን በድጋሚ ላክ",
+    "backToLogin": "ወደ መግቢያው ተመለስ",
+    "back": "ወደ ኋላ",
     "register": {
-      "title": "መመዝገቢያ ፍጠሩ",
-      "haveAccount": "መለያ አለዎት?",
+      "title": "አዲስ መለያ ይፍጠሩ",
+      "haveAccount": "አካውንት አለዎት?",
       "login": "ግባ",
       "fields": {
         "name": "ሙሉ ስም",
         "email": "ኢሜይል",
-        "password": "የውስጥ ቃል",
-        "confirmPassword": "የውስጥ ቃል አረጋግጥ"
+        "password": "የይለፍ ቃል",
+        "confirmPassword": "የይለፍ ቃል አረጋግጥ"
       },
       "placeholders": {
         "name": "ሙሉ ስምዎን ያስገቡ",
         "email": "you@example.com",
-        "password": "የውስጥ ቃልዎን ያስገቡ",
-        "confirmPassword": "የውስጥ ቃልዎን ደግመው ያስገቡ"
+        "password": "የይለፍ ቃልዎን ያስገቡ",
+        "confirmPassword": "የይለፍ ቃልዎን ደግመው ያስገቡ"
       },
       "password": {
-        "uppercase": "ቢያንስ 1 ታዋቂ ፊደል",
+        "uppercase": "ቢያንስ 1 ትልቅ ፊደል (Uppercase)",
         "number": "ቢያንስ 1 ቁጥር",
-        "special": "ቢያንስ 1 ልዩ ቦታ ፊደል",
-        "minLength": "አነስተኛው 8 ቁጥር"
+        "special": "ቢያንስ 1 ልዩ ምልክት (Special character)",
+        "minLength": "ቢያንስ 8 ፊደላት"
       },
       "validation": {
-        "nameRequired": "ስም ያስፈልጋል",
-        "emailRequired": "ኢሜይል ያስፈልጋል",
-        "passwordRequired": "የውስጥ ቃል ያስፈልጋል",
-        "confirmPasswordRequired": "የውስጥ ቃል አረጋግጥ ያስፈልጋል"
+        "nameRequired": "ስምዎን ማስገባት ግዴታ ነው",
+        "emailRequired": "ኢሜይልዎን ማስገባት ግዴታ ነው",
+        "passwordRequired": "የይለፍ ቃል ማስገባት ግዴታ ነው",
+        "confirmPasswordRequired": "የይለፍ ቃልዎን ማረጋገጥ ግዴታ ነው"
       },
       "errors": {
-        "passwordMismatch": "የውስጥ ቃሎች አይደለቁም",
-        "emptyResponse": "ከአገልጋዩ ባዶ መልስ ተቀብሏል",
-        "failed": "መመዝገቢያ አልተሳካም",
-        "termsRequired": "የመመሪያዎችና ውሎች ስምምነት አስፈላጊ ነው"
+        "passwordMismatch": "የይለፍ ቃሎቹ አይመሳሰሉም",
+        "emptyResponse": "ከአገልጋዩ (ሰርቨሩ) ምንም ምላሽ አልተገኘም",
+        "failed": "ምዝገባው አልተሳካም",
+        "termsRequired": "በሕጎች እና ደንቦች መስማማት አለብዎት"
       },
-      "success": "መመዝገቢያ ተሳክቷል",
-      "agreeTo": "እርስዎ ይፈቅዱታል",
-      "terms": "መመሪያዎች & ውሎች",
-      "register": "መመዝገብ",
+      "success": "በተሳካ ሁኔታ ተመዝግበዋል",
+      "agreeTo": "እቀበላለሁ",
+      "terms": "ሕጎች እና ደንቦች",
+      "register": "ተመዝገብ",
       "loading": "በመመዝገብ ላይ…",
       "or": "ወይም",
-      "continueWithGoogle": "ከ Google ጋር ይቀጥላሉ"
+      "continueWithGoogle": "በ Google ይቀጥሉ"
     },
     "login": {
       "title": "ግባ",
       "noAccount": "መለያ የለዎትም?",
-      "signup": "ይመዝገቡ",
+      "signup": "ተመዝገብ",
       "fields": {
         "email": "ኢሜይል",
         "password": "የይለፍ ቃል"
@@ -152,49 +152,49 @@
         "password": "የይለፍ ቃልዎን ያስገቡ"
       },
       "validation": {
-        "emailRequired": "ኢሜይል ያስፈልጋል",
-        "passwordRequired": "የይለፍ ቃል ያስፈልጋል"
+        "emailRequired": "ኢሜይል ማስገባት ግዴታ ነው",
+        "passwordRequired": "የይለፍ ቃል ማስገባት ግዴታ ነው"
       },
       "errors": {
-        "emptyResponse": "ከአገልጋይ ባዶ ምላሽ",
+        "emptyResponse": "ከአገልጋዩ ምንም ምላሽ አልተገኘም",
         "loginFailed": "መግባት አልተሳካም። እባክዎ እንደገና ይሞክሩ።"
       },
       "rememberMe": "አስታውሰኝ",
-      "forgotPassword": "የይለፍ ቃል ረሱ",
+      "forgotPassword": "የይለፍ ቃልዎን ረሱ?",
       "submit": "ግባ",
       "loading": "በመግባት ላይ...",
       "or": "ወይም",
-      "continueWithGoogle": "በGoogle ይቀጥሉ",
-      "googleLogoAlt": "የGoogle ምልክት"
+      "continueWithGoogle": "በ Google ይቀጥሉ",
+      "googleLogoAlt": "የ Google አርማ"
     },
     "forgotPassword": {
-      "title": "የይለፍ ቃል ረሱ",
-      "description": "የይለፍ ቃልዎን ዳግም ለማስጀመር፣ አካውንትዎን ለመፍጠር የተጠቀሙበትን ኢሜይል አድራሻ ያስገቡ",
+      "title": "የይለፍ ቃል ረሱ?",
+      "description": "የይለፍ ቃልዎን ዳግም ለማስጀመር አካውንትዎን ሲፈጥሩ የተጠቀሙበትን ኢሜይል አድራሻ ያስገቡ",
       "fields": {
-        "emailAddress": "ኢሜይል አድራሻ"
+        "emailAddress": "የኢሜይል አድራሻ"
       },
       "placeholders": {
         "email": "ኢሜይልዎን ያስገቡ"
       },
       "validation": {
-        "emailRequired": "ኢሜይል ያስፈልጋል",
-        "invalidEmail": "ትክክለኛ ኢሜይል አድራሻ ያስገቡ"
+        "emailRequired": "ኢሜይል ማስገባት ግዴታ ነው",
+        "invalidEmail": "እባክዎ ትክክለኛ የኢሜይል አድራሻ ያስገቡ"
       },
       "buttons": {
         "sending": "በመላክ ላይ...",
-        "sendEmail": "ኢሜይል ይላኩ",
+        "sendEmail": "ኢሜይል ላክ",
         "login": "ግባ",
         "resending": "በድጋሚ በመላክ ላይ...",
-        "resendEmail": "ኢሜይል በድጋሚ ይላኩ",
+        "resendEmail": "ኢሜይል በድጋሚ ላክ",
         "changeEmail": "ኢሜይል ይቀይሩ"
       },
-      "rememberedPassword": "የይለፍ ቃልዎን አስታወሱ?",
+      "rememberedPassword": "የይለፍ ቃልዎን አስታውሰዋል?",
       "emailSent": {
         "title": "ኢሜይል ተልኳል",
-        "description": "የይለፍ ቃል ዳግም ማስጀመሪያ ሊንክ ወደ ኢሜይልዎ ልከናል",
-        "checkSpam": "(የስፓም ማህደርዎን ማረጋገጥዎን አይርሱ)",
-        "didNotReceive": "ኢሜይሉን አልደረሰዎትም?",
-        "wrongEmail": "የተሳሳተ ኢሜይል አድራሻ?"
+        "description": "የይለፍ ቃል ዳግም ማስጀመሪያ ሊንክ ወደ ኢሜይልዎ ልከናል።",
+        "checkSpam": "(ወደ ስፓም (Spam) ፎልደር መግባቱን ማረጋገጥዎን አይርሱ)",
+        "didNotReceive": "ኢሜይሉ አልደረሰዎትም?",
+        "wrongEmail": "የተሳሳተ ኢሜይል አድራሻ አስገብተዋል?"
       }
     },
     "resetPassword": {
@@ -205,33 +205,33 @@
         "confirmPassword": "የይለፍ ቃል ያረጋግጡ"
       },
       "validation": {
-        "newPasswordRequired": "አዲስ የይለፍ ቃል ያስፈልጋል",
-        "passwordMinLength": "የይለፍ ቃል ቢያንስ {count} ቁምፊዎች መሆን አለበት",
-        "confirmPasswordRequired": "የይለፍ ቃል ማረጋገጥ ያስፈልጋል",
-        "passwordMismatch": "የይለፍ ቃሎች አይዛመዱም"
+        "newPasswordRequired": "አዲስ የይለፍ ቃል ማስገባት ግዴታ ነው",
+        "passwordMinLength": "የይለፍ ቃል ቢያንስ {count} ፊደላት ሊኖሩት ይገባል",
+        "confirmPasswordRequired": "የይለፍ ቃልዎን ማረጋገጥ ግዴታ ነው",
+        "passwordMismatch": "የይለፍ ቃሎቹ አይመሳሰሉም"
       },
       "passwordCriteria": {
         "uppercase": "ቢያንስ 1 ትልቅ ፊደል",
         "number": "ቢያንስ 1 ቁጥር",
-        "special": "ቢያንስ 1 ልዩ ቁምፊ",
-        "minLength": "ቢያንስ 8 ቁምፊዎች"
+        "special": "ቢያንስ 1 ልዩ ምልክት",
+        "minLength": "ቢያንስ 8 ፊደላት"
       },
       "buttons": {
-        "resetting": "በማስጀመር ላይ...",
+        "resetting": "ዳግም በማስጀመር ላይ...",
         "resetPassword": "የይለፍ ቃል ዳግም አስጀምር"
       },
       "errors": {
-        "somethingWentWrong": "ስህተት ተከስቷል፣ እንደገና ይሞክሩ።"
+        "somethingWentWrong": "ችግር ተከስቷል፣ እባክዎ እንደገና ይሞክሩ።"
       }
     },
     "verify": {
       "title": "ኢሜይልዎን ያረጋግጡ",
-      "subtitle": "የማረጋገጫ ኮድ ወደ ኢሜይልዎ ልከናል። እባክዎ የስፓም ፎልደርዎን ያチኩ እና ኮዱን ከታች ያስገቡ።",
-      "didNotReceive": "ኮዱን አልተቀበሉም?",
-      "resendCountdown": "እንደገና መላክ በ {seconds} ሰከንድ",
+      "subtitle": "የማረጋገጫ ኮድ ወደ ኢሜይልዎ ልከናል። እባክዎ የስፓም (Spam) ፎልደርዎን ጭምር ያረጋግጡ፣ ከዚያም ኮዱን ከታች ያስገቡ።",
+      "didNotReceive": "ኮዱን አላገኙትም?",
+      "resendCountdown": "ኮዱን እንደገና ለመላክ {seconds} ሰከንዶች ይጠብቁ",
       "buttons": {
-        "verify": "ኮድ ያረጋግጡ",
-        "resend": "እንደገና ይላኩ"
+        "verify": "ኮዱን አረጋግጥ",
+        "resend": "እንደገና ላክ"
       },
       "loading": "በማረጋገጥ ላይ..."
     }
@@ -243,81 +243,81 @@
     "tryAgain": "እንደገና ሞክር"
   },
   "Footer": {
-    "siteName": "ኢኦተቤ",
-    "description": "የኢኦተቤ አፕን ለጥልቅ መንፈሳዊ ጉዞ ያግኙ። አሁን ያውርዱ እና መጽሐፍ ቅዱስን በጣት አጋዥ ያስሱ!",
-    "googlePlay": "ጉግል ፕሌይ",
-    "appStore": "አፕ ስቶር",
-    "menu": "ምናሌ",
+    "siteName": "የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ",
+    "description": "በመንፈሳዊ ሕይወትዎ ለማደግ የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ መተግበሪያን አሁኑኑ ያውርዱ፣ የእግዚአብሔርን ቃል በማንኛውም ጊዜ እና ቦታ ያንብቡ!",
+    "googlePlay": "ጉግል ፕሌይ (Google Play)",
+    "appStore": "አፕ ስቶር (App Store)",
+    "menu": "ማውጫ",
     "home": "መነሻ",
     "bible": "መጽሐፍ ቅዱስ",
-    "about": "ስለኛ",
-    "features": "የባህሪያት",
-    "plans": "ፕላኖች",
-    "socials": "ማህበራዊ ሚዲያ",
+    "about": "ስለ እኛ",
+    "features": "ዋና ዋና ገጽታዎች",
+    "plans": "የንባብ ዕቅዶች",
+    "socials": "ማኅበራዊ ሚዲያ",
     "telegram": "ቴሌግራም",
     "instagram": "ኢንስታግራም",
     "tiktok": "ቲክቶክ",
     "facebook": "ፌስቡክ",
-    "contactInfo": "የመገኛ መረጃ",
+    "contactInfo": "አድራሻ እና ስልክ",
     "address": "አዲስ አበባ፣ ኢትዮጵያ",
     "contactUs": "አግኙን",
-    "copyright": "© {year} ኢኦተቤ. ሁሉም መብቶች የተጠበቁ ናቸው።"
+    "copyright": "© {year} የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ:: ሁሉም መብቶች የተጠበቁ ናቸው።"
   },
   "Subscription": {
-    "title": "ወደ ኢትዮጵያ ቅዱስ መጽሐፍ ዜና እና ማሳወቂያ ለማግኘት ይመዝገቡ!",
-    "subtitle": "ለማመዝገብ ኢሜይልዎን ያስገቡ",
-    "button": "ማመዝገብ",
+    "title": "ስለ መተግበሪያው አዳዲስ መረጃዎችን እና ዜናዎችን ለማግኘት ይመዝገቡ!",
+    "subtitle": "ለመመዝገብ ኢሜይልዎን ያስገቡ",
+    "button": "ተመዝገብ",
     "placeholder": "example@email.com"
   },
   "VerseOfTheDay": {
-    "title": "የቀን እትም",
-    "verse": "ነገር ግን በእግዚአብሔር ተስፋ ያደርጉ ኃይላቸውን ይደግፋሉ፤ እነርሱ እንደ ኦርሮች በክንፎቻቸው ይነፋሉ፤ ይሮጣሉና አይደክሙም፤ ይሄዱና አይጠናቀቁም።",
-    "reference": "— ኢሳይያስ 40:31 (NIV)",
+    "title": "የዕለቱ ጥቅስ",
+    "verse": "እግዚአብሔርን በመተማመን የሚጠባበቁ ግን ኃይላቸውን ያድሳሉ፤ እንደ ንስር በክንፍ ይወጣሉ፤ ይሮጣሉ፥ አይታክቱም፤ ይሄዳሉ፥ አይደክሙም።",
+    "reference": "— ኢሳይያስ 40:31",
     "likes": "105.3ሺ",
     "shares": "12.8ሺ",
     "bookmarks": "45.9ሺ",
-    "continueReading": "መቀጠል ለመንቀሳቀስ",
-    "archive": "የቀን እትም አርኪቭ",
-    "alt": "የቀን እትም"
+    "continueReading": "ማንበብዎን ይቀጥሉ",
+    "archive": "የዕለቱ ጥቅሶች ማኅደር",
+    "alt": "የዕለቱ ጥቅስ"
   },
   "Hero": {
-    "developedBy": "በEOTCOpenSource የተሰራ >",
-    "title": "ክፍት ምንጭ የኢትዮጵያ መጽሐፍ ቅዱስ ፕሮጀክት",
-    "description": "የኢትዮጵያ መጽሐፍ ቅዱስ ቅድሚያን ያስፈልጋሉ። ወደ መጽሐፍ ቅዱስ ይገቡና ከእምነትዎ ጋር ይገናኙ።",
-    "button": "መምረት ከኦንላይን",
+    "developedBy": "በ EOTCOpenSource የበለጸገ >",
+    "title": "ክፍት ምንጭ (Open Source) የሆነ የኢትዮጵያ መጽሐፍ ቅዱስ ፕሮጀክት",
+    "description": "የኢትዮጵያን የመጽሐፍ ቅዱስ ቅርስ ያስሱ። ወደ ቅዱሳት መጻሕፍት ዘልቀው ይግቡ እና እምነትዎን ያሳድጉ።",
+    "button": "ከበይነመረብ (Online) ያንብቡ",
     "appCard": {
-      "mobileTitle": "የEOTCBible ሞባይል መተግበሪያ ይውሰዱ",
-      "mobileDescription": "ኢትዮጵያ መጽሐፍ ቅዱስ ይነቁ, እቅዶችን ያግኙ, እና እግዚአብሔርን በየቀኑ ይፈልጉ።",
-      "googlePlayAlt": "በGoogle Play ይውሰዱ",
-      "appStoreAlt": "በApp Store ይጫኑ",
-      "qrAlt": "QR ኮድ",
-      "appIconAlt": "መተግበሪያ አዶ"
+      "mobileTitle": "የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ መተግበሪያን ያውርዱ",
+      "mobileDescription": "የኢትዮጵያን መጽሐፍ ቅዱስ ያንብቡ፣ የንባብ ዕቅዶችን ያግኙ፣ እንዲሁም በየቀኑ ከእግዚአብሔር ጋር ይገናኙ።",
+      "googlePlayAlt": "በ Google Play ያግኙት",
+      "appStoreAlt": "በ App Store ያውርዱ",
+      "qrAlt": "የQR ኮድ",
+      "appIconAlt": "የመተግበሪያው አዶ"
     }
   },
   "About": {
     "hero": {
       "title": {
-        "line1": "የጥንታዊ ምስክር",
-        "line2": "እምነት የሚያሳየው,",
-        "line3": "በመያዝ",
-        "highlight": "የተለየ መጽሐፍ ቅዱሳን."
+        "line1": "ጥንታዊ የእምነት",
+        "line2": "ምስክር፣",
+        "line3": "ልዩ የሆኑትን",
+        "highlight": "ቅዱሳት መጻሕፍት የያዘ።"
       },
-      "imageAlt": "የተለየ መጽሐፍ ቅዱሳን",
-      "description": "የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስትያን (EOTC) ከጥንታዊና ሙሉ ቅዱሳን መጽሐፍ የተሞላበትን መጽሐፍ ትንቢት ትክክለኛ ያስተዳደር ያለውን አለም አቀፍ ትርኢት ይጠብቃል። በግዕዝ ተጽፎ የተጻፈ ይህ ቅዱሳን እስከ ዛሬ ድረስ በትክክል የተከበረ እንደሆነ ይገልጻል።",
+      "imageAlt": "ልዩ ቅዱሳት መጻሕፍት",
+      "description": "የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስቲያን (ኢ.ኦ.ተ.ቤ) በዓለም ደረጃ ጥንታዊ እና ሙሉ የሆነውን የመጽሐፍ ቅዱስ ቀኖና ትጠብቃለች። ክላሲካል በሆነው የግእዝ ቋንቋ የተጻፈው የመጽሐፍ ቅዱስ ቅርስ ለዘመናት ሳይበረዝ የቆየ ሕያው ትውፊት ነው።",
       "ctaText": "አግኙን"
     },
     "cards": [
       {
-        "title": "81 ቅዱሳን መጽሐፍ",
-        "description": "የEOTC መጽሐፍ ቅዱሳን በክርስቲያንነት ውስጥ ትልቁ የቅዱሳን መጽሐፍ ነው፣ በአገር ሌሎች አገር ያሉ 66 መጽሐፎች ይህን ከፍ አደረገዋል።"
+        "title": "81 አዋልድ እና አጽዋማት መጻሕፍት",
+        "description": "የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ በዓለም ክርስትና ውስጥ ሰፊውን ቀኖና (81 መጻሕፍት) የያዘ ነው።"
       },
       {
-        "title": "የተለየ መጽሐፍ ቅዱሳን",
-        "description": "ከሌላ ቦታ አልተገኘም የሚሉ ጽሑፎችን ይዟል፣ እንደ መጽሐፍ ኢኖክ፣ የጉብሊየስ መጽሐፍ፣ ሲራክ እና ሌሎች።"
+        "title": "ልዩ ቅዱሳት መጻሕፍት",
+        "description": "በሌሎች መጽሐፍ ቅዱሶች የማይገኙ መጻሕፍትን አካቷል፤ ለምሳሌ መጽሐፈ ሄኖክ፣ መጽሐፈ ኩፋሌ፣ መጽሐፈ ሲራክ፣ እና ሌሎችም።"
       },
       {
-        "title": "ተካፋይ ቅርንጫፍ",
-        "description": "በኢትዮጵያና በኤርትራ ኦርቶዶክስ ቤተክርስትያን የተከበረ ነው፣ እንደ መጽሐፍ ስርዓት እና ሥርዓት ቀጥሏል።"
+        "title": "የጋራ ቅርስ",
+        "description": "በባህላችን እና በቤተክርስቲያኖቻችን ጥልቅ ትርጉም ያለውና እስከ ዛሬም ምእመናንን የሚመራ ታላቅ ቅርስ ነው።"
       }
     ],
     "navigation": {
@@ -326,156 +326,186 @@
     }
   },
   "DownloadApp": {
-    "title": "አሁን መተግበሪያ የEOTCBible ያውርዱ!",
-    "description": "መንገደ መንፈሳዊዎን ያውቁ እና ቅዱሳንን ያገኙ። ከእምነትዎ ጋር የሚዛመዱ ማስተላለፊያዎችን ያገኙ እና አመንታዊ ትምህርቶችን በጥልቅ ይገናኙ።",
-    "googlePlayAlt": "በGoogle Play ይውሰዱ",
-    "appStoreAlt": "በApp Store ይውሰዱ",
-    "mobileAlt": "በእጅ ሞባይል"
+    "title": "የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስን አሁኑኑ ያውርዱ!",
+    "description": "በመንፈሳዊ ጉዞዎ ከቅዱሳት መጻሕፍት ጋር ይበልጥ ይገናኙ። ከእምነትዎ ጋር የሚስማሙ ማስተማሪያዎችን ያግኙ።",
+    "googlePlayAlt": "በ Google Play ያግኙት",
+    "appStoreAlt": "በ App Store ያውርዱ",
+    "mobileAlt": "የሞባይል ስልክ"
   },
   "KeyFeatures": {
-    "sectionTitle": "የEOTCBible መተግበሪያ ዋና ስራዎች",
-    "tryNow": "አሁን ይሞክሩ",
+    "sectionTitle": "የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ መተግበሪያ ዋና ዋና ገጽታዎች",
+    "tryNow": "አሁኑኑ ይሞክሩ",
     "feature1": {
-      "title": "ማብራሪያ, መምረጥ እና ማካፈል",
-      "description": "የሚሰማዎትን አንቀጾች ምልክት ያድርጉ። አንቀጾችን ማብራሪያ ያድርጉ፣ መምረጥ ያክሉ، እና በማህበራዊ ሚዲያ ወይም መልእክት መተግበሪያ ቀላል ለማካፈል ይችላሉ።"
+      "title": "ማድመቅ፣ ዕልባት ማድረግ እና ማጋራት",
+      "description": "የሚወዷቸውን ጥቅሶች ያድምቁ። ዕልባት ያስቀምጡ፣ እንዲሁም በቀላሉ ለማኅበራዊ ሚዲያ ወይም ለወዳጆችዎ ያጋሩ።"
     },
     "feature2": {
-      "title": "የመጽሐፍ ቅዱስ ንባብ እቅዶች",
-      "description": "በመምሪያ የተዘጋጀ እቅዶች ተከተሉ። ከርዕሶች ይምረጡ፣ ጊዜ ያስቀድሙ ወይም የእራስዎን እቅድ ይፍጠሩ።"
+      "title": "የመጽሐፍ ቅዱስ ንባብ ዕቅዶች",
+      "description": "በመተግበሪያው በተዘጋጁ የንባብ ዕቅዶች አማካኝነት ቃሉን ዘወትር በማንበብ ይትጉ። ርዕሶችን ይምረጡ፣ ወይም የራስዎን ዕቅድ ያውጡ።"
     },
     "feature3": {
-      "title": "በመሳሪያዎች መካከል ዝግጅት ማድረግ",
-      "description": "በተለያዩ መሳሪያዎች የመጽሐፍ ቅዱስ እንቅስቃሴዎን ቀጥሉ። ማብራሪያዎች፣ ማስታወሻዎች እና ዝግጅትዎ በራስሰርነት ይቀጥላሉ።"
+      "title": "በተለያዩ መሳሪያዎች ማመሳሰል (Sync)",
+      "description": "ማስታወሻዎችዎ፣ ያደመቋቸው ጥቅሶችና የንባብ ዕቅዶችዎ በተለያዩ መሳሪያዎችዎ ላይ በራስ-ሰር ይስተካከላሉ።"
     },
     "feature4": {
-      "title": "በመስመር ላይ ያልሆነ መዳረሻ",
-      "description": "መስመር ውስጥ ሳይኖርም መጽሐፍ ቅዱስን ያገኙ። ለመጽሐፍ ንባብ ስለሚያስፈልገው ቦታ እና ጊዜ ይሁን በአራዳ ማስተናገድ፣ በጉዞ ወይም በሩቅ ቦታዎች ይረዱ።"
+      "title": "ያለ በይነመረብ (Offline) ማንበብ",
+      "description": "መጽሐፍ ቅዱስን የትም ቦታ ያለ በይነመረብ (ኢንተርኔት) ያንብቡ። ለመንገድ ወይም ለጉዞ ምቹ ነው።"
     },
     "feature5": {
-      "title": "ምስጢራዊ ማሳሰቢያዎች",
-      "description": "ስለሚያስፈልገው ጊዜ በቀጥታ እንቅስቃሴዎን ይማሩ።"
+      "title": "ጥሩ ማሳሰቢያዎች (Reminders)",
+      "description": "በአመቺዎ ሰዓት ቃሉን እንዲያነቡ የሚያስታውሱ ማሳሰቢያዎችን ያዘጋጁ።"
     },
     "feature6": {
-      "title": "ማስታወሻዎች እና እይታዎች",
-      "description": "በመጽሐፍ ቅዱስ እንቅስቃሴዎ ላይ ማስታወሻዎችን ይጽፉ። እነዚህን በግል መማሪያ ጉዞዎ ውስጥ ያከትሉ።"
+      "title": "ማስታወሻዎች እና አስተያየቶች",
+      "description": "ስለሚያነቡት የመጽሐፍ ቅዱስ ክፍል አስተያየትዎን ወይም ማስታወሻዎን በመተግበሪያው ውስጥ ያስቀምጡ።"
     }
   },
   "DiscoverPlans": {
-    "title": "የኢኦተቤ መጽሐፍ ቅዱስን ለማንበብ <br /> የተለያዩ እቅዶችን ያግኙ።",
-    "planDetailsCta": "የእቅድ ዝርዝሮች",
+    "title": "የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስን ለማንበብ<br />የተለያዩ ዕቅዶችን ያስሱ።",
+    "planDetailsCta": "የዕቅዱ ዝርዝሮች",
     "error": {
-      "message": "እቅዶችን ለማምጣት አልተቻለም:",
+      "message": "ዕቅዶችን ማምጣት አልተቻለም:",
       "retryButton": "እንደገና ይሞክሩ"
     },
     "footer": {
-      "title": "ለመንፈሳዊ ጉዟችሁ እቅድ ያግኙ።",
-      "description": "ከመጽሐፍ ቅዱስ ጋር እንዲተሳሰሩ የሚያግዙዎትን እቅድ ለማግኘት የእኛን ቤተ-መጽሐፍት ያስሱ።",
-      "ctaButton": "ተጨማሪ እቅዶችን ያግኙ"
+      "title": "ለመንፈሳዊ ጉዞዎ የሚሆን የንባብ ዕቅድ ያግኙ።",
+      "description": "በጥልቀት ለማጥናትና ከእግዚአብሔር ቃል ጋር ለመገናኘት የተዘጋጁ ዕቅዶቻችንን ያስሱ።",
+      "ctaButton": "ተጨማሪ የንባብ ዕቅዶችን ይመልከቱ"
     },
     "pagination": {
-      "previousPage": "የቀድሞ ገጽ",
+      "previousPage": "ወደ ኋላ",
       "nextPage": "ቀጣይ ገጽ",
       "goToPage": "ወደ ገጽ {pageNumber} ይሂዱ"
     },
     "fallbackPlans": [
       {
         "id": "1",
-        "title": "መዝሙር በ30 ቀናት",
-        "description": "በ30-ቀናት የመዝሙር ጥርቀት ይቀላቀሉ። ተስፋ እና እምነት ያስቡ።",
+        "title": "መዝሙረ ዳዊት በ30 ቀናት",
+        "description": "የ30-ቀናት የመዝሙረ ዳዊት ጥናት ውስጥ ይሳተፉ። ስለ ተስፋ እና እምነት በጥልቀት ያሰላስሉ።",
         "image": "/plans/plan1.png",
         "slug": "psalms-30-days"
       },
       {
         "id": "2",
-        "title": "የክርስቶስ ሰውነት",
-        "description": "የምእምናን ማህበረሰብ አካል ማለት ምን ማለት እንደሆነ ጥልቀት ያለው ጥናት።",
+        "title": "የክርስቶስ አካል",
+        "description": "ከምእመናን ማኅበረሰብ ጋር አብሮ የመኖርን ክርስቲያናዊ ትርጉም በጥልቀት እንድንረዳ የሚረዳ ጥናት።",
         "image": "/plans/plan2.png",
         "slug": "body-of-christ"
       },
       {
         "id": "3",
-        "title": "መቻቻልን መገንባት",
-        "description": "መንፈሳዊ ጥንካሬ ለመገንባት እና ችግሮችን ለማሸነፍ መመሪያ።",
+        "title": "ጽናትን መገንባት",
+        "description": "መንፈሳዊ ብርታትን ለማሳደግ እና ችግሮችን በኢየሱስ ክርስቶስ ለማሸነፍ የሚረዳ የንባብ ዕቅድ።",
         "image": "/plans/plan3.png",
         "slug": "becoming-resilient"
       },
       {
         "id": "4",
-        "title": "መልካሙ እረኛ",
-        "description": "በ23ኛው መዝሙር ውስጥ በሚገኘው መመሪያ እና ጥበቃ ያስቡ።",
+        "title": "ቸሩ እረኛ",
+        "description": "በመዝሙር 23 ውስጥ የሚገኘውን የእግዚአብሔር መመሪያ እና ጥበቃ ያስተውሉ።",
         "image": "/plans/plan4.png",
         "slug": "good-shepherd"
       },
       {
         "id": "5",
-        "title": "በእምነት መቀጠል",
-        "description": "የእግዚአብሔርን እቅድ መታመን እና ወደማይታወቅ መሄድ በሚሉ ተከታታይ ርዕሶች።",
+        "title": "ወደፊት መራመድ",
+        "description": "በእግዚአብሔር ዕቅድ መታመንን በተመለከተ የተዘጋጀ ተከታታይ የንባብ ዕቅድ።",
         "image": "/plans/plan5.png",
         "slug": "moving-forward"
       },
       {
         "id": "6",
-        "title": "የምእምናን ጉዞ",
-        "description": "የመንፈሳዊ እድገት እና የተከታይነት መንገድ ላይ ያለ 30-ቀን ጥርቀት።",
+        "title": "የምእመን ጉዞ",
+        "description": "በመንፈሳዊ ዕድገት እና በደቀመዝሙርነት ዙሪያ የ30 ቀናት ጥናት።",
         "image": "/plans/plan6.png",
         "slug": "believers-journey"
       }
     ]
   },
   "Bookmarks": {
-    "title": "ይህ የመጽሐፍ ምልክቶች ገጽ ነው"
+    "title": "የዕልባቶች ገጽ"
   },
   "Highlights": {
-    "title": "የተመለከቱት ክፍሎች ገጽ"
+    "title": "ያደመቋቸው ክፍሎች ገጽ"
   },
   "Notes": {
     "title": "የማስታወሻዎች ገጽ",
     "Create": {
-      "title": "አዲስ ማስታወሻ የመፍጠር ገጽ"
+      "title": "አዲስ ማስታወሻ ይፍጠሩ"
     }
   },
   "Dashboard": {
-    "loading": "በመጫን ላይ...",
-    "welcome": "እንኳን ደህና መጡ፣ {{name}}",
+    "loading": "በማውረድ ላይ...",
+    "welcome": "እንኳን ደህና መጡ፣ {name}!",
     "errors": {
       "title": "ስህተት",
-      "fetchProfile": "መገለጫ ማምጣት አልተቻለም"
+      "fetchProfile": "የመገለጫ መረጃ ማምጣት አልተቻለም"
     },
     "unauthorized": {
-      "message": "ይህን ገጽ ለማየት አልተፈቀደልዎትም።",
+      "message": "ይህን ገጽ ለማየት ፈቃድ የለዎትም።",
       "loginButton": "ግባ",
       "registerButton": "ተመዝገብ"
     },
     "profile": {
       "title": "የመገለጫ መረጃ",
-      "email": "ኢሜል",
-      "theme": "ገጽታ",
+      "email": "ኢሜይል",
+      "theme": "ገጽታ (Theme)",
       "fontSize": "የፊደል መጠን"
     },
-    "bookmarksButton": "የመጽሐፍ ምልክቶች"
+    "bookmarksButton": "ዕልባቶች",
+    "readOnlineButton": "በእየመረብ (Online) ያንብቡ"
   },
   "GlobalError": {
-    "title": "አንዳንድ ችግኝ ተፈጥሯል",
-    "description": "ይህን ገፅ መጫን አልተቻለም። እባክዎን እንደገና ይሞክሩ ወይም ድጋፍን ያነጋግሩ።",
+    "title": "ችግር ተከስቷል",
+    "description": "ይህን ገጽ መጫን አልተቻለም። እባክዎ እንደገና ይሞክሩ ወይም ችግሩ ከቀጠለ ድጋፍ ሰጪዎችን ያነጋግሩ።",
     "tryAgain": "እንደገና ሞክር",
     "copyError": "ስህተቱን ቅዳ",
     "copied": "ተቀድቷል!"
   },
   "GlobalLoading": {
-    "text": "በመጫን ላይ፣ እባክዎን ይጠብቁ..."
+    "text": "በመጫን ላይ ነው፣ እባክዎ ይጠብቁ..."
   },
   "GlobalNotFound": {
-    "title": "ገፁ አልተገኘም",
-    "description": "እርስዎ የሚፈልጉት ገፅ አልተገኘም ወይም ወደ ሌላ ቦታ ተንቀሳቅሷል።",
-    "goHome": "ወደ መነሻ መሄጃ"
+    "title": "ገጹ አልተገኘም",
+    "description": "ይቅርታ! የፈለጉት ገጽ የለም ወይም ተሰርዟል።",
+    "goHome": "ወደ መነሻ ተመለስ"
   },
   "VerseActionMenu": {
-    "highlight": "ማድመቅ",
-    "bookmark": "ዕልባት",
+    "highlight": "አድምቅ",
+    "bookmark": "ዕልባት አድርግ",
     "copy": "ቅዳ",
     "copied": "ተቀድቷል!",
     "share": "አጋራ",
     "shared": "ተጋርቷል!",
-    "note": "ማስታወሻ"
+    "note": "ማስታወሻ ጻፍ"
+  },
+  "PlanDetail": {
+    "back": "ወደ ኋላ",
+    "continuePlan": "የንባብ ዕቅዱን ቀጥል",
+    "startPlan": "የንባብ ዕቅዱን ጀምር",
+    "progress": "አፈጻጸም",
+    "days": "ቀናት",
+    "readings": "ንባቦች",
+    "participants": "ተሳታፊዎች",
+    "checklist": "መከታተያ ዝርዝር",
+    "calendar": "የቀን መቁጠሪያ",
+    "filter": {
+      "all": "ሁሉም ቀናት",
+      "pending": "ያልተነበቡ",
+      "completed": "የተነበቡ"
+    },
+    "week": "ሳምንት",
+    "day": "ቀን",
+    "read": "አንብብ",
+    "markComplete": "እንደተነበበ ምልክት አድርግ",
+    "markIncomplete": "ያልተነበበ አድርግ",
+    "similarPlans": "ተመሳሳይ የንባብ ዕቅዶች",
+    "planDetails": "የዕቅዱ ዝርዝሮች",
+    "notFound": {
+      "title": "የንባብ ዕቅዱ አልተገኘም",
+      "description": "የጠየቁት የንባብ ዕቅድ የለም።",
+      "goBack": "ወደ መነሻ ተመለስ"
+    },
+    "loading": "የንባብ ዕቅዱን በማውረድ ላይ..."
   }
 }

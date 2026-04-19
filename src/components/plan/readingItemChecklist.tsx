@@ -43,17 +43,17 @@ export const ReadingItemChecklist = ({
   }, [allItemsReadLocally, isDayCompleted, isLoading, onDayComplete])
 
   return (
-    <div className="space-y-3 rounded-lg bg-white p-6">
+    <div className="space-y-3 rounded-lg p-6">
       {items.map(({ id, isCompleted, bookId, title, day, bookName, chapter, description }, index) => {
         const isMarked = isCompleted || localReadItems[id]
 
         return (
           <div
             key={id}
-            className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+            className="flex text-primary-foreground items-center justify-between rounded-lg  p-4 transition-colors "
           >
             <div className="flex flex-1 items-center gap-4">
-              <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 ${isMarked ? 'border-green-600 bg-green-50' : 'border-gray-300'}`}>
+              <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 ${isMarked ? 'border-green-600 bg-green-300/80' : 'border-gray-300'}`}>
                 {isMarked ? <Check size={16} className="text-green-600" /> : <span className="text-xs text-gray-500">{index + 1}</span>}
               </div>
 

@@ -11,7 +11,7 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-    const t= useTranslations('GlobalError')
+  const t = useTranslations('GlobalError')
   const [copied, setCopied] = useState(false)
   useEffect(() => {
     console.error(error)
