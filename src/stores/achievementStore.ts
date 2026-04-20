@@ -4,6 +4,8 @@ import axiosInstance from '@/lib/axios'
 import type { AchievementResult } from '@/lib/achievements'
 
 const NOTIFIED_KEY = 'eotc-notified-achievements-v1'
+const LAST_NOTIFY_KEY = 'eotc-last-notify-time-v1'
+const NOTIFY_COOLDOWN_MS = 60_000 // 1 minute cooldown between notification batches
 
 const readNotified = (): Set<string> => {
     if (typeof window === 'undefined') return new Set()
@@ -19,6 +21,23 @@ const writeNotified = (ids: Set<string>) => {
     if (typeof window === 'undefined') return
     try {
         window.localStorage.setItem(NOTIFIED_KEY, JSON.stringify(Array.from(ids)))
+    } catch { }
+}
+
+const readLastNotifyTime = (): number => {
+    if (typeof window === 'undefined') return 0
+    try {
+        const raw = window.localStorage.getItem(LAST_NOTIFY_KEY)
+        return raw ? parseInt(raw, 10) : 0
+    } catch {
+        return 0
+    }
+}
+
+const writeLastNotifyTime = (time: number) => {
+    if (typeof window === 'undefined') return
+    try {
+        window.localStorage.setItem(LAST_NOTIFY_KEY, time.toString())
     } catch { }
 }
 
@@ -71,12 +90,24 @@ export const useAchievementsStore = create<AchievementsState>()(
 
                 if (newlyUnlocked.length === 0) return
 
+                // RATE LIMITING: Prevent notification spam
+                const lastNotifyTime = readLastNotifyTime()
+                const now = Date.now()
+                if (now - lastNotifyTime < NOTIFY_COOLDOWN_MS) {
+                    // Still in cooldown - mark as notified but don't send
+                    newlyUnlocked.forEach((id) => notified.add(id))
+                    writeNotified(notified)
+                    return
+                }
+
                 newlyUnlocked.forEach((id) => notified.add(id))
                 writeNotified(notified)
+                writeLastNotifyTime(now)
 
                 try {
                     await axiosInstance.post('/api/achievements/notify', { achievementIds: newlyUnlocked })
                 } catch {
+                    // On failure, remove from notified so we can retry later
                     newlyUnlocked.forEach((id) => notified.delete(id))
                     writeNotified(notified)
                 }

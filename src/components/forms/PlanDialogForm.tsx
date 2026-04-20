@@ -28,23 +28,45 @@ import { ReadingPlan } from '@/stores/types'
 
 interface PlanDialogFormProps {
   initialData?: ReadingPlan
+  initialValues?: {
+    name?: string
+    startBook?: string
+    startChapter?: number
+    endBook?: string
+    endChapter?: number
+    startDate?: Date
+    durationInDays?: number
+  }
+  defaultOpen?: boolean
+  hideTrigger?: boolean
+  onCreated?: (plan: ReadingPlan) => void
 }
 
-export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) => {
+export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
+  initialData,
+  initialValues,
+  defaultOpen = false,
+  hideTrigger = false,
+  onCreated,
+}) => {
   const { createPlan, fetchPlans, updatePlan, deletePlan, isFetching } = usePlanStore()
 
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(defaultOpen)
   const [deleteOpen, setDeleteOpen] = React.useState(false)
 
-  const [name, setName] = React.useState(initialData?.name || '')
-  const [startBook, setStartBook] = React.useState(initialData?.startBook || '')
-  const [startChapter, setStartChapter] = React.useState(initialData?.startChapter || 1)
-  const [endBook, setEndBook] = React.useState(initialData?.endBook || '')
-  const [endChapter, setEndChapter] = React.useState(initialData?.endChapter || 1)
-  const [startDate, setStartDate] = React.useState<Date>(
-    initialData?.createdAt ? new Date(initialData.createdAt) : new Date(),
+  const [name, setName] = React.useState(initialData?.name || initialValues?.name || '')
+  const [startBook, setStartBook] = React.useState(
+    initialData?.startBook || initialValues?.startBook || '',
   )
-  const [durationInDays, setDurationInDays] = React.useState(initialData?.durationInDays || 1)
+  const [startChapter, setStartChapter] = React.useState(initialValues?.startChapter || 1)
+  const [endBook, setEndBook] = React.useState(initialData?.endBook || initialValues?.endBook || '')
+  const [endChapter, setEndChapter] = React.useState(initialValues?.endChapter || 1)
+  const [startDate, setStartDate] = React.useState<Date>(
+    initialValues?.startDate || (initialData?.createdAt ? new Date(initialData.createdAt) : new Date()),
+  )
+  const [durationInDays, setDurationInDays] = React.useState(
+    initialData?.durationInDays || initialValues?.durationInDays || 1,
+  )
   const [errors, setErrors] = React.useState<Record<string, string>>({})
 
   const [touched, setTouched] = React.useState<Record<string, boolean>>({})
@@ -90,6 +112,24 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
     }
   }, [endBook])
 
+  React.useEffect(() => {
+    if (!defaultOpen) return
+    setOpen(true)
+  }, [defaultOpen])
+
+  React.useEffect(() => {
+    if (initialData) return
+    if (!initialValues) return
+    // Keep form prefilled if template changes (e.g. via query param).
+    setName(initialValues.name ?? '')
+    setStartBook(initialValues.startBook ?? '')
+    setStartChapter(initialValues.startChapter ?? 1)
+    setEndBook(initialValues.endBook ?? '')
+    setEndChapter(initialValues.endChapter ?? 1)
+    setStartDate(initialValues.startDate ?? new Date())
+    setDurationInDays(initialValues.durationInDays ?? 1)
+  }, [initialData, initialValues])
+
   const handleSubmit = async () => {
     if (!validate(true)) return
     if (!startDate) return
@@ -107,8 +147,9 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
     if (initialData) {
       await updatePlan(initialData._id, payload)
     } else {
-      await createPlan(payload)
+      const created = await createPlan(payload)
       await fetchPlans()
+      onCreated?.(created)
     }
 
     setOpen(false)
@@ -134,7 +175,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
               />
             </div>
           </div>
-        ) : (
+        ) : hideTrigger ? null : (
           <Button onClick={() => setOpen(true)} className="h-11 bg-[#4C0E0F] hover:bg-red-800">
             <PlusIcon className="mr-2 h-4 w-4" /> New Plan
           </Button>

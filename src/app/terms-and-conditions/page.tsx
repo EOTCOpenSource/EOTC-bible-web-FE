@@ -317,7 +317,7 @@ export default function TermsAndConditionsPage() {
           <Link href="/data-deletion" className="hover:text-gray-900 dark:hover:text-white">
             Data Deletion Policy
           </Link>
-          <a href="mailto:eyobgeremew618@gmail.com" className="hover:text-gray-900 dark:hover:text-white">
+          <a href="mailto:eotcopensource@gmail.com" className="hover:text-gray-900 dark:hover:text-white">
             Contact Support
           </a>
         </div>

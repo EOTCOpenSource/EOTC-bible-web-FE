@@ -214,27 +214,6 @@ export const useProgressStore = create<ProgressState>()(
       const queue = mergeQueue(readQueueFromStorage(), readings || [])
       writeQueueToStorage(queue)
 
-      // Optimistic update - mark chapters as "started" locally as soon as we see verse events.
-      if (readings && readings.length > 0) {
-        set((s) => {
-          const chapters = { ...s.progress.chaptersRead }
-          for (const reading of readings) {
-            const book = reading.bookId
-            const chapter = reading.chapter
-            if (!chapters[book]) {
-              chapters[book] = []
-            }
-            if (!chapters[book].includes(chapter)) {
-              chapters[book].push(chapter)
-            }
-          }
-          return {
-            progress: { ...s.progress, chaptersRead: chapters },
-            error: null,
-          }
-        })
-      }
-
       const drain = async () => {
         if (drainInFlight) return
         if (typeof navigator !== 'undefined' && navigator.onLine === false) return
