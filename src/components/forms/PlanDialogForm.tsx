@@ -140,7 +140,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
           </Button>
         )}
 
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="">
           <DialogHeader>
             <DialogTitle>{initialData ? 'Edit Reading Plan' : 'Create Reading Plan'}</DialogTitle>
             <p className="text-muted-foreground text-sm">
@@ -166,7 +166,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
             </div>
 
             {/* START BOOK + CHAPTER */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-sm font-medium">Start book</label>
                 <Select
@@ -212,7 +212,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
             </div>
 
             {/* END BOOK + CHAPTER */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-sm font-medium">End book</label>
                 <Select
@@ -257,7 +257,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
             </div>
 
             {/* START DATE + DURATION */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-sm font-medium">Start date</label>
                 <Popover>
@@ -350,7 +350,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({ initialData }) =
 
       {/* DELETE CONFIRMATION */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="">
           <DialogHeader>
             <DialogTitle className="text-red-600">Delete Reading Plan?</DialogTitle>
             <p className="text-muted-foreground text-sm">

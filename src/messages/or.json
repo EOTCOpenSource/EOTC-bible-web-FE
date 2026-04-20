@@ -369,7 +369,7 @@
     },
     "footer": {
       "title": "Imala Hafuuraa Keetiif Karoora Qoradhu.",
-    "description": "Kusaa karoorawwan keenya keessaa isa caqasoota waliin walitti si hidhu filaadhuuti qoradhu.",
+      "description": "Kusaa karoorawwan keenya keessaa isa caqasoota waliin walitti si hidhu filaadhuuti qoradhu.",
       "ctaButton": "Karoorawwan Dabalataa Qoradhu"
     },
     "pagination": {
@@ -453,7 +453,31 @@
       "fontSize": "Guddina Qubee"
     },
     "bookmarksButton": "Mallattoo Dhoksaa (Bookmarks)",
-    "readOnlineButton": "Toora Intarneetiin Dubbisi"
+    "readOnlineButton": "Toora Intarneetiin Dubbisi",
+    "highlightsTitle": "Qalbeeffachiisaa",
+    "bookmarksTitle": "Mallattoo Dhoksaa",
+    "plansTitle": "Karoora Dubbisaa",
+    "notesTitle": "Yaadannoowwan",
+    "selectAll": "Hunda Filadhu",
+    "deleteHighlight": "Qalbeeffachiisaa Balleessi",
+    "deleteHighlights": "Qalbeeffachiisaa Balleessi",
+    "confirmDeleteHighlight": "Qalbeeffachiisaa kana dhuguma balleessuu barbaaddaa? Gochi kun duubatti hin deebi'u.",
+    "confirmDeleteHighlights": "Qalbeeffachiisaa {count} dhuguma balleessuu barbaaddaa? Gochi kun duubatti hin deebi'u.",
+    "noHighlights": "Ammallee waan qalbeeffatame hin jiru. Dubbisuu jalqabuun ida'adhu!",
+    "noPlans": "Ammallee karoorri dubbisaa hin jiru. Isaac haaraa uumuun jalqabi 📖",
+    "noBookmarks": "Ammallee mallattoon dhoksaa hin jiru. Mallattoo kaa'uu jalqabi!",
+    "clickEditContext": "Guutumaa isaa arguuf \"Gulaali\" cuqaasi.",
+    "myProfile": "Profaayilii Koo",
+    "notifications": "Beeksisa",
+    "logOut": "Bahi",
+    "saveChanges": "Jijjiirama Olkaa'i",
+    "deleteAccount": "Akkaawuntii Balleessi",
+    "changeAvatar": "Fakkii Jijjiiri",
+    "profilePicUpdates": "Fakkii profaayilii kee jijjiiri",
+    "confirmDeleteAccount": "Akkaawuntii kee dhuguma balleessuu barbaaddaa? Gochi kun duubatti hin deebi'u, ragaa kee hunda ni balleessa.",
+    "startReadingToEarn": "Badhaasa argachuuf dubbisuu jalqabi!",
+    "viewAll": "Hunda Ilali",
+    "achievements": "Badhaasota"
   },
   "GlobalError": {
     "title": "Dogoggorri uumameera",

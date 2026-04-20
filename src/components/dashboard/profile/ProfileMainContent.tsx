@@ -12,6 +12,7 @@ import axiosInstance from '@/lib/axios'
 import { useRouter } from 'next/navigation'
 import { useAchievementsStore } from '@/stores/achievementStore'
 import AchievementCard from '@/components/achievements/AchievementCard'
+import { useTranslations } from 'next-intl'
 import {
   Dialog,
   DialogContent,
@@ -23,6 +24,9 @@ import {
 
 export const ProfileMainContent = () => {
   const { user, setUser, loadSession } = useUserStore()
+  const t = useTranslations('Dashboard')
+  const tForms = useTranslations('Forms')
+  const tCommon = useTranslations('Common')
   const router = useRouter()
   const [formData, setFormData] = useState({
     firstName: '',
@@ -365,7 +369,7 @@ export const ProfileMainContent = () => {
                 <Pencil size={12} className="text-gray-600 dark:text-gray-200" />
               </button>
               <div className="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium text-[10px]">
-                Change
+                {tCommon('edit')}
               </div>
             </div>
             <input
@@ -375,7 +379,7 @@ export const ProfileMainContent = () => {
               className="hidden"
               onChange={handleAvatarChange}
             />
-            <p className="mt-2 text-xs font-medium text-gray-500 dark:text-gray-400">Change your profile picture</p>
+            <p className="mt-2 text-xs font-medium text-gray-500 dark:text-gray-400">{t('profilePicUpdates')}</p>
           </div>
 
           <div className="flex flex-col w-full gap-3 overflow-hidden">
@@ -393,16 +397,16 @@ export const ProfileMainContent = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          {renderEditableField('firstName', 'First Name', formData.firstName)}
-          {renderEditableField('lastName', 'Last Name', formData.lastName)}
+          {renderEditableField('firstName', tForms('firstName'), formData.firstName)}
+          {renderEditableField('lastName', tForms('lastName'), formData.lastName)}
         </div>
 
         <div className="space-y-4 mb-4">
-          {renderEditableField('email', 'Email Address', formData.email, 'email')}
+          {renderEditableField('email', tForms('email'), formData.email, 'email')}
         </div>
 
         <div className="space-y-4 mb-6">
-          {renderEditableField('password', 'Password', formData.password, 'password')}
+          {renderEditableField('password', tForms('password'), formData.password, 'password')}
         </div>
 
         <div className="mt-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -411,7 +415,7 @@ export const ProfileMainContent = () => {
             disabled={isSaving}
             className="w-[152px] h-[42px] bg-[#392D2D] hover:bg-[#1A1A19] text-white pl-[10px] pr-[4px] py-[5px] rounded-[8px] gap-[6px] font-medium flex items-center justify-between transition-all disabled:opacity-50 text-sm overflow-hidden"
           >
-            {isSaving ? 'Saving...' : 'Save Changes'}
+            {isSaving ? tCommon('loading') : t('saveChanges')}
             <div className="bg-white rounded-[6px] h-8 w-8 flex items-center justify-center text-[#392D2D] shrink-0">
               <ArrowUpRight size={18} strokeWidth={2.5} />
             </div>
@@ -421,7 +425,7 @@ export const ProfileMainContent = () => {
             variant="outline"
             className="w-[155px] h-[42px] bg-white dark:bg-transparent border border-[#621B1C] hover:bg-neutral-50 dark:hover:bg-[#3D2D2D] text-[#621B1C] dark:text-red-400 pl-[10px] pr-[4px] py-[5px] rounded-[8px] gap-[6px] font-medium flex items-center justify-between transition-all disabled:opacity-50 text-sm overflow-hidden"
           >
-            Delete Account
+            {t('deleteAccount')}
             <div className="bg-[#621B1C] rounded-[6px] h-8 w-8 flex items-center justify-center text-white shrink-0">
               <Trash2 size={18} strokeWidth={2.5} />
             </div>
@@ -432,17 +436,17 @@ export const ProfileMainContent = () => {
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete Account</DialogTitle>
+            <DialogTitle>{t('deleteAccount')}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete your account? This action cannot be undone and will permanently delete all your data including highlights, notes, bookmarks, and reading progress.
+              {t('confirmDeleteAccount')}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteDialogOpen(false)} disabled={isDeleting}>
-              Cancel
+              {tCommon('cancel')}
             </Button>
             <Button variant="destructive" onClick={handleDeleteAccount} disabled={isDeleting}>
-              {isDeleting ? 'Deleting...' : 'Delete Account'}
+              {isDeleting ? tCommon('loading') : t('deleteAccount')}
             </Button>
           </DialogFooter>
         </DialogContent>

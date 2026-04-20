@@ -2,9 +2,11 @@ import React, { useEffect } from 'react'
 import { useBookmarksStore } from '@/stores/bookmarksStore'
 import BookmarkItem from './BookmarkItem'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useTranslations } from 'next-intl'
 
 const BookmarksList: React.FC = () => {
   const { bookmarks, isLoading, error, loadBookmarks, clearError } = useBookmarksStore()
+  const t = useTranslations('Dashboard')
 
   useEffect(() => {
     loadBookmarks()
@@ -32,7 +34,7 @@ const BookmarksList: React.FC = () => {
   }
 
   if (bookmarks.length === 0) {
-    return <div className="text-center text-gray-500 dark:text-gray-400">No bookmarks yet. Start adding some!</div>
+    return <div className="text-center text-gray-500 dark:text-gray-400">{t('noBookmarks')}</div>
   }
 
   return (
