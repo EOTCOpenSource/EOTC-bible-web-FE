@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { ENV } from '@/lib/env'
 import serverAxiosInstance from '@/lib/server-axios'
 import { computeAchievements } from '@/lib/achievements'
+import type { Progress } from '@/stores/types'
 
 const getAuthToken = async () => {
     const cookieStore = await cookies()
@@ -15,20 +16,35 @@ const getAuthToken = async () => {
 
 async function validateAchievements(token: string, requestedAchievementIds: string[]): Promise<string[]> {
     try {
-        // Fetch user's actual progress from backend
-        const progressRes = await serverAxiosInstance.get('/progress', {
-            headers: { Authorization: `Bearer ${token}` },
-            validateStatus: () => true,
-        })
+        const [progressRes, plansRes] = await Promise.all([
+            serverAxiosInstance.get('/progress', {
+                headers: { Authorization: `Bearer ${token}` },
+                validateStatus: () => true,
+            }),
+            serverAxiosInstance.get('/reading-plans', {
+                headers: { Authorization: `Bearer ${token}` },
+                validateStatus: () => true,
+            }),
+        ])
 
         if (progressRes.status < 200 || progressRes.status >= 300) {
-            // If we can't fetch progress, don't allow any notifications
             return []
         }
 
-        // Transform backend progress format
         const progressData = progressRes.data?.data?.progress || progressRes.data?.progress || {}
         const streakData = progressRes.data?.data?.streak || progressRes.data?.streak || {}
+        const plansData =
+            plansRes.data?.data?.data ??
+            plansRes.data?.data?.items ??
+            plansRes.data?.data ??
+            plansRes.data?.items ??
+            plansRes.data
+        const plans = Array.isArray(plansData) ? plansData : []
+        const completedPlans = plans.filter((plan: any) => {
+            if (plan?.status === 'completed') return true
+            if (!Array.isArray(plan?.dailyReadings) || plan.dailyReadings.length === 0) return false
+            return plan.dailyReadings.every((day: any) => !!day?.isCompleted)
+        }).length
 
         const chaptersRead: Record<string, number[]> = {}
         if (progressData.chaptersRead && typeof progressData.chaptersRead === 'object') {
@@ -42,7 +58,7 @@ async function validateAchievements(token: string, requestedAchievementIds: stri
             })
         }
 
-        const progress = {
+        const progress: Progress = {
             chaptersRead,
             streak: {
                 current: streakData.current || 0,
@@ -50,6 +66,8 @@ async function validateAchievements(token: string, requestedAchievementIds: stri
                 lastDate: streakData.lastDate || undefined,
             },
             lastRead: progressData.lastRead || undefined,
+            readingPlansCompleted: completedPlans,
+            readingPlansTotal: plans.length,
         }
 
         // Compute actual achievements based on real progress

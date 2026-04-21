@@ -77,6 +77,7 @@ export const useAuthStore = create<AuthState>()(
           success: 'Registration successful, please verify your email.',
           otpStatus: 'idle',
         })
+        get().startCountdown(60)
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? 'Registration failed' })
         throw err
@@ -153,7 +154,7 @@ export const useAuthStore = create<AuthState>()(
     },
 
     verifyOtp: async (email: string, otp: string) => {
-      set({ otpStatus: 'pending', error: null, success: null })
+      set({ otpStatus: 'pending', isLoading: true, error: null, success: null })
       try {
         const res = await axiosInstance.post('/api/auth/verify-otp', {
           email,
@@ -177,15 +178,20 @@ export const useAuthStore = create<AuthState>()(
           otpStatus: 'failed',
           error: err?.response?.data?.error ?? 'OTP verification failed',
         })
+      } finally {
+        set({ isLoading: false })
       }
     },
 
     resendOtp: async (email: string, name: string) => {
+      set({ isLoading: true, error: null, success: null })
       try {
         await axiosInstance.post('/api/auth/resend-otp', { email, name })
         set({ success: 'OTP resent successfully. Check your email.' })
       } catch (err: any) {
         set({ error: err?.response?.data?.error ?? 'Failed to resend OTP' })
+      } finally {
+        set({ isLoading: false })
       }
     },
 

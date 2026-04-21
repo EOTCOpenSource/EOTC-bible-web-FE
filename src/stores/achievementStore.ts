@@ -46,73 +46,78 @@ interface AchievementsState {
     isLoading: boolean
     error: string | null
     lastFetched: number | null
-    loadAchievements: () => Promise<void>
+    loadAchievements: (force?: boolean) => Promise<void>
     notifyNewAchievements: (achievements: AchievementResult[]) => Promise<void>
 }
 
 export const useAchievementsStore = create<AchievementsState>()(
     devtools(
-        (set, get) => ({
-            achievements: [],
-            isLoading: false,
-            error: null,
-            lastFetched: null,
+        persist(
+            (set, get) => ({
+                achievements: [],
+                isLoading: false,
+                error: null,
+                lastFetched: null,
 
-            loadAchievements: async () => {
-                const { isLoading, lastFetched } = get()
-                if (isLoading) return
-                const now = Date.now()
-                if (lastFetched && now - lastFetched < 30_000) return
+                loadAchievements: async (force = false) => {
+                    const { isLoading, lastFetched } = get()
+                    if (isLoading) return
+                    const now = Date.now()
+                    if (!force && lastFetched && now - lastFetched < 30_000) return
 
-                set({ isLoading: true, error: null })
-                try {
-                    const res = await axiosInstance.get('/api/achievements')
-                    const achievements: AchievementResult[] = res.data.achievements ?? []
-                    set({ achievements, isLoading: false, lastFetched: Date.now() })
-                    await get().notifyNewAchievements(achievements)
-                } catch (err: any) {
-                    if (err?.response?.status === 401) {
-                        set({ isLoading: false, achievements: [], error: null })
+                    set({ isLoading: true, error: null })
+                    try {
+                        const res = await axiosInstance.get('/api/achievements')
+                        const achievements: AchievementResult[] = res.data.achievements ?? []
+                        set({ achievements, isLoading: false, lastFetched: Date.now() })
+                        await get().notifyNewAchievements(achievements)
+                    } catch (err: any) {
+                        if (err?.response?.status === 401) {
+                            set({ isLoading: false, achievements: [], error: null })
+                            return
+                        }
+                        set({
+                            isLoading: false,
+                            error: err?.response?.data?.error ?? err?.message ?? 'Failed to load achievements',
+                        })
+                    }
+                },
+
+                notifyNewAchievements: async (achievements: AchievementResult[]) => {
+                    const notified = readNotified()
+                    const newlyUnlocked = achievements
+                        .filter((a) => a.unlocked && !notified.has(a.id))
+                        .map((a) => a.id)
+
+                    if (newlyUnlocked.length === 0) return
+
+                    // RATE LIMITING: Prevent notification spam
+                    const lastNotifyTime = readLastNotifyTime()
+                    const now = Date.now()
+                    if (now - lastNotifyTime < NOTIFY_COOLDOWN_MS) {
+                        // Still in cooldown - mark as notified but don't send
+                        newlyUnlocked.forEach((id) => notified.add(id))
+                        writeNotified(notified)
                         return
                     }
-                    set({
-                        isLoading: false,
-                        error: err?.response?.data?.error ?? err?.message ?? 'Failed to load achievements',
-                    })
-                }
-            },
 
-            notifyNewAchievements: async (achievements: AchievementResult[]) => {
-                const notified = readNotified()
-                const newlyUnlocked = achievements
-                    .filter((a) => a.unlocked && !notified.has(a.id))
-                    .map((a) => a.id)
-
-                if (newlyUnlocked.length === 0) return
-
-                // RATE LIMITING: Prevent notification spam
-                const lastNotifyTime = readLastNotifyTime()
-                const now = Date.now()
-                if (now - lastNotifyTime < NOTIFY_COOLDOWN_MS) {
-                    // Still in cooldown - mark as notified but don't send
                     newlyUnlocked.forEach((id) => notified.add(id))
                     writeNotified(notified)
-                    return
-                }
+                    writeLastNotifyTime(now)
 
-                newlyUnlocked.forEach((id) => notified.add(id))
-                writeNotified(notified)
-                writeLastNotifyTime(now)
-
-                try {
-                    await axiosInstance.post('/api/achievements/notify', { achievementIds: newlyUnlocked })
-                } catch {
-                    // On failure, remove from notified so we can retry later
-                    newlyUnlocked.forEach((id) => notified.delete(id))
-                    writeNotified(notified)
-                }
-            },
-        }),
+                    try {
+                        await axiosInstance.post('/api/achievements/notify', { achievementIds: newlyUnlocked })
+                    } catch {
+                        // On failure, remove from notified so we can retry later
+                        newlyUnlocked.forEach((id) => notified.delete(id))
+                        writeNotified(notified)
+                    }
+                },
+            }),
+            {
+                name: 'eotc-achievements-storage',
+            }
+        ),
         { name: 'achievements-store' }
     )
 )

@@ -3,6 +3,7 @@
 import React, { useEffect, useState, use, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { usePlanStore } from '@/stores/usePlanStore'
+import { useAchievementsStore } from '@/stores/achievementStore'
 import { PlanCalendar } from '@/components/plan/planCalander'
 import { ReadingItemChecklist } from '@/components/plan/readingItemChecklist'
 import { ReadingItem } from '@/types/plans'
@@ -13,6 +14,7 @@ export default function PlanDetailPage({ params }: { params: Promise<{ id: strin
   const { id } = use(params)
   
   const { fetchPlanById, plans, markDayComplete, isFetching, isMutating } = usePlanStore()
+  const { loadAchievements } = useAchievementsStore()
   const [currentDayNumber, setCurrentDayNumber] = useState<number>(1)
   const [localReadItems, setLocalReadItems] = useState<Record<string, boolean>>({})
   
@@ -96,8 +98,9 @@ export default function PlanDetailPage({ params }: { params: Promise<{ id: strin
   const handleDayComplete = useCallback(async () => {
     if (currentDayData && !currentDayData.isCompleted) {
       await markDayComplete(plan._id, currentDayData.dayNumber)
+      await loadAchievements(true)
     }
-  }, [currentDayData, markDayComplete, plan])
+  }, [currentDayData, loadAchievements, markDayComplete, plan])
 
   return (
     <div className="p-4 w-full space-y-6">

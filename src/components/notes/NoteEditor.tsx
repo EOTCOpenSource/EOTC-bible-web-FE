@@ -75,15 +75,12 @@ export const NoteEditor = () => {
         })
         setEditingNote(null)
       } else {
-        const timestamp = Date.now()
-        const randomVerse = Math.floor(Math.random() * 1000) + 1
-
         await (addNote as any)({
           title: title.trim(),
           content: content.trim(),
-          bookId: 'GEN',
-          chapter: Math.floor(timestamp / 1000000) || 1,
-          verseStart: randomVerse,
+          bookId: '_dashboard',
+          chapter: 1,
+          verseStart: 1,
           verseCount: 1,
           visibility: isPublic ? 'public' : 'private'
         })

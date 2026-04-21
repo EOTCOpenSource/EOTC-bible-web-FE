@@ -203,7 +203,7 @@ export const ProfileSidebar = () => {
                         onClick={() => handleThemeChange(themeOption)}
                         className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg hover:bg-gray-50 dark:hover:bg-[#3D2D2D] transition-colors"
                       >
-                        <span className="capitalize text-gray-700 dark:text-gray-200 font-medium">{themeOption}</span>
+                        <span className="capitalize text-gray-700 dark:text-white font-medium">{themeOption}</span>
                         {nextTheme === themeOption && <Check size={16} className="text-black dark:text-white" />}
                       </button>
                     ))}
@@ -217,17 +217,17 @@ export const ProfileSidebar = () => {
                 <>
                   <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-[#2A2020] rounded-xl border border-gray-100 dark:border-[#3D2D2D] shadow-xl overflow-hidden p-1">
                     {Object.entries(languageNames).map(([locale, name]) => {
-                      const isAvailable = locale === 'en' || locale === 'am'
+                      // We provide a safe fallback for the PR branch changes while preserving local logic if it wasn't merged yet
+                      const isAvailable = locale === 'en' || locale === 'am' || locale === 'gez' || locale === 'tg' || locale === 'or'
                       return (
                       <button
                         key={locale}
                         onClick={() => isAvailable && handleLanguageChange(locale)}
-                        disabled={!isAvailable}
                         className={cn("flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg transition-colors", isAvailable ? "hover:bg-gray-50 dark:hover:bg-[#3D2D2D]" : "opacity-50 cursor-not-allowed")}
                       >
-                        <span className="text-gray-700 dark:text-gray-200 font-medium">{name}</span>
+                        <span className="text-gray-700 dark:text-white font-medium">{name}</span>
                         {!isAvailable ? (
-                          <span className="text-xs text-gray-500">Coming soon</span>
+                          <span className="text-xs text-gray-400 dark:text-gray-500">Coming soon</span>
                         ) : locale === currentLocale && <Check size={16} className="text-black dark:text-white" />}
                       </button>
                     )})}

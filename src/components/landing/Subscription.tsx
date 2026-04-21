@@ -60,8 +60,8 @@ const Subscription = () => {
               disabled={isSubmitting}
               className="h-10 w-full rounded-md border-gray-300 bg-gray-100 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white sm:w-80 disabled:opacity-50"
             />
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={isSubmitting}
               className="flex items-center justify-center space-x-2 rounded-md bg-[#4C0E0F] py-2 pr-2 pl-6 text-white sm:w-auto disabled:opacity-50 transition-opacity"
             >
