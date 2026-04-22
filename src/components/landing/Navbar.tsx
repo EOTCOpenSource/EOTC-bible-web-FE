@@ -23,7 +23,7 @@ const Navbar = () => {
     closeNavMenu,
   } = useUIStore()
 
-  const { isLoggedIn, loadSession } = useUserStore()
+  const { isLoggedIn, loadSession, user } = useUserStore()
 
   useEffect(() => {
     loadSession()
@@ -147,13 +147,7 @@ const Navbar = () => {
                   </button>
                 </Link>
 
-                {isLoggedIn ? (
-                  <Link href="/dashboard">
-                    <button className="h-[42px] rounded-lg border border-red-900 bg-white dark:bg-neutral-800 px-6 py-2 text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
-                      Dashboard
-                    </button>
-                  </Link>
-                ) : (
+                {!isLoggedIn && (
                   <Link href="/login">
                     <button className="h-[42px] rounded-lg border border-red-900 bg-white px-6 py-2 text-red-900 hover:bg-red-900 hover:text-white">
                       {t('login')}
@@ -166,16 +160,14 @@ const Navbar = () => {
                     {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                   </button>
                   <LanguageSelector />
-                  {isLoggedIn ? (
+                  {isLoggedIn && (
                     <Link href="/profile">
-                      <button className="rounded-full p-2 hover:bg-gray-200 outline-none">
-                        <User size={18} />
-                      </button>
-                    </Link>
-                  ) : (
-                    <Link href="/login">
-                      <button className="rounded-full p-2 hover:bg-gray-200">
-                        <User size={18} />
+                      <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200 outline-none overflow-hidden border border-gray-200 dark:border-gray-700">
+                        {user?.avatarUrl ? (
+                          <img src={user.avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
+                        ) : (
+                          <User size={18} />
+                        )}
                       </button>
                     </Link>
                   )}
@@ -195,13 +187,7 @@ const Navbar = () => {
                   />
                 </div>
 
-                {isLoggedIn ? (
-                  <Link href="/dashboard">
-                    <button className="h-[42px] flex-shrink-0 rounded-lg border border-red-900 bg-white px-4 py-2 text-sm text-red-900 hover:bg-red-900 hover:text-white">
-                      Dashboard
-                    </button>
-                  </Link>
-                ) : (
+                {!isLoggedIn && (
                   <Link href="/login">
                     <button className="h-[42px] flex-shrink-0 rounded-lg border border-red-900 bg-white px-4 py-2 text-sm text-red-900 hover:bg-red-900 hover:text-white">
                       {t('login')}
@@ -230,9 +216,17 @@ const Navbar = () => {
                             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                           </button>
                           <LanguageSelector />
-                          <button className="rounded-full p-2 hover:bg-gray-200">
-                            <User size={18} />
-                          </button>
+                          {isLoggedIn && (
+                            <Link href="/profile">
+                              <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200 outline-none overflow-hidden border border-gray-200 dark:border-gray-700">
+                                {user?.avatarUrl ? (
+                                  <img src={user.avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
+                                ) : (
+                                  <User size={18} />
+                                )}
+                              </button>
+                            </Link>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -272,9 +266,14 @@ const Navbar = () => {
             </Link>
             <div className="my-2 border-t dark:border-neutral-700"></div>
             {isLoggedIn ? (
-              <Link href="/dashboard">
-                <button className="h-[42px] w-full rounded-lg border border-red-900 dark:border-red-700 bg-white dark:bg-neutral-800 px-6 py-2 text-left text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
-                  Dashboard
+              <Link href="/profile">
+                <button className="flex h-[42px] w-full items-center gap-2 rounded-lg border border-red-900 dark:border-red-700 bg-white dark:bg-neutral-800 px-6 py-2 text-left text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
+                  {user?.avatarUrl ? (
+                    <img src={user.avatarUrl} alt="Avatar" className="h-6 w-6 rounded-full object-cover" />
+                  ) : (
+                    <User size={18} />
+                  )}
+                  <span>Profile</span>
                 </button>
               </Link>
             ) : (
