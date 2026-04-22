@@ -236,7 +236,7 @@ export default function ReaderClient({
           if (firstElement) {
             firstElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }
-        }, 100)
+        }, 800)
 
         // Remove animation after 10 seconds
         setTimeout(() => {
