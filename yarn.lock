@@ -3513,6 +3513,11 @@ json5@^2.2.3:
     object.assign "^4.1.4"
     object.values "^1.1.6"
 
+kenat@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/kenat/-/kenat-3.2.0.tgz"
+  integrity sha512-u8Vkny8QiarSJ3jNMGSt+OfC5mhsDr06fF6mlOLhQpXCIqBs487lK+EH3UiNIj2u2/KEHHFqekPeeWSEW0OktA==
+
 keyv@^4.5.4:
   version "4.5.4"
   resolved "https://registry.npmjs.org/keyv/-/keyv-4.5.4.tgz"
