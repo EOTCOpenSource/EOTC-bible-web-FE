@@ -72,8 +72,10 @@ const countNTChaptersRead = (chaptersRead: Record<string, number[]>): number =>
 const countOTChaptersRead = (chaptersRead: Record<string, number[]>): number =>
     otBooks.reduce((sum, b) => sum + bookChaptersRead(chaptersRead, b.file_name), 0)
 
+const completedReadingPlans = (progress: Progress): number => progress.readingPlansCompleted ?? 0
+
 export const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
-    // ── Special ──────────────────────────────────────────────────────────────
+    // ── Special ───────────────────────────────────────────────────────────────
     {
         id: 'first_step',
         title: 'First Step',
@@ -87,7 +89,44 @@ export const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
         },
     },
 
-    // ── Streak achievements ───────────────────────────────────────────────────
+    // ── Reading plan achievements ─────────────────────────────────────────────
+    {
+        id: 'plan_complete_1',
+        title: 'Plan Finisher',
+        description: 'Complete your first reading plan',
+        category: 'special',
+        tier: 'bronze',
+        emoji: '🗺️',
+        check: (p) => {
+            const v = completedReadingPlans(p)
+            return { unlocked: v >= 1, progressValue: Math.min(v, 1), target: 1 }
+        },
+    },
+    {
+        id: 'plan_complete_3',
+        title: 'Disciplined Walker',
+        description: 'Complete 3 reading plans',
+        category: 'special',
+        tier: 'silver',
+        emoji: '🥾',
+        check: (p) => {
+            const v = completedReadingPlans(p)
+            return { unlocked: v >= 3, progressValue: Math.min(v, 3), target: 3 }
+        },
+    },
+    {
+        id: 'plan_complete_10',
+        title: 'Master Planner',
+        description: 'Complete 10 reading plans',
+        category: 'special',
+        tier: 'gold',
+        emoji: '🏠',
+        check: (p) => {
+            const v = completedReadingPlans(p)
+            return { unlocked: v >= 10, progressValue: Math.min(v, 10), target: 10 }
+        },
+    },
+    // Streak achievements
     {
         id: 'streak_3',
         title: 'First Flame',
@@ -146,7 +185,7 @@ export const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
         description: 'Read every day for 60 days',
         category: 'streak',
         tier: 'gold',
-        emoji: '🏅',
+        emoji: '🏆',
         check: (p) => ({
             unlocked: (p.streak?.current ?? 0) >= 60,
             progressValue: Math.min(p.streak?.current ?? 0, 60),
@@ -259,7 +298,7 @@ export const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
         description: 'Read 1,000 chapters total',
         category: 'chapters',
         tier: 'platinum',
-        emoji: '✝️',
+        emoji: '✍️',
         check: (p) => {
             const v = totalChapters(p.chaptersRead)
             return { unlocked: v >= 1000, progressValue: Math.min(v, 1000), target: 1000 }
@@ -338,7 +377,7 @@ export const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
         description: 'Complete the Gospel of Matthew (28 chapters)',
         category: 'books',
         tier: 'silver',
-        emoji: '✝️',
+        emoji: '✍️',
         bookId: '55-matthew',
         check: (p) => {
             const v = bookChaptersRead(p.chaptersRead, '55-matthew')

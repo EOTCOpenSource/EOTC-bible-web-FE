@@ -14,10 +14,10 @@ export default function GoogleSignInButton() {
     const router = useRouter()
 
     return (
-        <div className="flex justify-center w-full sm:w-auto">
+        <div className={`flex justify-center w-full sm:w-auto transition-opacity duration-200 ${isLoading ? 'opacity-50 pointer-events-none cursor-not-allowed' : ''}`}>
             <GoogleLogin
                 onSuccess={async (credentialResponse) => {
-                    if (credentialResponse.credential) {
+                    if (credentialResponse.credential && !isLoading) {
                         try {
                             await loginWithGoogle(credentialResponse.credential)
                             toast.success('Login with Google successful')
@@ -30,7 +30,7 @@ export default function GoogleSignInButton() {
                     }
                 }}
                 onError={() => {
-                    toast.error('Google Sign-In failed')
+                    if (!isLoading) toast.error('Google Sign-In failed')
                 }}
                 useOneTap
                 theme="outline"

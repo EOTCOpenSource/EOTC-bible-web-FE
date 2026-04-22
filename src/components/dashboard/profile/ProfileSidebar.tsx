@@ -205,7 +205,7 @@ export const ProfileSidebar = () => {
                         onClick={() => handleThemeChange(themeOption)}
                         className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg hover:bg-gray-50 dark:hover:bg-[#3D2D2D] transition-colors"
                       >
-                        <span className="capitalize text-gray-700 dark:text-gray-200 font-medium">{themeOption}</span>
+                        <span className="capitalize text-gray-700 dark:text-white font-medium">{themeOption}</span>
                         {nextTheme === themeOption && <Check size={16} className="text-black dark:text-white" />}
                       </button>
                     ))}

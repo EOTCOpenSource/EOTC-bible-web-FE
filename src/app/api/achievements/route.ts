@@ -10,9 +10,28 @@ const getAuthToken = async () => {
     return cookieStore.get(ENV.jwtCookieName)?.value
 }
 
-const transformBackendProgress = (backendData: any): Progress => {
+const extractPlans = (backendData: any): any[] => {
+    const plans =
+        backendData?.data?.data ??
+        backendData?.data?.items ??
+        backendData?.data ??
+        backendData?.items ??
+        backendData
+
+    return Array.isArray(plans) ? plans : []
+}
+
+const isPlanCompleted = (plan: any): boolean => {
+    if (plan?.status === 'completed') return true
+    if (!Array.isArray(plan?.dailyReadings) || plan.dailyReadings.length === 0) return false
+    return plan.dailyReadings.every((day: any) => !!day?.isCompleted)
+}
+
+const transformBackendProgress = (backendData: any, readingPlansData?: any): Progress => {
     const progressData = backendData?.data?.progress || backendData?.progress || {}
     const streakData = backendData?.data?.streak || backendData?.streak || {}
+    const plans = extractPlans(readingPlansData)
+    const completedPlans = plans.filter(isPlanCompleted).length
 
     const chaptersRead: Record<string, number[]> = {}
     if (progressData.chaptersRead && typeof progressData.chaptersRead === 'object' && !Array.isArray(progressData.chaptersRead)) {
@@ -36,23 +55,39 @@ const transformBackendProgress = (backendData: any): Progress => {
             lastDate: streakData.lastDate || undefined,
         },
         lastRead: progressData.lastRead || undefined,
+        readingPlansCompleted: completedPlans,
+        readingPlansTotal: plans.length,
     }
 }
 
 // SECURITY: Server-side achievement validation.
 
 async function getServerValidatedAchievements(token: string) {
-    const progressRes = await serverAxiosInstance.get('/progress', {
-        headers: { Authorization: `Bearer ${token}` },
-        validateStatus: () => true,
-    })
+    // Promise.all to fetch progress and plans concurrently for performance.
+    const [progressRes, plansRes] = await Promise.all([
+        serverAxiosInstance.get('/progress', {
+            headers: { Authorization: `Bearer ${token}` },
+            validateStatus: () => true,
+        }),
+        serverAxiosInstance.get('/reading-plans', {
+            headers: { Authorization: `Bearer ${token}` },
+            validateStatus: () => true,
+        }).catch(err => {
+            console.error('Achievements API: Failed to fetch reading plans:', err.message)
+            return { status: 500, data: null }
+        }),
+    ])
 
     if (progressRes.status < 200 || progressRes.status >= 300) {
         throw new Error('Failed to fetch progress')
     }
 
-    const progress = transformBackendProgress(progressRes.data)
+    const progress = transformBackendProgress(
+        progressRes.data,
+        plansRes && plansRes.status >= 200 && plansRes.status < 300 ? plansRes.data : undefined,
+    )
     const computedAchievements = computeAchievements(progress)
+
 
     // Also fetch persisted achievements from backend for cross-device sync
     const achievementsRes = await serverAxiosInstance.get('/achievements', {

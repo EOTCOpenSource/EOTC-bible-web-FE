@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useNotesStore } from '@/stores/useNotesStore'
-import { FileText, SquarePen, ArrowUpRight, Globe, Lock, Filter, Check } from 'lucide-react'
+import { FileText, SquarePen, ArrowUpRight, Globe, Lock, Filter, Check, BookOpen } from 'lucide-react'
 import { format } from 'date-fns'
 import { NoteCardSkeleton } from '../skeletons/NoteCardSkeleton'
 import {
@@ -127,6 +127,15 @@ export const MyNotesList = ({
                   return firstLine || 'Untitled'
                 })()
 
+              // Build source label for notes created from the Bible reader
+              const noteBookId = (note as any).bookId || (note as any).book || ''
+              const noteChapter = (note as any).chapter || ''
+              const noteVerse = (note as any).verseStart || (note as any).verse || ''
+              const isFromReader = noteBookId && noteBookId !== '_dashboard' && noteBookId !== 'GEN'
+              const sourceLabel = isFromReader
+                ? `${noteBookId}${noteChapter ? ` ${noteChapter}` : ''}${noteVerse ? `:${noteVerse}` : ''}`
+                : null
+
               const handleNoteClick = () => {
                 const noteId = note.id || note._id || ''
                 if (expandedNoteId === noteId) {
@@ -160,9 +169,17 @@ export const MyNotesList = ({
                       <div className="flex h-[35px] w-[30px] flex-shrink-0 items-center justify-center rounded-lg bg-[#7C2D2D] text-white shadow-sm sm:h-[40px] sm:w-[35px] md:h-[45px] md:w-[40px]">
                         <FileText className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                       </div>
-                      <h3 className="flex-1 truncate text-sm font-medium text-gray-900 dark:text-white sm:text-base md:text-[20px]">
-                        {noteTitle}
-                      </h3>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="truncate text-sm font-medium text-gray-900 dark:text-white sm:text-base md:text-[20px]">
+                          {noteTitle}
+                        </h3>
+                        {sourceLabel && (
+                          <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 text-[10px] font-medium text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50">
+                            <BookOpen size={10} />
+                            <span>{sourceLabel}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     <div className="flex flex-shrink-0 flex-col items-end gap-1">

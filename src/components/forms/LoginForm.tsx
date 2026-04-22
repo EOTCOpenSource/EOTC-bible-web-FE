@@ -11,12 +11,15 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import Image from 'next/image'
+import { useAuthStore } from '@/stores/authStore'
 import GoogleSignInButton from '@/components/auth/GoogleSignInButton'
 import FacebookSignInButton from '@/components/auth/FacebookSignInButton'
 export default function LoginForm() {
   const router = useRouter()
+  const { login, isLoading: globalLoading } = useAuthStore()
   const { loadSession } = useUserStore()
-  const [loading, setLoading] = useState(false)
+  const [localLoading, setLocalLoading] = useState(false)
+  const isLoading = globalLoading || localLoading
   const t = useTranslations('Auth.login');
   const {
     register,
@@ -31,13 +34,9 @@ export default function LoginForm() {
   })
 
   const onSubmit = async (data: LoginFormSchema) => {
-    setLoading(true)
+    setLocalLoading(true)
     try {
-      await axios.post('/api/auth/login', data, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      })
-
+      await login(data)
       toast.success('Login successful')
       await loadSession()
       router.push('/dashboard')
@@ -46,7 +45,7 @@ export default function LoginForm() {
         error?.response?.data?.error || error?.message || 'Login failed'
       toast.error(msg)
     } finally {
-      setLoading(false)
+      setLocalLoading(false)
     }
   }
 
@@ -64,10 +63,11 @@ export default function LoginForm() {
           {t('fields.email')}
         </label>
         <input
-          className="w-full rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white p-2"
+          className="w-full rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white p-2 disabled:opacity-50 disabled:cursor-not-allowed"
           placeholder={t('placeholders.email')}
           id="email"
           type="email"
+          disabled={isLoading}
           {...register('email', { required: t('validation.emailRequired') })}
         />
         {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
@@ -79,10 +79,11 @@ export default function LoginForm() {
           {t('fields.password')}
         </label>
         <input
-          className="w-full rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white p-2"
+          className="w-full rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white p-2 disabled:opacity-50 disabled:cursor-not-allowed"
           placeholder={t('placeholders.password')}
           type="password"
           id="password"
+          disabled={isLoading}
           {...register('password', { required: t('validation.passwordRequired') })}
         />
         {errors.password && (
@@ -93,12 +94,12 @@ export default function LoginForm() {
       {/* Remember me + Forgot password */}
       <div className="my-3 flex items-center justify-between text-gray-700 dark:text-gray-300">
         <div>
-          <input type="checkbox" name="checkbox" id="checkbox" className="dark:border-neutral-700 dark:bg-neutral-800" />
+          <input type="checkbox" name="checkbox" id="checkbox" className="dark:border-neutral-700 dark:bg-neutral-800" disabled={isLoading} />
           <label htmlFor="checkbox"> {t('rememberMe')}</label>
         </div>
         <Link
           href="/forgot-password"
-          className="text-blue-500 underline dark:text-blue-400"
+          className={`text-blue-500 underline dark:text-blue-400 ${isLoading ? 'pointer-events-none opacity-50' : ''}`}
         >
           {t('forgotPassword')}
         </Link>
@@ -106,10 +107,10 @@ export default function LoginForm() {
 
       {/* Submit */}
       <button
-        disabled={loading}
-        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#471314] disabled:opacity-50"
+        disabled={isLoading}
+        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#471314] disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
       >
-        {loading ? t('loading') : t('submit')}
+        {isLoading ? t('loading') : t('submit')}
       </button>
 
       <div className="my-2 flex items-center gap-4">

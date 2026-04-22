@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { LanguageSelector } from '../shared/language-selector'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { SearchInput } from '../ui/search-input'
 import { useUserStore } from '@/lib/stores/useUserStore'
@@ -156,8 +156,8 @@ const Navbar = () => {
                 )}
 
                 <div className="flex h-[42px] flex-shrink-0 items-center gap-1 rounded-md border dark:border-neutral-700 p-1">
-                  <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700">
-                    {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                  <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    {mounted ? (theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />) : <div className="w-[18px] h-[18px]" />}
                   </button>
                   <LanguageSelector />
                   {isLoggedIn && (

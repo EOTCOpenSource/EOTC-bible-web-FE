@@ -22,7 +22,9 @@ export default function RegisterForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [agreeToTerms, setAgreeToTerms] = useState(false)
   const [showTermsModal, setShowTermsModal] = useState(false)
-  const { register: authRegister, success, error } = useAuthStore()
+  const { register: authRegister, success, error, isLoading: globalLoading } = useAuthStore()
+  const [localLoading, setLocalLoading] = useState(false)
+  const isLoading = globalLoading || localLoading
   const router = useRouter()
 
   const {
@@ -55,7 +57,7 @@ export default function RegisterForm() {
       toast.error(t('errors.termsRequired'))
       return
     }
-    setLoading(true)
+    setLocalLoading(true)
     try {
       await authRegister({ name: data.name, email: data.email, password: data.password })
       localStorage.setItem('registeredEmail', data.email)
@@ -66,7 +68,7 @@ export default function RegisterForm() {
       const msg = err?.response?.data?.error || err?.message || t('errors.failed')
       toast.error(msg)
     } finally {
-      setLoading(false)
+      setLocalLoading(false)
     }
   }
 
@@ -91,10 +93,11 @@ export default function RegisterForm() {
           {t('fields.name')}
         </label>
         <input
-          className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary"
+          className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
           placeholder={t('placeholders.name')}
           id="name"
           type="text"
+          disabled={isLoading}
           {...register('name')}
         />
         {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
@@ -106,10 +109,11 @@ export default function RegisterForm() {
           {t('fields.email')}
         </label>
         <input
-          className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary"
+          className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
           placeholder={t('placeholders.email')}
           id="email"
           type="email"
+          disabled={isLoading}
           {...register('email')}
         />
         {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
@@ -123,17 +127,19 @@ export default function RegisterForm() {
           </label>
           <div className="relative">
             <input
-              className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary"
+              className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder={t('placeholders.password')}
               id="password"
               autoComplete="off"
               type={showPassword ? 'text' : 'password'}
+              disabled={isLoading}
               {...register('password')}
             />
             <button
               type="button"
+              disabled={isLoading}
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 dark:text-gray-400"
+              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 dark:text-gray-400 disabled:opacity-50"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -148,16 +154,18 @@ export default function RegisterForm() {
           </label>
           <div className="relative">
             <input
-              className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary"
+              className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder={t('placeholders.confirmPassword')}
               id="confirm-password"
               type={showConfirmPassword ? 'text' : 'password'}
+              disabled={isLoading}
               {...register('confirmPassword')}
             />
             <button
               type="button"
+              disabled={isLoading}
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 dark:text-gray-400"
+              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 dark:text-gray-400 disabled:opacity-50"
             >
               {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -182,16 +190,18 @@ export default function RegisterForm() {
         <input
           type="checkbox"
           id="checkbox"
-          className="mt-0.5 dark:bg-neutral-800 dark:border-neutral-700"
+          className="mt-0.5 dark:bg-neutral-800 dark:border-neutral-700 disabled:opacity-50"
           checked={agreeToTerms}
+          disabled={isLoading}
           onChange={(e) => setAgreeToTerms(e.target.checked)}
         />
         <label className="text-sm leading-relaxed" htmlFor="checkbox">
           {t('agreeTo')}{' '}
           <button
             type="button"
+            disabled={isLoading}
             onClick={() => setShowTermsModal(true)}
-            className="text-[#4C0E0F] underline hover:text-[#621B1C] dark:text-red-400 dark:hover:text-red-300"
+            className="text-[#4C0E0F] underline hover:text-[#621B1C] dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50 pointer-events-auto"
           >
             {t('terms')}
           </button>
@@ -200,10 +210,10 @@ export default function RegisterForm() {
 
       {/* Submit Button */}
       <button
-        disabled={loading}
-        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#491415] disabled:bg-gray-400 dark:disabled:bg-gray-700"
+        disabled={isLoading}
+        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#491415] disabled:cursor-not-allowed disabled:bg-gray-400 dark:disabled:bg-gray-700 transition-all duration-200"
       >
-        {loading ? t('loading') : t('register')}
+        {isLoading ? t('loading') : t('register')}
       </button>
 
       <div className="my-1 flex items-center gap-3">

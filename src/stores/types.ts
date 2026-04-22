@@ -82,6 +82,8 @@ export interface Progress {
     lastDate?: string
   }
   lastRead?: VerseRef
+  readingPlansCompleted?: number
+  readingPlansTotal?: number
   totalChaptersRead?: number
   _id?: string
   userId?: string
