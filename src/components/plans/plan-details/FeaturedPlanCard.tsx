@@ -13,6 +13,7 @@ import axiosInstance from '@/lib/axios'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   plan: PlanTemplate
@@ -28,7 +29,8 @@ const avatarImages = [
 type Avatar = { src: string; alt: string }
 
 export const FeaturedPlanCard = ({ plan, usePlanHref }: Props) => {
-  const progressText = `Day 1 of ${plan.durationInDays}`
+  const t = useTranslations('PlansExplore')
+  const progressText = t('dayNOfM', { n: 1, m: plan.durationInDays })
   const progressPct = Math.max(0, Math.min(1, 1 / Math.max(1, plan.durationInDays)))
   const { user } = useAuthStore()
   const { isBookmarked, toggleBookmark, isReady } = usePlanTemplateBookmarks(user?.id)
@@ -132,7 +134,7 @@ export const FeaturedPlanCard = ({ plan, usePlanHref }: Props) => {
 
   const onToggleSave = () => {
     toggleBookmark(plan.slug)
-    toast.success(saved ? 'Removed from saved plans' : 'Saved plan')
+    toast.success(saved ? t('removedToast') : t('savedToast'))
   }
 
   const onShare = async () => {
@@ -147,13 +149,13 @@ export const FeaturedPlanCard = ({ plan, usePlanHref }: Props) => {
           text: plan.description,
           url: shareUrl,
         })
-        toast.success('Shared')
+        toast.success(t('sharedToast'))
         return
       }
 
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareUrl)
-        toast.success('Link copied')
+        toast.success(t('linkCopiedToast'))
         return
       }
 
@@ -166,9 +168,9 @@ export const FeaturedPlanCard = ({ plan, usePlanHref }: Props) => {
       textArea.select()
       document.execCommand('copy')
       document.body.removeChild(textArea)
-      toast.success('Link copied')
+      toast.success(t('linkCopiedToast'))
     } catch {
-      toast.error('Failed to share')
+      toast.error(t('shareErrorToast'))
     } finally {
       setIsSharing(false)
     }
@@ -236,7 +238,7 @@ export const FeaturedPlanCard = ({ plan, usePlanHref }: Props) => {
               >
                 <Image alt="" src="/figmaAssets/frame-109.svg" width={14} height={14} className="dark:invert" />
                 <span className="font-normal text-[#1a1a19] dark:text-neutral-100 text-sm whitespace-nowrap">
-                  {saved ? 'Saved' : 'Save'}
+                  {saved ? t('saved') : t('save')}
                 </span>
               </button>
 
@@ -247,7 +249,7 @@ export const FeaturedPlanCard = ({ plan, usePlanHref }: Props) => {
                 className="flex w-[86px] h-[34px] items-center justify-center gap-1 p-2 bg-[#ffffffb0] dark:bg-neutral-700 rounded-[3px] border border-solid border-[#371c1c17] dark:border-neutral-600 disabled:opacity-60"
               >
                 <Image alt="" src="/figmaAssets/vector.svg" width={13} height={13} className="dark:invert" />
-                <span className="font-normal text-[#1a1a19] dark:text-neutral-100 text-sm whitespace-nowrap">Share</span>
+                <span className="font-normal text-[#1a1a19] dark:text-neutral-100 text-sm whitespace-nowrap">{t('share')}</span>
               </button>
 
               <TooltipProvider delayDuration={150}>
@@ -316,7 +318,7 @@ export const FeaturedPlanCard = ({ plan, usePlanHref }: Props) => {
                 className="inline-flex w-[148px] h-[42px] items-center justify-center gap-1.5 pl-2.5 pr-1 py-[5px] bg-[#392d2d] rounded-lg hover:bg-[#4a3c3c] border-0"
               >
                 <Link href={usePlanHref}>
-                  <span className="font-normal text-white text-base whitespace-nowrap">Continue Plan</span>
+                  <span className="font-normal text-white text-base whitespace-nowrap">{t('continuePlan')}</span>
                   <Image alt="" src="/figmaAssets/frame-15-1.svg" width={32} height={32} />
                 </Link>
               </Button>

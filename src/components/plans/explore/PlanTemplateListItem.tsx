@@ -4,12 +4,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import type { PlanTemplate } from '@/lib/planTemplates'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   plan: PlanTemplate
 }
 
 export function PlanTemplateListItem({ plan }: Props) {
+  const t = useTranslations('PlansExplore')
   return (
     <Card className="w-full bg-[#f8f6f0d9] dark:bg-neutral-800/85 rounded-xl border-0 shadow-none">
       <CardContent className="p-3.5 flex items-center gap-3.5">
@@ -28,7 +30,7 @@ export function PlanTemplateListItem({ plan }: Props) {
           <p className="mt-2 text-sm text-[#1a1a19db] dark:text-neutral-400 line-clamp-2">{plan.description}</p>
 
           <Link href={`/plans/${plan.slug}`} className="inline-flex items-center gap-0.5 mt-3">
-            <span className="text-sm text-[#1a1a19db] dark:text-neutral-400 hover:underline">Plan Details</span>
+            <span className="text-sm text-[#1a1a19db] dark:text-neutral-400 hover:underline">{t('planDetails')}</span>
             <Image alt="" src="/figmaAssets/down-arrow-3-.svg" width={4} height={8} />
           </Link>
         </div>

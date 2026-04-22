@@ -2,6 +2,9 @@
 
 import * as React from 'react'
 import { format } from 'date-fns'
+import { CalendarIcon, PlusIcon, EditIcon, Trash2Icon } from 'lucide-react'
+import { useTranslations, useLocale } from 'next-intl'
+
 import {
   Dialog,
   DialogContent,
@@ -20,27 +23,128 @@ import {
 } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { books } from '@/data/data'
-import { usePlanStore } from '@/stores/usePlanStore'
-import { CalendarIcon, PlusIcon, EditIcon, Trash2Icon } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { ReadingPlan } from '@/stores/types'
+import { books } from '@/data/data'
+import { type ReadingPlan, type PlanDialogFormProps } from '@/stores/types'
+import { usePlanForm } from '@/hooks/usePlanForm'
 
-interface PlanDialogFormProps {
-  initialData?: ReadingPlan
-  initialValues?: {
-    name?: string
-    startBook?: string
-    startChapter?: number
-    endBook?: string
-    endChapter?: number
-    startDate?: Date
-    durationInDays?: number
-  }
-  defaultOpen?: boolean
-  hideTrigger?: boolean
-  onCreated?: (plan: ReadingPlan) => void
+
+
+// --- Sub-components ---
+
+interface FormFieldProps {
+  label: string
+  error?: string
+  children: React.ReactNode
 }
+
+const FormField: React.FC<FormFieldProps> = ({ label, error, children }) => (
+  <div className="space-y-1">
+    <label className="text-sm font-medium">{label}</label>
+    {children}
+    {error && <p className="text-xs text-red-500">{error}</p>}
+  </div>
+)
+
+interface PlanPreviewProps {
+  name: string
+  startBook: string
+  startChapter: number
+  endBook: string
+  endChapter: number
+  startDate: Date
+  durationInDays: number
+  getBookName: (enName: string) => string
+}
+
+const PlanPreview: React.FC<PlanPreviewProps> = ({
+  name,
+  startBook,
+  startChapter,
+  endBook,
+  endChapter,
+  startDate,
+  durationInDays,
+  getBookName,
+}) => {
+  const t = useTranslations('PlanForm')
+  if (!name && !startBook && !endBook) return null
+
+  return (
+    <div className="rounded-lg bg-background p-4 space-y-2 border border-dashed">
+      <p className="text-[10px] font-bold uppercase text-gray-500 tracking-wider">
+        {t('preview')}
+      </p>
+      <div className="flex items-center gap-3">
+        <div className="h-10 w-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500">
+          <CalendarIcon size={20} />
+        </div>
+        <div className="flex-1">
+          <h4 className="font-semibold text-sm truncate">
+            {name || t('newPlan')}
+          </h4>
+          <p className="text-xs text-forground/80">
+            {t('reading', {
+              startBook: startBook ? getBookName(startBook) : '...',
+              startChapter,
+              endBook: endBook ? getBookName(endBook) : '...',
+              endChapter,
+            })}
+          </p>
+          <p className="text-[11px] text-gray-500/50 mt-0.5">
+            {t('starting', {
+              date: format(startDate, 'MMM d, yyyy'),
+              duration: durationInDays,
+            })}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+interface DeleteConfirmationDialogProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onConfirm: () => void
+  planName?: string
+  isFetching: boolean
+}
+
+const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
+  open,
+  onOpenChange,
+  onConfirm,
+  planName,
+  isFetching,
+}) => {
+  const t = useTranslations('PlanForm')
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-red-600">{t('deleteTitle')}</DialogTitle>
+          <p className="text-muted-foreground text-sm">
+            {t.rich('deleteConfirm', {
+              name: planName as string,
+              strong: (chunks) => <strong>{chunks}</strong>,
+            })}
+          </p>
+        </DialogHeader>
+        <DialogFooter className="flex justify-end gap-2">
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            {t('cancel')}
+          </Button>
+          <Button variant="destructive" onClick={onConfirm} disabled={isFetching}>
+            {isFetching ? t('deleting') : t('delete')}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+// --- Main Component ---
 
 export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
   initialData,
@@ -49,116 +153,31 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
   hideTrigger = false,
   onCreated,
 }) => {
-  const { createPlan, fetchPlans, updatePlan, deletePlan, isFetching } = usePlanStore()
-
-  const [open, setOpen] = React.useState(defaultOpen)
-  const [deleteOpen, setDeleteOpen] = React.useState(false)
-
-  const [name, setName] = React.useState(initialData?.name || initialValues?.name || '')
-  const [startBook, setStartBook] = React.useState(
-    initialData?.startBook || initialValues?.startBook || '',
-  )
-  const [startChapter, setStartChapter] = React.useState(initialValues?.startChapter || 1)
-  const [endBook, setEndBook] = React.useState(initialData?.endBook || initialValues?.endBook || '')
-  const [endChapter, setEndChapter] = React.useState(initialValues?.endChapter || 1)
-  const [startDate, setStartDate] = React.useState<Date>(
-    initialValues?.startDate || (initialData?.createdAt ? new Date(initialData.createdAt) : new Date()),
-  )
-  const [durationInDays, setDurationInDays] = React.useState(
-    initialData?.durationInDays || initialValues?.durationInDays || 1,
-  )
-  const [errors, setErrors] = React.useState<Record<string, string>>({})
-
-  const [touched, setTouched] = React.useState<Record<string, boolean>>({})
-
-  const validate = (showAll = false) => {
-    const newErrors: Record<string, string> = {}
-    if (showAll || touched.name || name) if (!name.trim()) newErrors.name = 'Plan name is required'
-    if (showAll || touched.startBook || startBook) if (!startBook) newErrors.startBook = 'Start book is required'
-    if (showAll || touched.endBook || endBook) if (!endBook) newErrors.endBook = 'End book is required'
-
-    const sBook = books.find((b) => b.book_name_en === startBook)
-    if (sBook && (startChapter < 1 || startChapter > sBook.chapters)) {
-      newErrors.startChapter = `Must be between 1 and ${sBook.chapters}`
-    }
-
-    const eBook = books.find((b) => b.book_name_en === endBook)
-    if (eBook && (endChapter < 1 || endChapter > eBook.chapters)) {
-      newErrors.endChapter = `Must be between 1 and ${eBook.chapters}`
-    }
-
-    if (durationInDays < 1) newErrors.durationInDays = 'Duration must be at least 1 day'
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+  const t = useTranslations('PlanForm')
+  const locale = useLocale()
+  
+  const {
+    open,
+    setOpen,
+    deleteOpen,
+    setDeleteOpen,
+    formData,
+    updateField,
+    markTouched,
+    errors,
+    isFetching,
+    handleSubmit,
+    handleDelete,
+  } = usePlanForm(initialData, initialValues, onCreated)
 
   React.useEffect(() => {
-    validate()
-  }, [name, startBook, endBook, startChapter, endChapter, durationInDays, touched])
+    if (defaultOpen) setOpen(true)
+  }, [defaultOpen, setOpen])
 
-  // AUTO-ADJUST CHAPTERS
-  React.useEffect(() => {
-    const sBook = books.find((b) => b.book_name_en === startBook)
-    if (sBook && startChapter > sBook.chapters) {
-      setStartChapter(sBook.chapters)
-    }
-  }, [startBook])
-
-  React.useEffect(() => {
-    const eBook = books.find((b) => b.book_name_en === endBook)
-    if (eBook && endChapter > eBook.chapters) {
-      setEndChapter(eBook.chapters)
-    }
-  }, [endBook])
-
-  React.useEffect(() => {
-    if (!defaultOpen) return
-    setOpen(true)
-  }, [defaultOpen])
-
-  React.useEffect(() => {
-    if (initialData) return
-    if (!initialValues) return
-    // Keep form prefilled if template changes (e.g. via query param).
-    setName(initialValues.name ?? '')
-    setStartBook(initialValues.startBook ?? '')
-    setStartChapter(initialValues.startChapter ?? 1)
-    setEndBook(initialValues.endBook ?? '')
-    setEndChapter(initialValues.endChapter ?? 1)
-    setStartDate(initialValues.startDate ?? new Date())
-    setDurationInDays(initialValues.durationInDays ?? 1)
-  }, [initialData, initialValues])
-
-  const handleSubmit = async () => {
-    if (!validate(true)) return
-    if (!startDate) return
-
-    const payload = {
-      name,
-      startBook,
-      startChapter,
-      endBook,
-      endChapter,
-      startDate: format(startDate, 'yyyy-MM-dd'),
-      durationInDays,
-    }
-
-    if (initialData) {
-      await updatePlan(initialData._id, payload)
-    } else {
-      const created = await createPlan(payload)
-      await fetchPlans()
-      onCreated?.(created)
-    }
-
-    setOpen(false)
-  }
-
-  const handleDelete = async () => {
-    if (!initialData) return
-    await deletePlan(initialData._id)
-    setDeleteOpen(false)
+  const getBookName = (bookEnName: string) => {
+    const book = books.find((b) => b.book_name_en === bookEnName)
+    if (!book) return bookEnName
+    return locale === 'am' ? book.book_name_am : book.book_name_en
   }
 
   return (
@@ -166,7 +185,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
       <Dialog open={open} onOpenChange={setOpen}>
         {initialData ? (
           <div className="absolute top-3 right-5 flex flex-col items-center gap-2">
-            <p className="text-muted-foreground text-sm">Mon – Fri</p>
+            <p className="text-muted-foreground text-sm">{t('weekdays')}</p>
             <div className="flex gap-5">
               <EditIcon className="cursor-pointer text-red-800" onClick={() => setOpen(true)} />
               <Trash2Icon
@@ -177,198 +196,137 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
           </div>
         ) : hideTrigger ? null : (
           <Button onClick={() => setOpen(true)} className="h-11 bg-[#4C0E0F] hover:bg-red-800">
-            <PlusIcon className="mr-2 h-4 w-4" /> New Plan
+            <PlusIcon className="mr-2 h-4 w-4" /> {t('newPlan')}
           </Button>
         )}
 
-        <DialogContent className="">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle>{initialData ? 'Edit Reading Plan' : 'Create Reading Plan'}</DialogTitle>
-            <p className="text-muted-foreground text-sm">
-              Fill in the details below to set up your reading plan.
-            </p>
+            <DialogTitle>{initialData ? t('editPlan') : t('createPlan')}</DialogTitle>
+            <p className="text-muted-foreground text-sm">{t('fillDetails')}</p>
           </DialogHeader>
 
           <div className="grid gap-5 py-4">
-            {/* PLAN NAME */}
-            <div className="space-y-1">
-              <label className="text-sm font-medium">Plan name</label>
+            <FormField label={t('planName')} error={errors.name}>
               <Input
                 className={cn('h-11', errors.name && 'border-red-500 focus-visible:ring-red-500')}
-                placeholder="e.g. Morning Reading"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value)
-                  setTouched((t) => ({ ...t, name: true }))
-                }}
-                onBlur={() => setTouched((t) => ({ ...t, name: true }))}
+                placeholder={t('planNamePlaceholder')}
+                value={formData.name}
+                onChange={(e) => updateField('name', e.target.value)}
+                onBlur={() => markTouched('name')}
               />
-              {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
-            </div>
+            </FormField>
 
-            {/* START BOOK + CHAPTER */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Start book</label>
+              <FormField label={t('startBook')} error={errors.startBook}>
                 <Select
-                  value={startBook}
+                  value={formData.startBook}
                   onValueChange={(val) => {
-                    setStartBook(val)
-                    setTouched((t) => ({ ...t, startBook: true }))
+                    updateField('startBook', val)
+                    markTouched('startBook')
                   }}
-                  
                 >
                   <SelectTrigger
                     size={'lg'}
-                    className={cn('w-full', errors.startBook && 'border-red-500')}
+                    className={cn('w-full placeholder-low-opacity', errors.startBook && 'border-red-500')}
                   >
-                    <SelectValue placeholder="Genesis" className='placeholder-low-opacity'/>
+                    <SelectValue placeholder={getBookName('Genesis')} />
                   </SelectTrigger>
                   <SelectContent>
                     {books.map((book) => (
                       <SelectItem key={book.book_name_en} value={book.book_name_en}>
-                        {book.book_name_en}
+                        {getBookName(book.book_name_en)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.startBook && <p className="text-xs text-red-500">{errors.startBook}</p>}
-              </div>
+              </FormField>
 
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Chapter</label>
+              <FormField label={t('chapter')} error={errors.startChapter}>
                 <Input
-                  className={cn(
-                    'h-11',
-                    errors.startChapter && 'border-red-500 focus-visible:ring-red-500',
-                  )}
+                  className={cn('h-11', errors.startChapter && 'border-red-500 focus-visible:ring-red-500')}
                   type="number"
                   min={1}
-                  placeholder="1"
-                  value={startChapter}
-                  onChange={(e) => setStartChapter(Number(e.target.value))}
+                  value={formData.startChapter}
+                  onChange={(e) => updateField('startChapter', Number(e.target.value))}
                 />
-                {errors.startChapter && <p className="text-xs text-red-500">{errors.startChapter}</p>}
-              </div>
+              </FormField>
             </div>
 
-            {/* END BOOK + CHAPTER */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="text-sm font-medium">End book</label>
+              <FormField label={t('endBook')} error={errors.endBook}>
                 <Select
-                  value={endBook}
+                  value={formData.endBook}
                   onValueChange={(val) => {
-                    setEndBook(val)
-                    setTouched((t) => ({ ...t, endBook: true }))
+                    updateField('endBook', val)
+                    markTouched('endBook')
                   }}
                 >
                   <SelectTrigger
                     className={cn('w-full', errors.endBook && 'border-red-500')}
                     size={'lg'}
                   >
-                    <SelectValue placeholder="Exodus" />
+                    <SelectValue placeholder={getBookName('Exodus')} />
                   </SelectTrigger>
                   <SelectContent>
                     {books.map((book) => (
                       <SelectItem key={book.book_name_en} value={book.book_name_en}>
-                        {book.book_name_en}
+                        {getBookName(book.book_name_en)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.endBook && <p className="text-xs text-red-500">{errors.endBook}</p>}
-              </div>
+              </FormField>
 
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Chapter</label>
+              <FormField label={t('chapter')} error={errors.endChapter}>
                 <Input
-                  className={cn(
-                    'h-11',
-                    errors.endChapter && 'border-red-500 focus-visible:ring-red-500',
-                  )}
+                  className={cn('h-11', errors.endChapter && 'border-red-500 focus-visible:ring-red-500')}
                   type="number"
                   min={1}
-                  placeholder="20"
-                  value={endChapter}
-                  onChange={(e) => setEndChapter(Number(e.target.value))}
+                  value={formData.endChapter}
+                  onChange={(e) => updateField('endChapter', Number(e.target.value))}
                 />
-                {errors.endChapter && <p className="text-xs text-red-500">{errors.endChapter}</p>}
-              </div>
+              </FormField>
             </div>
 
-            {/* START DATE + DURATION */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Start date</label>
+              <FormField label={t('startDate')}>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
                         'h-11 w-full justify-start text-left font-normal',
-                        !startDate && 'text-muted-foreground',
+                        !formData.startDate && 'text-muted-foreground',
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {startDate ? format(startDate, 'PPP') : 'Pick a date'}
+                      {formData.startDate ? format(formData.startDate, 'PPP') : t('pickDate')}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="p-0">
                     <Calendar
                       mode="single"
-                      selected={startDate}
-                      onSelect={(date) => date && setStartDate(date)}
+                      selected={formData.startDate}
+                      onSelect={(date) => date && updateField('startDate', date)}
                     />
                   </PopoverContent>
                 </Popover>
-              </div>
+              </FormField>
 
-              <div className="space-y-1">
-                <label className="text-sm font-medium">Duration (days)</label>
+              <FormField label={t('duration')} error={errors.durationInDays}>
                 <Input
-                  className={cn(
-                    'h-11',
-                    errors.durationInDays && 'border-red-500 focus-visible:ring-red-500',
-                  )}
+                  className={cn('h-11', errors.durationInDays && 'border-red-500 focus-visible:ring-red-500')}
                   type="number"
                   min={1}
-                  placeholder="30"
-                  value={durationInDays}
-                  onChange={(e) => setDurationInDays(Number(e.target.value))}
+                  value={formData.durationInDays}
+                  onChange={(e) => updateField('durationInDays', Number(e.target.value))}
                 />
-                {errors.durationInDays && (
-                  <p className="text-xs text-red-500">{errors.durationInDays}</p>
-                )}
-              </div>
+              </FormField>
             </div>
 
-            {/* PLAN PREVIEW */}
-            {(name || startBook || endBook) && (
-              <div className="rounded-lg bg-slate-50 p-4 space-y-2 border border-dashed border-slate-300">
-                <p className="text-[10px] font-bold uppercase text-slate-500 tracking-wider">
-                  Plan Preview
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-[#4C0E0F]/10 flex items-center justify-center text-[#4C0E0F]">
-                    <CalendarIcon size={20} />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-[#4C0E0F] text-sm truncate">
-                      {name || 'New Plan'}
-                    </h4>
-                    <p className="text-xs text-slate-600">
-                      Reading {startBook || '...'} {startChapter} — {endBook || '...'} {endChapter}
-                    </p>
-                    <p className="text-[11px] text-slate-500 mt-0.5">
-                      Starting {format(startDate, 'MMM d, yyyy')} • {durationInDays} days
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
+            <PlanPreview {...formData} getBookName={getBookName} />
 
-            {/* SUBMIT */}
             <Button
               onClick={handleSubmit}
               disabled={isFetching || Object.keys(errors).length > 0}
@@ -377,39 +335,23 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
               {isFetching ? (
                 <div className="flex items-center gap-2">
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                  {initialData ? 'Updating...' : 'Creating...'}
+                  {initialData ? t('updating') : t('creating')}
                 </div>
-              ) : initialData ? (
-                'Update Plan'
               ) : (
-                'Create Plan'
+                initialData ? t('updateButton') : t('createButton')
               )}
             </Button>
           </div>
         </DialogContent>
       </Dialog>
 
-      {/* DELETE CONFIRMATION */}
-      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="">
-          <DialogHeader>
-            <DialogTitle className="text-red-600">Delete Reading Plan?</DialogTitle>
-            <p className="text-muted-foreground text-sm">
-              This action cannot be undone. This will permanently delete
-              <strong> “{initialData?.name}”</strong>.
-            </p>
-          </DialogHeader>
-
-          <DialogFooter className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setDeleteOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDelete} disabled={isFetching}>
-              {isFetching ? 'Deleting...' : 'Delete'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <DeleteConfirmationDialog
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+        onConfirm={handleDelete}
+        planName={initialData?.name}
+        isFetching={isFetching}
+      />
     </>
   )
 }

@@ -5,10 +5,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 type Category = {
   key: string
-  title: string
+  titleKey: 'featuredTitle' | 'wholeBibleTitle' | 'encouragementTitle' | 'wisdomTitle' | 'hardTimesTitle'
   imageSrc: string
   href: string
 }
@@ -16,37 +17,38 @@ type Category = {
 const categories: Category[] = [
   {
     key: 'featured',
-    title: 'Featured Plans',
+    titleKey: 'featuredTitle',
     imageSrc: '/plans/plan1.png',
     href: '#featured',
   },
   {
     key: 'whole-bible',
-    title: 'Whole Bible',
+    titleKey: 'wholeBibleTitle',
     imageSrc: '/plans/plan2.png',
     href: '#whole-bible',
   },
   {
     key: 'encouragement',
-    title: 'Encouragement',
+    titleKey: 'encouragementTitle',
     imageSrc: '/plans/plan4.png',
     href: '#encouragement',
   },
   {
     key: 'wisdom',
-    title: 'Wisdom',
+    titleKey: 'wisdomTitle',
     imageSrc: '/plans/plan3.png',
     href: '#wisdom',
   },
   {
     key: 'hard-times',
-    title: 'Hard Times',
+    titleKey: 'hardTimesTitle',
     imageSrc: '/plans/plan6.png',
     href: '#encouragement',
   },
 ]
 
 export function PlanCategoryCarousel() {
+  const t = useTranslations('PlansExplore')
   const scrollerRef = useRef<HTMLDivElement>(null)
 
   const canScroll = useMemo(() => categories.length > 0, [])
@@ -74,15 +76,15 @@ export function PlanCategoryCarousel() {
           >
             <Image
               src={c.imageSrc}
-              alt={c.title}
+              alt={t(c.titleKey)}
               fill
               className="object-cover"
               sizes="170px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
             <div className="absolute left-2 bottom-2 right-2 text-white">
-              <div className="text-xs font-semibold leading-tight">{c.title}</div>
-              <div className="text-[10px] text-white/80">View Plans</div>
+              <div className="text-xs font-semibold leading-tight">{t(c.titleKey)}</div>
+              <div className="text-[10px] text-white/80">{t('viewPlans')}</div>
             </div>
           </Link>
         ))}
@@ -94,7 +96,7 @@ export function PlanCategoryCarousel() {
             type="button"
             onClick={() => scrollBy('left')}
             className="h-9 w-9 rounded-md bg-[#FFFCDB] dark:bg-neutral-700 border border-black/10 dark:border-neutral-600 flex items-center justify-center hover:bg-[#fff7b8] dark:hover:bg-neutral-600 dark:text-neutral-100"
-            aria-label="Scroll left"
+            aria-label={t('scrollLeft')}
           >
             <ChevronLeft size={18} />
           </button>
@@ -102,7 +104,7 @@ export function PlanCategoryCarousel() {
             type="button"
             onClick={() => scrollBy('right')}
             className="h-9 w-9 rounded-md bg-[#FFFCDB] dark:bg-neutral-700 border border-black/10 dark:border-neutral-600 flex items-center justify-center hover:bg-[#fff7b8] dark:hover:bg-neutral-600 dark:text-neutral-100"
-            aria-label="Scroll right"
+            aria-label={t('scrollRight')}
           >
             <ChevronRight size={18} />
           </button>
