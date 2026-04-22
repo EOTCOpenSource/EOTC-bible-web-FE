@@ -56,7 +56,15 @@ export const useAuthStore = create<AuthState>()(
     fetchCurrentUser: async () => {
       set({ isLoading: true })
       try {
-        const res = await axiosInstance.get('/api/auth/profile')
+        const res = await axiosInstance.get('/api/auth/profile', {
+          validateStatus: (status) => status === 200 || status === 401
+        })
+        
+        if (res.status === 401) {
+          set({ user: null, isAuthenticated: false, isLoading: false })
+          return
+        }
+
         const user: User = res.data.user
         set({ user, isAuthenticated: true, isLoading: false })
       } catch {
