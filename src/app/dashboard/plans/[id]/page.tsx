@@ -1,12 +1,12 @@
 'use client'
 
-import React, { useEffect, useState, use, useCallback } from 'react'
+import { useEffect, useState, use, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { usePlanStore } from '@/stores/usePlanStore'
 import { PlanCalendar } from '@/components/plan/planCalander'
 import { ReadingItemChecklist } from '@/components/plan/readingItemChecklist'
-import { ReadingItem } from '@/types/plans'
 import { ChevronLeft } from 'lucide-react'
+import type { ReadingItem } from '@/stores/types'
 
 export default function PlanDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
@@ -103,7 +103,7 @@ export default function PlanDetailPage({ params }: { params: Promise<{ id: strin
     <div className="p-4 w-full space-y-6">
       <button 
         onClick={handleBack}
-        className="flex items-center text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white"
+        className="flex items-center text-sm text-foreground dark:text-background hover:text-gray-900 dark:hover:text-white"
       >
         <ChevronLeft size={16} className="mr-1" /> Back to Plans
       </button>
@@ -124,7 +124,7 @@ export default function PlanDetailPage({ params }: { params: Promise<{ id: strin
       />
 
       <div>
-        <h2 className="text-xl font-semibold mb-4 text-black dark:bg-background border-2 border-gray-300 rounded-lg bg-white p-6 dark:text-white">
+        <h2 className="text-xl font-semibold mb-4 text-black dark:bg-background border border-gray-300 dark:border-border rounded-lg p-6 dark:text-white ">
           Readings for Day {currentDayNumber}
         </h2>
         {readingItems.length > 0 ? (

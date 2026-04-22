@@ -70,14 +70,14 @@ export function LanguageSelector() {
       </button>
 
       {isDropdownOpen && (
-        <>
-          <div className="absolute top-12 right-0 z-50 w-48 rounded-md border border-gray-200 bg-white shadow-lg">
+         <>
+          <div className="absolute top-12 right-0 z-50 w-48 rounded-md border  bg-background dark:bg-background/90 dark:text-background-foreground shadow-lg">
             <div className="py-1">
               {Object.entries(languageNames).map(([locale, name]) => (
                 <button
                   key={locale}
                   onClick={() => handleLanguageChange(locale)}
-                  className="flex w-full items-center justify-between px-4 py-2 text-sm hover:bg-gray-100"
+                  className="flex w-full items-center justify-between px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-neutral-800"
                 >
                   <div className="flex items-center space-x-2">
                     <span>{name}</span>

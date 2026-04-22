@@ -118,7 +118,7 @@ const Navbar = () => {
                 <Link href="/read-online" className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                   {t('bible')}
                 </Link>
-                <Link href={isLoggedIn ? "/dashboard/plans" : "/login"} className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+                <Link href={isLoggedIn ? "/plans" : "/login"} className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                   {t('plans')}
                 </Link>
                 <Link href={isLoggedIn ? "/dashboard/notes" : "/login"} className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
@@ -258,7 +258,7 @@ const Navbar = () => {
             <Link href="/read-online" className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
               {t('bible')}
             </Link>
-            <Link href={isLoggedIn ? "/dashboard/plans" : "/login"} className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+            <Link href={isLoggedIn ? "/plans" : "/login"} className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
               {t('plans')}
             </Link>
             <Link href={isLoggedIn ? "/dashboard/notes" : "/login"} className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
