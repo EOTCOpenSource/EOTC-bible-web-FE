@@ -33,7 +33,7 @@ export const ReadingItemChecklist = ({
       } catch (e) {
         console.error('Failed to save read items to local storage')
       }
-    }, 40000)
+    }, 3000)
   }
 
   const allItemsReadLocally = items.length > 0 && items.every(item => localReadItems[item.id])
