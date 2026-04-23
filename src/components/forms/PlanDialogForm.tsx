@@ -200,10 +200,10 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
           </Button>
         )}
 
-        <DialogContent className='sm:max-w-2xl'>
+        <DialogContent aria-describedby={`${initialData ? 'edit' : 'new'}-plan-desc`} className='sm:max-w-2xl'>
           <DialogHeader>
             <DialogTitle>{initialData ? t('editPlan') : t('createPlan')}</DialogTitle>
-            <p className="text-muted-foreground text-sm">{t('fillDetails')}</p>
+            <p id={`${initialData ? 'edit' : 'new'}-plan-desc`} className="text-muted-foreground text-sm">{t('fillDetails')}</p>
           </DialogHeader>
 
           <div className="grid gap-5 py-4">
