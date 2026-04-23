@@ -200,7 +200,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
           </Button>
         )}
 
-        <DialogContent>
+        <DialogContent className='sm:max-w-2xl'>
           <DialogHeader>
             <DialogTitle>{initialData ? t('editPlan') : t('createPlan')}</DialogTitle>
             <p className="text-muted-foreground text-sm">{t('fillDetails')}</p>
