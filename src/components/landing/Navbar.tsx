@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { LanguageSelector } from '../shared/language-selector'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { SearchInput } from '../ui/search-input'
 import { useUserStore } from '@/lib/stores/useUserStore'
@@ -23,7 +23,12 @@ const Navbar = () => {
     closeNavMenu,
   } = useUIStore()
 
-  const { isLoggedIn, loadSession, user } = useUserStore()
+  const { isLoggedIn, loadSession } = useUserStore()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     loadSession()
@@ -118,7 +123,7 @@ const Navbar = () => {
                 <Link href="/read-online" className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                   {t('bible')}
                 </Link>
-                <Link href={isLoggedIn ? "/plans" : "/login"} className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+                <Link href={isLoggedIn ? "/dashboard/plans" : "/login"} className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                   {t('plans')}
                 </Link>
                 <Link href={isLoggedIn ? "/dashboard/notes" : "/login"} className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
@@ -147,7 +152,13 @@ const Navbar = () => {
                   </button>
                 </Link>
 
-                {!isLoggedIn && (
+                {isLoggedIn ? (
+                  <Link href="/dashboard">
+                    <button className="h-[42px] rounded-lg border border-red-900 bg-white dark:bg-neutral-800 px-6 py-2 text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
+                      Dashboard
+                    </button>
+                  </Link>
+                ) : (
                   <Link href="/login">
                     <button className="h-[42px] rounded-lg border border-red-900 bg-white px-6 py-2 text-red-900 hover:bg-red-900 hover:text-white">
                       {t('login')}
@@ -156,18 +167,14 @@ const Navbar = () => {
                 )}
 
                 <div className="flex h-[42px] flex-shrink-0 items-center gap-1 rounded-md border dark:border-neutral-700 p-1">
-                  <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700">
-                    {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                  <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    {mounted ? (theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />) : <div className="w-[18px] h-[18px]" />}
                   </button>
-                  <LanguageSelector />
+                  <LanguageSelector className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 text-foreground transition-colors flex items-center justify-center w-[34px] h-[34px]" iconSize={18} strokeWidth={2} />
                   {isLoggedIn && (
                     <Link href="/profile">
-                      <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200 outline-none overflow-hidden border border-gray-200 dark:border-gray-700">
-                        {user?.avatarUrl ? (
-                          <img src={user.avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
-                        ) : (
-                          <User size={18} />
-                        )}
+                      <button className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors outline-none">
+                        <User size={18} />
                       </button>
                     </Link>
                   )}
@@ -187,7 +194,13 @@ const Navbar = () => {
                   />
                 </div>
 
-                {!isLoggedIn && (
+                {isLoggedIn ? (
+                  <Link href="/dashboard">
+                    <button className="h-[42px] flex-shrink-0 rounded-lg border border-red-900 bg-white px-4 py-2 text-sm text-red-900 hover:bg-red-900 hover:text-white">
+                      Dashboard
+                    </button>
+                  </Link>
+                ) : (
                   <Link href="/login">
                     <button className="h-[42px] flex-shrink-0 rounded-lg border border-red-900 bg-white px-4 py-2 text-sm text-red-900 hover:bg-red-900 hover:text-white">
                       {t('login')}
@@ -212,18 +225,20 @@ const Navbar = () => {
                           </button>
                         </Link>
                         <div className="flex h-[42px] items-center gap-2 rounded-md border p-1">
-                          <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700">
-                            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                          <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                            {mounted ? (theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />) : <div className="w-[18px] h-[18px]" />}
                           </button>
-                          <LanguageSelector />
-                          {isLoggedIn && (
+                          <LanguageSelector className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 text-foreground transition-colors flex items-center justify-center w-[34px] h-[34px]" iconSize={18} strokeWidth={2} />
+                          {isLoggedIn ? (
                             <Link href="/profile">
-                              <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-200 outline-none overflow-hidden border border-gray-200 dark:border-gray-700">
-                                {user?.avatarUrl ? (
-                                  <img src={user.avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
-                                ) : (
-                                  <User size={18} />
-                                )}
+                              <button className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                                <User size={18} />
+                              </button>
+                            </Link>
+                          ) : (
+                            <Link href="/login">
+                              <button className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                                <User size={18} />
                               </button>
                             </Link>
                           )}
@@ -258,7 +273,7 @@ const Navbar = () => {
             <Link href="/read-online" className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
               {t('bible')}
             </Link>
-            <Link href={isLoggedIn ? "/plans" : "/login"} className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+            <Link href={isLoggedIn ? "/dashboard/plans" : "/login"} className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
               {t('plans')}
             </Link>
             <Link href={isLoggedIn ? "/dashboard/notes" : "/login"} className="py-2 text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
@@ -266,14 +281,9 @@ const Navbar = () => {
             </Link>
             <div className="my-2 border-t dark:border-neutral-700"></div>
             {isLoggedIn ? (
-              <Link href="/profile">
-                <button className="flex h-[42px] w-full items-center gap-2 rounded-lg border border-red-900 dark:border-red-700 bg-white dark:bg-neutral-800 px-6 py-2 text-left text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
-                  {user?.avatarUrl ? (
-                    <img src={user.avatarUrl} alt="Avatar" className="h-6 w-6 rounded-full object-cover" />
-                  ) : (
-                    <User size={18} />
-                  )}
-                  <span>Profile</span>
+              <Link href="/dashboard">
+                <button className="h-[42px] w-full rounded-lg border border-red-900 dark:border-red-700 bg-white dark:bg-neutral-800 px-6 py-2 text-left text-red-900 dark:text-red-300 hover:bg-red-900 hover:text-white dark:hover:bg-red-800">
+                  Dashboard
                 </button>
               </Link>
             ) : (
