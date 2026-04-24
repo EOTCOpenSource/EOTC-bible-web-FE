@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useAchievementsStore } from '@/stores/achievementStore'
 import { useProgressStore } from '@/stores/progressStore'
 import CircularProgress from '@/components/achievements/CircularProgress'
+import { useTranslations } from 'next-intl'
 
 const TIER_RING: Record<string, string> = {
     bronze: '#d97706',
@@ -17,6 +18,7 @@ const TIER_RING: Record<string, string> = {
 export default function AchievementsSection() {
     const { achievements, isLoading, loadAchievements } = useAchievementsStore()
     const { progress, loadProgress } = useProgressStore()
+    const t = useTranslations('Dashboard')
 
     useEffect(() => {
         loadAchievements().catch(() => { })
@@ -41,7 +43,7 @@ export default function AchievementsSection() {
             <div className="flex items-center justify-between bg-gradient-to-r from-[#4C0E0F] to-[#7a1a1c] px-4 py-3">
                 <div className="flex items-center gap-2">
                     <Trophy size={18} className="text-white/80" />
-                    <span className="text-sm font-bold text-white">Achievements</span>
+                    <span className="text-sm font-bold text-white">{t('achievements')}</span>
                     {achievements.length > 0 && (
                         <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold text-white">
                             {unlocked.length}/{achievements.length}
@@ -52,7 +54,7 @@ export default function AchievementsSection() {
                     href="/dashboard/achievements"
                     className="flex items-center gap-0.5 text-xs text-white/70 hover:text-white transition-colors"
                 >
-                    View all <ChevronRight size={12} />
+                    {t('viewAll')} <ChevronRight size={12} />
                 </Link>
             </div>
 
@@ -66,7 +68,7 @@ export default function AchievementsSection() {
                 ) : achievements.length === 0 ? (
                     <div className="flex flex-col items-center gap-2 py-6 text-center">
                         <Trophy size={28} className="text-gray-300 dark:text-neutral-600" />
-                        <p className="text-xs text-gray-400 dark:text-gray-500">Start reading to earn achievements!</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500">{t('startReadingToEarn')}</p>
                         <Link
                             href="/read-online"
                             className="mt-1 rounded-full bg-[#4C0E0F] px-4 py-1.5 text-xs font-semibold text-white hover:bg-red-800"

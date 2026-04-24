@@ -74,8 +74,8 @@ export function LanguageSelector({ className, iconSize = 20, strokeWidth = 1.5 }
       </button>
 
       {isDropdownOpen && (
-        <>
-          <div className="absolute top-12 right-0 z-50 w-48 rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-lg">
+         <>
+          <div className="absolute top-12 right-0 z-50 w-48 rounded-md border  bg-background dark:bg-background/90 dark:text-background-foreground shadow-lg">
             <div className="py-1">
               {Object.entries(languageNames).map(([locale, name]) => (
                 <button

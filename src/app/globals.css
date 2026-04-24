@@ -137,7 +137,7 @@
   --primary-foreground: var(--neutral-50);
   --secondary: var(--secondary-400);
   --secondary-foreground: var(--primary-900);
-  --muted: var(--neutral-800);
+  --muted: var(--neutral-700);
   --muted-foreground: var(--neutral-300);
   --accent: var(--neutral-800);
   --accent-foreground: var(--neutral-50);
@@ -361,4 +361,7 @@
 
 .dark .streak-chain-right::after {
   background-color: #7f1d1d;
+}
+.placeholder-low-opacity::placeholder {
+  opacity: 0.7;
 }

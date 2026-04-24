@@ -118,7 +118,6 @@ export interface ReadingPlan {
   createdAt: string
 }
 export interface ReadingPlanCreateData {
-  _id: string
   name: string
   startBook: string
   startChapter: number
@@ -126,4 +125,22 @@ export interface ReadingPlanCreateData {
   endChapter?: number
   startDate: string
   durationInDays: number
+}
+export interface ReadingItem {
+    id: string
+    isCompleted: boolean
+    bookId: string
+    title?: string
+    day?: number
+    bookName?: string
+    chapter: number
+    description?: string
+}
+
+export interface PlanDialogFormProps {
+  initialData?: ReadingPlan
+  initialValues?: ReadingPlanCreateData
+  defaultOpen?: boolean
+  hideTrigger?: boolean
+  onCreated?: (plan: ReadingPlan) => void
 }

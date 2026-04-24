@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useSidebar } from '@/components/ui/sidebar'
 import clsx from 'clsx'
-import { VerseActionMenu } from '@/components/reader/VerseActionMenu'
+import { VerseActionMenu, clampVerseMenuPosition } from '@/components/reader/VerseActionMenu'
+import type { SelectedVerseRange } from '@/components/reader/VerseActionMenu'
 import { useHighlightsStore } from '@/stores/highlightsStore'
 import { getHighlightInlineColor } from '@/lib/highlight-utils'
 import { useEffect, useMemo, useRef, useState, TouchEvent } from 'react'
@@ -37,6 +38,12 @@ export default function ReaderClient({
   const { progress, markChapterRead, syncVerseReadings, flushVerseQueue } = useProgressStore()
   const [animatedVerses, setAnimatedVerses] = useState<Set<number>>(new Set())
   const [searchQuery, setSearchQuery] = useState<string | null>(null)
+
+  // ── Shared verse-selection state (lifted from VerseActionMenu) ────────────
+  const [activeSection, setActiveSection] = useState<string | null>(null)
+  const [selectedRange, setSelectedRange] = useState<SelectedVerseRange | null>(null)
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 })
+  const [showMenu, setShowMenu] = useState(false)
 
   // SWIPE STATE
   const [touchStart, setTouchStart] = useState<number | null>(null)
@@ -316,13 +323,87 @@ export default function ReaderClient({
 
   const handleBookmark = (verse: number | string) => {
     console.log('Bookmark verse:', verse)
-    // TODO: Implement bookmark logic - save to localStorage or database
   }
 
   const handleNote = (verse: number | string, text: string) => {
     console.log('Add note to verse:', verse, 'Text:', text)
-    // TODO: Implement note dialog - could use a modal/dialog component
   }
+
+  /**
+   * Called when any verse is clicked.
+   * - First click on an unselected verse: open menu and select that verse.
+   * - Click on the only selected verse: deselect and close the menu.
+   * - Click on an edge verse of a multi-verse range: shrink the range.
+   * - Click on a new verse while menu is open: extend the range.
+   * - Click outside a verse: closes the menu (handled by the document listener below).
+   */
+  const handleVerseClick = (
+    sectionId: string,
+    verseNum: number,
+    clientX: number,
+    clientY: number,
+  ) => {
+    if (showMenu && activeSection === sectionId && selectedRange) {
+      const { start, end, count } = selectedRange
+      const isInRange = verseNum >= start && verseNum <= end
+
+      if (isInRange) {
+        // Single verse selected → clicking it again resets everything
+        if (count === 1) {
+          handleCloseMenu()
+          return
+        }
+
+        // Multi-verse: shrink the range from whichever edge was clicked
+        if (verseNum === end) {
+          // Clicked the last verse → trim the end
+          const newEnd = end - 1
+          setSelectedRange({ start, end: newEnd, count: newEnd - start + 1 })
+        } else {
+          // Clicked start or a middle verse → trim the start
+          const newStart = verseNum + 1
+          setSelectedRange({ start: newStart, end, count: end - newStart + 1 })
+        }
+      } else {
+        // Verse is outside the current range → extend the range
+        const newStart = Math.min(start, verseNum)
+        const newEnd = Math.max(end, verseNum)
+        setSelectedRange({ start: newStart, end: newEnd, count: newEnd - newStart + 1 })
+      }
+    } else {
+      // Fresh selection
+      setActiveSection(sectionId)
+      setSelectedRange({ start: verseNum, end: verseNum, count: 1 })
+      setMenuPosition(clampVerseMenuPosition(clientX, clientY))
+      setShowMenu(true)
+    }
+  }
+
+  const handleCloseMenu = () => {
+    setShowMenu(false)
+    setSelectedRange(null)
+    setActiveSection(null)
+  }
+
+  // Close menu when clicking outside any verse
+  useEffect(() => {
+    const handleOutsideClick = (e: Event) => {
+      if (!showMenu) return
+      const menu = document.querySelector('[data-verse-menu="true"]')
+      const target = e.target as Node
+      // If click landed on a verse span or the menu itself, let handleVerseClick manage it
+      const isVerse = (target as HTMLElement)?.closest?.('[data-verse]')
+      if (menu && menu.contains(target)) return
+      if (isVerse) return
+      handleCloseMenu()
+    }
+    document.addEventListener('mousedown', handleOutsideClick)
+    document.addEventListener('touchstart', handleOutsideClick, { passive: true })
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick)
+      document.removeEventListener('touchstart', handleOutsideClick)
+    }
+  }, [showMenu])
 
   return (
     <div
@@ -393,6 +474,13 @@ export default function ReaderClient({
                       shouldAnimate={animatedVerses.has(verse.verse)}
                       searchQuery={searchQuery || undefined}
                       isRead={isRead}
+                      selectedRange={activeSection === sectionId ? selectedRange : null}
+                      onVerseClick={(verseNum, cx, cy) =>
+                        handleVerseClick(sectionId, verseNum, cx, cy)
+                      }
+                      showMenu={showMenu && activeSection === sectionId}
+                      menuPosition={menuPosition}
+                      onCloseMenu={handleCloseMenu}
                     />
                   )
                 })}

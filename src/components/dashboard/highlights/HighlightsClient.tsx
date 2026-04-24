@@ -16,9 +16,12 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useTranslations } from 'next-intl'
 
 export default function HighlightsClient() {
     const { highlights, loadHighlights, removeHighlight, isLoading } = useHighlightsStore()
+    const t = useTranslations('Dashboard')
+    const tCommon = useTranslations('Common')
     const router = useRouter()
     const [selected, setSelected] = useState<string[]>([])
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -27,9 +30,7 @@ export default function HighlightsClient() {
 
     const { preferredTranslation, updateSettings } = useSettingsStore()
 
-    // Hardcoded title fallback if translation missing
-    // In a real app we'd ensure translations exist
-    const title = "Highlights"
+    const title = t('highlightsTitle')
 
     useEffect(() => {
         // Reload highlights (and their verse text) whenever the preferred translation changes
@@ -123,7 +124,7 @@ export default function HighlightsClient() {
                             <div className={`h-5 w-5 rounded-full border border-gray-400 dark:border-gray-600 flex items-center justify-center ${selected.length === highlights.length && highlights.length > 0 ? 'bg-blue-500 border-blue-500' : ''}`}>
                                 {selected.length === highlights.length && highlights.length > 0 && <div className="h-2 w-2 bg-white rounded-full" />}
                             </div>
-                            <span className="text-gray-600 dark:text-gray-300 text-sm">Select all</span>
+                            <span className="text-gray-600 dark:text-gray-300 text-sm">{t('selectAll')}</span>
                         </div>
 
                         <button
@@ -160,7 +161,7 @@ export default function HighlightsClient() {
                         ))
                     ) : highlights.length === 0 ? (
                         <div className="text-center py-20 text-gray-400">
-                            No highlights yet. Start reading to add some!
+                            {t('noHighlights')}
                         </div>
                     ) : (
                         highlights.map((highlight) => (
@@ -175,7 +176,7 @@ export default function HighlightsClient() {
                                 </div>
 
                                 <p className="font-inter font-normal text-[14px] leading-[100%] tracking-[0%] text-gray-600 dark:text-gray-300 mt-[19px] max-w-[777px] mb-4 line-clamp-3">
-                                    {highlight.text || <span className="italic text-gray-400">Click &quot;Edit&quot; to view full context.</span>}
+                                    {highlight.text || <span className="italic text-gray-400">{t('clickEditContext')}</span>}
                                 </p>
 
 
@@ -212,17 +213,17 @@ export default function HighlightsClient() {
                 <Dialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
                     <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>Delete Highlight{isBulkDelete ? 's' : ''}</DialogTitle>
+                            <DialogTitle>{isBulkDelete ? t('deleteHighlights') : t('deleteHighlight')}</DialogTitle>
                             <DialogDescription>
-                                Are you sure you want to delete {isBulkDelete ? `${selected.length} highlights` : 'this highlight'}? This action cannot be undone.
+                                {isBulkDelete ? t('confirmDeleteHighlights', { count: selected.length }) : t('confirmDeleteHighlight')}
                             </DialogDescription>
                         </DialogHeader>
                         <DialogFooter>
                             <Button variant="outline" onClick={() => setDeleteModalOpen(false)}>
-                                Cancel
+                                {tCommon('cancel')}
                             </Button>
                             <Button variant="destructive" onClick={confirmDelete}>
-                                Delete
+                                {tCommon('delete')}
                             </Button>
                         </DialogFooter>
                     </DialogContent>

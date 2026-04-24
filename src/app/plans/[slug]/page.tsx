@@ -26,7 +26,7 @@ export default async function PlanDetailsPage({
   const similar = PLAN_TEMPLATES.filter((p) => p.slug !== template.slug).slice(0, 5)
 
   return (
-    <main className="bg-[#fffdf8] dark:bg-neutral-900 w-full">
+    <main className="bg-background w-full">
       <Navbar />
       <div className="w-full max-w-[1440px] mx-auto flex flex-col px-4 pt-24">
         <div className="mt-6">

@@ -1,323 +1,326 @@
 {
   "Index": {
-    "title": "መጽሓፍ ቤተ ክርስትያን ኢትዮጵያውያን (EOTC) መጽሐፍ",
-    "description": "ዲጂታል መጽሐፋት በግዕዝ፣ ኣማርኛን English ትርጉምታት።",
-    "siteName": "EOTC መጽሐፍ",
-    "heroTitle": "መጽሐፍ ቤተ ክርስትያን ኢትዮጵያውያን",
-    "heroSubtitle": "ቅዱሳት መጽሐፋት በግዕዝ፣ ኣማርኛን እንግሊዝኛ",
-    "heroButton": "መጽሐፋት ክትርክት",
-    "featuredBible": "ዝተቓለሰ መጽሐፋት",
-    "dailyReading": "ዕለታዊ ንበርላስ",
-    "prayers": "ጸሎታትን መዝሙራት",
-    "saints": "ቅዱሳን ዕለት",
-    "calendar": "ቀዳማይ ገዳም",
-    "aboutTitle": "ብዙኃኑ መግለጺ ቤተ ክርስትያን",
-    "aboutDescription": "ቤተ ክርስትያኑ እዚ ከመይ ዝተጠቀመ ዝኸበረ መልእኽቲ መጽሐፍን ተስፋማትን ያህል።",
-    "contact": "ንገናኝ",
-    "copyright": "© {year} EOTC መጽሐፍ። መላእክት መብታ ይሰግድ።",
-    "version": "ስም ርእይቶ",
-    "book": "መጽሐፍ",
+    "title": "መጽሓፍ ቅዱስ ኦርቶዶክስ ተዋሕዶ ቤተ ክርስቲያን ኢትዮጵያ (EOTC)",
+    "description": "ዲጂታል መድረኽ መጽሓፍ ቅዱስ ብቋንቋታት ግዕዝ፣ ኣምሓርኛን እንግሊዝኛን ናይ ኦርቶዶክስ ተዋሕዶ ቤተ ክርስቲያን ኢትዮጵያ (EOTC)",
+    "siteName": "መጽሓፍ ቅዱስ EOTC",
+    "heroTitle": "መጽሓፍ ቅዱስ ኦርቶዶክስ ተዋሕዶ ቤተ ክርስቲያን ኢትዮጵያ",
+    "heroSubtitle": "ቅዱሳት መጻሕፍቲ ብግዕዝ፣ ኣምሓርኛን እንግሊዝኛን ኣንብቡ",
+    "heroButton": "መጽሓፍ ቅዱስ ኣንብብ",
+    "featuredBible": "ዝተመርጹ ጥቕስታት መጽሓፍ ቅዱስ",
+    "dailyReading": "ዕለታዊ ንባብ",
+    "prayers": "ጸሎታትን መዝሙራትን",
+    "saints": "ቅዱሳን ናይዚ ዕለት",
+    "calendar": "ዓውደ ኣዋርሕ ቤተ ክርስቲያን",
+    "aboutTitle": "ብዛዕባ ኦርቶዶክስ ተዋሕዶ ቤተ ክርስቲያን ኢትዮጵያ",
+    "aboutDescription": "ኦርቶዶክስ ተዋሕዶ ቤተ ክርስቲያን ኢትዮጵያ ኣብ ዓለም ካብ ዘለዋ ጥንታውያን ኣብያተ ክርስቲያናት ሓንቲ ብምዃን ጥንታዊ ትውፊት መጽሓፍ ቅዱስ እትሕሉ እያ።",
+    "contact": "ርኸቡና",
+    "copyright": "© {year} መጽሓፍ ቅዱስ EOTC። ኵሉ መሰል ዝተሓለወ እዩ።",
+    "version": "ሕታም",
+    "book": "መጽሓፍ",
     "chapter": "ምዕራፍ",
-    "verse": "ንጥል",
-    "search": "ፈልጊ መጻሕፍቲ…",
-    "oldTestament": "ዕንግዶት ፀነስ",
-    "newTestament": "አዲስ መጽሐፍ",
-    "deuterocanonical": "መጸግሮም መጽሐፋት",
-    "bibleVersions": "ተለዋዋጭ ትርጉምታት",
+    "verse": "ጥቕሲ",
+    "search": "መጽሓፍ ቅዱስ ድለ...",
+    "oldTestament": "ብሉይ ኪዳን",
+    "newTestament": "ሓዲስ ኪዳን",
+    "deuterocanonical": "ኣዋልድ መጻሕፍቲ",
+    "bibleVersions": "ሕታማት መጽሓፍ ቅዱስ",
     "language": "ቋንቋ"
   },
   "Navigation": {
-    "home": "መንገዲ ቤት",
-    "bible": "መጽሐፍ",
-    "siteName": "EOTC መጽሐፍ",
+    "home": "መበገሲ",
+    "bible": "መጽሓፍ ቅዱስ",
+    "siteName": "መጽሓፍ ቅዱስ EOTC",
     "prayers": "ጸሎታት",
     "saints": "ቅዱሳን",
-    "calendar": "ቀዳማይ ገዳም",
-    "about": "መግለጺ",
+    "calendar": "ዓውደ ኣዋርሕ",
+    "about": "ብዛዕባ EOTC",
     "language": "ቋንቋ",
-    "contact": "መገናኝ",
-    "plans": "እቅዶታት",
+    "contact": "ርኸቡና",
+    "plans": "መደባት ንባብ",
     "notes": "ማስታወሻታት",
-    "search": "ፈልጊ",
-    "getApp": "መተግበሪያ ኣግእዝብ",
-    "login": "ኣምቡእል"
+    "search": "ድለ",
+    "getApp": "ኣፕሊኬሽን ኣውርድ",
+    "login": "እቶ",
+    "highlights": "Highlights",
+    "bookmarks": "Bookmarks",
+    "community": "Community"
   },
   "Common": {
-    "loading": "ጸውዓ…",
-    "submit": "ሓቂ",
-    "cancel": "ኣታው",
-    "save": "ኣስቅል",
-    "delete": "ኣውፍቅ",
-    "edit": "ኣምሓር",
-    "create": "ፍጥር",
-    "update": "ተፅዕኖም",
-    "confirm": "ሓስብ",
-    "back": "ድሕሪት",
+    "loading": "እናኣውረደ እዩ...",
+    "submit": "ስደድ",
+    "cancel": "ኣቋርጽ",
+    "save": "ዓቅብ",
+    "delete": "ኣጥፍእ",
+    "edit": "ኣስተኻኽል",
+    "create": "ፍጠር",
+    "update": "ኣሐድስ",
+    "confirm": "ኣረጋግጽ",
+    "back": "ንድሕሪት",
     "next": "ቀጺሉ",
-    "previous": "ቅድሚ",
-    "close": "ዕብዚ",
-    "open": "ክፍቕል",
-    "search": "ፈልጊ",
-    "filter": "ውልቂት",
-    "sort": "ቅደም ተኸተል",
-    "view": "ሓውስተት",
-    "readMore": "ተመልከት ብዙሓት",
-    "download": "ኣስርእይ",
-    "upload": "ከብደን",
-    "success": "ብሩህ!",
-    "error": "ትኸውን!",
-    "warning": "ኣሰናኽንቲ!",
-    "info": "መረጃ",
-    "required": "ይፈልጋስቲ",
-    "invalidEmail": "ኢሜይል ኣይግተውዕዎን",
-    "passwordLength": "ፓስወርድ ቆልዑ 8 ፊደላት እዩ"
+    "previous": "ናይ ቅድሚት",
+    "close": "ዕጾ",
+    "open": "ክፈት",
+    "search": "ድለ",
+    "filter": "ኣጻሪ",
+    "sort": "ኣሰርዕ",
+    "view": "ርአ",
+    "readMore": "ተወሳኺ ኣንብብ",
+    "download": "ኣውርድ",
+    "upload": "ጽዓን",
+    "success": "ተዓዊቱ!",
+    "error": "ጌጋ ተፈጢሩ!",
+    "warning": "መጠንቀቕታ!",
+    "info": "ሓበሬታ",
+    "required": "እዚ ግድን እዩ",
+    "invalidEmail": "በጃኹም ቅኑዕ ኢመይል ኣእትዉ",
+    "passwordLength": "ፓስዎርድ ብውሕዱ 8 ፊደላት ወይ ኣሃዛት ክኸውን ኣለዎ"
   },
   "Forms": {
-    "firstName": "ሽም ፍርያት",
-    "lastName": "ሽም መጨረሻ",
-    "email": "ኢሜይል",
-    "phone": "ስልኪ",
+    "firstName": "ስም",
+    "lastName": "ስም ኣቦ",
+    "email": "ኣድራሻ ኢመይል",
+    "phone": "ቑጽሪ ተሌፎን",
     "message": "መልእኽቲ",
-    "subject": "ብዙሓትሰብዓት",
-    "password": "ፓስወርድ",
-    "confirmPassword": "ፓስወርድ እወቀት",
-    "company": "ኩምፓኒ",
+    "subject": "ዛዕባ",
+    "password": "ፓስዎርድ",
+    "confirmPassword": "ፓስዎርድ ኣረጋግጽ",
+    "company": "ትካል",
     "address": "ኣድራሻ",
     "city": "ከተማ",
-    "country": "መንግስቲ",
-    "postalCode": "ኮድ ፖስታ"
+    "country": "ሃገር",
+    "postalCode": "ፖስታ ቑጽሪ"
   },
   "Auth": {
-    "signIn": "ግባ",
-    "signUp": "መመዝገቢያ",
-    "rememberMe": "ኣስታሓስለኒ",
-    "noAccount": "መለያ የብሎካ?",
-    "hasAccount": "መለያ ኣሎካ?",
-    "verifyOtp": "OTP ይርከብ",
-    "resendCode": "ኮድ እንተስልካ",
-    "backToLogin": "ወዲ ግባ",
-    "back": "ድሕሪት",
+    "signIn": "እቶ",
+    "signUp": "ተመዝገብ",
+    "rememberMe": "ዘክረኒ",
+    "noAccount": "ኣካውንት የብልካን?",
+    "hasAccount": "ኣካውንት ኣሎካ?",
+    "verifyOtp": "ኮድ (OTP) ኣረጋግጽ",
+    "resendCode": "ኮድ እንደገና ስደድ",
+    "backToLogin": "ናብ ናይ መእተዊ ገጽ ተመለስ",
+    "back": "ንድሕሪት",
     "register": {
-      "title": "መመዝገቢያ ፍጠር",
-      "haveAccount": "መለያ ኣሎካ?",
-      "login": "ግባ",
+      "title": "ሓድሽ ኣካውንት ፍጠር",
+      "haveAccount": "ኣካውንት ኣሎካ?",
+      "login": "እቶ",
       "fields": {
-        "name": "ሙሉ ስም",
-        "email": "ኢሜይል",
-        "password": "ቃል ምልክታ",
-        "confirmPassword": "ቃል ምስሓብ"
+        "name": "ሙሉእ ስም",
+        "email": "ኢመይል",
+        "password": "ፓስዎርድ",
+        "confirmPassword": "ፓስዎርድ ኣረጋግጽ"
       },
       "placeholders": {
-        "name": "ሙሉ ስምካ ያስገቡ",
+        "name": "ሙሉእ ስምካ ኣእቱ",
         "email": "you@example.com",
-        "password": "ቃልካ ያስገቡ",
-        "confirmPassword": "ቃልካ ደግመው ያስገቡ"
+        "password": "ፓስዎርድካ ኣእቱ",
+        "confirmPassword": "ፓስዎርድካ ደጊምካ ኣእቱ"
       },
       "password": {
-        "uppercase": "ቢያንስ 1 ወለድ ፊደል",
-        "number": "ቢያንስ 1 ቁጽሪ",
-        "special": "ቢያንስ 1 ልዩ ፊደል",
-        "minLength": "አነስተኛ 8 ፊደል"
+        "uppercase": "ብውሕዱ 1 ዓቢ ፊደል",
+        "number": "ብውሕዱ 1 ቑጽሪ",
+        "special": "ብውሕዱ 1 ፍሉይ ምልክት",
+        "minLength": "ብውሕዱ 8 ቁምፊ"
       },
       "validation": {
-        "nameRequired": "ስም ይፈልጋል",
-        "emailRequired": "ኢሜይል ይፈልጋል",
-        "passwordRequired": "ቃል ይፈልጋል",
-        "confirmPasswordRequired": "ቃል ምስሓብ ይፈልጋል"
+        "nameRequired": "ሙሉእ ስም ግድን እዩ",
+        "emailRequired": "ኢመይል ግድን እዩ",
+        "passwordRequired": "ፓስዎርድ ግድን እዩ",
+        "confirmPasswordRequired": "ፓስዎርድካ ምርግጋጽ ግድን እዩ"
       },
       "errors": {
-        "passwordMismatch": "ቃሎት ኣይደለቁም",
-        "emptyResponse": "ካብ አገልግሎት ባዶ መልስ ተቐባ",
-        "failed": "መመዝገቢያ ኣይተሳነ",
-        "termsRequired": "መመሪያዎችን ፍተሻታትን መቀበል ኣለካ"
+        "passwordMismatch": "ዘእቶኻዮም ፓስዎርድ ኣይመሳሰሉን",
+        "emptyResponse": "ካብ ሰርቨር ዝኾነ ምላሽ ኣይተረኽበን",
+        "failed": "ምዝገባ ኣይተዓወተን",
+        "termsRequired": "ብውዕላትናን ሕግታትናን ክትሰማማዕ ኣለካ"
       },
-      "success": "መመዝገቢያ ተሳክቶ",
-      "agreeTo": "መፍቀድካ አሎኒ",
-      "terms": "መደብታት & ፍተሻታት",
-      "register": "መመዝገብ",
-      "loading": "ብምመዝገብ…",
-      "or": "ወይስ",
-      "continueWithGoogle": "ከ Google ጋር ቀጥል"
+      "success": "ምዝገባ ተዓዊቱ",
+      "agreeTo": "እሰማማዕ እየ በዚ",
+      "terms": "ውዕላትን ሕግታትን",
+      "register": "ተመዝገብ",
+      "loading": "እናተመዝገበ እዩ…",
+      "or": "ወይ",
+      "continueWithGoogle": "ብ Google ቀጽል"
     },
     "login": {
-      "title": "ኣቲ",
+      "title": "እቶ",
       "noAccount": "ኣካውንት የብልካን?",
       "signup": "ተመዝገብ",
       "fields": {
-        "email": "ኢሜይል",
-        "password": "ፓስወርድ"
+        "email": "ኢመይል",
+        "password": "ፓስዎርድ"
       },
       "placeholders": {
-        "email": "ኢሜይልካ ኣእቱ",
-        "password": "ፓስወርድካ ኣእቱ"
+        "email": "ኢመይልካ ኣእቱ",
+        "password": "ፓስዎርድካ ኣእቱ"
       },
       "validation": {
-        "emailRequired": "ኢሜይል የድሊ",
-        "passwordRequired": "ፓስወርድ የድሊ"
+        "emailRequired": "ኢመይል ግድን እዩ",
+        "passwordRequired": "ፓስዎርድ ግድን እዩ"
       },
       "errors": {
-        "emptyResponse": "ካብ ኣገልጋሊ ባዶ ምላሽ",
-        "loginFailed": "ምእታው ኣይተዓወተን። በጃኻ እንደገና ፈትን።"
+        "emptyResponse": "ካብ ሰርቨር ዝኾነ ምላሽ ኣይተረኽበን",
+        "loginFailed": "ምእታው ኣይተዓወተን። በጃኹም እንደገና ፈትኑ።"
       },
       "rememberMe": "ዘክረኒ",
-      "forgotPassword": "ፓስወርድ ረሲዕካ?",
-      "submit": "ኣቲ",
-      "loading": "እናኣተወ...",
+      "forgotPassword": "ፓስዎርድዶ ረሲዕካ?",
+      "submit": "እቶ",
+      "loading": "እናኣተወ እዩ...",
       "or": "ወይ",
-      "continueWithGoogle": "ብGoogle ቀጽል",
-      "googleLogoAlt": "ሎጎ Google"
+      "continueWithGoogle": "ብ Google ቀጽል",
+      "googleLogoAlt": "ናይ Google ኣርማ"
     },
     "forgotPassword": {
-      "title": "ፓስወርድ ረሲዕካ",
-      "description": "ፓስወርድካ ዳግም ንምቕናዕ፣ ኣካውንትካ ንምፍጣር ዝተጠቀምካሉ ኢሜይል ኣድራሻ ኣእቱ",
+      "title": "ፓስዎርድ ረሲዕካ?",
+      "description": "ፓስዎርድካ ዳግም ንምትካል፡ ነቲ ኣካውንት ክትከፍት ከለኻ ዝተጠቐምካሉ ኢመይል ኣእቱ",
       "fields": {
-        "emailAddress": "ኢሜይል ኣድራሻ"
+        "emailAddress": "ኢመይል ኣድራሻ"
       },
       "placeholders": {
-        "email": "ኢሜይልካ ኣእቱ"
+        "email": "ኢመይልካ ኣእቱ"
       },
       "validation": {
-        "emailRequired": "ኢሜይል የድሊ",
-        "invalidEmail": "ቅኑዕ ኢሜይል ኣድራሻ ኣእቱ"
+        "emailRequired": "ኢመይል ኣድራሻ ግድን እዩ",
+        "invalidEmail": "ቅኑዕ ኢመይል ኣድራሻ ኣእቱ"
       },
       "buttons": {
         "sending": "እናሰደደ...",
-        "sendEmail": "ኢሜይል ስደድ",
-        "login": "ኣቲ",
+        "sendEmail": "ኢመይል ስደድ",
+        "login": "እቶ",
         "resending": "እንደገና እናሰደደ...",
-        "resendEmail": "ኢሜይል እንደገና ስደድ",
-        "changeEmail": "ኢሜይል ቀይር"
+        "resendEmail": "ኢመይል እንደገና ስደድ",
+        "changeEmail": "ኢመይል ቀይር"
       },
-      "rememberedPassword": "ፓስወርድካ ትዝ ኢልካካ?",
+      "rememberedPassword": "ፓስዎርድካዶ ዘኪርካ?",
       "emailSent": {
-        "title": "ኢሜይል ተሰዲዱ",
-        "description": "ሊንክ ዳግም ምቕናዕ ፓስወርድ ናብ ኢሜይልካ ሰዲድናልካ ኣለና",
-        "checkSpam": "(ኣብ ስፓም ፎልደርካ ምምርማርካ ኣይትረስዕ)",
-        "didNotReceive": "ኢሜይሉ ኣይበጽሓካን?",
-        "wrongEmail": "ጌጋ ኢሜይል ኣድራሻ?"
+        "title": "ኢመይል ተሰዲዱ",
+        "description": "ፓስዎርድ ዳግም መተከሊ ሊንክ ናብ ኢመይልካ ሰዲድናልካ ኣለና።",
+        "checkSpam": "(ኣብ ስፓም/Spam ፎልደር ምምርማር ኣይትረስዕ)",
+        "didNotReceive": "ኢመይል ኣይበጽሓካን?",
+        "wrongEmail": "ዝተጋገየ ኢመይል?"
       }
     },
     "resetPassword": {
-      "title": "ሓድሽ ፓስወርድ ፍጠር",
-      "description": "በጃኻ ንኣካውንትካ ሓድሽ ፓስወርድ ኣእቱ።",
+      "title": "ሓድሽ ፓስዎርድ ፍጠር",
+      "description": "በጃኹም ሓድሽ ፓስዎርድ ንኣካውንትኩም ኣእትዉ።",
       "fields": {
-        "newPassword": "ሓድሽ ፓስወርድ",
-        "confirmPassword": "ፓስወርድ ኣረጋግጽ"
+        "newPassword": "ሓድሽ ፓስዎርድ",
+        "confirmPassword": "ፓስዎርድ ኣረጋግጽ"
       },
       "validation": {
-        "newPasswordRequired": "ሓድሽ ፓስወርድ የድሊ",
-        "passwordMinLength": "ፓስወርድ ቢያንስ {count} ፊደላት ክኸውን ኣለዎ",
-        "confirmPasswordRequired": "ፓስወርድ ምርግጋጽ የድሊ",
-        "passwordMismatch": "ፓስወርድታት ኣይመሳሰሉን"
+        "newPasswordRequired": "ሓድሽ ፓስዎርድ ኣድላዪ እዩ",
+        "passwordMinLength": "ፓስዎርድ ብውሕዱ {count} ቁምፊ ክኸውን ኣለዎ",
+        "confirmPasswordRequired": "ፓስዎርድ ምርግጋጽ ኣድላዪ እዩ",
+        "passwordMismatch": "ክልቲኡ ፓስዎርድ ኣይመሳሰልን"
       },
       "passwordCriteria": {
-        "uppercase": "ቢያንስ 1 ዓቢ ፊደል",
-        "number": "ቢያንስ 1 ቁጽሪ",
-        "special": "ቢያንስ 1 ፍሉይ ምልክት",
-        "minLength": "ቢያንስ 8 ፊደላት"
+        "uppercase": "ብውሕዱ 1 ዓቢ ፊደል",
+        "number": "ብውሕዱ 1 ቑጽሪ",
+        "special": "ብውሕዱ 1 ፍሉይ ምልክት",
+        "minLength": "ብውሕዱ 8 ቁምፊ"
       },
       "buttons": {
-        "resetting": "እናኣስጀመረ...",
-        "resetPassword": "ፓስወርድ ዳግም ኣስጀምር"
+        "resetting": "ዳግም እናተኸለ እዩ...",
+        "resetPassword": "ፓስዎርድ ዳግም ተኸል"
       },
       "errors": {
-        "somethingWentWrong": "ጌጋ ተፈጢሩ፣ እንደገና ፈትን።"
+        "somethingWentWrong": "ጌጋ ተፈጢሩ ኣሎ፣ እንደገና ፈትኑ።"
       }
     },
     "verify": {
-      "title": "ኢሜይልካ ኣረጋግጥ",
-      "subtitle": "ናይ ምርግጋጽ ኮድ ናብ ኢሜይልካ ሰዲድናልካ። በጃኻ ናይ ስፓም ፎልደር ርአ እሞ ኮድ ኣብ ታሕቲ ኣእቱ።",
-      "didNotReceive": "ኮድ ኣይበጽሓካን?",
-      "resendCountdown": "እንደገና ምልኣኽ ኣብ {seconds} ሰከንድ",
+      "title": "ኢመይልካ ኣረጋግጽ",
+      "subtitle": "ናይ ምርግጋጽ ኮድ ናብ ኢመይልካ ሰዲድናልካ። በጃኹም ናይ ስፓም (Spam) ፎልደር ርኣዩ እሞ ነቲ ኮድ ኣብ ታሕቲ ኣእትዉዎ።",
+      "didNotReceive": "ኮድዶ ኣይበጽሓካን?",
+      "resendCountdown": "ኮድ ብሓድሽ ንምስዳድ ኣብ {seconds} ካልኢት ይከኣል",
       "buttons": {
-        "verify": "ኮድ ኣረጋግጥ",
-        "resend": "እንደገና ልኣኽ"
+        "verify": "ኮድ ኣረጋግጽ",
+        "resend": "እንደገና ስደድ"
       },
-      "loading": "የረጋግጥ ኣሎ..."
+      "loading": "ብምርግጋጽ..."
     }
   },
   "Error": {
-    "404": "ገጽ ኣብቐል ዘይብሉ",
-    "500": "ግፍዕ ጉዲፍነት",
-    "goHome": "ወዲ ቤት",
-    "tryAgain": "ከም ቀደም ኣብጽዓ"
+    "404": "ገጽ ኣይተረኽበን",
+    "500": "ናይ ሰርቨር ጌጋ",
+    "goHome": "ናብ መበገሲ ተመለስ",
+    "tryAgain": "እንደገና ፈትን"
   },
   "Footer": {
-    "siteName": "EOTC መጽሐፍ",
-    "description": "መተግበሪያታት ተሳትፎ ዝኻፈለ ገበር።",
+    "siteName": "መጽሓፍ ቅዱስ EOTC",
+    "description": "ብዝያዳ ምሳና ንመንፈሳዊ ዕብየት፣ ነዚ EOTCBible ኣፕሊኬሽን ኣውርዱ። ቃል ኣምላኽ ብውሑልል መልክዑ ከተንብቡ ንምሕጋዝ!",
     "googlePlay": "Google Play",
     "appStore": "App Store",
-    "menu": "መናዊ ምድላው",
-    "home": "መንገዲ ቤት",
-    "bible": "መጽሐፍ",
-    "about": "መግለጺ",
-    "features": "ባህሪታት",
-    "plans": "እቅዶታት",
-    "socials": "መለኪያታት ማሕበራዊ",
+    "menu": "ማውጫ",
+    "home": "መበገሲ",
+    "bible": "መጽሓፍ ቅዱስ",
+    "about": "ብዛዕባና",
+    "features": "ፍሉያት ባህርያት",
+    "plans": "መደባት ንባብ",
+    "socials": "ማሕበራዊ ገጻት",
     "telegram": "ቴሌግራም",
     "instagram": "ኢንስታግራም",
     "tiktok": "ቲክቶክ",
     "facebook": "ፌስቡክ",
-    "contactInfo": "መረጃ ተገናኽብ",
-    "address": "ኣዲስ አበባ፣ ኢትዮጵያ",
-    "contactUs": "ንገናኝናት",
-    "copyright": "© {year} EOTC መጽሐፍ። መላእክት መብታ ይሰግድ።"
+    "contactInfo": "ናይ መራኸቢ ሓበሬታ",
+    "address": "ኣዲስ ኣበባ፣ ኢትዮጵያ",
+    "contactUs": "ርኸቡና",
+    "copyright": "© {year} መጽሓፍ ቅዱስ EOTC። ኵሉ መሰል ዝተሓለወ እዩ።"
   },
   "Subscription": {
-    "title": "ለ EOTCBible እዩ ዝንባሌን ዜናን ለማዘጋጀት ይመዝገቡ!",
-    "subtitle": "ኢሜይልኩን ለመመዝገብ ኣስገባ",
-    "button": "መመዝገብ",
+    "title": "ብዛዕባ EOTCBible ሓድሽ ሓበሬታ ንምርካብ ተመዝገቡ!",
+    "subtitle": "ንምዝገባ ኢመይልካ ኣእቱ",
+    "button": "ተመዝገብ",
     "placeholder": "example@email.com"
   },
   "VerseOfTheDay": {
-    "title": "ዕትም ሓደ መዓልቲ",
-    "verse": "ነገር ግን ኣብ ጌታ ተስፋ ዘሎት ኃይላታቸውን ይደግፋሉ፤ እነርሱ እንደ ኦርሮች በክንፎቻቸው ይነፋሉ፤ ይሮጣሉና አይደክሙም፤ ይሄዱና አይጠናቀቁም።",
-    "reference": "— ኢሳይያስ 40:31 (NIV)",
-    "likes": "105.3ሺ",
-    "shares": "12.8ሺ",
-    "bookmarks": "45.9ሺ",
-    "continueReading": "ቀጽል ንንቀሳቀስ",
-    "archive": "ዕትም መዓልቲ ኣርኪቭ",
-    "alt": "ዕትም መዓልቲ"
+    "title": "ጥቕሲ ናይዚ ዕለት",
+    "verse": "እቶም ንእግዚኣብሄር ዚጽበዩ ግና ሓይሎም ኪሕደስ፡ ከም ንስሪ ኽንፊ ኼውጽኡ፡ ኪጐዩ እሞ ዘይኪሕለሉ፡ ኪኸዱ እሞ ዘይኪደክሙ እዮም።",
+    "reference": "— ኢሳይያስ 40:31",
+    "likes": "105.3ሽህ",
+    "shares": "12.8ሽህ",
+    "bookmarks": "45.9ሽህ",
+    "continueReading": "ንባብካ ቀጽል",
+    "archive": "ናይ ዕለት ጥቕስታት",
+    "alt": "ጥቕሲ ናይዚ ዕለት"
   },
   "Hero": {
-    "developedBy": "ብEOTCOpenSource ተሰር዗ >",
-    "title": "ክፍት ምንጭ ኢትዮጵያ መጽሐፍ ቅዱስ ፕሮጀክት",
-    "description": "ብኣንደ ኢትዮጵያ መጽሐፍ ቅዱስ ቅድሚያ ይፈልጡ። ወደ መጽሐፍ ቅዱስ ይገቡና ኣብ እምነትካ ጋር ይገናኡ።",
-    "button": "ንንቀሳቀስ ኣብ ኦንላይን",
+    "developedBy": "ብ EOTCOpenSource ዝተማዕበለ >",
+    "title": "ክፍት ምንጪ ናይ ኢትዮጵያ መጽሓፍ ቅዱስ ፕሮጀክት (Open Source)",
+    "description": "ጥንታዊ መጽሓፍ ቅዱስ ኢትዮጵያ ደህስሱ። ኣብ ቅዱስ ቃል ኣቲኹም ምስ እምነትኹም ተራኸቡ።",
+    "button": "ከበይነመረብ (Online) ኣንብብ",
     "appCard": {
-      "mobileTitle": "EOTCBible ሞባይል መተግበሪያ ይውሰዱ",
-      "mobileDescription": "ኢትዮጵያ መጽሐፍ ቅዱስ ይነቁ, እቅዶችን ያግኙ, እና እግዚአብሔርን በየቀኑ ይፈልጉ።",
-      "googlePlayAlt": "ብGoogle Play ይውሰዱ",
-      "appStoreAlt": "ብApp Store ይጫኑ",
+      "mobileTitle": "EOTCBible ኣፕሊኬሽን ኣውርድ",
+      "mobileDescription": "መጽሓፍ ቅዱስ ከተንብቡ፣ መደባት ከተውጽኡን፣ ንኣምላኽ ዕለት ዕለት ክትደልይዎን ይሕግዝ።",
+      "googlePlayAlt": "ብ Google Play ኣውርድ",
+      "appStoreAlt": "ብ App Store ኣውርድ",
       "qrAlt": "QR ኮድ",
-      "appIconAlt": "መተግበሪያ ኣዶ"
+      "appIconAlt": "ናይ ኣፕሊኬሽን ኣርማ"
     }
   },
   "About": {
     "hero": {
       "title": {
-        "line1": "ቀዳማዊ ምስክር",
-        "line2": "ናይ እምነት,",
-        "line3": "ዝያዳ",
-        "highlight": "መጽሐፍ ቅዱሳን ተለየ።"
+        "line1": "ጥንታዊ ምስክር",
+        "line2": "ናይ እምነት፣",
+        "line3": "ዝሓዘ",
+        "highlight": "ዝተፈለየ ቅዱሳት መጻሕፍቲ።"
       },
-      "imageAlt": "መጽሐፍ ቅዱሳን ተለየ",
-      "description": "ዘኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስትያን እዚ ዘጥንታዊንን መጽሐፍ ቅዱሳንን ኣስተዳደር ዘይተኻኸለ እዩ። በግዕዝ ተጻፎ እዩ።",
-      "ctaText": "ኣግኙ"
+      "imageAlt": "ዝተፈለየ ቅዱሳት መጻሕፍቲ",
+      "description": "오ርቶዶክስ ተዋሕዶ ቤተ ክርስቲያን ኢትዮጵያ ካብተን ቀደምት ኣብያተ ክርስቲያናት ኮይና፣ ንጥንታውን ምሉእን ቀኖና መጽሓፍ ቅዱስ ዝሓዘት እያ። ብቛንቋ ግዕዝ ዝተጻሕፈት ኮይና ንሓቀኛን ህያውን ባህሊ እትሕሉ እያ።",
+      "ctaText": "ርኸቡና"
     },
     "cards": [
       {
-        "title": "81 መጽሐፍ ቅዱሳን",
-        "description": "EOTC መጽሐፍ ቅዱሳን ብትልቁ ነው ኣብ ክርስትና።"
+        "title": "81 ቅዱሳት መጻሕፍቲ",
+        "description": "ናይ EOTC መጽሓፍ ቅዱስ ኣብ ዓለም ካብ ዘለዉ ናይ ክርስትና ቀኖናታት ዝሰፍሐ ኮይኑ፣ ነቶም 66 መጻሕፍቲ ብምውሳኽ 81 መጻሕፍቲ ይሕዝ።"
       },
       {
-        "title": "መጽሐፍ ቅዱሳን ተለየ",
-        "description": "ካብ ኣብ ሓደ ቦታ ኣልተገኘን ጽሑፎታት ይዟ።"
+        "title": "ፍሉይ ቅዱሳት መጻሕፍቲ",
+        "description": "ኣብ ካልእ ዘይርከቡ መጻሕፍቲ ዝሓዘ እዩ፣ ንኣብነት መጽሓፈ ሄኖክ፣ መጽሓፈ ኩፋሌ፣ ሲራክን ካልኦትን።"
       },
       {
-        "title": "ተካፋይ ቅርንጫፍ",
-        "description": "ኣብ ኢትዮጵያን ኤርትራን ቤተክርስትያን ዝተከበረ እዩ።"
+        "title": "ሓባራዊ ቅርስና",
+        "description": "ብናይ ኢትዮጵያን ኤርትራን ኦርቶዶክስ ኣብያተ ክርስቲያናት ክቡር ኮይኑ ምስ እምነትናን ባህልናን እናተጓዓዘ ዝነብር ትውፊት እዩ።"
       }
     ],
     "navigation": {
@@ -326,51 +329,51 @@
     }
   },
   "DownloadApp": {
-    "title": "ኣሁን መተግበሪያ ናይ EOTCBible ይውስዱ!",
-    "description": "መንገዲ መንፈሳዊ ኣብርሂ እና ቅዱሳን ይገናኙ። ከእምነትኩም ጋር ዝተዛመደ ምርምር ይትረፍ።",
-    "googlePlayAlt": "ብGoogle Play ይውሰዱ",
-    "appStoreAlt": "ብApp Store ይውሰዱ",
-    "mobileAlt": "ብእግሪ ሞባይል"
+    "title": "ኣፕሊኬሽን EOTCBible ሕጂ ኣውርድ!",
+    "description": "መንፈሳዊ ጉዕዞኻ ኣስፍሕ ምስ ቃል ኣምላኽ ድማ ርክብካ ኣደልድል። ነቲ ምስ እምነትካ ዝኸይድን ዘተኣሳስረካን ትምህርቲ ርኸብ።",
+    "googlePlayAlt": "ብ Google Play ኣውርድ",
+    "appStoreAlt": "ብ App Store ኣውርድ",
+    "mobileAlt": "ሞባይል ቴሌፎን"
   },
   "KeyFeatures": {
-    "sectionTitle": "ዋና ተግባራት ኣብ EOTCBible መተግበሪያ",
-    "tryNow": "ኣሎኹ ሞክር",
+    "sectionTitle": "ናይ EOTCBible ኣፕሊኬሽን ፍሉያት ባህርያት",
+    "tryNow": "ሕጂ ፈትኖ",
     "feature1": {
-      "title": "ማብራሪያ፣ መምረጥ እና ማካፈል",
-      "description": "ኣንቀጾችን ምልክት ያድርጉ፣ ማስታወሻ ያክሉ፣ እና ቀላል ለማካፈል ይችላሉ።"
+      "title": "ኣድምቕ፣ ዕልባት ግበርን ኣካፍልን",
+      "description": "ነተን ዝተመሰጣኻ ጥቕስታት ኣድምቕ፣ ዕልባት ግበርን (Bookmark)፣ ማስታወሻ ጽሓፍለን፣ ብማሕበራዊ ሚድያ ድማ ምስ የዕሩኽካ ኣካፍል።"
     },
     "feature2": {
-      "title": "የመጽሐፍ ቅዱስ ንባብ እቅዶች",
-      "description": "በመምሪያ የተዘጋጀ እቅድ ተከተሉ። የርዕሶችን ይምረጡ።"
+      "title": "መደባት ንባብ መጽሓፍ ቅዱስ",
+      "description": "ብመደብ ዝተዳለዉ ንባባት ተኸታተል። ርእስታት ምረጽ ወይ ድማ ናይ ገዛእ ርእስኻ መደብ ኣዳሉ ኣጽንዕ።"
     },
     "feature3": {
-      "title": "በመሳሪያዎች መካከል ዝግጅት",
-      "description": "በተለያዩ መሳሪያዎች የመጽሐፍ ቅዱስ እንቅስቃሴዎን ቀጥሉ።"
+      "title": "ኣብ ዝተፈላለዩ ኣቕሑ ዕቀብ (Sync)",
+      "description": "ኣብ መጽሓፍ ቅዱስ ተመዝግቦም ነገራት ኣብ ካልእ መሳሪያታትካ እውን ባዕሉ ክኽዘን ይኽእል እዩ። (Sync)"
     },
     "feature4": {
-      "title": "በመስመር ውስጥ ያልሆነ መዳረሻ",
-      "description": "መስመር ውስጥ ሳይኖር መጽሐፍ ቅዱስን ያገኙ።"
+      "title": "ብዘይ ኢንተርኔት (Offline) ምጥቃም",
+      "description": "ኣብ ዝኾነ ቦታ፣ ዋላ እውን ኢንተርኔት ኣብ ዘይብሉ ግዜ መጽሓፍ ቅዱስ ኣንብብ። ነቲ መጽሓፍ ኣውሪድካ ኣብ ጉዕዞ ኽትጥቀመሉ ትኽእል።"
     },
     "feature5": {
-      "title": "ምስጢራዊ ማሳሰቢያ",
-      "description": "በቀጥታ እንቅስቃሴዎን ይማሩ።"
+      "title": "መዘኻኸሪታትን ረድኤትን",
+      "description": "ነቲ ትደልዮ ሰዓት ንባብ ንኽትዝክር მዘኻኸሪ (Reminder) ኣዳሉ እሞ ዘሎካ ዕብየት ኣኻዕብት።"
     },
     "feature6": {
-      "title": "ማስታወሻዎች እና እይታዎች",
-      "description": "በመጽሐፍ ቅዱስ ላይ ማስታወሻዎችን ይጽፉ።"
+      "title": "ማስታወሻታትን ርእይቶታትን",
+      "description": "ንዘጽናዕካዮ ክፋል፣ ናትካ ማስታወሻ ጽሓፍ፣ ብሓደ ቦታ እውን ምእላይ ይከኣል እዩ።"
     }
   },
   "DiscoverPlans": {
-    "title": "ንተለያዪ ውጥንታት ንምንባብ መጽሓፍ ቅዱስ EOTC <br /> ርኸቡ።",
-    "planDetailsCta": "ደረቓት ውጥን",
+    "title": "መጽሓፍ ቅዱስ EOTC ንምንባብ <br /> ዝተፈላለዩ መደባት ንባብ ርኸብ።",
+    "planDetailsCta": "ዝርዝር መደብ ንባብ",
     "error": {
-      "message": "ውጥንታት ክመጽእ ኣይከኣለን:",
-      "retryButton": "ደጊም ፈትን"
+      "message": "መደባት ንባብ ከተውርድ ኣይከኣለን:",
+      "retryButton": "እንደገና ፈትን"
     },
     "footer": {
-      "title": "ንመንፈሳዊ ጕዕዞኻ ውጥን ርኸብ።",
-      "description": "ምስ መጽሓፍ ቅዱስ ንኽትተሓሓዝ እትሕግዘካ ውጥን ንምርካብ ቤተ-መጻሕፍትና ኣርእስ።",
-      "ctaButton": "ዝያዳ ውጥንታት ርኸብ"
+      "title": "ንመንፈሳዊ ዕብየትካ ዝኸውን መደብ ንባብ ርኸብ።",
+      "description": "ካብ ቤተ-መጻሕፍትና፣ ነቲ ምስ ቃል ኣምላኽ ንኽትራኸብ ዝሕግዘካ መደብ ንባብ ኣውጽእ።",
+      "ctaButton": "ተወሳኺ መደባት ንባብ ተወከስ"
     },
     "pagination": {
       "previousPage": "ዝሓለፈ ገጽ",
@@ -380,92 +383,241 @@
     "fallbackPlans": [
       {
         "id": "1",
-        "title": "መዝሙር ኣብ 30 መዓልታት",
-        "description": "ኣብ 30-መዓልታት ዕልወት መዝሙር ተጸንበሩ። ተስፋን እምነትን ኣስተብህል።",
+        "title": "መዝሙረ ዳዊት ብ30 መዓልቲ",
+        "description": "ኣብ ናይ 30-መዓልታት መደብ ንባብ መዝሙረ ዳዊት ተኻፈል። ብዛዕባ ተስፋን እምነትን ኣስተንትን።",
         "image": "/plans/plan1.png",
         "slug": "psalms-30-days"
       },
       {
         "id": "2",
-        "title": "ጾም ክርስቶስ",
-        "description": "ኣብ ማሕበር ኣማን ክትከውን እንታይ ማለት ከም ዝኸውን ዕሙቅ መጽናዕቲ።",
+        "title": "ኣካል ክርስቶስ ምዃን",
+        "description": "ሓደ ካብ ህዝቢ ኣምላኽ ክትከውን እንታይ ማለት ሙኻኑ ብዕምቆት ንምርዳእ።",
         "image": "/plans/plan2.png",
         "slug": "body-of-christ"
       },
       {
         "id": "3",
         "title": "ጽንዓት ምግባር",
-        "description": "መንፈሳዊ ሓይሊ ንምህናጽን ተጸጋማት ንምስጢርን መምርሒ።",
+        "description": "መንፈሳዊ ብርታዐኻ ንምህናጽን ፈተና ንምስጋርን ዝሕግዝ ናይ ንባብ መደብ።",
         "image": "/plans/plan3.png",
         "slug": "becoming-resilient"
       },
       {
         "id": "4",
-        "title": "ሰኒሕ ጓሳይ",
-        "description": "ኣብ 23ይ መዝሙር እትርከብ መምርሒን ሕግእን ኣስተብህል።",
+        "title": "ሕያዋይ ጓሳ",
+        "description": "ኣብ መዝሙር 23 ዘሎ ናይ ኣምላኽ መምርሒን ዕቚባን ከተስተንትን።",
         "image": "/plans/plan4.png",
         "slug": "good-shepherd"
       },
       {
         "id": "5",
-        "title": "ብእምነት ምቕጻል",
-        "description": "ኣብ ውጥን ኣምላኽ ምትግባርን ናብ ዘይፍለጥ ምኻድን ዝብል ሰልፍ ርእሰ-ሓሳባት።",
+        "title": "ብእምነት ንቕድሚት ምስጓም",
+        "description": "ብትልሚ እግዚኣብሔር እምነት ብምግባር፣ ካብ ዘይትፈልጦ ነገር ክትወጽእ ዝሕግዝ ናይ ንባብ ምድላው።",
         "image": "/plans/plan5.png",
         "slug": "moving-forward"
       },
       {
         "id": "6",
-        "title": "ጕዕዞ ኣማን",
-        "description": "ኣብ መንገዲ መንፈሳዊ ዕብየትን ተኸታተልነትን ዘሎ 30-መዓልታት ዕልወት።",
+        "title": "ጉዕዞ ኣማኒ",
+        "description": "ኣብ መንገዲ መንፈሳዊ ዕብየትን ምዃን ደቀመዝሙርን ዝተዳለወ 30-መዓልታት ንባብ።",
         "image": "/plans/plan6.png",
         "slug": "believers-journey"
       }
     ]
   },
   "Bookmarks": {
-    "title": "ዛዕባ መጽሓፍ ምልክት እዚ እዩ"
+    "title": "ናይ ዕልባታት (Bookmarks) ገጽ"
   },
   "Highlights": {
-    "title": "ገጽ ንቡር ክፍልታት"
+    "title": "ናይ ዝተኣድመቑ ጥቕስታት ገጽ"
   },
   "Notes": {
-    "title": "ገጽ ናይ ማህደር",
+    "title": "ማስታወሻታት ገጽ",
     "Create": {
-      "title": "ገጽ ሓድሽ ማህደር ምፍጣር"
+      "title": "ሓድሽ ማስታወሻ ፍጠር"
     }
   },
   "Dashboard": {
-    "loading": "ይጽዕን...",
-    "welcome": "እንቋዕ ብደሓን መጻእኩም፣ {{name}}",
+    "loading": "እናኣውረደ እዩ...",
+    "welcome": "እንቋዕ ብደሓን መጻእካ፣ {name}!",
     "errors": {
       "title": "ጌጋ",
-      "fetchProfile": "መግለጺ ምምጻእ ኣይከኣለን"
+      "fetchProfile": "ናይ ፕሮፋይል ሓበሬታ ከተውርድ ኣይከኣለን"
     },
     "unauthorized": {
-      "message": "ነዛ ገጽ ክትርእይዋ ኣይተፈቕደልካን።",
-      "loginButton": "እተው",
+      "message": "ነዚ ገጽ ንኽትርእዮ ፍቓድ የብልካን።",
+      "loginButton": "እቶ",
       "registerButton": "ተመዝገብ"
     },
     "profile": {
-      "title": "ሓበሬታ መግለጺ",
+      "title": "ሓበሬታ ፕሮፋይል",
       "email": "ኢመይል",
-      "theme": "ጭብጥ",
+      "theme": "ገጽታ (Theme)",
       "fontSize": "ዓቐን ፊደል"
-    }
+    },
+    "bookmarksButton": "ዕልባታት (Bookmarks)",
+    "readOnlineButton": "በይነመረብ (Online) ኣንብብ",
+    "highlightsTitle": "ዝተኣድመቑ",
+    "bookmarksTitle": "ዕልባታት",
+    "plansTitle": "መደባት ንባብ",
+    "notesTitle": "ማስታወሻታት",
+    "selectAll": "ኵሉ ምረጽ",
+    "deleteHighlight": "ዝተኣድመቐ ኣጥፍእ",
+    "deleteHighlights": "ዝተኣድመቑ ኣጥፍእ",
+    "confirmDeleteHighlight": "ነዚ ዝተኣድመቐ ጥቕሲ ብርግጽ ከነጥፍኦ ትደሊ ዲኻ? እዚ ተግባር ንድሕሪት ኣይምለስን እዩ።",
+    "confirmDeleteHighlights": "ነዞም {count} ዝተኣድመቑ ጥቕስታት ብርግጽ ከነጥፍኦም ትደሊ ዲኻ? እዚ ተግባር ንድሕሪት ኣይምለስን እዩ።",
+    "noHighlights": "ዛጊት ዝተኣድመቐ የለን። ነዚ ንምውሳኽ መጽሓፍ ቅዱስ ኣንብብ!",
+    "noPlans": "ዛጊት መደብ ንባብ የለን። ሓድሽ መደብ ብምውጻእ ጀምር 📖",
+    "noBookmarks": "ዛጊት ዕልባት የለን። መጀመርታ ዕልባት ግበር!",
+    "clickEditContext": "ነቲ ምሉእ ትሕዝቶ ንምርኣይ \"ኣስተኻኽል\" ዝብል ጠውቕ።",
+    "myProfile": "ናተይ ፕሮፋይል",
+    "notifications": "መፍለጢታት",
+    "logOut": "ውጻእ",
+    "saveChanges": "ለውጥታት ዓቅብ",
+    "deleteAccount": "ኣካውንት ኣጥፍእ",
+    "changeAvatar": "ስእሊ ፕሮፋይል ቀይር",
+    "profilePicUpdates": "ናይ ፕሮፋይል ስእልኻ ቀይር",
+    "confirmDeleteAccount": "ኣካውንትኻ ብርግጽ ከተጥፍኦ ትደሊ ዲኻ? እዚ ተግባር ንድሕሪት ኣይምለስን፣ ንዅሉ ሓበሬታኻ ድማ ምሉእ ብምሉእ ከጥፍኦ እዩ።",
+    "startReadingToEarn": "ሽልማት ንምርካብ ምምባብ ጀምር!",
+    "viewAll": "ኵሉ ርአ",
+    "achievements": "ሽልማታት"
   },
   "GlobalError": {
-    "title": "ጌጋ ተፈጢሩ።",
-    "description": "ዝተዛረበ ገፅ ኣይክእልናን ንክእትወስደይ። እባክኻ እንደገና ፈትን ወይ ድጋፍ ኣነጋግር።",
+    "title": "ጌጋ ተፈጢሩ ኣሎ",
+    "description": "ነዚ ገጽ ክንጽዕኖ ኣይከኣልናን። በጃኹም እንደገና ፈትኑ፣ እንተ ደኣ ጸገም ኣጋጢሙኩም ድማ ሓገዝ ሕተቱ።",
     "tryAgain": "እንደገና ፈትን",
-    "copyError": "ጌጋ ኮፒ ግበር",
-    "copied": "ተኮፍዩ!"
+    "copyError": "ነቲ ጌጋ ኮፒ ግበር",
+    "copied": "ኮፒ ኮይኑ!"
   },
   "GlobalLoading": {
-    "text": "በመጫን ላይ፣ በትኽክል ተጠቕም..."
+    "text": "እናኣውረደ እዩ፣ በጃኹም ተጸበዩ..."
   },
   "GlobalNotFound": {
-    "title": "ገፅ ኣይተረኸበን።",
-    "description": "ዝተዛረበ ገፅ ኣይተረኸበን ወይ ተንቀሳቅሶ እዩ።",
-    "goHome": "ናብ መነሻ ደሊ"
+    "title": "ገጽ ኣይተረኽበን",
+    "description": "ይቕሬታ! እትደልዮ ዘለኻ ገጽ የለን ወይ ተሰሪዙ እዩ።",
+    "goHome": "ናብ መበገሲ ተመለስ"
+  },
+  "VerseActionMenu": {
+    "highlight": "ኣድምቕ",
+    "bookmark": "ዕልባት ግበር (Bookmark)",
+    "copy": "ኮፒ ግበር",
+    "copied": "ኮፒ ኮይኑ!",
+    "share": "ኣካፍል",
+    "shared": "ተኻፊሉ እዩ!",
+    "note": "ማስታወሻ"
+  },
+  "PlanDetail": {
+    "back": "ንድሕሪት",
+    "continuePlan": "መደብ ንባብ ቀጽል",
+    "startPlan": "መደብ ንባብ ጀምር",
+    "progress": "መስርሕ",
+    "days": "መዓልታት",
+    "readings": "ንባባት",
+    "participants": "ተሳተፍቲ",
+    "checklist": "መcheckst",
+    "calendar": "ዓውደ ኣዋርሕ መቁጸሪ",
+    "filter": {
+      "all": "ዅሉ መዓልታት",
+      "pending": "ዘየንበብካዮ",
+      "completed": "ዘንበብካዮ"
+    },
+    "week": "ሰሙን",
+    "day": "መዓልቲ",
+    "read": "ኣንብብ",
+    "markComplete": "ከም ዘንበብካዮ ፈሊኻ ኣቐምጦ",
+    "markIncomplete": "ከም ዘየንበብካዮ ፈሊኻ ኣቐምጦ",
+    "similarPlans": "ተመሳሳሊ መደባት ንባብ",
+    "planDetails": "ዝርዝር መደብ ንባብ",
+    "notFound": {
+      "title": "መደብ ንባብ ኣይተረኽበን",
+      "description": "እትደልዮ ዘለኻ መደብ ንባብ ኣይተረኽበን።",
+      "goBack": "ናብ መበገሲ ተመለስ"
+    },
+    "loading": "ካብ ሰርቨር እናውረደ እዩ..."
+  },
+  "PlanForm": {
+    "newPlan": "New Plan",
+    "editPlan": "Edit Reading Plan",
+    "createPlan": "Create Reading Plan",
+    "fillDetails": "Fill in the details below to set up your reading plan.",
+    "planName": "Plan name",
+    "planNamePlaceholder": "e.g. Morning Reading",
+    "nameRequired": "Plan name is required",
+    "startBook": "Start book",
+    "bookRequired": "Book is required",
+    "endBook": "End book",
+    "chapter": "Chapter",
+    "chapterRange": "Must be between 1 and {max}",
+    "startDate": "Start date",
+    "pickDate": "Pick a date",
+    "duration": "Duration (days)",
+    "durationMin": "Duration must be at least 1 day",
+    "preview": "Plan Preview",
+    "reading": "Reading {startBook} {startChapter} — {endBook} {endChapter}",
+    "starting": "Starting {date} • {duration} days",
+    "updating": "Updating...",
+    "creating": "Creating...",
+    "updateButton": "Update Plan",
+    "createButton": "Create Plan",
+    "deleteTitle": "Delete Reading Plan?",
+    "deleteConfirm": "This action cannot be undone. This will permanently delete {name}.",
+    "cancel": "Cancel",
+    "deleting": "Deleting...",
+    "delete": "Delete",
+    "weekdays": "Mon – Fri"
+  },
+  "PlansExplore": {
+    "heroTitle": "Guided Reading <br /> Plans for the <br /> EOTC Bible",
+    "heroDescription": "Find a plan that fits your journey, or design one yourself to grow daily in the Word.",
+    "exploreButton": "Explore Plans",
+    "createButton": "Create Your Plan",
+    "getAppTitle": "Get The EOTC Bible App",
+    "getAppDescription": "Read the Ethiopian Bible and seek God daily.",
+    "getAppCta": "Get EOTCBible App",
+    "tabs": {
+      "my-plans": "My Plans",
+      "explore": "Explore",
+      "saved": "Saved",
+      "completed": "Completed"
+    },
+    "myPlansTitle": "My Plans",
+    "myPlansDescription": "Your active reading plans.",
+    "openDashboard": "Open Dashboard",
+    "signInPrompt": "Please sign in to see your plans.",
+    "noActivePlans": "No active plans yet.",
+    "completedTitle": "Completed",
+    "completedDescription": "Plans you’ve finished.",
+    "signInCompletedPrompt": "Please sign in to see completed plans.",
+    "noCompletedPlans": "No completed plans yet.",
+    "savedTitle": "Saved",
+    "savedDescription": "Plans you’ve bookmarked.",
+    "browseButton": "Browse",
+    "noSavedPlans": "No saved plans yet. Open a plan and tap “Save”.",
+    "exploreDifferentTitle": "Explore Different Plans",
+    "exploreDifferentDescription": "Discover curated plans to enrich your Bible study and spiritual journey.",
+    "featuredTitle": "Featured Plans",
+    "wholeBibleTitle": "Whole Bible",
+    "encouragementTitle": "Encouragement",
+    "wisdomTitle": "Wisdom",
+    "dayText": "Day {day}: {book} {chapter}",
+    "readButton": "Read",
+    "prevDays": "Previous days",
+    "nextDays": "Next days",
+    "dayNOfM": "Day {n} of {m}",
+    "savedToast": "Saved plan",
+    "removedToast": "Removed from saved plans",
+    "sharedToast": "Shared",
+    "linkCopiedToast": "Link copied",
+    "shareErrorToast": "Failed to share",
+    "continuePlan": "Continue Plan",
+    "save": "Save",
+    "saved": "Saved",
+    "share": "Share",
+    "planDetails": "Plan Details",
+    "hardTimesTitle": "Hard Times",
+    "viewPlans": "View Plans",
+    "scrollLeft": "Scroll left",
+    "scrollRight": "Scroll right",
+    "viewAllPlans": "View All Plans ›"
   }
 }

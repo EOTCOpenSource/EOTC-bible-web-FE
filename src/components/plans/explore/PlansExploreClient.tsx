@@ -1,4 +1,4 @@
-'use client'
+  'use client'
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
@@ -13,6 +13,7 @@ import { useUserStore } from '@/lib/stores/useUserStore'
 import { usePlanStore } from '@/stores/usePlanStore'
 import PlanItem from '@/components/dashboard/plans/PlanItem'
 import { ArrowUpRight } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 type TabKey = 'my-plans' | 'explore' | 'saved' | 'completed'
 
@@ -24,6 +25,7 @@ const TAB_LABELS: Record<TabKey, string> = {
 }
 
 export function PlansExploreClient() {
+  const t = useTranslations('PlansExplore')
   const [tab, setTab] = useState<TabKey>('explore')
 
   const { user, isLoggedIn, loadSession } = useUserStore()
@@ -91,11 +93,10 @@ export function PlansExploreClient() {
     <div className="w-full bg-[#FBF8F2] dark:bg-neutral-900">
       <PlansExploreHero onExploreClick={scrollToExplore} />
 
-
       <div className="mx-auto w-full max-w-6xl px-4 -mt-10">
         <div className="flex justify-center">
           <div className="inline-flex items-center gap-2 rounded-xl bg-white/70 dark:bg-neutral-800/70 border border-black/10 dark:border-neutral-700 px-2 py-2">
-            {(Object.keys(TAB_LABELS) as TabKey[]).map((k) => (
+            {(['my-plans', 'explore', 'saved', 'completed'] as TabKey[]).map((k) => (
               <button
                 key={k}
                 type="button"
@@ -107,7 +108,7 @@ export function PlansExploreClient() {
                     : 'bg-white/70 dark:bg-neutral-700/70 text-[#1A1A19] dark:text-neutral-100 border-black/10 dark:border-neutral-600 hover:bg-white dark:hover:bg-neutral-600',
                 ].join(' ')}
               >
-                {TAB_LABELS[k]}
+                {t(`tabs.${k}`)}
               </button>
             ))}
           </div>
@@ -119,22 +120,22 @@ export function PlansExploreClient() {
           <section>
             <div className="flex items-end justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-heading text-[#1A1A19] dark:text-neutral-100">My Plans</h2>
-                <p className="text-sm text-[#1A1A19DB] dark:text-neutral-400 mt-1">Your active reading plans.</p>
+                <h2 className="text-2xl font-heading text-[#1A1A19] dark:text-neutral-100">{t('myPlansTitle')}</h2>
+                <p className="text-sm text-[#1A1A19DB] dark:text-neutral-400 mt-1">{t('myPlansDescription')}</p>
               </div>
               <Button asChild className="bg-[#4C0E0F] hover:bg-[#3b0b0c] text-white">
-                <Link href="/dashboard/plans">Open Dashboard</Link>
+                <Link href="/dashboard/plans">{t('openDashboard')}</Link>
               </Button>
             </div>
 
             {!isLoggedIn ? (
-              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">Please sign in to see your plans.</div>
+              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">{t('signInPrompt')}</div>
             ) : isFetching ? (
-              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">Loading…</div>
+              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">Loading...</div>
             ) : error ? (
               <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">{error}</div>
             ) : activePlans.length === 0 ? (
-              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">No active plans yet.</div>
+              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">{t('noActivePlans')}</div>
             ) : (
               <div className="mt-6 grid grid-cols-1 gap-4">
                 {activePlans.map((p) => (
@@ -149,22 +150,22 @@ export function PlansExploreClient() {
           <section>
             <div className="flex items-end justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-heading text-[#1A1A19] dark:text-neutral-100">Completed</h2>
-                <p className="text-sm text-[#1A1A19DB] dark:text-neutral-400 mt-1">Plans you’ve finished.</p>
+                <h2 className="text-2xl font-heading text-[#1A1A19] dark:text-neutral-100">{t('completedTitle')}</h2>
+                <p className="text-sm text-[#1A1A19DB] dark:text-neutral-400 mt-1">{t('completedDescription')}</p>
               </div>
               <Button asChild variant="outline">
-                <Link href="/dashboard/plans">Open Dashboard</Link>
+                <Link href="/dashboard/plans">{t('openDashboard')}</Link>
               </Button>
             </div>
 
             {!isLoggedIn ? (
-              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">Please sign in to see completed plans.</div>
+              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">{t('signInCompletedPrompt')}</div>
             ) : isFetching ? (
               <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">Loading…</div>
             ) : error ? (
               <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">{error}</div>
             ) : completedPlans.length === 0 ? (
-              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">No completed plans yet.</div>
+              <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">{t('noCompletedPlans')}</div>
             ) : (
               <div className="mt-6 grid grid-cols-1 gap-4">
                 {completedPlans.map((p) => (
@@ -179,17 +180,17 @@ export function PlansExploreClient() {
           <section>
             <div className="flex items-end justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-heading text-[#1A1A19] dark:text-neutral-100">Saved</h2>
-                <p className="text-sm text-[#1A1A19DB] dark:text-neutral-400 mt-1">Plans you’ve bookmarked.</p>
+                <h2 className="text-2xl font-heading text-[#1A1A19] dark:text-neutral-100">{t('savedTitle')}</h2>
+                <p className="text-sm text-[#1A1A19DB] dark:text-neutral-400 mt-1">{t('savedDescription')}</p>
               </div>
               <Button variant="outline" onClick={scrollToExplore}>
-                Browse
+                {t('browseButton')}
               </Button>
             </div>
 
             {savedTemplates.length === 0 ? (
               <div className="mt-6 text-[#1A1A19DB] dark:text-neutral-400">
-                No saved plans yet. Open a plan and tap “Save”.
+                {t('noSavedPlans')}
               </div>
             ) : (
               <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -203,20 +204,19 @@ export function PlansExploreClient() {
 
         {tab === 'explore' && (
           <>
-            {/* Explore Different Plans row */}
             <section className="w-full bg-white/60 dark:bg-neutral-800/60 rounded-2xl border border-black/10 dark:border-neutral-700 p-6">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div className="lg:col-span-4">
-                  <h2 className="text-xl font-heading text-[#1A1A19] dark:text-neutral-100">Explore Different Plans</h2>
+                  <h2 className="text-xl font-heading text-[#1A1A19] dark:text-neutral-100">{t('exploreDifferentTitle')}</h2>
                   <p className="mt-2 text-sm text-[#1A1A19DB] dark:text-neutral-400">
-                    Discover curated plans to enrich your Bible study and spiritual journey.
+                    {t('exploreDifferentDescription')}
                   </p>
                   <Button
                     asChild
                     className="mt-4 bg-white dark:bg-neutral-700 text-[#1A1A19] dark:text-neutral-100 border border-black/10 dark:border-neutral-600 hover:bg-white dark:hover:bg-neutral-600 h-[38px] px-3 rounded-md"
                   >
                     <Link href="/#download" className="inline-flex items-center gap-2">
-                      Get EOTCBible App
+                      {t('getAppCta')}
                       <span className="inline-flex h-6 w-6 items-center justify-center rounded bg-[#4C0E0F] text-white">
                         <ArrowUpRight size={16} />
                       </span>
@@ -230,10 +230,10 @@ export function PlansExploreClient() {
               </div>
             </section>
 
-            <PlanSection id="featured" title="Featured Plans" plans={featuredGrid} />
-            <PlanSection id="whole-bible" title="Whole Bible" plans={wholeBibleGrid} />
-            <PlanSection id="encouragement" title="Encouragement" plans={encouragementGrid} />
-            <PlanSection id="wisdom" title="Wisdom" plans={wisdomGrid} />
+            <PlanSection id="featured" title={t('featuredTitle')} plans={featuredGrid} />
+            <PlanSection id="whole-bible" title={t('wholeBibleTitle')} plans={wholeBibleGrid} />
+            <PlanSection id="encouragement" title={t('encouragementTitle')} plans={encouragementGrid} />
+            <PlanSection id="wisdom" title={t('wisdomTitle')} plans={wisdomGrid} />
           </>
         )}
       </div>

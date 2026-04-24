@@ -1,147 +1,150 @@
 {
   "Index": {
-    "title": "Macaaffaa Kitaabaa EOTC — Macaafa Qulqulluu",
-    "description": "Platform dijitaalaa kan barreessitoota seenaa Kiristaanaa Geʿez, Afaan Oromoo fi English keessatti",
-    "siteName": "Macaaffaa EOTC",
-    "heroTitle": "Macaaffaa Qulqulluu EOTC",
-    "heroSubtitle": "Barreessitoota qulqulluu Geʿez, Afaan Oromoo fi Ingiliffaan",
-    "heroButton": "Barreessitoota Dubbisi",
-    "featuredBible": "Qooda Macaafa Filatamaa",
+    "title": "Macaafa Qulqulluu EOTC — Macaafa Qulqulluu Mana Kiristaanaa Ortodoksii Tawaahidoo Itiyoophiyaa",
+    "description": "Pilaatfoormii dijitaalaa Macaafa Qulqulluu waraabbiilee afaan Gi'iizii, Amaaraa fi Ingiliffaa Mana Kiristaanaa Ortodoksii Tawaahidoo Itiyoophiyaa qabu.",
+    "siteName": "Macaafa Qulqulluu EOTC",
+    "heroTitle": "Macaafa Qulqulluu Mana Kiristaanaa Ortodoksii Tawaahidoo Itiyoophiyaa",
+    "heroSubtitle": "Macaafota qulqulluu afaan Gi'iizii, Amaaraa, fi Ingiliffaatiin qoradhu",
+    "heroButton": "Macaafota Qulqulluu Dubbisi",
+    "featuredBible": "Boqonnaawwan Macaafa Qulqulluu Filataman",
     "dailyReading": "Dubbisa Guyyaa",
-    "prayers": "Sagalee Amantii fi Waaqeffannaa",
-    "saints": "Qulqulleewwan Guyyaa",
-    "calendar": "Kalandara Waajjira",
-    "aboutTitle": "Waaʼee Kanneessa Ortodoksii Itiyoophiyaa",
-    "aboutDescription": "Kanneessi Ortodoksii Itiyoophiyaa amantii durii kan seenaa barreessaa fi Macaafa Qulqulluu eeguu dha.",
-    "contact": "Walqunnamtii",
-    "copyright": "© {year} Macaaffaa EOTC. Mirgi Hundumtuu Kabajamoodha.",
+    "prayers": "Kadhannaa fi Faarfannaa",
+    "saints": "Qulqulloota Guyyaa",
+    "calendar": "Kalandara Mana Kiristaanaa",
+    "aboutTitle": "Waa'ee Mana Kiristaanaa Ortodoksii Tawaahidoo Itiyoophiyaa",
+    "aboutDescription": "Manni Kiristaanaa Ortodoksii Tawaahidoo Itiyoophiyaa manneen kiristaanaa durii addunyaa keessaa ishee tokko yoo taatu, aadaa fi macaafota qulqulluu durii eegdee tursiifteerti.",
+    "contact": "Nu Qunnamaa",
+    "copyright": "© {year} Macaafa Qulqulluu EOTC. Mirgi hundumtuu seeraan eegamaadha.",
     "version": "Gosa",
     "book": "Kitaaba",
     "chapter": "Boqonnaa",
-    "verse": "Lakk. Qubee",
-    "search": "Macaafa Barbaadi…",
-    "oldTestament": "Seenaa Dura",
-    "newTestament": "Seenaa Haaraa",
-    "deuterocanonical": "Kitaabota Deuterokanoniikaa",
-    "bibleVersions": "Hiikaawwan Macaafa",
+    "verse": "Lakkoofsa",
+    "search": "Macaafota Qulqulluu Barbaadi...",
+    "oldTestament": "Kakuu Moofaa",
+    "newTestament": "Kakuu Haaraa",
+    "deuterocanonical": "Kitaabota Diyuutirookaanonikaal",
+    "bibleVersions": "Hiikaawwan Macaafa Qulqulluu",
     "language": "Afaan"
   },
   "Navigation": {
-    "home": "Mana",
-    "bible": "Macaafa",
-    "siteName": "Macaaffaa EOTC",
-    "prayers": "Sagalee Amantii",
-    "saints": "Qulqulleewwan",
-    "calendar": "Kalandara",
-    "about": "Waaʼee",
+    "home": "Fuula Duraa",
+    "bible": "Macaafa Qulqulluu",
+    "siteName": "Macaafa Qulqulluu EOTC",
+    "prayers": "Kadhannaa",
+    "saints": "Qulqulloota",
+    "calendar": "Kalandara Mana Kiristaanaa",
+    "about": "Waa'ee EOTC",
     "language": "Afaan",
-    "contact": "Walqunnamtii",
+    "contact": "Quunnamtii",
     "plans": "Karoorawwan",
-    "notes": "Yaadota",
+    "notes": "Yaadannoowwan",
     "search": "Barbaadi",
-    "getApp": "App Sobaadha",
-    "login": "Seeni"
+    "getApp": "Appii Buufadhu",
+    "login": "Seeni",
+    "highlights": "Highlights",
+    "bookmarks": "Bookmarks",
+    "community": "Community"
   },
   "Common": {
-    "loading": "Olkaʼaa…",
-    "submit": "Ergaa",
-    "cancel": "Haquu",
-    "save": "Kuusaa",
-    "delete": "Haquu/Balleessi",
+    "loading": "Ulamaa jira...",
+    "submit": "Dabarsi",
+    "cancel": "Haqi",
+    "save": "Olkaayi",
+    "delete": "Balleessi",
     "edit": "Gulaali",
     "create": "Uumi",
     "update": "Fooyyessi",
     "confirm": "Mirkaneessi",
-    "back": "Deebiʼi",
-    "next": "Kan itti aanu",
-    "previous": "Dura",
+    "back": "Gara Duubaa",
+    "next": "Kan Itti Aanu",
+    "previous": "Kan Duraa",
     "close": "Cufi",
     "open": "Bani",
     "search": "Barbaadi",
-    "filter": "Filadhu",
-    "sort": "Waliigaltee qopheessi",
-    "view": "Mulʼisi",
+    "filter": "Dhingi",
+    "sort": "Akkaataa Tarreeffamaa",
+    "view": "Ilaali",
     "readMore": "Dabalata Dubbisi",
-    "download": "Buusu",
-    "upload": "Olkaaʼi",
-    "success": "Milkaaʼe!",
+    "download": "Buufadhu",
+    "upload": "Olkaa'i",
+    "success": "Milkaa'eera!",
     "error": "Dogoggora!",
-    "warning": "Yeroo Hubachiisa!",
+    "warning": "Akeekkachiisa!",
     "info": "Odeeffannoo",
-    "required": "Kun barbaachisaa dha",
-    "invalidEmail": "Imeeli sirrii galchaa",
-    "passwordLength": "Jecha iccitii (password) hanga akka 8 dhumaa qabaachuu qaba"
+    "required": "Dirqama guutamuu qaba",
+    "invalidEmail": "Maaloo teessoo imeelii sirrii galchaa",
+    "passwordLength": "Jechi iccitii yoo xiqqaate arfiilee 8 qabaachuu qaba"
   },
   "Forms": {
-    "firstName": "Maqaa Durii",
-    "lastName": "Maqaa Xumuraa",
-    "email": "Adaa Imeeli",
-    "phone": "Lak. Bilbila",
+    "firstName": "Maqaa Duraa",
+    "lastName": "Maqaa Abbaa",
+    "email": "Teessoo Imeelii",
+    "phone": "Lakkoofsa Bilbilaa",
     "message": "Ergaa",
-    "subject": "Mata Duree",
+    "subject": "Dhimma",
     "password": "Jecha Iccitii",
-    "confirmPassword": "Jecha Iccitii Mirkanneessi",
-    "company": "Kompanii",
+    "confirmPassword": "Jecha Iccitii Mirkaneessi",
+    "company": "Dhaabbata",
     "address": "Teessoo",
     "city": "Magaalaa",
-    "country": "Biyyoota",
-    "postalCode": "Lak. Pooosta"
+    "country": "Biyya",
+    "postalCode": "Lakkoofsa Poostaa"
   },
   "Auth": {
     "signIn": "Seeni",
     "signUp": "Galmaa'i",
-    "rememberMe": "Na yaadadhu",
-    "noAccount": "Akaawuntii hin qabda?",
-    "hasAccount": "Akaawuntii jirta?",
-    "verifyOtp": "OTP Sirreessi",
-    "resendCode": "Lakk. deebisi",
-    "backToLogin": "Deebi'i Gara Seensaa",
-    "back": "Deebi'i",
+    "rememberMe": "Na Yaadadhu",
+    "noAccount": "Akaawuntii hin qabduu?",
+    "hasAccount": "Akaawuntii qabdaa?",
+    "verifyOtp": "OTP Mirkaneessi",
+    "resendCode": "Koodii Irra Deebi'ii Ergi",
+    "backToLogin": "Gara Fuula Seensaatti Deebi'i",
+    "back": "Gara Duubaatti",
     "register": {
       "title": "Akaawuntii Haaraa Uumi",
-      "haveAccount": "Akaawuntii qabda?",
+      "haveAccount": "Akaawuntii qabdaa?",
       "login": "Seeni",
       "fields": {
         "name": "Maqaa Guutuu",
-        "email": "Imeeli",
+        "email": "Imeelii",
         "password": "Jecha Iccitii",
-        "confirmPassword": "Jecha Iccitii Mirkanneessi"
+        "confirmPassword": "Jecha Iccitii Mirkaneessi"
       },
       "placeholders": {
-        "name": "Maqaa guutuu keetiin galchi",
+        "name": "Maqaa guutuu kee galchi",
         "email": "you@example.com",
-        "password": "Jecha iccitii galchi",
-        "confirmPassword": "Jecha iccitii deebisii galchi"
+        "password": "Jecha iccitii kee galchi",
+        "confirmPassword": "Jecha iccitii kee irra deebi'ii galchi"
       },
       "password": {
-        "uppercase": "Xurree tokko Guddaa qabaachuu qaba",
-        "number": "Lakkoofsa tokko qabaachuu qaba",
-        "special": "Mallattoo adda tokko qabaachuu qaba",
-        "minLength": "Dheerinni 8 ta'uu qaba"
+        "uppercase": "Yoo xiqqaate qubee guddaa 1",
+        "number": "Yoo xiqqaate lakkoofsa 1",
+        "special": "Yoo xiqqaate mallattoo addaa 1",
+        "minLength": "Yoo xiqqaate arfiilee 8"
       },
       "validation": {
-        "nameRequired": "Maqaan barbaachisaa dha",
-        "emailRequired": "Imeelin barbaachisaa dha",
-        "passwordRequired": "Jecha iccitii barbaachisaa dha",
-        "confirmPasswordRequired": "Jecha iccitii deebi'amee mirkanaa’uu qaba"
+        "nameRequired": "Maqaan dirqama",
+        "emailRequired": "Imeeliin dirqama",
+        "passwordRequired": "Jechi iccitiin dirqama",
+        "confirmPasswordRequired": "Jecha iccitii mirkaneessuun dirqama"
       },
       "errors": {
-        "passwordMismatch": "Jecha iccitii wal hin faana",
-        "emptyResponse": "Deebiin adeemsa irraa hin jiru",
-        "failed": "Galmeen irratti kufe",
-        "termsRequired": "Shuruudota fi haqaalee fudachuun dirqama"
+        "passwordMismatch": "Jechoonni iccitii lamaan wal hin siman",
+        "emptyResponse": "Sarvarii irraa deebiin hin argamne",
+        "failed": "Galmeen hin milkoofne",
+        "termsRequired": "Haala fi Danbii irratti waliigaluu qabda"
       },
-      "success": "Galmeen milkaa’eera",
+      "success": "Galmeen milkaa'eera",
       "agreeTo": "Ani waliigaleera",
-      "terms": "Shuruudota & Haqaalee",
-      "register": "Galmaa’i",
-      "loading": "Galmee…",
+      "terms": "Haala fi Danbii dhimma ba'iinsaa",
+      "register": "Galmaa'i",
+      "loading": "Galmeessaa jira...",
       "or": "YKN",
-      "continueWithGoogle": "Waliin Google itti fufi"
+      "continueWithGoogle": "Google dhaan itti fufi"
     },
     "login": {
       "title": "Seeni",
-      "noAccount": "Herrega hin qabdu?",
+      "noAccount": "Herrega hin qabduu?",
       "signup": "Galmaa'i",
       "fields": {
         "email": "Imeelii",
@@ -152,23 +155,23 @@
         "password": "Jecha iccitii kee galchi"
       },
       "validation": {
-        "emailRequired": "Imeeliin barbaachisaa dha",
-        "passwordRequired": "Jecha iccitiin barbaachisaa dha"
+        "emailRequired": "Imeeliin dirqama",
+        "passwordRequired": "Jechi iccitiin dirqama"
       },
       "errors": {
-        "emptyResponse": "Deebii duwwaa server irraa",
+        "emptyResponse": "Sarvarii irraa deebiin hin argamne",
         "loginFailed": "Seensuun hin milkoofne. Maaloo irra deebi'ii yaali."
       },
       "rememberMe": "Na yaadadhu",
-      "forgotPassword": "Jecha iccitii dagatte?",
+      "forgotPassword": "Jecha iccitii dagattee?",
       "submit": "Seeni",
       "loading": "Seenaa jira...",
-      "or": "YOOKIIN",
-      "continueWithGoogle": "Google'n itti fufi",
+      "or": "YKN",
+      "continueWithGoogle": "Google dhaan itti fufi",
       "googleLogoAlt": "Mallattoo Google"
     },
     "forgotPassword": {
-      "title": "Jecha Iccitii Dagatte",
+      "title": "Jecha Iccitii Dagadhe",
       "description": "Jecha iccitii kee deebisuuf, teessoo imeelii herrega uumuuf itti fayyadamte galchi",
       "fields": {
         "emailAddress": "Teessoo Imeelii"
@@ -177,7 +180,7 @@
         "email": "Imeelii kee galchi"
       },
       "validation": {
-        "emailRequired": "Imeeliin barbaachisaa dha",
+        "emailRequired": "Imeeliin dirqama",
         "invalidEmail": "Teessoo imeelii sirrii galchi"
       },
       "buttons": {
@@ -188,13 +191,13 @@
         "resendEmail": "Imeelii irra deebi'ii ergi",
         "changeEmail": "Imeelii jijjiiri"
       },
-      "rememberedPassword": "Jecha iccitii yaadatte?",
+      "rememberedPassword": "Jecha iccitii kee yaadattee?",
       "emailSent": {
-        "title": "Imeelii Ergameera",
-        "description": "Link deebii jecha iccitii gara imeelii keetti ergineerra",
-        "checkSpam": "(Folder spam kee ilaaluu hin dagatin)",
-        "didNotReceive": "Imeelii hin arganne?",
-        "wrongEmail": "Teessoo imeelii dogoggoraa?"
+        "title": "Imeeliin Ergameera",
+        "description": "Liinkii deebii jecha iccitii gara imeelii keetti ergineerra",
+        "checkSpam": "(Baallii ispaamii (spam folder) kee ilaaluu hin dagatin)",
+        "didNotReceive": "Imeelii hin argannee?",
+        "wrongEmail": "Teessoo imeelii dogoggoraati?"
       }
     },
     "resetPassword": {
@@ -205,119 +208,119 @@
         "confirmPassword": "Jecha iccitii mirkaneessi"
       },
       "validation": {
-        "newPasswordRequired": "Jechi iccitii haaraan barbaachisaa dha",
-        "passwordMinLength": "Jechi iccitii yoo xiqqaate qubee {count} qabaachuu qaba",
-        "confirmPasswordRequired": "Jecha iccitii mirkaneessuun barbaachisaa dha",
-        "passwordMismatch": "Jechi iccitii wal hin fakkaatu"
+        "newPasswordRequired": "Jechi iccitii haaraan dirqama",
+        "passwordMinLength": "Jechi iccitii yoo xiqqaate arfiilee {count} qabaachuu qaba",
+        "confirmPasswordRequired": "Jecha iccitii mirkaneessuun dirqama",
+        "passwordMismatch": "Jechoonni iccitii lamaan wal hin siman"
       },
       "passwordCriteria": {
         "uppercase": "Yoo xiqqaate qubee guddaa 1",
         "number": "Yoo xiqqaate lakkoofsa 1",
         "special": "Yoo xiqqaate mallattoo addaa 1",
-        "minLength": "Yoo xiqqaate qubee 8"
+        "minLength": "Yoo xiqqaate arfiilee 8"
       },
       "buttons": {
-        "resetting": "Deebisaa jira...",
+        "resetting": "Sirreessaa jira...",
         "resetPassword": "Jecha Iccitii Deebisi"
       },
       "errors": {
-        "somethingWentWrong": "Wanti tokko dogoggoreera, irra deebi'ii yaali."
+        "somethingWentWrong": "Rakkoon uumameera, maaloo irra deebi'ii yaali."
       }
     },
     "verify": {
       "title": "Imeelii kee mirkaneessi",
-      "subtitle": "Koodii mirkaneessaa gara imeelii keetii ergineerra. Maaloo folder spam ilaalaa, koodii gadi galchi.",
-      "didNotReceive": "Koodii hin arganne?",
-      "resendCountdown": "Irra deebi'ee erguu {seconds} sekandiitti",
+      "subtitle": "Koodii mirkaneessaa gara imeelii keetii ergineerra. Maaloo baallii ispaamii (spam) ilaali, koodichas asii gaditti galchi.",
+      "didNotReceive": "Koodii hin argannee?",
+      "resendCountdown": "Sekondii {seconds} keessatti irra deebitee erguu dandeessa",
       "buttons": {
         "verify": "Koodii Mirkaneessi",
-        "resend": "Irra deebi'ii ergi"
+        "resend": "Irra Deebi'ii Ergi OTP"
       },
       "loading": "Mirkaneessaa jira..."
     }
   },
   "Error": {
-    "404": "Fuula geenyee hin argamne",
-    "500": "Dogoggora Sirrii hin taane",
-    "goHome": "Deebiʼi Mana",
-    "tryAgain": "Irra deebiʼi yaali"
+    "404": "Fuulli hin Argamne",
+    "500": "Dogoggora Sarvarii",
+    "goHome": "Gara Fuula Duraatti Deebi'i",
+    "tryAgain": "Irra Deebi'ii Yaali"
   },
   "Footer": {
-    "siteName": "Macaaffaa EOTC",
-    "description": "App keenya download godhi, imala amantii kee gara balʼinaan taasisuuf!",
+    "siteName": "Macaafa Qulqulluu EOTC",
+    "description": "Imala hafuuraa kee gad fageessuuf appii EOTCBible qoradhu. Amma buufadhuutii dubbiiwwan sagalee Waaqayyoo quba keetiin argadhu!",
     "googlePlay": "Google Play",
     "appStore": "App Store",
-    "menu": "Menu",
-    "home": "Mana",
-    "bible": "Macaafa",
-    "about": "Waaʼee",
-    "features": "Faayidaalee",
+    "menu": "Baafata",
+    "home": "Fuula Duraa",
+    "bible": "Macaafa Qulqulluu",
+    "about": "Waa'ee",
+    "features": "Amaloota",
     "plans": "Karoorawwan",
-    "socials": "Himatoota Hawaasaa",
+    "socials": "Hawaasummaa",
     "telegram": "Telegram",
     "instagram": "Instagram",
     "tiktok": "Tiktok",
     "facebook": "Facebook",
-    "contactInfo": "Odeeffannoo Walqunnamtii",
+    "contactInfo": "Odeeffannoo Quunnamtii",
     "address": "Finfinnee, Itiyoophiyaa",
-    "contactUs": "Nu qunnami",
-    "copyright": "© {year} Macaaffaa EOTC. Mirgi Hundumtuu Kabajamoodha."
+    "contactUs": "Nu Qunnamaa",
+    "copyright": "© {year} Macaafa Qulqulluu EOTC. Mirgi hundumtuu seeraan eegamaadha."
   },
   "Subscription": {
-    "title": "EOTCBible irratti odeeffannoo fi haala haaraya argachuuf galmaa'aa!",
-    "subtitle": "Galmaahuuf imeelii kee galchii",
+    "title": "Odeeffannoo fi haala haaraa EOTCBible irratti argachuuf galmaa'aa!",
+    "subtitle": "Galmaa'uuf imeelii kee galchi",
     "button": "Galmaa'i",
     "placeholder": "example@email.com"
   },
   "VerseOfTheDay": {
-    "title": "Ayyaana Guyyaa",
-    "verse": "Garuu warri Waaqa irratti abdatan humna isaanii ni haaromsu; akka simbirroota balali'aniitti ni ka'u; ni fiigu hin dadhabani; ni deemu hin dadhabani.",
-    "reference": "— Isaayyaas 40:31 (NIV)",
+    "title": "Caqasa Guyyaa",
+    "verse": "Warri Waaqayyoon eeggatan garuu humna haaraa in godhatu; akka risaa koola isaaniitiin ol in ka'u; in fiigu, hin dadhabanis; in deemu, hin mudhukanis.",
+    "reference": "— Isaayyaas 40:31",
     "likes": "105.3k",
     "shares": "12.8k",
     "bookmarks": "45.9k",
-    "continueReading": "Akkasitti Dubbisu",
-    "archive": "VOTD Archive",
-    "alt": "Ayyaana Guyyaa"
+    "continueReading": "Dubbisuu Itti Fufi",
+    "archive": "Kuusaa Caqasa Guyyaa",
+    "alt": "Caqasa Guyyaa"
   },
   "Hero": {
-    "developedBy": "EOTCOpenSource dhaan misoomfame >",
-    "title": "Projektii Macaafa Qulqulluu Itoophiyaa Open Source",
-    "description": "Seenaa Macaafa Qulqulluu Itoophiyaa qoradhu. Barreessota keessatti seenuu fi amantii kee waliin wal qunnami.",
-    "button": "Onlaayinii dubbisi",
+    "developedBy": "Maashinawwan EOTCOpenSource tiin misoomfame >",
+    "title": "Pirojektii Macaafa Qulqulluu Itiyoophiyaa Madda Banaa",
+    "description": "Dhaala Macaafa Qulqulluu Itiyoophiyaa qoradhu. Caqasoota keessa lixi, amantii kees guddifadhu.",
+    "button": "Toora Intarneetiin Dubbisi",
     "appCard": {
-      "mobileTitle": "Appii EOTCBible bilbilaa argadhu",
-      "mobileDescription": "Macaafa Qulqulluu Itoophiyaa dubbisi, karoorota qoradhu, Waaqayyo guyyaa guyyaa barbaadi.",
-      "googlePlayAlt": "Google Play irratti argadhu",
+      "mobileTitle": "Appii moobaayilaa EOTCBible argadhu",
+      "mobileDescription": "Macaafa qulqulluu Itiyoophiyaa dubbisi, karoorota qo'adhu, Waaqayyoos guyyaa guyyaan barbaaddadhu.",
+      "googlePlayAlt": "Google Play irraa argadhu",
       "appStoreAlt": "App Store irraa buufadhu",
-      "qrAlt": "QR Code",
-      "appIconAlt": "Appii Aangocha"
+      "qrAlt": "QR Koodii",
+      "appIconAlt": "Aayikonii Appii"
     }
   },
   "About": {
     "hero": {
       "title": {
-        "line1": "Dubbii Durii Ragaa",
+        "line1": "Ragaa Durii",
         "line2": "Amantii,",
-        "line3": "Qabuun",
-        "highlight": "Barreeffamoota Addaa."
+        "line3": "Qabatee",
+        "highlight": "Barreeffamoota Qulqulluu Adda Ta'an."
       },
-      "imageAlt": "Barreeffamoota Addaa",
-      "description": "Manni Kiristaanaa Ortodoksii Itoophiyaa (EOTC) keniinii Kitaabota Qulqulluu durii fi guutuu addunyaa irratti argaman tokko eega tiksaa jira. Afaan Ge’eziin barreeffame, aadaa jiraataa fi eegamaa ta’e ibsa.",
-      "ctaText": "Nu qunnamaa"
+      "imageAlt": "Barreeffamoota Qulqulluu Adda Ta'an",
+      "description": "Manni Kiristaanaa Ortodoksii Tawaahidoo Itiyoophiyaa (EOTC) kitaabota qulqulluu durii addunyaa keessaa isa tokko ni eegdi. Afaan Gi'iiziitiin barreeffamee, aadaa fi amantii dhugaa eegame calaqqisiisa.",
+      "ctaText": "Nu Qunnamaa"
     },
     "cards": [
       {
         "title": "Kitaabota 81",
-        "description": "Kitaaba EOTC keessaa kitaabota 81 qabdi kanneen gara 66 keessa jiranii Westren Bibles irraa ol ta’ani."
+        "description": "Macaafni Qulqulluun EOTC Kiristaanummaa keessatti kitaabota bal'aa qaba; kitaabota 81 kan qabu yoo ta'u, kunis kitaabota 66 warren Biyya Dhihaatti baay'inaan argaman caala."
       },
       {
-        "title": "Barreeffamoota Addaa",
-        "description": "Barruuwwan iddoo biraa hin argamne of keessaa qaba, fakkeenyaaf Kitaaba Enoch, Jubilees, Sirach fi kkf."
+        "title": "Barreeffamoota Qulqulluu Addaa",
+        "description": "Barruuwwan iddoo biraatti hin argamne of keessaa qaba, fakkeenyaaf Kitaaba Henook, Kufaalee, Siiraak fi kkf."
       },
       {
-        "title": "Aadaa Waliigalaa",
-        "description": "Mana Kiristaanaa Ortodoksii Itoophiyaa fi Ertraa biratti kabajamaa dha, amantii fi aadaa gaggeessuu itti fufa."
+        "title": "Aadaa Walioo",
+        "description": "Maneen Kiristaanaa Ortodoksii Itiyoophiyaa fi Eertiraa biratti kan kabajamu yoo ta'u, waaqeffannaa fi aadaa hanga har'aatti ni gaggeessa."
       }
     ],
     "navigation": {
@@ -326,146 +329,295 @@
     }
   },
   "DownloadApp": {
-    "title": "Amma App EOTCBible Buufadhaa!",
-    "description": "Daandii amantii kee qoradhuu fi barreeffamoota qulqulluu waliin hirmaadhu. Hubannoo amantii kee waliin wal simatu argadhuu fi barsiifata amantii kee ijaare waliin hidhadhu.",
-    "googlePlayAlt": "Google Play irra argadhu",
-    "appStoreAlt": "App Store irra argadhu",
-    "mobileAlt": "Mobaayili harkaa"
+    "title": "Amma Appii EOTCBible Buufadhaa!",
+    "description": "Imala afuuraa kee qoradhuutii caqasoota waliin walitti dhufeenya uumi. Hubannoo amantii kee waliin wal simu argadhuutii barsiifataawwan bu'uura amantii ta'anitti dhihaadhu.",
+    "googlePlayAlt": "Google Play irraa argadhu",
+    "appStoreAlt": "App Store irraa buufadhu",
+    "mobileAlt": "Moobaayila harka keessaa"
   },
   "KeyFeatures": {
-    "sectionTitle": "Karooraa Ittiin Fayyadamaa EOTCBible",
+    "sectionTitle": "Amaloota Ijoo Appii EOTCBible",
     "tryNow": "Amma yaali",
     "feature1": {
-      "title": "Hammaachuu, Kaasuu fi Qooduu",
-      "description": "Ayyaanni si qunnamu keessaa yeroo barbaaddu calaqqisiisi, kaa'ii, fi walitti qoodu salphisaa."
+      "title": "Qalbeeffachiisi, Mallattoo Kaa'i fi Qoodi",
+      "description": "Caqasoota si tuqan mallattoo godhadhu. Qalbeeffachiisi, mallattoo kaa'i, akkasumas karaa miidiyaa hawaasaa ykn ergaatiin hiriyootaaf salphaatti qoodi."
     },
     "feature2": {
       "title": "Karoora Dubbisuu Macaafa Qulqulluu",
-      "description": "Karoora qajeelfama qabu hordofaa. Mata-duree filadhu, yeroo kaa'i, ykn karoora kee tolchi."
+      "description": "Karoora qajeelfama qabutti fayyadamuun yeroo hunda dubbisi. Mata-dureewwan filadhu, yeroo kaa'i, ykn karoora kee tolchi."
     },
     "feature3": {
-      "title": "Hirmaannaa Meeshaalee Garaagaraa",
-      "description": "Barumsa kee meeshaalee garaagaraa irratti itti fufi. Hammaachuu fi galmeewwan kee akka wal-simatu gochaa."
+      "title": "Meesshaalee Gidduutti Waldhaqqabsiisi",
+      "description": "Qo'annoo Macaafa Qulqulluu meeshaalee adda addaa irratti itti fufi. Qalbiiffachiifni fi yaadannoowwan kee ofumaan waldhaqqabu (sync ta'u)."
     },
     "feature4": {
-      "title": "Hirmaannaa Offline",
-      "description": "Macaafa Qulqulluu iddoo kam iyyuu, interneetii malee dubbisi. Gara offline download gochuu dandeessa."
+      "title": "Oflayinitti Itti Fayyadami",
+      "description": "Macaafa Qulqulluu iddoo kamittiyyuu, intarneetii malee dubbisi. Gara oflayiniitti buufachuun yeroo imaltu, ykn iddoo intarneetiin hin jirretti dubbifachuu dandeessa."
     },
     "feature5": {
-      "title": "Yaadachiisa Laaftuu",
-      "description": "Yaadachiisa si kakaasu bakka fi yeroo barbaaddeetti qindeessi."
+      "title": "Yaadachiisa",
+      "description": "Beeksiisa yaadachiisaatiin yeroo filatte keessatti of-kakaasaa dubbisi."
     },
     "feature6": {
-      "title": "Galmeewwan fi Yaad-rimeewwan",
-      "description": "Yaadawwan kee barreessi, sirnaan gulaali. Galmee dhuunfaa akka app keessatti qabdu gochaa."
+      "title": "Yaadannoo fi Xiinxala",
+      "description": "Hubannoo fi xiinxala kee yeroo caqasa qo'attu barreessadhu. Yaadannoo hafuuraa kee appii keessatti bakka tokkotti gurmeessi."
     }
   },
   "DiscoverPlans": {
-    "title": "Kaartota Garagaraa Kitaaba EOTC Dubbisuu <br /> Barsiisaa.",
-    "planDetailsCta": "Ga'ii Kaartaa",
+    "title": "Karoorawwan Adda Addaa Macaafa Qulqulluu EOTC <br /> Dubbisuuf Gargaaran Qoradhu.",
+    "planDetailsCta": "Ibsa Karooraa",
     "error": {
-      "message": "Kaartota fiduun hin dandeenye:",
-      "retryButton": "Irra Deebi'i"
+      "message": "Karoorawwan fiduun hin dandeenyamne:",
+      "retryButton": "Irra Deebi'ii Yaali"
     },
     "footer": {
-      "title": "Kaartaa Imala Fayyisaa Keessanif Barsiisaa.",
-      "description": "Mana kitaabaa keenya keessaa kaartaa kamiifuu kitaaba waliin walqunnamtii gochuuf isin gargaaru barsiisaa.",
-      "ctaButton": "Kaartota Daddarbaa Barsiisaa"
+      "title": "Imala Hafuuraa Keetiif Karoora Qoradhu.",
+      "description": "Kusaa karoorawwan keenya keessaa isa caqasoota waliin walitti si hidhu filaadhuuti qoradhu.",
+      "ctaButton": "Karoorawwan Dabalataa Qoradhu"
     },
     "pagination": {
-      "previousPage": "Fuula durii",
-      "nextPage": "Fuula itti aanu",
-      "goToPage": "Fuula {pageNumber} geessii"
+      "previousPage": "Fuula Duraa",
+      "nextPage": "Fuula Itti Aanu",
+      "goToPage": "Gara fuula {pageNumber} tti deemi"
     },
     "fallbackPlans": [
       {
         "id": "1",
-        "title": "Saalmooyyii guyyoota 30 keessatti",
-        "description": "Yeroo xiqqaa guyyoota 30 Saalmooyyii nu waliin hirmaadhaa. Kajeelaa fi amantaa yaadadhaa.",
+        "title": "Macaafa Faarfannaa Guyyoota 30 Keessatti",
+        "description": "Xiinxala macaafa Faarfannaa guyyaa 30 itti makami. Abdii fi amantii irratti xiinxali.",
         "image": "/plans/plan1.png",
         "slug": "psalms-30-days"
       },
       {
         "id": "2",
-        "title": "Qaama Kiristos",
-        "description": "Gadi fagoo qofa amantoota keessatti hirmaachuu maal akka ta'e irratti xiinxala gadi fagoo.",
+        "title": "Dhiiga Kiristoos",
+        "description": "Hawaasa amantootaa keessatti hirmaachuun maal akka ta'e gadi fageenyaan qayyabadhu.",
         "image": "/plans/plan2.png",
         "slug": "body-of-christ"
       },
       {
         "id": "3",
-        "title": "Cimina Uumuu",
-        "description": "Qindoomina imalaa ijaaruu fi rakkoo danda'uu qopheessuu.",
+        "title": "Cilala Ta'uu",
+        "description": "Qajeelfama jabina hafuuraa ijaaruu fi rakkoo haala salphaan mo'achuu.",
         "image": "/plans/plan3.png",
         "slug": "becoming-resilient"
       },
       {
         "id": "4",
-        "title": "Reeffi Gaarii",
-        "description": "Qajeelfamaafi eegumsa Saalmii 23ffaa keessatti argamtu irratti yaadadhaa.",
+        "title": "Tiksee Gaarii",
+        "description": "Daandii fi eegumsa Faarfannaa 23 keessatti argamutti yaadadhu.",
         "image": "/plans/plan4.png",
         "slug": "good-shepherd"
       },
       {
         "id": "5",
-        "title": "Amantaan Itti Fufuu",
-        "description": "Dura-duressa kaartaa Waaqayyoo amanuu fi gara beekamuu hin ta'in deemuun irratti xinxala.",
+        "title": "Gara Duraatti Tarkaanfata",
+        "description": "Karoora Waaqayyoo amanuu fi gara waan hin beekkamneetti tarkaanfii fudhachuu irratti xiinxali.",
         "image": "/plans/plan5.png",
         "slug": "moving-forward"
       },
       {
         "id": "6",
-        "title": "Deemsa Amantaa",
-        "description": "Yeroo xiqqaa guyyoota 30 gara guddina imalaa fi hordoftummaa deemuun irratti xiinxala.",
+        "title": "Imala Amantaa",
+        "description": "Karaa guddina hafuuraa fi duukaa bu'ummaa irratti xiinxala guyyoota 30.",
         "image": "/plans/plan6.png",
         "slug": "believers-journey"
       }
     ]
   },
   "Bookmarks": {
-    "title": "kun fuula mallattoo kitaabaa dha"
+    "title": "Kun fuula mallattoo dhoksaati"
   },
   "Highlights": {
-    "title": "fuula qoodota mul'atan"
+    "title": "Fuula Qalbeeffachiisaa (Highlights)"
   },
   "Notes": {
-    "title": "fuula yaadannoo",
+    "title": "Fuula Yaadannoo",
     "Create": {
-      "title": "fuula yaadannoo haaraa uumuu"
+      "title": "Fuula Yaadannoo Haaraa Uumi"
     }
   },
   "Dashboard": {
-    "loading": "Oofamaa jira...",
-    "welcome": "Baga nagaan dhuftan, {{name}}",
+    "loading": "Ulamaa jira...",
+    "welcome": "Baga nagaatti deebite, {name}!",
     "errors": {
       "title": "Dogoggora",
-      "fetchProfile": "Profaayilii fiduun hin dandeenye"
+      "fetchProfile": "Piroofaayilii fiduun hin danda'amne"
     },
     "unauthorized": {
-      "message": "Fuula kana ilaaluuf hin hayyamamne.",
+      "message": "Fuula kana daawwachuuf hayyama hin qabdu.",
       "loginButton": "Seeni",
-      "registerButton": "Galmeessi"
+      "registerButton": "Galmaa'i"
     },
     "profile": {
-      "title": "Odeeffannoo Profaayilii",
+      "title": "Odeeffannoo Piroofaayilii",
       "email": "Imeelii",
-      "theme": "Malli",
-      "fontSize": "Guddina Qormaata"
-    }
+      "theme": "Bifa (Theme)",
+      "fontSize": "Guddina Qubee"
+    },
+    "bookmarksButton": "Mallattoo Dhoksaa (Bookmarks)",
+    "readOnlineButton": "Toora Intarneetiin Dubbisi",
+    "highlightsTitle": "Qalbeeffachiisaa",
+    "bookmarksTitle": "Mallattoo Dhoksaa",
+    "plansTitle": "Karoora Dubbisaa",
+    "notesTitle": "Yaadannoowwan",
+    "selectAll": "Hunda Filadhu",
+    "deleteHighlight": "Qalbeeffachiisaa Balleessi",
+    "deleteHighlights": "Qalbeeffachiisaa Balleessi",
+    "confirmDeleteHighlight": "Qalbeeffachiisaa kana dhuguma balleessuu barbaaddaa? Gochi kun duubatti hin deebi'u.",
+    "confirmDeleteHighlights": "Qalbeeffachiisaa {count} dhuguma balleessuu barbaaddaa? Gochi kun duubatti hin deebi'u.",
+    "noHighlights": "Ammallee waan qalbeeffatame hin jiru. Dubbisuu jalqabuun ida'adhu!",
+    "noPlans": "Ammallee karoorri dubbisaa hin jiru. Isaac haaraa uumuun jalqabi 📖",
+    "noBookmarks": "Ammallee mallattoon dhoksaa hin jiru. Mallattoo kaa'uu jalqabi!",
+    "clickEditContext": "Guutumaa isaa arguuf \"Gulaali\" cuqaasi.",
+    "myProfile": "Profaayilii Koo",
+    "notifications": "Beeksisa",
+    "logOut": "Bahi",
+    "saveChanges": "Jijjiirama Olkaa'i",
+    "deleteAccount": "Akkaawuntii Balleessi",
+    "changeAvatar": "Fakkii Jijjiiri",
+    "profilePicUpdates": "Fakkii profaayilii kee jijjiiri",
+    "confirmDeleteAccount": "Akkaawuntii kee dhuguma balleessuu barbaaddaa? Gochi kun duubatti hin deebi'u, ragaa kee hunda ni balleessa.",
+    "startReadingToEarn": "Badhaasa argachuuf dubbisuu jalqabi!",
+    "viewAll": "Hunda Ilali",
+    "achievements": "Badhaasota"
   },
   "GlobalError": {
     "title": "Dogoggorri uumameera",
-    "description": "Fuula kana fe’uu hin dandeenye. Mee irra deebi'ii yaali yookaan tajaajiltoota quunnami.",
-    "tryAgain": "Irra deebi'i yaali",
-    "copyError": "Dogoggora garagalchi",
-    "copied": "Garagalfame!"
+    "description": "Fuula kana fa'uu hin dandeenye. Maaloo irra deebi'ii yaali ykn rakkoon kun yoo itti fufe deeggarsa qunnami.",
+    "tryAgain": "Irra Deebi'ii Yaali",
+    "copyError": "Dogoggora Koppii Godhi",
+    "copied": "Koppii ta'eera!"
   },
   "GlobalLoading": {
-    "text": "Deemaa jira... Mee obsii..."
+    "text": "Ulamaa jira, maaloo eegi..."
   },
   "GlobalNotFound": {
-    "title": "Fuulli hin argamne",
-    "description": "Fuula barbaadde hin jiru yookaan gara biraatti socho'ee jira.",
-    "goHome": "Gara mana fuulaatti deebi'i"
+    "title": "Fuulli hin Argamne",
+    "description": "Dhiifama! Fuulli ati barbaaddaa jirtu hin jiru ykn bakkaa socho'eera.",
+    "goHome": "Gara Fuula Duraatti Deebi'i"
+  },
+  "VerseActionMenu": {
+    "highlight": "Qalbeeffachiisi",
+    "bookmark": "Mallattoo Kaa'i",
+    "copy": "Koppii Godhi",
+    "copied": "Koppii ta'eera!",
+    "share": "Qoodi",
+    "shared": "Hiramteetti!",
+    "note": "Yaadannoo"
+  },
+  "PlanDetail": {
+    "back": "Gara Duubaatti",
+    "continuePlan": "Karoora Itti Fufi",
+    "startPlan": "Karoora Jalqabi",
+    "progress": "Guddina",
+    "days": "Guyyoota",
+    "readings": "Dubbisaawwan",
+    "participants": "Hirmaattota",
+    "checklist": "Tarreeffama",
+    "calendar": "Kalandara",
+    "filter": {
+      "all": "Guyyoota Hunda",
+      "pending": "Kan Hafe",
+      "completed": "Kan Xumurame"
+    },
+    "week": "Torbee",
+    "day": "Guyyaa",
+    "read": "Dubbisi",
+    "markComplete": "Akka Xumurametti Mallatteessi",
+    "markIncomplete": "Akka Hin Xumuraminitti Mallatteessi",
+    "similarPlans": "Karoorawwan Wal Fakkaatan",
+    "planDetails": "Ibsa Karooraa",
+    "notFound": {
+      "title": "Karoorri hin Argamne",
+      "description": "Karoorri gaafatame hin argamne.",
+      "goBack": "Gara Fuula Duraatti Deebi'i"
+    },
+    "loading": "Karoora fa'aa jira..."
+  },
+  "PlanForm": {
+    "newPlan": "New Plan",
+    "editPlan": "Edit Reading Plan",
+    "createPlan": "Create Reading Plan",
+    "fillDetails": "Fill in the details below to set up your reading plan.",
+    "planName": "Plan name",
+    "planNamePlaceholder": "e.g. Morning Reading",
+    "nameRequired": "Plan name is required",
+    "startBook": "Start book",
+    "bookRequired": "Book is required",
+    "endBook": "End book",
+    "chapter": "Chapter",
+    "chapterRange": "Must be between 1 and {max}",
+    "startDate": "Start date",
+    "pickDate": "Pick a date",
+    "duration": "Duration (days)",
+    "durationMin": "Duration must be at least 1 day",
+    "preview": "Plan Preview",
+    "reading": "Reading {startBook} {startChapter} — {endBook} {endChapter}",
+    "starting": "Starting {date} • {duration} days",
+    "updating": "Updating...",
+    "creating": "Creating...",
+    "updateButton": "Update Plan",
+    "createButton": "Create Plan",
+    "deleteTitle": "Delete Reading Plan?",
+    "deleteConfirm": "This action cannot be undone. This will permanently delete {name}.",
+    "cancel": "Cancel",
+    "deleting": "Deleting...",
+    "delete": "Delete",
+    "weekdays": "Mon – Fri"
+  },
+  "PlansExplore": {
+    "heroTitle": "Guided Reading <br /> Plans for the <br /> EOTC Bible",
+    "heroDescription": "Find a plan that fits your journey, or design one yourself to grow daily in the Word.",
+    "exploreButton": "Explore Plans",
+    "createButton": "Create Your Plan",
+    "getAppTitle": "Get The EOTC Bible App",
+    "getAppDescription": "Read the Ethiopian Bible and seek God daily.",
+    "getAppCta": "Get EOTCBible App",
+    "tabs": {
+      "my-plans": "My Plans",
+      "explore": "Explore",
+      "saved": "Saved",
+      "completed": "Completed"
+    },
+    "myPlansTitle": "My Plans",
+    "myPlansDescription": "Your active reading plans.",
+    "openDashboard": "Open Dashboard",
+    "signInPrompt": "Please sign in to see your plans.",
+    "noActivePlans": "No active plans yet.",
+    "completedTitle": "Completed",
+    "completedDescription": "Plans you’ve finished.",
+    "signInCompletedPrompt": "Please sign in to see completed plans.",
+    "noCompletedPlans": "No completed plans yet.",
+    "savedTitle": "Saved",
+    "savedDescription": "Plans you’ve bookmarked.",
+    "browseButton": "Browse",
+    "noSavedPlans": "No saved plans yet. Open a plan and tap “Save”.",
+    "exploreDifferentTitle": "Explore Different Plans",
+    "exploreDifferentDescription": "Discover curated plans to enrich your Bible study and spiritual journey.",
+    "featuredTitle": "Featured Plans",
+    "wholeBibleTitle": "Whole Bible",
+    "encouragementTitle": "Encouragement",
+    "wisdomTitle": "Wisdom",
+    "dayText": "Day {day}: {book} {chapter}",
+    "readButton": "Read",
+    "prevDays": "Previous days",
+    "nextDays": "Next days",
+    "dayNOfM": "Day {n} of {m}",
+    "savedToast": "Saved plan",
+    "removedToast": "Removed from saved plans",
+    "sharedToast": "Shared",
+    "linkCopiedToast": "Link copied",
+    "shareErrorToast": "Failed to share",
+    "continuePlan": "Continue Plan",
+    "save": "Save",
+    "saved": "Saved",
+    "share": "Share",
+    "planDetails": "Plan Details",
+    "hardTimesTitle": "Hard Times",
+    "viewPlans": "View Plans",
+    "scrollLeft": "Scroll left",
+    "scrollRight": "Scroll right",
+    "viewAllPlans": "View All Plans ›"
   }
 }

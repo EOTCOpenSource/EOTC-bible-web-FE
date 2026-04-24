@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useUserStore } from '@/lib/stores/useUserStore'
 import { User, Bell, Sun, Moon, Globe, ChevronRight, LogOut, Loader2 } from 'lucide-react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { useSettingsStore } from '@/stores/settingsStore'
 import { useNotificationStore } from '@/stores/notificationStore'
@@ -23,6 +23,8 @@ const languageNames: Record<string, string> = {
 
 export const ProfileSidebar = () => {
   const { user } = useUserStore()
+  const t = useTranslations('Dashboard')
+  const tNav = useTranslations('Navigation')
   const { theme: settingsTheme, updateSettings } = useSettingsStore()
   const { theme: nextTheme, resolvedTheme, setTheme: setNextTheme } = useTheme()
   const {
@@ -91,28 +93,28 @@ export const ProfileSidebar = () => {
   const menuItems = [
     {
       id: 'profile',
-      label: 'My Profile',
+      label: t('myProfile'),
       icon: User,
       active: true,
       onClick: () => { }
     },
     {
       id: 'notifications',
-      label: 'Notifications',
+      label: t('notifications'),
       icon: Bell,
       hasSwitch: true,
       onClick: handleNotificationToggle
     },
     {
       id: 'theme',
-      label: 'Theme',
+      label: t('profile.theme'),
       icon: mounted && resolvedTheme === 'dark' ? Moon : Sun,
       value: displayTheme,
       onClick: () => setIsThemeDropdownOpen(!isThemeDropdownOpen)
     },
     {
       id: 'language',
-      label: 'Language',
+      label: tNav('language'),
       icon: Globe,
       value: currentLanguage,
       onClick: () => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
@@ -217,18 +219,18 @@ export const ProfileSidebar = () => {
                 <>
                   <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-[#2A2020] rounded-xl border border-gray-100 dark:border-[#3D2D2D] shadow-xl overflow-hidden p-1">
                     {Object.entries(languageNames).map(([locale, name]) => {
-                      // We provide a safe fallback for the PR branch changes while preserving local logic if it wasn't merged yet
-                      const isAvailable = locale === 'en' || locale === 'am' || locale === 'gez' || locale === 'tg' || locale === 'or'
+                      // const isAvailable = locale === 'en' || locale === 'am'
                       return (
                       <button
                         key={locale}
-                        onClick={() => isAvailable && handleLanguageChange(locale)}
-                        className={cn("flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg transition-colors", isAvailable ? "hover:bg-gray-50 dark:hover:bg-[#3D2D2D]" : "opacity-50 cursor-not-allowed")}
+                        onClick={() => handleLanguageChange(locale)}
+                        // disabled={!isAvailable}
+                        className={cn("flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg transition-colors")}
                       >
-                        <span className="text-gray-700 dark:text-white font-medium">{name}</span>
-                        {!isAvailable ? (
-                          <span className="text-xs text-gray-400 dark:text-gray-500">Coming soon</span>
-                        ) : locale === currentLocale && <Check size={16} className="text-black dark:text-white" />}
+                        <span className="text-gray-700 dark:text-gray-200 font-medium">{name}</span>
+                        {/* {!isAvailable ? (
+                          <span className="text-xs text-gray-500">Coming soon</span>
+                        ) : locale === currentLocale && <Check size={16} className="text-black dark:text-white" />} */}
                       </button>
                     )})}
                   </div>
@@ -249,7 +251,7 @@ export const ProfileSidebar = () => {
             }}
             className="w-[107px] h-[42px] border border-[#392D2D] dark:border-gray-600 bg-white dark:bg-[#3D2D2D] hover:bg-gray-50 dark:hover:bg-neutral-700 text-gray-700 pt-[5px] pb-[5px] pl-[10px] pr-[4px] rounded-[8px] font-medium flex items-center justify-between gap-[6px] transition-all group"
           >
-            <span className="text-[16px] leading-[100%] font-normal text-[#392D2D] dark:text-gray-200">Log Out</span>
+            <span className="text-[16px] leading-[100%] font-normal text-[#392D2D] dark:text-gray-200">{t('logOut')}</span>
             <div className="bg-[#2A2A2A] rounded-full p-1 group-hover:bg-black transition-colors">
               <LogOut size={14} className="text-white ml-0.5" />
             </div>

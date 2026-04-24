@@ -79,15 +79,13 @@ const VerseOfTheDay = () => {
     initStats(t('likes'), t('shares'), t('bookmarks'))
   }, [t, initStats])
 
-  const continueReadingHref = isLoggedIn
-    ? progress.lastRead
-      ? `/read-online/${progress.lastRead.book}/${progress.lastRead.chapter}#v${progress.lastRead.verseStart}`
-      : '/read-online'
-    : '/login'
+  const continueReadingHref = progress.lastRead
+    ? `/read-online/${progress.lastRead.book}/${progress.lastRead.chapter}#v${progress.lastRead.verseStart}`
+    : verse
+      ? `/read-online/${verse.bookId}/${verse.chapter}#v${verse.verse}`
+      : '/read-online/1/1#v1'
 
-  const votdHref = verse
-    ? `/read-online/${verse.bookId}/${verse.chapter}#v${verse.verse}`
-    : '#'
+  const votdHref = verse ? `/read-online/${verse.bookId}/${verse.chapter}#v${verse.verse}` : '#'
 
   const renderStat = (num: number | undefined, original: string) => {
     if (num === undefined) return original
@@ -177,10 +175,10 @@ const VerseOfTheDay = () => {
               </p>
             </>
           )}
-          <div className="mt-8 flex select-none items-center space-x-8 text-gray-500 dark:text-gray-400">
+          <div className="mt-8 flex items-center space-x-8 text-gray-500 select-none dark:text-gray-400">
             <div
               onClick={handleLikeClick}
-              className={`relative overflow-visible flex cursor-pointer items-center space-x-2 rounded-sm border p-2 transition-colors ${
+              className={`relative flex cursor-pointer items-center space-x-2 overflow-visible rounded-sm border p-2 transition-colors ${
                 stats?.userLiked
                   ? 'border-red-500 bg-red-100 text-red-600 dark:border-red-500 dark:bg-red-900/30 dark:text-red-400'
                   : 'border-transparent bg-red-100/50 hover:bg-red-100 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700'

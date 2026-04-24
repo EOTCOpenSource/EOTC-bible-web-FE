@@ -6,11 +6,13 @@ import { useProgressStore } from '@/stores/progressStore'
 import { usePlanStore } from '@/stores/usePlanStore'
 import { toast } from 'sonner'
 import { PlanDialogForm } from '@/components/forms/PlanDialogForm'
+import { useTranslations } from 'next-intl'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { getPlanTemplateBySlug } from '@/lib/planTemplates'
 
-const BookmarksPage = () => {
+const PlansPage = () => {
   const { loadProgress } = useProgressStore()
+  const t = useTranslations('Navigation')
   const { plans, fetchPlans, isFetching } = usePlanStore()
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -73,7 +75,7 @@ const BookmarksPage = () => {
   return (
     <div className="p-4">
       <div className="flex justify-between">
-        <h1 className="mb-4 text-2xl font-bold">Plans</h1>
+        <h1 className="mb-4 text-2xl font-bold">{t('plans')}</h1>
         <PlanDialogForm
           defaultOpen={shouldOpen}
           hideTrigger={shouldOpen}
@@ -85,7 +87,7 @@ const BookmarksPage = () => {
                   startChapter: template.startChapter,
                   endBook: template.endBook,
                   endChapter: template.endChapter,
-                  startDate: new Date(),
+                  startDate: new Date().toISOString(),
                   durationInDays: template.durationInDays,
                 }
               : undefined
@@ -100,4 +102,4 @@ const BookmarksPage = () => {
   )
 }
 
-export default BookmarksPage
+export default PlansPage

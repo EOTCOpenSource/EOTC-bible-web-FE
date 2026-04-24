@@ -4,8 +4,11 @@ import { Book, Calendar, Home, NotebookPen, PenLine, Globe, Trophy } from 'lucid
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+import { useTranslations } from 'next-intl'
+
 const DashboardSidebar = () => {
   const pathname = usePathname()
+  const t = useTranslations('Navigation')
 
   const getLinkClass = (path: string) => {
     const isActive = pathname === path
@@ -22,28 +25,28 @@ const DashboardSidebar = () => {
     <nav className="m-3 hidden md:flex rounded-xl border-[1.5px] dark:border-neutral-800 py-1 sm:mx-6 md:h-screen md:flex-col md:gap-2 md:border-0 md:py-4 md:pb-2">
       <Link href="/dashboard" className={getLinkClass('/dashboard')}>
         <Home size={20} />
-        <p className="hidden md:block">Home</p>
+        <p className="hidden md:block">{t('home')}</p>
       </Link>
       <Link href="/dashboard/highlights" className={getLinkClass('/dashboard/highlights')}>
         <PenLine size={20} />
-        <p className="hidden md:block">Highlights</p>
+        <p className="hidden md:block">{t('highlights')}</p>
       </Link>
       <Link href="/dashboard/notes" className={getLinkClass('/dashboard/notes')}>
         <NotebookPen size={20} />
-        <p className="hidden md:block">Notes</p>
+        <p className="hidden md:block">{t('notes')}</p>
       </Link>
 
       <Link href="/dashboard/plans" className={getLinkClass('/dashboard/plans')}>
         <Calendar size={20} />
-        <p className="hidden md:block">Plans</p>
+        <p className="hidden md:block">{t('plans')}</p>
       </Link>
       <Link href="/dashboard/bookmarks" className={getLinkClass('/dashboard/bookmarks')}>
         <Book size={20} />
-        <p className="hidden md:block">Bookmarks</p>
+        <p className="hidden md:block">{t('bookmarks')}</p>
       </Link>
       <Link href="/dashboard/notes/public" className={getLinkClass('/dashboard/notes/public')}>
         <Globe size={20} />
-        <p className="hidden md:block">Community</p>
+        <p className="hidden md:block">{t('community')}</p>
       </Link>
     </nav>
   )

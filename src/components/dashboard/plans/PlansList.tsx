@@ -3,9 +3,11 @@ import React, { useEffect } from 'react'
 import PlanItem from './PlanItem'
 import { Skeleton } from '@/components/ui/skeleton'
 import { usePlanStore } from '@/stores/usePlanStore'
+import { useTranslations } from 'next-intl'
 
 const PlanList: React.FC = () => {
   const { plans, fetchPlans, error, isFetching, isMutating } = usePlanStore()
+  const t = useTranslations('Dashboard')
 
   useEffect(() => {
     fetchPlans()
@@ -32,7 +34,7 @@ const PlanList: React.FC = () => {
   if (plans.length === 0) {
     return (
       <div className="text-muted-foreground py-8 text-center">
-        No reading plans yet. Create one to get started 📖
+        {t('noPlans')}
       </div>
     )
   }

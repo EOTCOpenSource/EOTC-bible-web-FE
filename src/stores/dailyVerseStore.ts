@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { books } from '@/data/data'
-import { gregorianToJdn, toEthiopianDateFromGregorian } from '@/lib/ethiopianCalendar'
+import Kenat from 'kenat'
 import type { BibleBook } from './types'
 
 interface DailyVerse {
@@ -48,46 +48,6 @@ type VerseSelection = {
 }
 
 const ETHIOPIA_TZ = 'Africa/Addis_Ababa'
-
-const getEthiopiaYmd = () => {
-  const parts = new Intl.DateTimeFormat('en', {
-    timeZone: ETHIOPIA_TZ,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(new Date())
-
-  const year = Number(parts.find((p) => p.type === 'year')?.value)
-  const month = Number(parts.find((p) => p.type === 'month')?.value)
-  const day = Number(parts.find((p) => p.type === 'day')?.value)
-
-  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
-    const d = new Date()
-    return { year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate() }
-  }
-
-  return { year, month, day }
-}
-
-const toYmdKey = (year: number, month: number, day: number) =>
-  `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-
-const weekdayFromYmd = (year: number, month: number, day: number) =>
-  new Date(Date.UTC(year, month - 1, day)).getUTCDay() // 0=Sun..6=Sat
-
-// Meeus Julian algorithm + 13-day shift (valid for 1900-2099) to get Orthodox Easter in Gregorian.
-const orthodoxEasterGregorianUtc = (year: number) => {
-  const a = year % 4
-  const b = year % 7
-  const c = year % 19
-  const d = (19 * c + 15) % 30
-  const e = (2 * a + 4 * b - d + 34) % 7
-  const monthJulian = Math.floor((d + e + 114) / 31) // 3=March, 4=April (Julian)
-  const dayJulian = ((d + e + 114) % 31) + 1
-
-  const shiftDays = 13
-  return new Date(Date.UTC(year, monthJulian - 1, dayJulian + shiftDays))
-}
 
 const getVerseAtLocation = async (loc: VerseLocation): Promise<DailyVerse> => {
   const book = books.find((b) => b.book_name_en === loc.bookNameEn)
@@ -274,32 +234,22 @@ const WEEKDAY_OBSERVANCE: Record<number, VerseSelection> = {
   6: { loc: { bookNameEn: 'Hebrews', chapter: 4, verse: 9 }, occasion: 'Saturday (Qadamit Sanbat)' },
 }
 
-const resolveEthiopianDaysUntil = (etMonth: number, etDay: number, targetMonth: number, targetDay: number) => {
-  const today0 = (etMonth - 1) * 30 + (etDay - 1)
-  const target0 = (targetMonth - 1) * 30 + (targetDay - 1)
-  const yearDays = 365 // good enough for season windows; Pagume adds 5/6 at end.
-  const raw = target0 - today0
-  return raw >= 0 ? raw : raw + yearDays
-}
-
-const resolveDailyVerseSelection = (today: Date): VerseSelection => {
-  const { year, month, day } = getEthiopiaYmd()
-  const et = toEthiopianDateFromGregorian(year, month, day)
-  const weekday = weekdayFromYmd(year, month, day)
-  const todayJdn = gregorianToJdn(year, month, day)
+const resolveDailyVerseSelection = (): VerseSelection => {
+  const kenatToday = Kenat.now()
+  const et = kenatToday.ethiopian
+  const weekday = kenatToday.weekday()
 
   // 1) Major fixed feasts (Ethiopian date)
   const fixed = FIXED_FEASTS_BY_ETH_MM_DD[`${et.month}-${et.day}`]
   if (fixed) return fixed
 
   // 2) Moveable feasts (relative to Fasika)
-  const easterUtc = orthodoxEasterGregorianUtc(year)
-  const easterJdn = gregorianToJdn(
-    easterUtc.getUTCFullYear(),
-    easterUtc.getUTCMonth() + 1,
-    easterUtc.getUTCDate(),
-  )
-  const offset = todayJdn - easterJdn
+  const bh = kenatToday.getBahireHasab()
+  const easterEt = bh.movableFeasts.fasika.ethiopian
+  const easterKenat = new Kenat({ year: easterEt.year, month: easterEt.month, day: easterEt.day })
+  
+  const offset = kenatToday.diffInDays(easterKenat)
+
   const moveable = HOLY_WEEK_BY_EASTER_OFFSET[offset]
   if (moveable) return moveable
 
@@ -333,7 +283,10 @@ const resolveDailyVerseSelection = (today: Date): VerseSelection => {
   }
 
   // 4.7) Fast of the Prophets (Advent): 40 days before Gena (Tahsas 29)
-  const daysUntilGena = resolveEthiopianDaysUntil(et.month, et.day, 4, 29)
+  const genaDate = new Kenat({ year: et.year, month: 4, day: 29 })
+  // Distance from today to Gena. If Gena already passed this year, distance will be negative.
+  const daysUntilGena = genaDate.diffInDays(kenatToday) 
+  
   if (daysUntilGena >= 1 && daysUntilGena <= 40) {
     const idx = (40 - daysUntilGena) % ADVENT_FAST_VERSES.length
     return { loc: ADVENT_FAST_VERSES[idx], occasion: 'Fast of the Prophets (Advent)' }
@@ -346,10 +299,10 @@ const resolveDailyVerseSelection = (today: Date): VerseSelection => {
   }
 
   // 5.5) Weekly Wednesday & Friday fasts (except during the 50 days after Fasika which is already handled above).
-  if (today.getDay() === 3) {
+  if (weekday === 3) {
     return { loc: { bookNameEn: 'Matthew', chapter: 6, verse: 16 }, occasion: 'Wednesday Fast' }
   }
-  if (today.getDay() === 5) {
+  if (weekday === 5) {
     return { loc: { bookNameEn: 'Isaiah', chapter: 53, verse: 5 }, occasion: 'Friday Fast' }
   }
 
@@ -362,14 +315,14 @@ const resolveDailyVerseSelection = (today: Date): VerseSelection => {
 }
 
 const getDailyVerse = async (): Promise<DailyVerse> => {
-  const selection = resolveDailyVerseSelection(new Date())
+  const selection = resolveDailyVerseSelection()
 
   try {
     const verse = await getVerseAtLocation(selection.loc)
     return { ...verse, occasion: selection.occasion }
   } catch {
-    const { year, month, day } = getEthiopiaYmd()
-    const et = toEthiopianDateFromGregorian(year, month, day)
+    const kenatToday = Kenat.now()
+    const et = kenatToday.ethiopian
     const verse = await getVerseAtLocation(getPsalmLocationForEthiopianDate(et.month, et.day))
     return { ...verse, occasion: 'Daily Reading' }
   }
@@ -397,8 +350,7 @@ export const useDailyVerseStore = create<DailyVerseState>()(
         loadDailyVerse: async () => {
           set({ isLoading: true, error: null })
           try {
-            const { year, month, day } = getEthiopiaYmd()
-            const todayKey = toYmdKey(year, month, day)
+            const todayKey = Kenat.now().formatShort()
             const existing = get().verse
             const existingKey = get().verseDayKey
 

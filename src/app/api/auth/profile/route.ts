@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      validateStatus: () => true, // allow handling non-2xx responses
+      validateStatus: () => true,
     })
 
     // Handle backend errors
@@ -28,11 +28,11 @@ export async function GET(req: NextRequest) {
         { status: res.status },
       )
     }
-    if (!res.data?.data) {
+    if (!res.data?.data && !res.data?.user) {
       console.error('No user data in profile response:', res.data)
     }
     // Return user data
-    const userData = res.data.data.user // adjust according to your backend structure
+    const userData = res.data?.data?.user || res.data?.user
     return NextResponse.json({ success: true, user: userData }, { status: 200 })
   } catch (error: any) {
     console.error('Profile API error:', error)
