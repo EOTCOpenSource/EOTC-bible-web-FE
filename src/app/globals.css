@@ -103,8 +103,8 @@
   --primary-foreground: var(--neutral-50);
   --secondary: var(--secondary-400);
   --secondary-foreground: var(--primary-900);
-  --muted: var(--neutral-400);
-  --muted-foreground: var(--neutral-700);
+  --muted: var(--neutral-200);
+  --muted-foreground: var(--neutral-800);
   --accent: var(--primary-100);
   --accent-foreground: var(--primary-900);
   --destructive: oklch(0.577 0.245 27.325);
@@ -138,7 +138,7 @@
   --secondary: var(--secondary-400);
   --secondary-foreground: var(--primary-900);
   --muted: var(--neutral-700);
-  --muted-foreground: var(--neutral-400);
+  --muted-foreground: var(--neutral-300);
   --accent: var(--neutral-800);
   --accent-foreground: var(--neutral-50);
   --destructive: oklch(0.704 0.191 22.216);

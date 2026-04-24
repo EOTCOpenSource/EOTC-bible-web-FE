@@ -87,7 +87,7 @@ const PlansPage = () => {
                   startChapter: template.startChapter,
                   endBook: template.endBook,
                   endChapter: template.endChapter,
-                  startDate: new Date(),
+                  startDate: new Date().toISOString(),
                   durationInDays: template.durationInDays,
                 }
               : undefined
