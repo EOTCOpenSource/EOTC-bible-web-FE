@@ -50,14 +50,28 @@ const Hero = () => {
               <h3 className="text-lg font-bold">{t('appCard.mobileTitle')}</h3>
             </div>
             <p className="mt-2 text-sm">{t('appCard.mobileDescription')}</p>
-            <div className="mt-4 flex justify-center space-x-2">
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <Image src="/google-play-badge.svg" alt={t('appCard.googlePlayAlt')} width={128} height={40} />
-              </a>
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                <Image src="/app-store-badge.png" alt={t('appCard.appStoreAlt')} width={128} height={40} />
-              </a>
-            </div>
+            <div className="mt-8 flex justify-center space-x-4 md:justify-start">
+                  <div className="cursor-not-allowed opacity-50">
+                    <Image
+                      src="/google-play-badge.svg"
+                      // alt={t('googlePlayAlt')}
+                      alt="Google play badge"
+                      width={128}
+                      height={40}
+                      className="w-32 md:w-32 grayscale pointer-events-none"
+                    />
+                  </div>
+                  <div className="cursor-not-allowed opacity-50">
+                    <Image
+                      src="/app-store-badge.png"
+                      // alt={t ('appStoreAlt')}
+                      alt="App store badge"
+                      width={128}
+                      height={40}
+                      className="w-32 md:w-32 grayscale pointer-events-none"
+                    />
+                  </div>
+                </div>
           </div>
 
           {/* DESKTOP LAYOUT */}
@@ -82,13 +96,25 @@ const Hero = () => {
                 <h3 className="text-lg font-bold">{t('appCard.mobileTitle')}</h3>
               </div>
               <p className="mt-2 text-sm">{t('appCard.mobileDescription')}</p>
-              <div className="mt-4 flex space-x-2">
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                  <Image src="/google-play-badge.svg" alt={t('appCard.googlePlayAlt')} width={128} height={40} />
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer">
-                  <Image src="/app-store-badge.png" alt={t('appCard.appStoreAlt')} width={128} height={40} />
-                </a>
+              <div className="mt-8 flex justify-center space-x-4 md:justify-start">
+                <div className="cursor-not-allowed opacity-50">
+                  <Image
+                    src="/google-play-badge.svg"
+                    alt='Google play badge'
+                    width={128}
+                    height={40}
+                    className="w-32 md:w-32 grayscale pointer-events-none"
+                  />
+                </div>
+                <div className="cursor-not-allowed opacity-50">
+                  <Image
+                    src="/app-store-badge.png"
+                    alt='App store badge'
+                    width={128}
+                    height={40}
+                    className="w-32 md:w-32 grayscale pointer-events-none"
+                  />
+                </div>
               </div>
             </div>
           </div>

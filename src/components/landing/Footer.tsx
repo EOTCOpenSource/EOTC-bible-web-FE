@@ -21,14 +21,28 @@ const Footer = () => {
                 <span className="text-lg font-bold">{t('siteName')}</span>
               </div>
               <p className="text-gray-400">{t('description')}</p>
-              <div className="mt-4 flex gap-4">
-                <Link href="#">
-                  <Image src="/google-play-badge.svg" alt="Google Play" width={135} height={40} />
-                </Link>
-                <Link href="#">
-                  <Image src="/app-store-badge.png" alt="App Store" width={135} height={40} />
-                </Link>
-              </div>
+              <div className="mt-8 flex justify-center space-x-4 md:justify-start">
+                                <div className="cursor-not-allowed opacity-50">
+                                  <Image
+                                    src="/google-play-badge.svg"
+                                    // alt={t('googl ePlayAlt')}
+                                    alt='Google play badge'
+                                    width={128}
+                                    height={40}
+                                    className="w-32 md:w-32 grayscale pointer-events-none"
+                                  />
+                                </div>
+                                <div className="cursor-not-allowed opacity-50">
+                                  <Image
+                                    src="/app-store-badge.png"
+                                    // alt={t('appStoreAlt')}
+                                    alt='App store badge'
+                                    width={128}
+                                    height={40}
+                                    className="w-32 md:w-32 grayscale pointer-events-none"
+                                  />
+                                </div>
+                              </div>
             </div>
             <div>
               <div className="flex flex-col gap-4">
