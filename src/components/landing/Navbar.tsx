@@ -293,6 +293,25 @@ const Navbar = () => {
                 </button>
               </Link>
             )}
+            <div className="flex h-[42px] items-center justify-evenly gap-2 rounded-md border p-1">
+              <button onClick={toggleTheme} className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                {mounted ? (theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />) : <div className="w-[18px] h-[18px]" />}
+              </button>
+              <LanguageSelector className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 text-foreground transition-colors flex items-center justify-center w-[34px] h-[34px]" iconSize={18} strokeWidth={2} />
+              {isLoggedIn ? (
+                <Link href="/profile">
+                  <button className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <User size={18} />
+                  </button>
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <button className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <User size={18} />
+                  </button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       )}
