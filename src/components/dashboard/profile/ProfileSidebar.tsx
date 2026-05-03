@@ -126,7 +126,7 @@ export const ProfileSidebar = () => {
       <div className="bg-white dark:bg-[#2A2020] rounded-[20px] p-6 border border-gray-100 dark:border-[#3D2D2D] shadow-sm flex flex-col h-full">
         {/* User Info */}
         <div className="flex items-center gap-4 mb-8">
-          <div className="h-16 w-16 min-w-[64px] rounded-full bg-gray-100 dark:bg-neutral-700 flex items-center justify-center overflow-hidden border border-gray-100 dark:border-neutral-600">
+          <div className="h-16 w-16 min-w-[64px] hidden md:flex rounded-full bg-gray-100 dark:bg-neutral-700 items-center justify-center overflow-hidden border border-gray-100 dark:border-neutral-600">
             {user?.avatarUrl ? (
               <Image
                 src={user.avatarUrl}
@@ -252,7 +252,7 @@ export const ProfileSidebar = () => {
             className="w-[107px] h-[42px] border border-[#392D2D] dark:border-gray-600 bg-white dark:bg-[#3D2D2D] hover:bg-gray-50 dark:hover:bg-neutral-700 text-gray-700 pt-[5px] pb-[5px] pl-[10px] pr-[4px] rounded-[8px] font-medium flex items-center justify-between gap-[6px] transition-all group"
           >
             <span className="text-[16px] leading-[100%] font-normal text-[#392D2D] dark:text-gray-200">{t('logOut')}</span>
-            <div className="bg-[#2A2A2A] rounded-full p-1 group-hover:bg-black transition-colors">
+            <div className="bg-[#2A2A2A] rounded-full p-1 group-hover:bg-[#F9FAFB] dark:group-hover:bg-[#3D2D2D] transition-colors">
               <LogOut size={14} className="text-white ml-0.5" />
             </div>
           </button>

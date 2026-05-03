@@ -84,23 +84,23 @@ export default function Navbar() {
           <div className="flex flex-col md:flex-row items-end md:items-center gap-1 animate-in fade-in slide-in-from-right-4 duration-300 w-full min-w-max">
             {/* Mobile Navigation Links (Hidden on Desktop) */}
             <div className="flex flex-wrap md:hidden items-center justify-start gap-1 w-full pb-2 border-b border-gray-300 dark:border-neutral-800 mb-1 px-1 mt-1">
-              <Link href="/dashboard" className="rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors">
-                <Home size={20} strokeWidth={1.5} />
+              <Link href="/dashboard" className={`rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 transition-colors ${pathname === '/dashboard' ? 'text-primary' : 'text-foreground'}`}>
+                <Home size={20} strokeWidth={pathname === '/dashboard' ? 2.5 : 1.5} />
               </Link>
-              <Link href="/dashboard/highlights" className="rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors">
-                <PenLine size={20} strokeWidth={1.5} />
+              <Link href="/dashboard/highlights" className={`rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 transition-colors ${pathname === '/dashboard/highlights' ? 'text-primary' : 'text-foreground'}`}>
+                <PenLine size={20} strokeWidth={pathname === '/dashboard/highlights' ? 2.5 : 1.5} />
               </Link>
-              <Link href="/dashboard/notes" className="rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors">
-                <NotebookPen size={20} strokeWidth={1.5} />
+              <Link href="/dashboard/notes" className={`rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 transition-colors ${pathname === '/dashboard/notes' ? 'text-primary' : 'text-foreground'}`}>
+                <NotebookPen size={20} strokeWidth={pathname === '/dashboard/notes' ? 2.5 : 1.5} />
               </Link>
-              <Link href="/dashboard/plans" className="rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors">
-                <Calendar size={20} strokeWidth={1.5} />
+              <Link href="/dashboard/plans" className={`rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 transition-colors ${pathname === '/dashboard/plans' ? 'text-primary' : 'text-foreground'}`}>
+                <Calendar size={20} strokeWidth={pathname === '/dashboard/plans' ? 2.5 : 1.5} />
               </Link>
-              <Link href="/dashboard/bookmarks" className="rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors">
-                <Book size={20} strokeWidth={1.5} />
+              <Link href="/dashboard/bookmarks" className={`rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 transition-colors ${pathname === '/dashboard/bookmarks' ? 'text-primary' : 'text-foreground'}`}>
+                <Book size={20} strokeWidth={pathname === '/dashboard/bookmarks' ? 2.5 : 1.5} />
               </Link>
-              <Link href="/dashboard/notes/public" className="rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors">
-                <Globe size={20} strokeWidth={1.5} />
+              <Link href="/dashboard/notes/public" className={`rounded-xl p-2 w-10 h-10 flex flex-shrink-0 items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 transition-colors ${pathname === '/dashboard/notes/public' ? 'text-primary' : 'text-foreground'}`}>
+                <Globe size={20} strokeWidth={pathname === '/dashboard/notes/public' ? 2.5 : 1.5} />
               </Link>
             </div>
 
@@ -110,7 +110,7 @@ export default function Navbar() {
               <button onClick={toggleTheme} className="rounded-xl p-2 w-10 h-10 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors">
                 {theme === 'dark' ? <Sun size={20} strokeWidth={1.5} /> : <Moon size={20} strokeWidth={1.5} />}
               </button>
-              <Link href="/profile" className="rounded-xl p-2 w-10 h-10 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors">
+              <Link href="/profile" className={`rounded-xl p-2 w-10 h-10 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-neutral-800 transition-colors ${pathname === '/profile' ? 'text-primary' : 'text-foreground'}`}>
                 <User size={20} strokeWidth={1.5} />
               </Link>
               <div className="pl-1 border-l border-gray-300 dark:border-neutral-800 flex items-center h-full py-1">

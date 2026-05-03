@@ -21,30 +21,30 @@ const DownloadApp = () => {
             >
               <div className="h-auto w-full md:mt-[46px] md:ml-[32px] md:h-[158px] md:w-[455px] md:text-left">
                 <h2 className="text-2xl font-bold text-white md:text-3xl">
-                  {t('title')}
+                  Coming Soon
                 </h2>
                 <p className="mt-4 text-sm text-white md:text-base">
                   {t('description')}
                 </p>
                 <div className="mt-8 flex justify-center space-x-4 md:justify-start">
-                  <a href="#" target="_blank" rel="noopener noreferrer">
+                  <div className="cursor-not-allowed opacity-50">
                     <Image
                       src="/google-play-badge.svg"
                       alt={t('googlePlayAlt')}
                       width={128}
                       height={40}
-                      className="w-32 md:w-32"
+                      className="w-32 md:w-32 grayscale pointer-events-none"
                     />
-                  </a>
-                  <a href="#" target="_blank" rel="noopener noreferrer">
+                  </div>
+                  <div className="cursor-not-allowed opacity-50">
                     <Image
                       src="/app-store-badge.png"
                       alt={t('appStoreAlt')}
                       width={128}
                       height={40}
-                      className="w-32 md:w-32"
+                      className="w-32 md:w-32 grayscale pointer-events-none"
                     />
-                  </a>
+                  </div>
                 </div>
               </div>
               <div className="mt-8 md:absolute md:-top-12 md:right-0 md:mt-0 md:pb-0">

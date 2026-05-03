@@ -4,7 +4,7 @@ import { ENV } from '@/lib/env'
 
 const AUTH_COOKIE = ENV.jwtCookieName
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
   const token = req.cookies.get(AUTH_COOKIE)?.value
 
