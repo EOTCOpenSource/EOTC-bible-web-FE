@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Award, ChevronRight, BookMarked, BookOpen, Flame } from 'lucide-react'
+import { Award, ChevronRight, BookMarked, BookOpen, Flame, CircleCheck, Share2 } from 'lucide-react'
 import { Calendar } from '../ui/calendar'
 import { useDailyVerseStore } from '@/stores/dailyVerseStore'
 import { useProgressStore } from '@/stores/progressStore'
@@ -13,6 +13,7 @@ const RightSidebar = () => {
   const { progress, loadProgress } = useProgressStore()
   const { achievements, loadAchievements } = useAchievementsStore()
   const [month, setMonth] = React.useState<Date | undefined>(new Date())
+  const [isCopied, setIsCopied] = React.useState(false)
 
   useEffect(() => {
     loadDailyVerse().catch(() => {})
@@ -86,9 +87,11 @@ const RightSidebar = () => {
       navigator.share({
         title: 'Daily Verse',
         text: `${verse.text}\n\n${verse.reference}`,
-      })
+      }).catch(console.error)
     } else if (verse) {
       navigator.clipboard.writeText(`${verse.text}\n\n${verse.reference}`)
+      setIsCopied(true)
+      setTimeout(() => setIsCopied(false), 2000)
     }
   }
 
@@ -160,23 +163,26 @@ const RightSidebar = () => {
         </div>
         {verseLoading ? (
           <div className="py-3 text-[#4C0E0F] dark:text-red-400">Loading verse...</div>
-        ) : verse ? (
+        ) : verse && (
           <>
             <div className="text-[#4C0E0F] dark:text-red-400">
               <p className="py-3 text-sm">{verse.text}</p>
               <h4 className="text-right font-medium text-black dark:text-white">{verse.reference}</h4>
             </div>
             <div className="px-9">
-              <button
-                onClick={handleShareVerse}
-                className="mt-3 w-full cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-sm text-white hover:bg-red-800"
-              >
-                Share Verse
-              </button>
+              <div className="relative mt-3">
+                <button
+                  onClick={handleShareVerse}
+                  className={`${isCopied ? 'text-green-600' : 'text-white'} w-full cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-sm  transition-colors hover:bg-red-800`}
+                >
+                  <span className='flex justify-center items-center gap-2'>
+                    {isCopied ? 'verse copied' : 'Share Verse'}
+                    {isCopied ? <CircleCheck /> : <Share2 />}
+                  </span>
+                </button>
+              </div>
             </div>
           </>
-        ) : (
-          <div className="py-3 text-[#4C0E0F] dark:text-red-400">Failed to load verse</div>
         )}
       </div>
 
