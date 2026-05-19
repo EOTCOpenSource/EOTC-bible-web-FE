@@ -25,10 +25,14 @@ export const useUserStore = create<AuthState>((set) => ({
   isLoggedIn: false,
 
   setUser: (user) => {
-    const sanitizedUser = user ? {
-      ...user,
-      avatarUrl: user.avatarUrl?.replace('/avatars/avatars/', '/avatars/').replace('avatars/avatars/', 'avatars/')
-    } : null
+    const sanitizedUser = user
+      ? {
+          ...user,
+          avatarUrl: user.avatarUrl
+            ?.replace('/avatars/avatars/', '/avatars/')
+            .replace('avatars/avatars/', 'avatars/'),
+        }
+      : null
     set({ user: sanitizedUser, isLoggedIn: !!sanitizedUser })
   },
 
@@ -36,16 +40,16 @@ export const useUserStore = create<AuthState>((set) => ({
     set((state) => ({
       user: state.user
         ? {
-          ...state.user,
-          settings: { ...state.user.settings, ...newSettings } as User['settings'],
-        }
+            ...state.user,
+            settings: { ...state.user.settings, ...newSettings } as User['settings'],
+          }
         : null,
     })),
 
   loadSession: async () => {
     try {
       const res = await axiosInstance.get('/api/auth/profile', {
-        validateStatus: (status) => status === 200 || status === 401
+        validateStatus: (status) => status === 200 || status === 401,
       })
 
       if (res.status !== 200) {
@@ -59,10 +63,14 @@ export const useUserStore = create<AuthState>((set) => ({
       const userData = res.data
       const user = userData.user
 
-      const sanitizedUser = user ? {
-        ...user,
-        avatarUrl: user.avatarUrl?.replace('/avatars/avatars/', '/avatars/').replace('avatars/avatars/', 'avatars/')
-      } : null
+      const sanitizedUser = user
+        ? {
+            ...user,
+            avatarUrl: user.avatarUrl
+              ?.replace('/avatars/avatars/', '/avatars/')
+              .replace('avatars/avatars/', 'avatars/'),
+          }
+        : null
 
       set({ user: sanitizedUser, isLoggedIn: true })
     } catch (err) {

@@ -18,7 +18,10 @@ const PlansPage = () => {
   const router = useRouter()
   const templateSlug = searchParams.get('template') || ''
   const create = searchParams.get('create') === '1'
-  const template = React.useMemo(() => (templateSlug ? getPlanTemplateBySlug(templateSlug) : undefined), [templateSlug])
+  const template = React.useMemo(
+    () => (templateSlug ? getPlanTemplateBySlug(templateSlug) : undefined),
+    [templateSlug],
+  )
 
   const [shouldOpen, setShouldOpen] = useState(false)
   const [hasFetched, setHasFetched] = useState(false)

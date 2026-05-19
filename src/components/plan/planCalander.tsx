@@ -57,10 +57,10 @@ export const PlanCalendar = ({
   }, [startDate, totalDays, currentDay, dayStatuses, locale])
 
   return (
-    <div className="flex items-center gap-2 border border-border rounded-lg bg-card p-3 shadow-sm">
+    <div className="border-border bg-card flex items-center gap-2 rounded-lg border p-3 shadow-sm">
       <Button
         onClick={scrollLeft}
-        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-input transition-colors hover:bg-accent hover:text-accent-foreground"
+        className="border-input hover:bg-accent hover:text-accent-foreground flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border transition-colors"
         aria-label={t('prevDays')}
         size="sm"
         variant="outline"
@@ -74,19 +74,22 @@ export const PlanCalendar = ({
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {days.map((day) => {
-          let statusColors = 'border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-          
+          let statusColors =
+            'border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+
           if (day.status === 'completed') {
-            statusColors = 'border-green-500/30 text-green-600 bg-green-500/10 dark:text-green-400 dark:border-green-500/20'
+            statusColors =
+              'border-green-500/30 text-green-600 bg-green-500/10 dark:text-green-400 dark:border-green-500/20'
           } else if (day.status === 'started') {
-            statusColors = 'border-amber-500/30 text-amber-600 bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20'
+            statusColors =
+              'border-amber-500/30 text-amber-600 bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20'
           }
 
           return (
             <button
               key={day.day}
               onClick={() => onDaySelect(day.day)}
-              className={`flex min-w-[60px] shrink-0 flex-col items-center justify-center rounded-lg p-3 transition-colors border ${
+              className={`flex min-w-[60px] shrink-0 flex-col items-center justify-center rounded-lg border p-3 transition-colors ${
                 day.isSelected
                   ? 'bg-primary text-primary-foreground border-primary shadow-sm'
                   : statusColors
@@ -101,7 +104,7 @@ export const PlanCalendar = ({
 
       <Button
         onClick={scrollRight}
-        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-input transition-colors hover:bg-accent hover:text-accent-foreground"
+        className="border-input hover:bg-accent hover:text-accent-foreground flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border transition-colors"
         aria-label={t('nextDays')}
         size="sm"
         variant="outline"

@@ -67,8 +67,7 @@ export default function ResetPasswordPage() {
         setTimeout(() => router.push('/login'), 600)
       }
     } catch (error: any) {
-      const msg =
-        error?.response?.data?.error || error?.message || 'Password reset failed'
+      const msg = error?.response?.data?.error || error?.message || 'Password reset failed'
       toast.error(msg)
       console.error(error)
     } finally {
@@ -78,16 +77,17 @@ export default function ResetPasswordPage() {
 
   return (
     <section className="flex min-h-screen items-center justify-center p-4 dark:bg-neutral-900">
-      <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 shadow-lg dark:bg-neutral-800 dark:border dark:border-neutral-700">
+      <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 shadow-lg dark:border dark:border-neutral-700 dark:bg-neutral-800">
         <h1 className="text-center text-2xl font-bold dark:text-white">{t('title')}</h1>
-        <p className="text-center text-sm text-gray-700 dark:text-gray-300">
-          {t('description')}
-        </p>
+        <p className="text-center text-sm text-gray-700 dark:text-gray-300">{t('description')}</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4">
           {/* 🔹 New Password */}
           <div className="flex flex-col">
-            <label htmlFor="newPassword" className="m-0 p-0 text-sm text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="newPassword"
+              className="m-0 p-0 text-sm text-gray-700 dark:text-gray-300"
+            >
               {t('fields.newPassword')}
             </label>
             <div className="relative">
@@ -118,7 +118,10 @@ export default function ResetPasswordPage() {
 
           {/* 🔹 Confirm Password */}
           <div className="flex flex-col">
-            <label htmlFor="confirmPassword" className="m-0 p-0 text-sm text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="confirmPassword"
+              className="m-0 p-0 text-sm text-gray-700 dark:text-gray-300"
+            >
               {t('fields.confirmPassword')}
             </label>
 
@@ -129,7 +132,8 @@ export default function ResetPasswordPage() {
                 className="rounded border p-2 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
                 {...register('confirmPassword', {
                   required: t('validation.confirmPasswordRequired'),
-                  validate: (val) => val === watch('newPassword') || t('validation.passwordMismatch'),
+                  validate: (val) =>
+                    val === watch('newPassword') || t('validation.passwordMismatch'),
                 })}
               />
               <button
@@ -147,7 +151,14 @@ export default function ResetPasswordPage() {
           </div>
           <ul className="mb-1 flex flex-wrap items-center text-sm">
             {passwordCriteria.map((c, i) => (
-              <li key={i} className={c.valid ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}>
+              <li
+                key={i}
+                className={
+                  c.valid
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-gray-500 dark:text-gray-400'
+                }
+              >
                 <DotIcon className="-mr-2 inline" /> {c.label}
               </li>
             ))}
@@ -160,7 +171,6 @@ export default function ResetPasswordPage() {
             {isSubmitting ? t('buttons.resetting') : t('buttons.resetPassword')}
           </Button>
         </form>
-
       </div>
     </section>
   )

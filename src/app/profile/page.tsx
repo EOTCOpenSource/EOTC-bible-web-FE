@@ -9,30 +9,32 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function ProfilePage() {
-    const searchParams = useSearchParams()
-    const router = useRouter()
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
-    // Handle email redirect: if user comes from achievement email, redirect to achievements page
-    useEffect(() => {
-        const source = searchParams.get('source')
-        const achievementId = searchParams.get('achievementId')
+  // Handle email redirect: if user comes from achievement email, redirect to achievements page
+  useEffect(() => {
+    const source = searchParams.get('source')
+    const achievementId = searchParams.get('achievementId')
 
-        if (source === 'achievement-email' || achievementId) {
-            // Redirect to achievements page with the achievement highlighted
-            router.replace('/dashboard/achievements' + (achievementId ? `?highlight=${achievementId}` : ''))
-        }
-    }, [searchParams, router])
+    if (source === 'achievement-email' || achievementId) {
+      // Redirect to achievements page with the achievement highlighted
+      router.replace(
+        '/dashboard/achievements' + (achievementId ? `?highlight=${achievementId}` : ''),
+      )
+    }
+  }, [searchParams, router])
 
-    return (
-        <div className="min-h-screen bg-gradient-to-b from-[#FFFBEB] to-white dark:from-[#2C0607] dark:to-[#1A1A19]">
-            <Navbar />
-            <div className="pt-[128px] p-4">
-                <div className="max-w-[840px] mx-auto flex flex-col-reverse md:flex-row gap-[20px]">
-                    <ProfileSidebar />
-                    <ProfileMainContent />
-                </div>
-            </div>
-            <Toaster position="top-right" />
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#FFFBEB] to-white dark:from-[#2C0607] dark:to-[#1A1A19]">
+      <Navbar />
+      <div className="p-4 pt-[128px]">
+        <div className="mx-auto flex max-w-[840px] flex-col-reverse gap-[20px] md:flex-row">
+          <ProfileSidebar />
+          <ProfileMainContent />
         </div>
-    )
+      </div>
+      <Toaster position="top-right" />
+    </div>
+  )
 }

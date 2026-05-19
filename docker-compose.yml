@@ -9,14 +9,13 @@ services:
     container_name: eotc-bible-web
     restart: unless-stopped
     ports:
-      - "3001:3000"
+      - '3001:3000'
     environment:
       - NODE_ENV=production
       # Add other environment variables here
       # - NEXT_PUBLIC_API_URL=https://api.example.com
     # networks:
     #   - app-network
-
 # networks:
 #   app-network:
 #     driver: bridge

@@ -34,14 +34,15 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
   const end = new Date(start)
   end.setDate(start.getDate() + durationInDays - 1)
 
-  let stringOfName: string = startBook === endBook ? `${startBook} ${startChapter}-${endChapter}` : `${startBook} ${startChapter} - ${endBook} ${endChapter}`
+  let stringOfName: string =
+    startBook === endBook
+      ? `${startBook} ${startChapter}-${endChapter}`
+      : `${startBook} ${startChapter} - ${endBook} ${endChapter}`
 
   return (
-    <div className="relative rounded-lg border dark:border-neutral-800 bg-white dark:bg-[#1A1A1A] p-4 md:pl-22 pl-4  transition hover:shadow-md dark:hover:shadow-neutral-900">
-
-
+    <div className="relative rounded-lg border bg-white p-4 pl-4 transition hover:shadow-md md:pl-22 dark:border-neutral-800 dark:bg-[#1A1A1A] dark:hover:shadow-neutral-900">
       {/* Ribbon */}
-      <div className="absolute top-0 left-5 md:block hidden flex-col items-center gap-1 text-xs">
+      <div className="absolute top-0 left-5 hidden flex-col items-center gap-1 text-xs md:block">
         <svg
           width="39"
           height="48"
@@ -63,7 +64,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
           (() => {
             const d = new Date(lastCompletedDate)
             return (
-              <span className="flex flex-col items-center text-lg leading-tight text-[#4C0E0F] dark:text-gray-100 z-10 pt-1">
+              <span className="z-10 flex flex-col items-center pt-1 text-lg leading-tight text-[#4C0E0F] dark:text-gray-100">
                 <span className="font-bold">
                   {d.toLocaleDateString(undefined, { month: 'short' })}
                 </span>
@@ -76,15 +77,15 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
         <Link href={`/dashboard/plans/${plan._id}`}>
           <div className="text-lg font-medium text-black dark:text-white">
             <span>
-              {
-                stringOfName.length > 30 ? `${stringOfName.slice(0, 30)}...` : stringOfName
-              }
+              {stringOfName.length > 30 ? `${stringOfName.slice(0, 30)}...` : stringOfName}
             </span>
-            <span className="text-md md:block hidden text-muted-foreground max-w-[80%] dark:text-gray-400 ml-2"> ( {name} )</span>
+            <span className="text-md text-muted-foreground ml-2 hidden max-w-[80%] md:block dark:text-gray-400">
+              {' '}
+              ( {name} )
+            </span>
           </div>
-
         </Link>
-        <div className="text-muted-foreground dark:text-gray-400 flex justify-between text-sm">
+        <div className="text-muted-foreground flex justify-between text-sm dark:text-gray-400">
           <div>
             {completedDays} of {totalDays} days completed
           </div>
@@ -92,7 +93,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
         </div>
 
         {/* Progress bar */}
-        <div className="bg-muted dark:bg-neutral-800 h-2 w-full rounded">
+        <div className="bg-muted h-2 w-full rounded dark:bg-neutral-800">
           <div
             className={cn(
               'bg-primary h-full rounded transition-all',
@@ -102,7 +103,7 @@ const PlanItem: React.FC<PlanItemProps> = ({ plan }) => {
           />
         </div>
 
-        <div className="text-muted-foreground dark:text-gray-400 text-xs">
+        <div className="text-muted-foreground text-xs dark:text-gray-400">
           {start.toLocaleDateString()} – {end.toLocaleDateString()}
         </div>
       </div>

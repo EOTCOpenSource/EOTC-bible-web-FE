@@ -23,7 +23,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan }) => {
   const t = useTranslations('DiscoverPlans')
 
   return (
-    <div className="flex overflow-hidden rounded-lg bg-white dark:bg-neutral-800 shadow-md">
+    <div className="flex overflow-hidden rounded-lg bg-white shadow-md dark:bg-neutral-800">
       <div className="relative w-1/3">
         <Image
           src={plan.image}
@@ -42,7 +42,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan }) => {
         <div>
           <a
             href={plan.slug ? `/plans/${plan.slug}` : '#'}
-            className="font-semibold text-amber-900 dark:text-amber-400 hover:underline"
+            className="font-semibold text-amber-900 hover:underline dark:text-amber-400"
           >
             {t('planDetailsCta')}
           </a>
@@ -119,7 +119,10 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
       {isLoading ? (
         <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-52 animate-pulse rounded-lg bg-gray-200 dark:bg-neutral-700" />
+            <div
+              key={i}
+              className="h-52 animate-pulse rounded-lg bg-gray-200 dark:bg-neutral-700"
+            />
           ))}
         </div>
       ) : (
@@ -138,10 +141,11 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
                 <button
                   onClick={prevPlanPage}
                   disabled={currentPlanPage === 0}
-                  className={`rounded-lg p-2 ${currentPlanPage === 0
+                  className={`rounded-lg p-2 ${
+                    currentPlanPage === 0
                       ? 'cursor-not-allowed text-gray-300'
                       : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                  }`}
                   aria-label={t('pagination.previousPage')}
                 >
                   <ChevronLeft size={24} />
@@ -152,8 +156,9 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
                     <button
                       key={i}
                       onClick={() => setCurrentPlanPage(i)}
-                      className={`h-2 w-2 rounded-full transition-all ${currentPlanPage === i ? 'w-6 bg-[#4C0E0F]' : 'bg-gray-300'
-                        }`}
+                      className={`h-2 w-2 rounded-full transition-all ${
+                        currentPlanPage === i ? 'w-6 bg-[#4C0E0F]' : 'bg-gray-300'
+                      }`}
                       aria-label={t('pagination.goToPage', { pageNumber: i + 1 })}
                     />
                   ))}
@@ -162,10 +167,11 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
                 <button
                   onClick={() => nextPlanPage(totalPagesDesktop)}
                   disabled={currentPlanPage === totalPagesDesktop - 1}
-                  className={`rounded-lg p-2 ${currentPlanPage === totalPagesDesktop - 1
+                  className={`rounded-lg p-2 ${
+                    currentPlanPage === totalPagesDesktop - 1
                       ? 'cursor-not-allowed text-gray-300'
                       : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                  }`}
                   aria-label={t('pagination.nextPage')}
                 >
                   <ChevronRight size={24} />
@@ -188,10 +194,11 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
                 <button
                   onClick={prevPlanPage}
                   disabled={currentPlanPage === 0}
-                  className={`rounded-lg p-2 ${currentPlanPage === 0
+                  className={`rounded-lg p-2 ${
+                    currentPlanPage === 0
                       ? 'cursor-not-allowed text-gray-300'
                       : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                  }`}
                   aria-label={t('pagination.previousPage')}
                 >
                   <ChevronLeft size={24} />
@@ -202,8 +209,9 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
                     <button
                       key={i}
                       onClick={() => setCurrentPlanPage(i)}
-                      className={`h-2 w-2 rounded-full transition-all ${currentPlanPage === i ? 'w-6 bg-[#4C0E0F]' : 'bg-gray-300'
-                        }`}
+                      className={`h-2 w-2 rounded-full transition-all ${
+                        currentPlanPage === i ? 'w-6 bg-[#4C0E0F]' : 'bg-gray-300'
+                      }`}
                       aria-label={t('pagination.goToPage', { pageNumber: i + 1 })}
                     />
                   ))}
@@ -212,10 +220,11 @@ const DiscoverPlans: React.FC<DiscoverPlansProps> = ({
                 <button
                   onClick={() => nextPlanPage(totalPagesMobile)}
                   disabled={currentPlanPage === totalPagesMobile - 1}
-                  className={`rounded-lg p-2 ${currentPlanPage === totalPagesMobile - 1
+                  className={`rounded-lg p-2 ${
+                    currentPlanPage === totalPagesMobile - 1
                       ? 'cursor-not-allowed text-gray-300'
                       : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                  }`}
                   aria-label={t('pagination.nextPage')}
                 >
                   <ChevronRight size={24} />

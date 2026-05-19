@@ -58,7 +58,10 @@ export const clampVerseMenuPosition = (clientX: number, clientY: number) => {
   const fallbackTop = clientY + 24
   const unclampedTop = preferredTop < VERSE_MENU_EDGE_PADDING ? fallbackTop : preferredTop
   const minTop = VERSE_MENU_EDGE_PADDING
-  const maxTop = Math.max(minTop, window.innerHeight - VERSE_MENU_APPROX_HEIGHT - VERSE_MENU_EDGE_PADDING)
+  const maxTop = Math.max(
+    minTop,
+    window.innerHeight - VERSE_MENU_APPROX_HEIGHT - VERSE_MENU_EDGE_PADDING,
+  )
 
   return {
     left: Math.min(maxLeft, Math.max(minLeft, clientX)),
@@ -105,7 +108,8 @@ export const VerseActionMenu = ({
     return { backgroundColor: highlightColor } as const
   }, [highlightColor, resolvedTheme])
 
-  const numericVerse = typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber as string, 10)
+  const numericVerse =
+    typeof verseNumber === 'number' ? verseNumber : parseInt(verseNumber as string, 10)
 
   // Derive whether THIS verse is within the selected range
   const isSelected =
@@ -171,7 +175,8 @@ export const VerseActionMenu = ({
       if (!highlight?.verseRef) return false
       const { book, chapter: highlightChapter, verseStart, verseCount } = highlight.verseRef
       if (!book || !Number.isFinite(highlightChapter) || !Number.isFinite(verseStart)) return false
-      if (book.toLowerCase() !== bookId.toLowerCase() || highlightChapter !== chapterNumber) return false
+      if (book.toLowerCase() !== bookId.toLowerCase() || highlightChapter !== chapterNumber)
+        return false
 
       const currentVerseStart = Number(range.start)
       if (!Number.isFinite(currentVerseStart)) return false
@@ -248,9 +253,7 @@ export const VerseActionMenu = ({
       try {
         await navigator.share({
           title:
-            range.count > 1
-              ? `${bookName} ${chapter}:${range.start}-${range.end}`
-              : verseReference,
+            range.count > 1 ? `${bookName} ${chapter}:${range.start}-${range.end}` : verseReference,
           text: textToShare,
         })
         setShared(true)
@@ -292,9 +295,7 @@ export const VerseActionMenu = ({
     }
     const range = selectedRange ?? { start: numericVerse, end: numericVerse, count: 1 }
     const noteText =
-      range.count > 1
-        ? `Verses ${range.start}-${range.end}: ${verseText}`
-        : verseText
+      range.count > 1 ? `Verses ${range.start}-${range.end}: ${verseText}` : verseText
 
     onNote?.(range.start, noteText)
     setIsNoteModalOpen(true)
@@ -322,13 +323,13 @@ export const VerseActionMenu = ({
         className={cn(
           'cursor-pointer transition-colors',
           isSelected &&
-            'bg-primary/20 dark:bg-primary/60 dark:ring-1 dark:ring-primary/40 rounded px-1 -mx-1',
+            'bg-primary/20 dark:bg-primary/60 dark:ring-primary/40 -mx-1 rounded px-1 dark:ring-1',
         )}
       >
         <sup className="mr-1 text-xs sm:text-xs md:text-xs">{verseNumber}</sup>
         <span
           className={cn(
-            'transition-colors duration-200 relative',
+            'relative transition-colors duration-200',
             highlightColor && 'rounded px-1 py-0.5',
             shouldAnimate && 'highlight-verse-animation',
             isRead && 'read-verse',
@@ -337,7 +338,7 @@ export const VerseActionMenu = ({
         >
           {renderTextWithHighlight(verseText, searchQuery)}
           {isRead && (
-            <span className="absolute -right-3 top-0.5 text-[10px] text-green-600 dark:text-green-400 opacity-60">
+            <span className="absolute top-0.5 -right-3 text-[10px] text-green-600 opacity-60 dark:text-green-400">
               ✓
             </span>
           )}{' '}

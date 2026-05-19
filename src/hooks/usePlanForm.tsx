@@ -1,12 +1,11 @@
-"use client"
-import { books } from "@/data/data"
-import { ReadingPlan } from "@/stores/types"
-import { usePlanStore } from "@/stores/usePlanStore"
-import { format } from "date-fns"
-import { useTranslations } from "next-intl"
-import React from "react"
-import { PlanDialogFormProps } from "@/stores/types"
-
+'use client'
+import { books } from '@/data/data'
+import { ReadingPlan } from '@/stores/types'
+import { usePlanStore } from '@/stores/usePlanStore'
+import { format } from 'date-fns'
+import { useTranslations } from 'next-intl'
+import React from 'react'
+import { PlanDialogFormProps } from '@/stores/types'
 
 export const usePlanForm = (
   initialData?: ReadingPlan,
@@ -33,9 +32,11 @@ export const usePlanForm = (
     startChapter: initialValues?.startChapter || 1,
     endBook: initialData?.endBook || initialValues?.endBook || '',
     endChapter: initialValues?.endChapter || 1,
-    startDate: initialValues?.startDate 
-      ? new Date(initialValues.startDate) 
-      : (initialData?.createdAt ? new Date(initialData.createdAt) : new Date()),
+    startDate: initialValues?.startDate
+      ? new Date(initialValues.startDate)
+      : initialData?.createdAt
+        ? new Date(initialData.createdAt)
+        : new Date(),
     durationInDays: initialData?.durationInDays || initialValues?.durationInDays || 1,
   })
 
@@ -50,29 +51,33 @@ export const usePlanForm = (
     setTouched((prev) => ({ ...prev, [field]: true }))
   }
 
-  const validate = React.useCallback((showAll = false) => {
-    const newErrors: Record<string, string> = {}
-    const { name, startBook, endBook, startChapter, endChapter, durationInDays } = formData
+  const validate = React.useCallback(
+    (showAll = false) => {
+      const newErrors: Record<string, string> = {}
+      const { name, startBook, endBook, startChapter, endChapter, durationInDays } = formData
 
-    if (showAll || touched.name || name) if (!name.trim()) newErrors.name = t('nameRequired')
-    if (showAll || touched.startBook || startBook) if (!startBook) newErrors.startBook = t('bookRequired')
-    if (showAll || touched.endBook || endBook) if (!endBook) newErrors.endBook = t('bookRequired')
+      if (showAll || touched.name || name) if (!name.trim()) newErrors.name = t('nameRequired')
+      if (showAll || touched.startBook || startBook)
+        if (!startBook) newErrors.startBook = t('bookRequired')
+      if (showAll || touched.endBook || endBook) if (!endBook) newErrors.endBook = t('bookRequired')
 
-    const sBook = books.find((b) => b.book_name_en === startBook)
-    if (sBook && (startChapter < 1 || startChapter > sBook.chapters)) {
-      newErrors.startChapter = t('chapterRange', { max: sBook.chapters })
-    }
+      const sBook = books.find((b) => b.book_name_en === startBook)
+      if (sBook && (startChapter < 1 || startChapter > sBook.chapters)) {
+        newErrors.startChapter = t('chapterRange', { max: sBook.chapters })
+      }
 
-    const eBook = books.find((b) => b.book_name_en === endBook)
-    if (eBook && (endChapter < 1 || endChapter > eBook.chapters)) {
-      newErrors.endChapter = t('chapterRange', { max: eBook.chapters })
-    }
+      const eBook = books.find((b) => b.book_name_en === endBook)
+      if (eBook && (endChapter < 1 || endChapter > eBook.chapters)) {
+        newErrors.endChapter = t('chapterRange', { max: eBook.chapters })
+      }
 
-    if (durationInDays < 1) newErrors.durationInDays = t('durationMin')
+      if (durationInDays < 1) newErrors.durationInDays = t('durationMin')
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }, [formData, touched, t])
+      setErrors(newErrors)
+      return Object.keys(newErrors).length === 0
+    },
+    [formData, touched, t],
+  )
 
   React.useEffect(() => {
     validate()

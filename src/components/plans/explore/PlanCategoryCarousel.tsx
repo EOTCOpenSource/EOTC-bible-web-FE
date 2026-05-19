@@ -9,7 +9,12 @@ import { useTranslations } from 'next-intl'
 
 type Category = {
   key: string
-  titleKey: 'featuredTitle' | 'wholeBibleTitle' | 'encouragementTitle' | 'wisdomTitle' | 'hardTimesTitle'
+  titleKey:
+    | 'featuredTitle'
+    | 'wholeBibleTitle'
+    | 'encouragementTitle'
+    | 'wisdomTitle'
+    | 'hardTimesTitle'
   imageSrc: string
   href: string
 }
@@ -61,17 +66,14 @@ export function PlanCategoryCarousel() {
 
   return (
     <div className="relative w-full">
-      <div
-        ref={scrollerRef}
-        className="flex gap-3 overflow-x-auto no-scrollbar pr-2"
-      >
+      <div ref={scrollerRef} className="no-scrollbar flex gap-3 overflow-x-auto pr-2">
         {categories.map((c) => (
           <Link
             key={c.key}
             href={c.href}
             className={cn(
-              'relative flex-shrink-0 overflow-hidden rounded-xl border border-black/10 dark:border-neutral-700 bg-white dark:bg-neutral-800',
-              'w-[152px] h-[86px] sm:w-[170px] sm:h-[96px]',
+              'relative flex-shrink-0 overflow-hidden rounded-xl border border-black/10 bg-white dark:border-neutral-700 dark:bg-neutral-800',
+              'h-[86px] w-[152px] sm:h-[96px] sm:w-[170px]',
             )}
           >
             <Image
@@ -82,8 +84,8 @@ export function PlanCategoryCarousel() {
               sizes="170px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-            <div className="absolute left-2 bottom-2 right-2 text-white">
-              <div className="text-xs font-semibold leading-tight">{t(c.titleKey)}</div>
+            <div className="absolute right-2 bottom-2 left-2 text-white">
+              <div className="text-xs leading-tight font-semibold">{t(c.titleKey)}</div>
               <div className="text-[10px] text-white/80">{t('viewPlans')}</div>
             </div>
           </Link>
@@ -91,11 +93,11 @@ export function PlanCategoryCarousel() {
       </div>
 
       {canScroll && (
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex gap-2">
+        <div className="absolute top-1/2 right-0 hidden -translate-y-1/2 gap-2 md:flex">
           <button
             type="button"
             onClick={() => scrollBy('left')}
-            className="h-9 w-9 rounded-md bg-[#FFFCDB] dark:bg-neutral-700 border border-black/10 dark:border-neutral-600 flex items-center justify-center hover:bg-[#fff7b8] dark:hover:bg-neutral-600 dark:text-neutral-100"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-black/10 bg-[#FFFCDB] hover:bg-[#fff7b8] dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-600"
             aria-label={t('scrollLeft')}
           >
             <ChevronLeft size={18} />
@@ -103,7 +105,7 @@ export function PlanCategoryCarousel() {
           <button
             type="button"
             onClick={() => scrollBy('right')}
-            className="h-9 w-9 rounded-md bg-[#FFFCDB] dark:bg-neutral-700 border border-black/10 dark:border-neutral-600 flex items-center justify-center hover:bg-[#fff7b8] dark:hover:bg-neutral-600 dark:text-neutral-100"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-black/10 bg-[#FFFCDB] hover:bg-[#fff7b8] dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-600"
             aria-label={t('scrollRight')}
           >
             <ChevronRight size={18} />
@@ -113,4 +115,3 @@ export function PlanCategoryCarousel() {
     </div>
   )
 }
-

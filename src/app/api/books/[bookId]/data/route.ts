@@ -2,16 +2,11 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { books } from '@/data/data'
 
-export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ bookId: string }> }
-) {
+export async function GET(_request: Request, { params }: { params: Promise<{ bookId: string }> }) {
   const { bookId } = await params
 
   try {
-    const bookMeta = books.find(
-      (b) => b.book_name_en.replace(/ /g, '-').toLowerCase() === bookId
-    )
+    const bookMeta = books.find((b) => b.book_name_en.replace(/ /g, '-').toLowerCase() === bookId)
 
     if (!bookMeta) {
       return Response.json({ error: 'Book not found' }, { status: 404 })

@@ -35,8 +35,8 @@ const Subscription = () => {
   }
 
   return (
-    <div className="flex justify-center bg-white dark:bg-neutral-900 pt-10 md:py-20">
-      <div className="flex h-auto w-full flex-col justify-center gap-8 rounded-lg bg-[#FFFBF5] dark:bg-neutral-800 px-6 py-8 md:h-[123px] md:w-[1344px] md:flex-row md:justify-center md:gap-20 md:px-12 md:py-0">
+    <div className="flex justify-center bg-white pt-10 md:py-20 dark:bg-neutral-900">
+      <div className="flex h-auto w-full flex-col justify-center gap-8 rounded-lg bg-[#FFFBF5] px-6 py-8 md:h-[123px] md:w-[1344px] md:flex-row md:justify-center md:gap-20 md:px-12 md:py-0 dark:bg-neutral-800">
         <h3 className="text-left text-2xl font-bold md:text-left">
           {t('title')
             .split('\n')
@@ -58,16 +58,20 @@ const Subscription = () => {
               placeholder={t('placeholder')}
               required
               disabled={isSubmitting}
-              className="h-10 w-full rounded-md border-gray-300 bg-gray-100 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white sm:w-80 disabled:opacity-50"
+              className="h-10 w-full rounded-md border-gray-300 bg-gray-100 disabled:opacity-50 sm:w-80 dark:border-neutral-600 dark:bg-neutral-700 dark:text-white"
             />
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center justify-center space-x-2 rounded-md bg-[#4C0E0F] py-2 pr-2 pl-6 text-white sm:w-auto disabled:opacity-50 transition-opacity"
+              className="flex items-center justify-center space-x-2 rounded-md bg-[#4C0E0F] py-2 pr-2 pl-6 text-white transition-opacity disabled:opacity-50 sm:w-auto"
             >
               <span>{isSubmitting ? 'Subscribing...' : t('button')}</span>
               <div className="flex h-7 w-7 items-center justify-center rounded-md bg-white p-1 text-[#4C0E0F]">
-                {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : <ArrowUpRight size={20} />}
+                {isSubmitting ? (
+                  <Loader2 size={20} className="animate-spin" />
+                ) : (
+                  <ArrowUpRight size={20} />
+                )}
               </div>
             </button>
           </form>

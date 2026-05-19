@@ -26,7 +26,8 @@ export const useNotificationStore = create<NotificationState>()(
         const res = await axiosInstance.get('/api/notifications/status')
         const data = res.data?.data ?? res.data ?? {}
         set({
-          dailyReadingEnabled: data.dailyReadingEnabled ?? data.enabled ?? data.notificationsEnabled ?? false,
+          dailyReadingEnabled:
+            data.dailyReadingEnabled ?? data.enabled ?? data.notificationsEnabled ?? false,
           isLoading: false,
         })
       } catch (err: any) {

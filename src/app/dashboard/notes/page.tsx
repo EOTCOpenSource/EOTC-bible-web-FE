@@ -11,10 +11,8 @@ export default function NotesPage() {
   const viewingNote = useNotesStore((state) => state.viewingNote)
 
   return (
-    <div className="space-y-4 sm:space-y-6 md:space-y-8 w-full">
-      {!isExpanded && (
-        viewingNote ? <NoteViewer /> : <NoteEditor />
-      )}
+    <div className="w-full space-y-4 sm:space-y-6 md:space-y-8">
+      {!isExpanded && (viewingNote ? <NoteViewer /> : <NoteEditor />)}
       <MyNotesList
         isExpanded={isExpanded}
         onToggleExpandAction={() => setIsExpanded(!isExpanded)}
@@ -22,4 +20,3 @@ export default function NotesPage() {
     </div>
   )
 }
-

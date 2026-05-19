@@ -14,13 +14,13 @@ type Props = {
 export function SimilarPlansCarousel({ plans }: Props) {
   const t = useTranslations('PlansExplore')
   return (
-    <div className="flex w-full items-center gap-4 overflow-x-auto no-scrollbar px-1">
+    <div className="no-scrollbar flex w-full items-center gap-4 overflow-x-auto px-1">
       {plans.map((plan) => (
         <Card
           key={plan.slug}
-          className="inline-flex items-center gap-2.5 p-3.5 flex-shrink-0 bg-[#f8f6f0d9] dark:bg-neutral-800/85 rounded-xl border-0 shadow-none"
+          className="inline-flex flex-shrink-0 items-center gap-2.5 rounded-xl border-0 bg-[#f8f6f0d9] p-3.5 shadow-none dark:bg-neutral-800/85"
         >
-          <CardContent className="p-0 inline-flex flex-col items-start gap-4">
+          <CardContent className="inline-flex flex-col items-start gap-4 p-0">
             <Image
               className="relative rounded-lg object-cover"
               alt={plan.title}
@@ -29,13 +29,13 @@ export function SimilarPlansCarousel({ plans }: Props) {
               height={244}
             />
 
-            <div className="flex flex-col w-[151px] items-start gap-3">
-              <span className="w-fit mt-[-1.00px] font-semibold text-[#1a1918] dark:text-neutral-100 text-xl tracking-[-0.60px] leading-4 whitespace-nowrap">
+            <div className="flex w-[151px] flex-col items-start gap-3">
+              <span className="mt-[-1.00px] w-fit text-xl leading-4 font-semibold tracking-[-0.60px] whitespace-nowrap text-[#1a1918] dark:text-neutral-100">
                 {plan.title}
               </span>
 
               <Link href={`/plans/${plan.slug}`} className="inline-flex items-center gap-0.5">
-                <span className="flex items-center w-fit mt-[-1.00px] font-normal text-[#1a1a19db] dark:text-neutral-400 text-sm whitespace-nowrap hover:underline">
+                <span className="mt-[-1.00px] flex w-fit items-center text-sm font-normal whitespace-nowrap text-[#1a1a19db] hover:underline dark:text-neutral-400">
                   {t('planDetails')}
                 </span>
                 <Image alt="" src="/figmaAssets/down-arrow-3-.svg" width={4} height={8} />
@@ -47,4 +47,3 @@ export function SimilarPlansCarousel({ plans }: Props) {
     </div>
   )
 }
-

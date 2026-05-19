@@ -14,14 +14,10 @@ export async function PUT(req: NextRequest) {
 
     const body = await req.json()
 
-    const res = await serverAxiosInstance.put(
-      `/notifications/toggle`,
-      body,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        validateStatus: () => true,
-      },
-    )
+    const res = await serverAxiosInstance.put(`/notifications/toggle`, body, {
+      headers: { Authorization: `Bearer ${token}` },
+      validateStatus: () => true,
+    })
 
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(

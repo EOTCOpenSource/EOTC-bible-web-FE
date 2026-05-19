@@ -35,11 +35,11 @@ export default function OfflineIndicator() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -60, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="fixed top-36 md:top-20 left-1/2 z-50 -translate-x-1/2"
+          className="fixed top-36 left-1/2 z-50 -translate-x-1/2 md:top-20"
         >
-          <div className="flex items-center gap-2.5 rounded-full border border-amber-200 dark:border-amber-500/30 bg-amber-50/90 dark:bg-amber-950/90 px-5 py-2.5 shadow-xl shadow-amber-900/10 dark:shadow-amber-900/40 backdrop-blur-md">
-            <WifiOff className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
-            <span className="text-sm font-black text-amber-900 dark:text-amber-200 whitespace-nowrap">
+          <div className="flex items-center gap-2.5 rounded-full border border-amber-200 bg-amber-50/90 px-5 py-2.5 shadow-xl shadow-amber-900/10 backdrop-blur-md dark:border-amber-500/30 dark:bg-amber-950/90 dark:shadow-amber-900/40">
+            <WifiOff className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+            <span className="text-sm font-black whitespace-nowrap text-amber-900 dark:text-amber-200">
               {hasOfflineBooks
                 ? "You're offline — reading from downloads"
                 : "You're offline — download books for offline reading"}
@@ -55,11 +55,11 @@ export default function OfflineIndicator() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -60, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="fixed top-36 md:top-20 left-1/2 z-50 -translate-x-1/2"
+          className="fixed top-36 left-1/2 z-50 -translate-x-1/2 md:top-20"
         >
-          <div className="flex items-center gap-2.5 rounded-full border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50/90 dark:bg-emerald-950/90 px-5 py-2.5 shadow-xl shadow-emerald-900/10 dark:shadow-emerald-900/40 backdrop-blur-md">
-            <Wifi className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <span className="text-sm font-black text-emerald-900 dark:text-emerald-200 whitespace-nowrap">
+          <div className="flex items-center gap-2.5 rounded-full border border-emerald-200 bg-emerald-50/90 px-5 py-2.5 shadow-xl shadow-emerald-900/10 backdrop-blur-md dark:border-emerald-500/30 dark:bg-emerald-950/90 dark:shadow-emerald-900/40">
+            <Wifi className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+            <span className="text-sm font-black whitespace-nowrap text-emerald-900 dark:text-emerald-200">
               Back online
             </span>
           </div>

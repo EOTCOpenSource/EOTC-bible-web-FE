@@ -72,7 +72,7 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ bookmark }) => {
       : bookmark.verseStart
 
   return (
-    <div className="flex flex-col space-y-2 rounded-lg border dark:border-neutral-800 p-4 shadow-sm bg-white dark:bg-[#1A1A1A]">
+    <div className="flex flex-col space-y-2 rounded-lg border bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-[#1A1A1A]">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-black dark:text-white">
           {bookName || <Skeleton className="inline-block h-5 w-32" />} {bookmark.chapter}:
@@ -90,7 +90,11 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ bookmark }) => {
         </p>
       )}
       <div className="flex justify-end">
-        <Button variant="link" onClick={handleReadMore} className="p-0 text-sm text-yellow-600 dark:text-yellow-500">
+        <Button
+          variant="link"
+          onClick={handleReadMore}
+          className="p-0 text-sm text-yellow-600 dark:text-yellow-500"
+        >
           Read more
           <ArrowRight />
         </Button>

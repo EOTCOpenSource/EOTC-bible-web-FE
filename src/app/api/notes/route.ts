@@ -10,7 +10,7 @@ const getAuthToken = async () => {
 
 const unauthorizedResponse = NextResponse.json(
   { error: 'Unauthorized. Please login first.' },
-  { status: 401 }
+  { status: 401 },
 )
 
 export async function GET(req: NextRequest) {
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to fetch notes' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -46,9 +46,10 @@ export async function GET(req: NextRequest) {
   } catch (error: any) {
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to fetch notes',
+        error:
+          error.response?.data?.error || error.response?.data?.message || 'Failed to fetch notes',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }
@@ -70,7 +71,7 @@ export async function POST(req: NextRequest) {
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to create note' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -78,9 +79,10 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to create note',
+        error:
+          error.response?.data?.error || error.response?.data?.message || 'Failed to create note',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }

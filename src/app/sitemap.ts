@@ -25,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   books.forEach((book) => {
     const bookId = book.book_name_en.replace(/ /g, '-').toLowerCase()
-    
+
     // Add each chapter — these are the most valuable pages for SEO
     for (let i = 1; i <= book.chapters; i++) {
       bibleRoutes.push({

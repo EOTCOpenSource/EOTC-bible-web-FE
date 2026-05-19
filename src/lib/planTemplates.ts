@@ -41,8 +41,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
   safeTemplate({
     slug: 'body-of-christ',
     title: 'The Body of Christ',
-    description:
-      'A deep dive into what it means to be part of the community of believers.',
+    description: 'A deep dive into what it means to be part of the community of believers.',
     image: '/plans/plan2.png',
     durationInDays: 14,
     startBook: 'Ephesians',
@@ -101,5 +100,4 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
   }),
 ]
 
-export const getPlanTemplateBySlug = (slug: string) =>
-  PLAN_TEMPLATES.find((t) => t.slug === slug)
+export const getPlanTemplateBySlug = (slug: string) => PLAN_TEMPLATES.find((t) => t.slug === slug)

@@ -28,10 +28,7 @@ export async function POST(req: NextRequest) {
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         {
-          error:
-            res.data?.message ||
-            res.data?.error ||
-            'Failed to upload profile image',
+          error: res.data?.message || res.data?.error || 'Failed to upload profile image',
         },
         { status: res.status },
       )
@@ -54,5 +51,3 @@ export async function POST(req: NextRequest) {
     )
   }
 }
-
-

@@ -69,9 +69,9 @@ const VerseOfTheDay = () => {
   const [likeBurstId, setLikeBurstId] = useState(0)
 
   useEffect(() => {
-    loadDailyVerse().catch(() => { })
+    loadDailyVerse().catch(() => {})
     if (isLoggedIn) {
-      loadProgress().catch(() => { })
+      loadProgress().catch(() => {})
     }
   }, [loadDailyVerse, loadProgress, isLoggedIn])
 
@@ -145,20 +145,20 @@ const VerseOfTheDay = () => {
   }
 
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative overflow-hidden py-20">
       <div className="absolute inset-0 z-0">
         <Image
           src="/verse-of-the-day-bg.png"
           alt="Verse of the day Background"
           fill
-          className="object-cover brightness-110 dark:brightness-50 transition-all duration-700"
+          className="object-cover brightness-110 transition-all duration-700 dark:brightness-50"
           priority
         />
         {/* Light: Very transparent | Dark: Deep near-black */}
         <div className="absolute inset-0 bg-white/20 dark:bg-[#0A0A0A]/85" />
       </div>
 
-      <div className="container relative z-10 mx-auto flex flex-col items-center px-4 md:flex-row">
+      <div className="relative z-10 container mx-auto flex flex-col items-center px-4 md:flex-row">
         <div className="w-full md:w-1/2 md:pr-12">
           <div className="mb-4 flex items-center">
             <Sun className="mr-3 text-[#621B1C] dark:text-red-400" size={32} />
@@ -190,10 +190,11 @@ const VerseOfTheDay = () => {
           <div className="mt-8 flex items-center space-x-8 text-gray-500 select-none dark:text-gray-400">
             <div
               onClick={handleLikeClick}
-              className={`relative flex cursor-pointer items-center space-x-2 overflow-visible rounded-sm border p-2 transition-colors ${stats?.userLiked
+              className={`relative flex cursor-pointer items-center space-x-2 overflow-visible rounded-sm border p-2 transition-colors ${
+                stats?.userLiked
                   ? 'border-red-500 bg-red-100 text-red-600 dark:border-red-500 dark:bg-red-900/30 dark:text-red-400'
                   : 'border-transparent bg-red-100/50 hover:bg-red-100 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700'
-                }`}
+              }`}
             >
               {likeBurstId > 0 ? <HeartConfetti key={likeBurstId} burstId={likeBurstId} /> : null}
               <Heart size={20} className={stats?.userLiked ? 'fill-current' : ''} />
@@ -201,20 +202,22 @@ const VerseOfTheDay = () => {
             </div>
             <div
               onClick={handleShare}
-              className={`flex cursor-pointer items-center space-x-2 rounded-sm border p-2 transition-colors ${stats?.userShared
+              className={`flex cursor-pointer items-center space-x-2 rounded-sm border p-2 transition-colors ${
+                stats?.userShared
                   ? 'border-blue-500 bg-blue-100 text-blue-600 dark:border-blue-500 dark:bg-blue-900/30 dark:text-blue-400'
                   : 'border-transparent bg-red-100/50 hover:bg-neutral-200 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700'
-                }`}
+              }`}
             >
               <Send size={20} className={stats?.userShared ? 'fill-current' : ''} />
               <span>{renderStat(stats?.shares, t('shares'))}</span>
             </div>
             <div
               onClick={handleBookmark}
-              className={`flex cursor-pointer items-center space-x-2 rounded-sm border p-2 transition-colors ${stats?.userBookmarked
+              className={`flex cursor-pointer items-center space-x-2 rounded-sm border p-2 transition-colors ${
+                stats?.userBookmarked
                   ? 'border-amber-500 bg-amber-100 text-amber-600 dark:border-amber-500 dark:bg-amber-900/30 dark:text-amber-400'
                   : 'border-transparent bg-red-100/50 hover:bg-neutral-200 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700'
-                }`}
+              }`}
             >
               <Bookmark size={20} className={stats?.userBookmarked ? 'fill-current' : ''} />
               <span>{renderStat(stats?.bookmarks, t('bookmarks'))}</span>

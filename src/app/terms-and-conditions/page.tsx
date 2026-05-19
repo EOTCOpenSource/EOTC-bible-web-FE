@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function TermsAndConditionsPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 dark:bg-neutral-950 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8 dark:bg-neutral-950">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8 text-center">
@@ -18,36 +18,42 @@ export default function TermsAndConditionsPage() {
             className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
           >
             <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Back to Registration
           </Link>
-          <h1 className="mt-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl">
+          <h1 className="mt-4 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl dark:text-white">
             Terms and Conditions
           </h1>
           <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
             Please read these terms carefully before using the EOTC Bible application
           </p>
-          <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">
-            Last updated: April 2026
-          </p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-500">Last updated: April 2026</p>
         </div>
 
         {/* Content Card */}
-        <div className="rounded-2xl bg-white p-8 shadow-sm dark:bg-neutral-900 md:p-12">
-          <div className="space-y-8 text-gray-700 leading-relaxed dark:text-gray-300">
-
+        <div className="rounded-2xl bg-white p-8 shadow-sm md:p-12 dark:bg-neutral-900">
+          <div className="space-y-8 leading-relaxed text-gray-700 dark:text-gray-300">
             {/* Introduction */}
             <section>
               <p className="text-base">
-                Welcome to the <strong className="text-gray-900 dark:text-white">Ethiopian Orthodox Tewahedo Church Bible</strong>
-                (&quot;EOTC Bible&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) application. These Terms and Conditions
-                (&quot;Terms&quot;) govern your access to and use of our Bible application, website, and related services
-                (collectively, the &quot;Service&quot;).
+                Welcome to the{' '}
+                <strong className="text-gray-900 dark:text-white">
+                  Ethiopian Orthodox Tewahedo Church Bible
+                </strong>
+                (&quot;EOTC Bible&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;)
+                application. These Terms and Conditions (&quot;Terms&quot;) govern your access to
+                and use of our Bible application, website, and related services (collectively, the
+                &quot;Service&quot;).
               </p>
               <p className="mt-3 text-base">
-                By accessing or using the EOTC Bible application, you agree to be bound by these Terms.
-                If you do not agree to these Terms, please do not access or use our Service.
+                By accessing or using the EOTC Bible application, you agree to be bound by these
+                Terms. If you do not agree to these Terms, please do not access or use our Service.
               </p>
             </section>
 
@@ -79,7 +85,8 @@ export default function TermsAndConditionsPage() {
               </h2>
               <p className="ml-14">
                 EOTC Bible is a digital Bible platform that provides access to the Holy Scriptures
-                in multiple languages including Amharic, Ge&apos;ez, Tigrigna, and Oromiffa. The Service includes:
+                in multiple languages including Amharic, Ge&apos;ez, Tigrigna, and Oromiffa. The
+                Service includes:
               </p>
               <ul className="mt-3 ml-14 list-inside list-disc space-y-2">
                 <li>Reading and studying the Bible in multiple translations</li>
@@ -91,7 +98,8 @@ export default function TermsAndConditionsPage() {
                 <li>Cross-device synchronization of personal data</li>
               </ul>
               <p className="mt-3 ml-14">
-                We reserve the right to modify, suspend, or discontinue any part of the Service at any time.
+                We reserve the right to modify, suspend, or discontinue any part of the Service at
+                any time.
               </p>
             </section>
 
@@ -105,27 +113,31 @@ export default function TermsAndConditionsPage() {
               </h2>
               <div className="ml-14 space-y-3">
                 <p>
-                  <strong className="text-gray-900 dark:text-white">3.1 Account Creation:</strong> To access certain features,
-                  you must create an account. You may register using:
+                  <strong className="text-gray-900 dark:text-white">3.1 Account Creation:</strong>{' '}
+                  To access certain features, you must create an account. You may register using:
                 </p>
                 <ul className="ml-4 list-inside list-disc space-y-1">
                   <li>Email and password</li>
                   <li>Google account (OAuth)</li>
                   <li>Facebook account (OAuth)</li>
-
                 </ul>
                 <p>
-                  <strong className="text-gray-900 dark:text-white">3.2 Account Information:</strong> You agree to provide
-                  accurate, current, and complete information during registration and to update such information as needed.
+                  <strong className="text-gray-900 dark:text-white">
+                    3.2 Account Information:
+                  </strong>{' '}
+                  You agree to provide accurate, current, and complete information during
+                  registration and to update such information as needed.
                 </p>
                 <p>
-                  <strong className="text-gray-900 dark:text-white">3.3 Account Security:</strong> You are responsible for
-                  safeguarding your password and for any activities or actions under your password. You agree not to share
-                  your password with third parties.
+                  <strong className="text-gray-900 dark:text-white">3.3 Account Security:</strong>{' '}
+                  You are responsible for safeguarding your password and for any activities or
+                  actions under your password. You agree not to share your password with third
+                  parties.
                 </p>
                 <p>
-                  <strong className="text-gray-900 dark:text-white">3.4 Age Requirement:</strong> You must be at least
-                  13 years old (or the minimum age of digital consent in your country) to use this Service.
+                  <strong className="text-gray-900 dark:text-white">3.4 Age Requirement:</strong>{' '}
+                  You must be at least 13 years old (or the minimum age of digital consent in your
+                  country) to use this Service.
                 </p>
               </div>
             </section>
@@ -138,16 +150,27 @@ export default function TermsAndConditionsPage() {
                 </span>
                 <span className="ml-3">User Conduct</span>
               </h2>
-              <p className="ml-14 mb-3">
-                You agree not to use the Service to:
-              </p>
+              <p className="mb-3 ml-14">You agree not to use the Service to:</p>
               <ul className="ml-14 list-inside list-disc space-y-2">
-                <li>Upload, post, or transmit any content that is unlawful, harmful, threatening, abusive, defamatory,
-                  vulgar, obscene, or otherwise objectionable</li>
-                <li>Impersonate any person or entity or falsely state or misrepresent your affiliation with a person or entity</li>
-                <li>Interfere with or disrupt the Service or servers or networks connected to the Service</li>
-                <li>Attempt to gain unauthorized access to any portion of the Service or any systems or networks connected to the Service</li>
-                <li>Use the Service for any commercial purpose without our prior written consent</li>
+                <li>
+                  Upload, post, or transmit any content that is unlawful, harmful, threatening,
+                  abusive, defamatory, vulgar, obscene, or otherwise objectionable
+                </li>
+                <li>
+                  Impersonate any person or entity or falsely state or misrepresent your affiliation
+                  with a person or entity
+                </li>
+                <li>
+                  Interfere with or disrupt the Service or servers or networks connected to the
+                  Service
+                </li>
+                <li>
+                  Attempt to gain unauthorized access to any portion of the Service or any systems
+                  or networks connected to the Service
+                </li>
+                <li>
+                  Use the Service for any commercial purpose without our prior written consent
+                </li>
                 <li>Harvest or collect any information about other users without their consent</li>
                 <li>Remove any proprietary notices or labels on the Service</li>
               </ul>
@@ -163,20 +186,23 @@ export default function TermsAndConditionsPage() {
               </h2>
               <div className="ml-14 space-y-3">
                 <p>
-                  <strong className="text-gray-900 dark:text-white">5.1 Our Property:</strong> The EOTC Bible application,
-                  including its original content, features, functionality, logos, and branding, is owned by the Ethiopian
-                  Orthodox Tewahedo Church and is protected by international copyright, trademark, and other intellectual
-                  property laws.
+                  <strong className="text-gray-900 dark:text-white">5.1 Our Property:</strong> The
+                  EOTC Bible application, including its original content, features, functionality,
+                  logos, and branding, is owned by the Ethiopian Orthodox Tewahedo Church and is
+                  protected by international copyright, trademark, and other intellectual property
+                  laws.
                 </p>
                 <p>
-                  <strong className="text-gray-900 dark:text-white">5.2 Bible Text:</strong> The Bible translations available
-                  on this platform are provided under appropriate licenses from their respective copyright holders. Some
-                  texts may be in the public domain.
+                  <strong className="text-gray-900 dark:text-white">5.2 Bible Text:</strong> The
+                  Bible translations available on this platform are provided under appropriate
+                  licenses from their respective copyright holders. Some texts may be in the public
+                  domain.
                 </p>
                 <p>
-                  <strong className="text-gray-900 dark:text-white">5.3 User Content:</strong> You retain ownership of any
-                  notes, highlights, or other content you create. However, you grant us a license to store, display, and
-                  synchronize this content across your devices.
+                  <strong className="text-gray-900 dark:text-white">5.3 User Content:</strong> You
+                  retain ownership of any notes, highlights, or other content you create. However,
+                  you grant us a license to store, display, and synchronize this content across your
+                  devices.
                 </p>
               </div>
             </section>
@@ -191,11 +217,15 @@ export default function TermsAndConditionsPage() {
               </h2>
               <p className="ml-14">
                 Your privacy is important to us. Please review our{' '}
-                <Link href="/privacy-policy" className="text-red-700 underline hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+                <Link
+                  href="/privacy-policy"
+                  className="text-red-700 underline hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                >
                   Privacy Policy
                 </Link>{' '}
-                to understand how we collect, use, and protect your personal information. By using the Service,
-                you consent to the collection and use of your information as described in the Privacy Policy.
+                to understand how we collect, use, and protect your personal information. By using
+                the Service, you consent to the collection and use of your information as described
+                in the Privacy Policy.
               </p>
             </section>
 
@@ -208,10 +238,11 @@ export default function TermsAndConditionsPage() {
                 <span className="ml-3">Disclaimer of Warranties</span>
               </h2>
               <p className="ml-14">
-                THE SERVICE IS PROVIDED &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; WITHOUT WARRANTIES OF ANY KIND,
-                EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY,
-                FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE
-                UNINTERRUPTED, ERROR-FREE, OR COMPLETELY SECURE.
+                THE SERVICE IS PROVIDED &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; WITHOUT
+                WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+                IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR
+                NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED,
+                ERROR-FREE, OR COMPLETELY SECURE.
               </p>
             </section>
 
@@ -224,10 +255,10 @@ export default function TermsAndConditionsPage() {
                 <span className="ml-3">Limitation of Liability</span>
               </h2>
               <p className="ml-14">
-                TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE ETHIOPIAN ORTHODOX TEWAHEDO CHURCH SHALL NOT BE LIABLE
-                FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS
-                OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER
-                INTANGIBLE LOSSES.
+                TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE ETHIOPIAN ORTHODOX TEWAHEDO CHURCH SHALL
+                NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE
+                DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR
+                INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.
               </p>
             </section>
 
@@ -240,9 +271,10 @@ export default function TermsAndConditionsPage() {
                 <span className="ml-3">Changes to These Terms</span>
               </h2>
               <p className="ml-14">
-                We reserve the right to modify these Terms at any time. We will notify users of any material changes
-                by posting the new Terms on this page and updating the &quot;Last updated&quot; date. Your continued
-                use of the Service after any changes constitutes acceptance of the new Terms.
+                We reserve the right to modify these Terms at any time. We will notify users of any
+                material changes by posting the new Terms on this page and updating the &quot;Last
+                updated&quot; date. Your continued use of the Service after any changes constitutes
+                acceptance of the new Terms.
               </p>
             </section>
 
@@ -255,10 +287,11 @@ export default function TermsAndConditionsPage() {
                 <span className="ml-3">Termination</span>
               </h2>
               <p className="ml-14">
-                We may terminate or suspend your account and access to the Service immediately, without prior notice
-                or liability, for any reason, including if you breach these Terms. Upon termination, your right to
-                use the Service will immediately cease. All provisions of these Terms that by their nature should
-                survive termination shall survive.
+                We may terminate or suspend your account and access to the Service immediately,
+                without prior notice or liability, for any reason, including if you breach these
+                Terms. Upon termination, your right to use the Service will immediately cease. All
+                provisions of these Terms that by their nature should survive termination shall
+                survive.
               </p>
             </section>
 
@@ -271,9 +304,10 @@ export default function TermsAndConditionsPage() {
                 <span className="ml-3">Governing Law</span>
               </h2>
               <p className="ml-14">
-                These Terms shall be governed by and construed in accordance with the laws of Ethiopia, without regard
-                to its conflict of law provisions. Any disputes arising from these Terms or the Service shall be
-                resolved in the courts of Addis Ababa, Ethiopia.
+                These Terms shall be governed by and construed in accordance with the laws of
+                Ethiopia, without regard to its conflict of law provisions. Any disputes arising
+                from these Terms or the Service shall be resolved in the courts of Addis Ababa,
+                Ethiopia.
               </p>
             </section>
 
@@ -287,22 +321,30 @@ export default function TermsAndConditionsPage() {
               </h2>
               <p className="ml-14">
                 If you have any questions about these Terms, please contact us at:{' '}
-                <a href="mailto:eotcopensource@gmail.com" className="text-red-700 underline hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+                <a
+                  href="mailto:eotcopensource@gmail.com"
+                  className="text-red-700 underline hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                >
                   eotcopensource@gmail.com
                 </a>
               </p>
             </section>
-
           </div>
 
           {/* Acceptance Section */}
           <div className="mt-12 rounded-xl bg-gray-50 p-6 text-center dark:bg-neutral-800">
             <p className="text-base text-gray-700 dark:text-gray-300">
-              By using the EOTC Bible application, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.
+              By using the EOTC Bible application, you acknowledge that you have read, understood,
+              and agree to be bound by these Terms and Conditions.
             </p>
             <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
               </svg>
               <span>Protected by applicable copyright and trademark laws</span>
             </div>
@@ -317,7 +359,10 @@ export default function TermsAndConditionsPage() {
           <Link href="/data-deletion" className="hover:text-gray-900 dark:hover:text-white">
             Data Deletion Policy
           </Link>
-          <a href="mailto:eotcopensource@gmail.com" className="hover:text-gray-900 dark:hover:text-white">
+          <a
+            href="mailto:eotcopensource@gmail.com"
+            className="hover:text-gray-900 dark:hover:text-white"
+          >
             Contact Support
           </a>
         </div>

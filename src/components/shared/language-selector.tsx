@@ -14,12 +14,16 @@ const languageNames: Record<string, string> = {
 }
 
 interface LanguageSelectorProps {
-  className?: string;
-  iconSize?: number;
-  strokeWidth?: number;
+  className?: string
+  iconSize?: number
+  strokeWidth?: number
 }
 
-export function LanguageSelector({ className, iconSize = 20, strokeWidth = 1.5 }: LanguageSelectorProps = {}) {
+export function LanguageSelector({
+  className,
+  iconSize = 20,
+  strokeWidth = 1.5,
+}: LanguageSelectorProps = {}) {
   const router = useRouter()
   const currentLocale = useLocale()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -28,18 +32,18 @@ export function LanguageSelector({ className, iconSize = 20, strokeWidth = 1.5 }
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setIsDropdownOpen(false);
+        setIsDropdownOpen(false)
       }
-    };
+    }
 
     if (isDropdownOpen) {
-      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown)
     }
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isDropdownOpen]);
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isDropdownOpen])
 
   const handleLanguageChange = async (newLocale: string) => {
     if (newLocale === currentLocale) return
@@ -63,7 +67,10 @@ export function LanguageSelector({ className, iconSize = 20, strokeWidth = 1.5 }
     <div className="relative">
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className={className || "relative rounded-xl p-2 hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors flex items-center justify-center w-10 h-10"}
+        className={
+          className ||
+          'text-foreground relative flex h-10 w-10 items-center justify-center rounded-xl p-2 transition-colors hover:bg-gray-200 dark:hover:bg-neutral-800'
+        }
         disabled={isChanging}
       >
         {isChanging ? (
@@ -74,19 +81,21 @@ export function LanguageSelector({ className, iconSize = 20, strokeWidth = 1.5 }
       </button>
 
       {isDropdownOpen && (
-         <>
-          <div className="absolute top-12 right-0 z-50 w-48 rounded-md border  bg-background dark:bg-background/90 dark:text-background-foreground shadow-lg">
+        <>
+          <div className="bg-background dark:bg-background/90 dark:text-background-foreground absolute top-12 right-0 z-50 w-48 rounded-md border shadow-lg">
             <div className="py-1">
               {Object.entries(languageNames).map(([locale, name]) => (
                 <button
                   key={locale}
                   onClick={() => handleLanguageChange(locale)}
-                  className="flex w-full items-center justify-between px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-800 dark:text-gray-200"
+                  className="flex w-full items-center justify-between px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-neutral-800"
                 >
                   <div className="flex items-center space-x-2">
                     <span>{name}</span>
                   </div>
-                  {locale === currentLocale && <Check size={16} className="text-blue-600 dark:text-blue-400" />}
+                  {locale === currentLocale && (
+                    <Check size={16} className="text-blue-600 dark:text-blue-400" />
+                  )}
                 </button>
               ))}
             </div>

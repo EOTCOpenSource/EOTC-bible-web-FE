@@ -28,8 +28,6 @@ import { books } from '@/data/data'
 import { type ReadingPlan, type PlanDialogFormProps } from '@/stores/types'
 import { usePlanForm } from '@/hooks/usePlanForm'
 
-
-
 // --- Sub-components ---
 
 interface FormFieldProps {
@@ -71,19 +69,15 @@ const PlanPreview: React.FC<PlanPreviewProps> = ({
   if (!name && !startBook && !endBook) return null
 
   return (
-    <div className="rounded-lg bg-background p-4 space-y-2 border border-dashed">
-      <p className="text-[10px] font-bold uppercase text-gray-500 tracking-wider">
-        {t('preview')}
-      </p>
+    <div className="bg-background space-y-2 rounded-lg border border-dashed p-4">
+      <p className="text-[10px] font-bold tracking-wider text-gray-500 uppercase">{t('preview')}</p>
       <div className="flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-500/10 text-red-500">
           <CalendarIcon size={20} />
         </div>
         <div className="flex-1">
-          <h4 className="font-semibold text-sm truncate">
-            {name || t('newPlan')}
-          </h4>
-          <p className="text-xs text-forground/80">
+          <h4 className="truncate text-sm font-semibold">{name || t('newPlan')}</h4>
+          <p className="text-forground/80 text-xs">
             {t('reading', {
               startBook: startBook ? getBookName(startBook) : '...',
               startChapter,
@@ -91,7 +85,7 @@ const PlanPreview: React.FC<PlanPreviewProps> = ({
               endChapter,
             })}
           </p>
-          <p className="text-[11px] text-gray-500/50 mt-0.5">
+          <p className="mt-0.5 text-[11px] text-gray-500/50">
             {t('starting', {
               date: format(startDate, 'MMM d, yyyy'),
               duration: durationInDays,
@@ -200,10 +194,18 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
           </Button>
         )}
 
-        <DialogContent aria-describedby={`${initialData ? 'edit' : 'new'}-plan-desc`} className='sm:max-w-2xl max-h-[90vh] overflow-y-auto'>
+        <DialogContent
+          aria-describedby={`${initialData ? 'edit' : 'new'}-plan-desc`}
+          className="max-h-[90vh] overflow-y-auto sm:max-w-2xl"
+        >
           <DialogHeader>
             <DialogTitle>{initialData ? t('editPlan') : t('createPlan')}</DialogTitle>
-            <p id={`${initialData ? 'edit' : 'new'}-plan-desc`} className="text-muted-foreground text-sm">{t('fillDetails')}</p>
+            <p
+              id={`${initialData ? 'edit' : 'new'}-plan-desc`}
+              className="text-muted-foreground text-sm"
+            >
+              {t('fillDetails')}
+            </p>
           </DialogHeader>
 
           <div className="grid gap-5 py-4">
@@ -217,7 +219,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
               />
             </FormField>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <FormField label={t('startBook')} error={errors.startBook}>
                 <Select
                   value={formData.startBook}
@@ -228,7 +230,10 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
                 >
                   <SelectTrigger
                     size={'lg'}
-                    className={cn('w-full placeholder-low-opacity', errors.startBook && 'border-red-500')}
+                    className={cn(
+                      'placeholder-low-opacity w-full',
+                      errors.startBook && 'border-red-500',
+                    )}
                   >
                     <SelectValue placeholder={getBookName('Genesis')} />
                   </SelectTrigger>
@@ -244,7 +249,10 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
 
               <FormField label={t('chapter')} error={errors.startChapter}>
                 <Input
-                  className={cn('h-11', errors.startChapter && 'border-red-500 focus-visible:ring-red-500')}
+                  className={cn(
+                    'h-11',
+                    errors.startChapter && 'border-red-500 focus-visible:ring-red-500',
+                  )}
                   type="number"
                   min={1}
                   value={formData.startChapter}
@@ -253,7 +261,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
               </FormField>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <FormField label={t('endBook')} error={errors.endBook}>
                 <Select
                   value={formData.endBook}
@@ -280,7 +288,10 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
 
               <FormField label={t('chapter')} error={errors.endChapter}>
                 <Input
-                  className={cn('h-11', errors.endChapter && 'border-red-500 focus-visible:ring-red-500')}
+                  className={cn(
+                    'h-11',
+                    errors.endChapter && 'border-red-500 focus-visible:ring-red-500',
+                  )}
                   type="number"
                   min={1}
                   value={formData.endChapter}
@@ -289,7 +300,7 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
               </FormField>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <FormField label={t('startDate')}>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -316,7 +327,10 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
 
               <FormField label={t('duration')} error={errors.durationInDays}>
                 <Input
-                  className={cn('h-11', errors.durationInDays && 'border-red-500 focus-visible:ring-red-500')}
+                  className={cn(
+                    'h-11',
+                    errors.durationInDays && 'border-red-500 focus-visible:ring-red-500',
+                  )}
                   type="number"
                   min={1}
                   value={formData.durationInDays}
@@ -330,15 +344,17 @@ export const PlanDialogForm: React.FC<PlanDialogFormProps> = ({
             <Button
               onClick={handleSubmit}
               disabled={isFetching || Object.keys(errors).length > 0}
-              className="h-11 relative overflow-hidden"
+              className="relative h-11 overflow-hidden"
             >
               {isFetching ? (
                 <div className="flex items-center gap-2">
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                   {initialData ? t('updating') : t('creating')}
                 </div>
+              ) : initialData ? (
+                t('updateButton')
               ) : (
-                initialData ? t('updateButton') : t('createButton')
+                t('createButton')
               )}
             </Button>
           </div>

@@ -118,6 +118,7 @@
         "confirmPassword": "የይለፍ ቃልዎን ደግመው ያስገቡ"
       },
       "password": {
+        "lowercase": "ቢያንስ 1 ትንሽ ፊደል (Lowercase)",
         "uppercase": "ቢያንስ 1 ትልቅ ፊደል (Uppercase)",
         "number": "ቢያንስ 1 ቁጥር",
         "special": "ቢያንስ 1 ልዩ ምልክት (Special character)",

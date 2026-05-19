@@ -117,6 +117,7 @@
         "confirmPassword": "አባእ ቃለ-ምስጢረከ ካዕበ"
       },
       "password": {
+        "lowercase": "ያንእስ ፩ ንኡስ ፊደል",
         "uppercase": "ያንእስ 1 ዐቢይ ፊደል",
         "number": "ያንእስ 1 ቍጥር",
         "special": "ያንእስ 1 ልዩ ምልክት",

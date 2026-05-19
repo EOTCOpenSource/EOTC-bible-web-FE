@@ -65,7 +65,7 @@ export async function getBookData(bookId: string): Promise<any | null> {
   const db = await getDb()
   if (!db) return null
 
-  const record = await db.get(BOOKS_STORE, bookId) as BookRecord | undefined
+  const record = (await db.get(BOOKS_STORE, bookId)) as BookRecord | undefined
   return record?.data ?? null
 }
 
@@ -76,7 +76,7 @@ export async function getBookRecord(bookId: string): Promise<BookRecord | null> 
   const db = await getDb()
   if (!db) return null
 
-  const record = await db.get(BOOKS_STORE, bookId) as BookRecord | undefined
+  const record = (await db.get(BOOKS_STORE, bookId)) as BookRecord | undefined
   return record ?? null
 }
 
@@ -138,6 +138,6 @@ export async function setMeta(key: string, value: any): Promise<void> {
 export async function getMeta(key: string): Promise<any | null> {
   const db = await getDb()
   if (!db) return null
-  const record = await db.get(META_STORE, key) as MetaRecord | undefined
+  const record = (await db.get(META_STORE, key)) as MetaRecord | undefined
   return record?.value ?? null
 }

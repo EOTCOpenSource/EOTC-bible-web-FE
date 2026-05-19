@@ -9,8 +9,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Search the EOTC Bible',
-    description:
-      'Search across all 81 books of the Ethiopian Orthodox Tewahedo Church Bible.',
+    description: 'Search across all 81 books of the Ethiopian Orthodox Tewahedo Church Bible.',
     url: 'https://nehemiah-osc.org/search',
     siteName: 'EOTC Bible',
     type: 'website',
@@ -21,10 +20,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function SearchLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function SearchLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }

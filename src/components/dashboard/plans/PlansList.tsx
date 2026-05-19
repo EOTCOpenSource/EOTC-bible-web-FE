@@ -17,7 +17,10 @@ const PlanList: React.FC = () => {
     return (
       <div className="flex w-full flex-col gap-4">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="flex flex-col space-y-2 rounded-lg border dark:border-neutral-800 p-4 shadow-sm">
+          <div
+            key={i}
+            className="flex flex-col space-y-2 rounded-lg border p-4 shadow-sm dark:border-neutral-800"
+          >
             <Skeleton className="h-6 w-3/4" />
             <Skeleton className="h-4 w-1/2" />
             <Skeleton className="h-16 w-full" />
@@ -32,11 +35,7 @@ const PlanList: React.FC = () => {
   }
 
   if (plans.length === 0) {
-    return (
-      <div className="text-muted-foreground py-8 text-center">
-        {t('noPlans')}
-      </div>
-    )
+    return <div className="text-muted-foreground py-8 text-center">{t('noPlans')}</div>
   }
 
   return (

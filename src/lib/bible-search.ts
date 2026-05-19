@@ -1,4 +1,8 @@
-import { performBibleSearch, performBibleSearchWithCounts, countWordOccurrences } from '@/app/actions/search'
+import {
+  performBibleSearch,
+  performBibleSearchWithCounts,
+  countWordOccurrences,
+} from '@/app/actions/search'
 import type { SearchResult, SearchResponse } from './search-types'
 
 export async function searchBible(
@@ -6,7 +10,7 @@ export async function searchBible(
   limit: number = 50,
   testament?: 'all' | 'old' | 'new',
   bookNumber?: number | null,
-  perBookLimit: number = 10
+  perBookLimit: number = 10,
 ): Promise<SearchResult[]> {
   return performBibleSearch(query, limit, testament, bookNumber, perBookLimit)
 }
@@ -16,7 +20,7 @@ export async function searchBibleWithCounts(
   limit: number = 50,
   testament?: 'all' | 'old' | 'new',
   bookNumber?: number | null,
-  perBookLimit: number = 10
+  perBookLimit: number = 10,
 ): Promise<SearchResponse> {
   return performBibleSearchWithCounts(query, limit, testament, bookNumber, perBookLimit)
 }
@@ -24,7 +28,7 @@ export async function searchBibleWithCounts(
 export async function getWordCount(
   query: string,
   testament?: 'all' | 'old' | 'new',
-  bookNumber?: number | null
+  bookNumber?: number | null,
 ) {
   return countWordOccurrences(query, testament, bookNumber)
 }

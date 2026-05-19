@@ -10,13 +10,10 @@ const getAuthToken = async () => {
 
 const unauthorizedResponse = NextResponse.json(
   { error: 'Unauthorized. Please login first.' },
-  { status: 401 }
+  { status: 401 },
 )
 
-export async function PATCH(
-  req: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const token = await getAuthToken()
     if (!token) {
@@ -34,7 +31,7 @@ export async function PATCH(
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to update note' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -42,17 +39,15 @@ export async function PATCH(
   } catch (error: any) {
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to update note',
+        error:
+          error.response?.data?.error || error.response?.data?.message || 'Failed to update note',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }
 
-export async function PUT(
-  req: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const token = await getAuthToken()
     if (!token) {
@@ -70,7 +65,7 @@ export async function PUT(
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to update note' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -78,17 +73,15 @@ export async function PUT(
   } catch (error: any) {
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to update note',
+        error:
+          error.response?.data?.error || error.response?.data?.message || 'Failed to update note',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const token = await getAuthToken()
     if (!token) {
@@ -105,7 +98,7 @@ export async function DELETE(
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to delete note' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -113,9 +106,10 @@ export async function DELETE(
   } catch (error: any) {
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to delete note',
+        error:
+          error.response?.data?.error || error.response?.data?.message || 'Failed to delete note',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }

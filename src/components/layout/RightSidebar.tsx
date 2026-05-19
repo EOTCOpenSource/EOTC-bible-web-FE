@@ -84,10 +84,12 @@ const RightSidebar = () => {
 
   const handleShareVerse = () => {
     if (verse && navigator.share) {
-      navigator.share({
-        title: 'Daily Verse',
-        text: `${verse.text}\n\n${verse.reference}`,
-      }).catch(console.error)
+      navigator
+        .share({
+          title: 'Daily Verse',
+          text: `${verse.text}\n\n${verse.reference}`,
+        })
+        .catch(console.error)
     } else if (verse) {
       navigator.clipboard.writeText(`${verse.text}\n\n${verse.reference}`)
       setIsCopied(true)
@@ -100,8 +102,9 @@ const RightSidebar = () => {
     0,
   )
   const totalAchievements = achievements.length
-  const achievementsUnlocked = achievements.filter(a => a.unlocked).length
-  const achievementPct = totalAchievements > 0 ? Math.round((achievementsUnlocked / totalAchievements) * 100) : 0
+  const achievementsUnlocked = achievements.filter((a) => a.unlocked).length
+  const achievementPct =
+    totalAchievements > 0 ? Math.round((achievementsUnlocked / totalAchievements) * 100) : 0
 
   return (
     <div className="flex w-full flex-col gap-8 py-3 md:gap-6">
@@ -118,8 +121,13 @@ const RightSidebar = () => {
 
         <div className="mb-4">
           <div className="mb-1.5 flex items-end justify-between">
-            <p className="text-sm font-bold text-gray-800 dark:text-gray-200">{achievementPct}% complete</p>
-            <p className="text-[10px] text-gray-500">{achievementsUnlocked} of {totalAchievements > 0 ? totalAchievements : 26} achievements</p>
+            <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
+              {achievementPct}% complete
+            </p>
+            <p className="text-[10px] text-gray-500">
+              {achievementsUnlocked} of {totalAchievements > 0 ? totalAchievements : 26}{' '}
+              achievements
+            </p>
           </div>
           <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-neutral-800">
             <div
@@ -129,7 +137,7 @@ const RightSidebar = () => {
           </div>
         </div>
 
-        <div className="border-b border-gray-300 pb-4 dark:border-neutral-800 flex items-center gap-4 text-xs font-medium text-gray-600 dark:text-gray-400">
+        <div className="flex items-center gap-4 border-b border-gray-300 pb-4 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:text-gray-400">
           <div className="flex items-center gap-1.5">
             <BookOpen size={14} className="opacity-70" />
             <span>{totalChaptersRead} chapters</span>
@@ -140,7 +148,7 @@ const RightSidebar = () => {
           </div>
         </div>
 
-        <button 
+        <button
           onClick={() => router.push('/dashboard/achievements')}
           className="mt-4 flex w-full items-center justify-between rounded-lg border border-[#4C0E0F]/20 px-4 py-2 text-sm font-medium text-[#4C0E0F] transition-colors hover:bg-[#4C0E0F]/5 dark:border-red-500/20 dark:text-red-400 dark:hover:bg-red-500/10"
         >
@@ -151,38 +159,42 @@ const RightSidebar = () => {
 
       <button
         onClick={handleContinueReading}
-        className="cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-lg text-white hover:bg-red-800 transition-colors"
+        className="cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-lg text-white transition-colors hover:bg-red-800"
       >
         Continue Reading
       </button>
 
-      <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-6">
+      <div className="rounded-xl border border-gray-400 p-6 dark:border-neutral-800">
         <div className="flex items-center gap-1 text-[#4C0E0F] dark:text-red-400">
           <BookMarked size={20} />
           <h4 className="text-lg font-medium text-black dark:text-white">Daily Verse</h4>
         </div>
         {verseLoading ? (
           <div className="py-3 text-[#4C0E0F] dark:text-red-400">Loading verse...</div>
-        ) : verse && (
-          <>
-            <div className="text-[#4C0E0F] dark:text-red-400">
-              <p className="py-3 text-sm">{verse.text}</p>
-              <h4 className="text-right font-medium text-black dark:text-white">{verse.reference}</h4>
-            </div>
-            <div className="px-9">
-              <div className="relative mt-3">
-                <button
-                  onClick={handleShareVerse}
-                  className={`${isCopied ? 'text-green-600' : 'text-white'} w-full cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-sm  transition-colors hover:bg-red-800`}
-                >
-                  <span className='flex justify-center items-center gap-2'>
-                    {isCopied ? 'verse copied' : 'Share Verse'}
-                    {isCopied ? <CircleCheck /> : <Share2 />}
-                  </span>
-                </button>
+        ) : (
+          verse && (
+            <>
+              <div className="text-[#4C0E0F] dark:text-red-400">
+                <p className="py-3 text-sm">{verse.text}</p>
+                <h4 className="text-right font-medium text-black dark:text-white">
+                  {verse.reference}
+                </h4>
               </div>
-            </div>
-          </>
+              <div className="px-9">
+                <div className="relative mt-3">
+                  <button
+                    onClick={handleShareVerse}
+                    className={`${isCopied ? 'text-green-600' : 'text-white'} w-full cursor-pointer rounded-lg bg-[#4C0E0F] py-2 text-sm transition-colors hover:bg-red-800`}
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      {isCopied ? 'verse copied' : 'Share Verse'}
+                      {isCopied ? <CircleCheck /> : <Share2 />}
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </>
+          )
         )}
       </div>
 
@@ -192,7 +204,7 @@ const RightSidebar = () => {
         onSelect={() => {}}
         month={month}
         onMonthChange={setMonth}
-        className="bg-background w-full rounded-xl border border-gray-200 dark:border-neutral-800 p-3 md:mx-auto md:w-auto md:max-w-md lg:mx-0 lg:w-full lg:max-w-none"
+        className="bg-background w-full rounded-xl border border-gray-200 p-3 md:mx-auto md:w-auto md:max-w-md lg:mx-0 lg:w-full lg:max-w-none dark:border-neutral-800"
         captionLayout="dropdown"
         classNames={{
           day: 'w-full p-0 text-sm font-normal rounded-full hover:bg-background hover:text-foreground dark:text-gray-200',

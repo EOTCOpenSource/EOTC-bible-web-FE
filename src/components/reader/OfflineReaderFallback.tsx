@@ -36,11 +36,11 @@ export default function OfflineReaderFallback({
 }: OfflineReaderFallbackProps) {
   const isOnline = useOfflineStore((s) => s.isOnline)
   const downloadedBooks = useOfflineStore((s) => s.downloadedBooks)
-  
+
   // Local state for routing when offline
   const [offlineBookId, setOfflineBookId] = useState(bookId)
   const [offlineChapter, setOfflineChapter] = useState(chapter)
-  
+
   const [offlineData, setOfflineData] = useState<{
     bookData: any
     chapterData: any
@@ -105,7 +105,6 @@ export default function OfflineReaderFallback({
     let cancelled = false
     setLoading(true)
     setError(null)
-
     ;(async () => {
       try {
         const bookData = await getBookData(bookId)
@@ -116,9 +115,7 @@ export default function OfflineReaderFallback({
           return
         }
 
-        const chapterData = bookData.chapters?.find(
-          (c: any) => c.chapter === chapterNum
-        )
+        const chapterData = bookData.chapters?.find((c: any) => c.chapter === chapterNum)
 
         if (!chapterData) {
           setError('chapter-missing')
@@ -166,13 +163,11 @@ export default function OfflineReaderFallback({
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="sticky top-20 z-30 flex justify-center pointer-events-none"
+          className="pointer-events-none sticky top-20 z-30 flex justify-center"
         >
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-950/90 px-3 py-1 shadow-lg backdrop-blur-md pointer-events-auto">
+          <div className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-950/90 px-3 py-1 shadow-lg backdrop-blur-md">
             <CloudOff className="h-3 w-3 text-amber-400" />
-            <span className="text-xs font-medium text-amber-200">
-              Offline Mode
-            </span>
+            <span className="text-xs font-medium text-amber-200">Offline Mode</span>
           </div>
         </motion.div>
 
@@ -202,56 +197,43 @@ function OfflineLoadingState() {
         className="flex flex-col items-center gap-4 text-center"
       >
         <div className="relative">
-          <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 flex items-center justify-center border border-amber-500/20">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/20 to-amber-600/10">
             <BookOpen className="h-8 w-8 text-amber-400" />
           </div>
-          <Loader2 className="absolute -bottom-1 -right-1 h-5 w-5 text-amber-400 animate-spin" />
+          <Loader2 className="absolute -right-1 -bottom-1 h-5 w-5 animate-spin text-amber-400" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-white">
-            Loading offline content...
-          </h3>
-          <p className="mt-1 text-sm text-gray-400">
-            Reading from your downloaded Bible data
-          </p>
+          <h3 className="text-lg font-semibold text-white">Loading offline content...</h3>
+          <p className="mt-1 text-sm text-gray-400">Reading from your downloaded Bible data</p>
         </div>
       </motion.div>
     </div>
   )
 }
 
-function OfflineErrorState({
-  error,
-  bookId,
-}: {
-  error: string
-  bookId: string
-}) {
-  const bookMeta = allBooks.find(
-    (b) => b.book_name_en.replace(/ /g, '-').toLowerCase() === bookId
-  )
+function OfflineErrorState({ error, bookId }: { error: string; bookId: string }) {
+  const bookMeta = allBooks.find((b) => b.book_name_en.replace(/ /g, '-').toLowerCase() === bookId)
   const bookName = bookMeta?.book_name_en || bookId.replace(/-/g, ' ')
 
   const messages: Record<string, { title: string; description: string }> = {
     'not-downloaded': {
       title: `${bookName} not available offline`,
       description:
-        'This book hasn\'t been downloaded yet. Connect to the internet or download it from the Offline Manager.',
+        "This book hasn't been downloaded yet. Connect to the internet or download it from the Offline Manager.",
     },
     'data-missing': {
       title: 'Cached data not found',
       description:
-        'The downloaded data appears to be missing. Try re-downloading this book when you\'re back online.',
+        "The downloaded data appears to be missing. Try re-downloading this book when you're back online.",
     },
     'chapter-missing': {
       title: 'Chapter not found',
       description:
-        'This specific chapter wasn\'t found in the cached data. Try re-downloading the book.',
+        "This specific chapter wasn't found in the cached data. Try re-downloading the book.",
     },
     'load-failed': {
       title: 'Failed to load offline data',
-      description:
-        'Something went wrong while reading from local storage. Please try again.',
+      description: 'Something went wrong while reading from local storage. Please try again.',
     },
   }
 
@@ -265,26 +247,24 @@ function OfflineErrorState({
         className="w-full max-w-md"
       >
         <div className="rounded-2xl border border-gray-700/40 bg-gradient-to-br from-gray-900/80 to-gray-800/60 p-8 text-center backdrop-blur-md">
-          <div className="mx-auto mb-4 h-16 w-16 rounded-2xl bg-gradient-to-br from-red-500/20 to-red-600/10 flex items-center justify-center border border-red-500/20">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-red-500/20 bg-gradient-to-br from-red-500/20 to-red-600/10">
             <WifiOff className="h-8 w-8 text-red-400" />
           </div>
 
           <h3 className="text-xl font-bold text-white">{msg.title}</h3>
-          <p className="mt-2 text-sm text-gray-400 leading-relaxed">
-            {msg.description}
-          </p>
+          <p className="mt-2 text-sm leading-relaxed text-gray-400">{msg.description}</p>
 
           <div className="mt-6 flex flex-col gap-3">
             <Link
               href="/dashboard/offline"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-amber-500"
             >
               <Download className="h-4 w-4" />
               Open Offline Manager
             </Link>
             <Link
               href="/read-online"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-700 bg-gray-800 px-5 py-2.5 text-sm font-medium text-gray-300 hover:bg-gray-700 transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-700 bg-gray-800 px-5 py-2.5 text-sm font-medium text-gray-300 transition-colors hover:bg-gray-700"
             >
               <BookOpen className="h-4 w-4" />
               Browse All Books

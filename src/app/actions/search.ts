@@ -11,9 +11,15 @@ export async function performBibleSearch(
   limit: number = 50,
   testament?: 'all' | 'old' | 'new',
   bookNumber?: number | null,
-  perBookLimit: number = 10
+  perBookLimit: number = 10,
 ): Promise<SearchResult[]> {
-  const response = await performBibleSearchWithCounts(query, limit, testament, bookNumber, perBookLimit)
+  const response = await performBibleSearchWithCounts(
+    query,
+    limit,
+    testament,
+    bookNumber,
+    perBookLimit,
+  )
   return response.results
 }
 
@@ -22,7 +28,7 @@ export async function performBibleSearchWithCounts(
   limit: number = 50,
   testament?: 'all' | 'old' | 'new',
   bookNumber?: number | null,
-  perBookLimit: number = 10
+  perBookLimit: number = 10,
 ): Promise<SearchResponse> {
   if (!query.trim()) return { results: [], totalMatches: 0, bookCounts: {} }
 
@@ -30,7 +36,9 @@ export async function performBibleSearchWithCounts(
     const bibleDataPath = path.join(process.cwd(), 'src', 'data', 'bible-data')
     const matchingVerses: SearchResult[] = []
     const matchingBooks: SearchResult[] = []
-    const bookCounts: { [bookNumber: number]: { count: number; bookName: string; bookNameAm: string } } = {}
+    const bookCounts: {
+      [bookNumber: number]: { count: number; bookName: string; bookNameAm: string }
+    } = {}
 
     // Filter books based on testament and book selection
     let filteredBooks = books
@@ -66,7 +74,7 @@ export async function performBibleSearchWithCounts(
 
     // Read all Bible books and find exact verse matches
     const files = await fs.readdir(bibleDataPath)
-    
+
     for (const file of files) {
       if (file.endsWith('.json')) {
         try {
@@ -77,13 +85,13 @@ export async function performBibleSearchWithCounts(
 
           if (bookInfo && bookData.chapters) {
             let bookMatchCount = 0
-            
+
             bookData.chapters.forEach((chapter) => {
               chapter.sections?.forEach((section) => {
                 section.verses?.forEach((verse) => {
                   const text = verse.text || ''
                   const textLower = text.toLowerCase()
-                  
+
                   // Use exact text matching (includes) for verses
                   if (text.includes(query) || textLower.includes(queryLower)) {
                     bookMatchCount++
@@ -102,7 +110,7 @@ export async function performBibleSearchWithCounts(
                 })
               })
             })
-            
+
             if (bookMatchCount > 0) {
               bookCounts[bookData.book_number] = {
                 count: bookMatchCount,
@@ -200,13 +208,18 @@ export async function performBibleSearchWithCounts(
 export async function countWordOccurrences(
   query: string,
   testament?: 'all' | 'old' | 'new',
-  bookNumber?: number | null
-): Promise<{ total: number; bookCounts: { [bookNumber: number]: { count: number; bookName: string; bookNameAm: string } } }> {
+  bookNumber?: number | null,
+): Promise<{
+  total: number
+  bookCounts: { [bookNumber: number]: { count: number; bookName: string; bookNameAm: string } }
+}> {
   if (!query.trim()) return { total: 0, bookCounts: {} }
 
   try {
     const bibleDataPath = path.join(process.cwd(), 'src', 'data', 'bible-data')
-    const bookCounts: { [bookNumber: number]: { count: number; bookName: string; bookNameAm: string } } = {}
+    const bookCounts: {
+      [bookNumber: number]: { count: number; bookName: string; bookNameAm: string }
+    } = {}
 
     let filteredBooks = books
     if (testament && testament !== 'all') {
@@ -217,7 +230,7 @@ export async function countWordOccurrences(
     }
 
     const files = await fs.readdir(bibleDataPath)
-    
+
     for (const file of files) {
       if (file.endsWith('.json')) {
         try {
@@ -228,7 +241,7 @@ export async function countWordOccurrences(
 
           if (bookInfo && bookData.chapters) {
             let bookMatchCount = 0
-            
+
             bookData.chapters.forEach((chapter) => {
               chapter.sections?.forEach((section) => {
                 section.verses?.forEach((verse) => {
@@ -239,7 +252,7 @@ export async function countWordOccurrences(
                 })
               })
             })
-            
+
             if (bookMatchCount > 0) {
               bookCounts[bookData.book_number] = {
                 count: bookMatchCount,

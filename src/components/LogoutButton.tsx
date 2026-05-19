@@ -20,11 +20,11 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="rounded-xl p-2 hover:bg-gray-200 dark:hover:bg-neutral-800 text-foreground transition-colors flex items-center justify-center w-10 h-10"
+      className="text-foreground flex h-10 w-10 items-center justify-center rounded-xl p-2 transition-colors hover:bg-gray-200 dark:hover:bg-neutral-800"
     >
       <div className="h-4 w-4 md:h-5 md:w-5">
         <LogOut className="h-full w-full" />
-      </div>      
+      </div>
     </button>
   )
 }

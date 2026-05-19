@@ -47,6 +47,7 @@ export default function RegisterForm() {
 
   const passwordCriteria = [
     { label: t('password.uppercase'), valid: /[A-Z]/.test(passwordValue) },
+    { label: t('password.lowercase'), valid: /[a-z]/.test(passwordValue) },
     { label: t('password.number'), valid: /\d/.test(passwordValue) },
     { label: t('password.special'), valid: /[!@#$%^&*]/.test(passwordValue) },
     { label: t('password.minLength'), valid: passwordValue.length >= 8 },
@@ -93,7 +94,7 @@ export default function RegisterForm() {
           {t('fields.name')}
         </label>
         <input
-          className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          className="dark:focus:border-primary w-full rounded border p-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
           placeholder={t('placeholders.name')}
           id="name"
           type="text"
@@ -109,7 +110,7 @@ export default function RegisterForm() {
           {t('fields.email')}
         </label>
         <input
-          className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          className="dark:focus:border-primary w-full rounded border p-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
           placeholder={t('placeholders.email')}
           id="email"
           type="email"
@@ -127,7 +128,7 @@ export default function RegisterForm() {
           </label>
           <div className="relative">
             <input
-              className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="dark:focus:border-primary w-full rounded border p-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
               placeholder={t('placeholders.password')}
               id="password"
               autoComplete="off"
@@ -139,7 +140,7 @@ export default function RegisterForm() {
               type="button"
               disabled={isLoading}
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 dark:text-gray-400 disabled:opacity-50"
+              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 disabled:opacity-50 dark:text-gray-400"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -154,7 +155,7 @@ export default function RegisterForm() {
           </label>
           <div className="relative">
             <input
-              className="w-full rounded border p-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:focus:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="dark:focus:border-primary w-full rounded border p-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
               placeholder={t('placeholders.confirmPassword')}
               id="confirm-password"
               type={showConfirmPassword ? 'text' : 'password'}
@@ -165,7 +166,7 @@ export default function RegisterForm() {
               type="button"
               disabled={isLoading}
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 dark:text-gray-400 disabled:opacity-50"
+              className="absolute top-2.5 right-3 cursor-pointer text-gray-600 disabled:opacity-50 dark:text-gray-400"
             >
               {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -179,7 +180,12 @@ export default function RegisterForm() {
       {/* Password Criteria */}
       <ul className="mb-1 flex flex-wrap items-center text-sm">
         {passwordCriteria.map((c, i) => (
-          <li key={i} className={c.valid ? 'text-green-600 dark:text-green-500' : 'text-gray-500 dark:text-gray-500'}>
+          <li
+            key={i}
+            className={
+              c.valid ? 'text-green-600 dark:text-green-500' : 'text-gray-500 dark:text-gray-500'
+            }
+          >
             <DotIcon className="-mr-2 inline" /> {c.label}
           </li>
         ))}
@@ -190,7 +196,7 @@ export default function RegisterForm() {
         <input
           type="checkbox"
           id="checkbox"
-          className="mt-0.5 dark:bg-neutral-800 dark:border-neutral-700 disabled:opacity-50"
+          className="mt-0.5 disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800"
           checked={agreeToTerms}
           disabled={isLoading}
           onChange={(e) => setAgreeToTerms(e.target.checked)}
@@ -201,7 +207,7 @@ export default function RegisterForm() {
             type="button"
             disabled={isLoading}
             onClick={() => setShowTermsModal(true)}
-            className="text-[#4C0E0F] underline hover:text-[#621B1C] dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50 pointer-events-auto"
+            className="pointer-events-auto text-[#4C0E0F] underline hover:text-[#621B1C] disabled:opacity-50 dark:text-red-400 dark:hover:text-red-300"
           >
             {t('terms')}
           </button>
@@ -211,7 +217,7 @@ export default function RegisterForm() {
       {/* Submit Button */}
       <button
         disabled={isLoading}
-        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#491415] disabled:cursor-not-allowed disabled:bg-gray-400 dark:disabled:bg-gray-700 transition-all duration-200"
+        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white transition-all duration-200 hover:bg-[#491415] disabled:cursor-not-allowed disabled:bg-gray-400 dark:disabled:bg-gray-700"
       >
         {isLoading ? t('loading') : t('register')}
       </button>
@@ -224,7 +230,7 @@ export default function RegisterForm() {
 
       {/* Social Login Buttons */}
       <div className="space-y-3">
-        <div className="flex flex-col sm:flex-row gap-3 justify-center sm:justify-between">
+        <div className="flex flex-col justify-center gap-3 sm:flex-row sm:justify-between">
           <GoogleSignInButton />
           <FacebookSignInButton />
         </div>
@@ -232,8 +238,8 @@ export default function RegisterForm() {
 
       {/* Terms Modal */}
       <Dialog open={showTermsModal} onOpenChange={setShowTermsModal}>
-        <DialogContent className="max-w-3xl max-h-[80vh] flex flex-col gap-0 overflow-hidden p-0">
-          <DialogHeader className="px-6 pt-6 pb-4 border-b dark:border-neutral-800 shrink-0">
+        <DialogContent className="flex max-h-[80vh] max-w-3xl flex-col gap-0 overflow-hidden p-0">
+          <DialogHeader className="shrink-0 border-b px-6 pt-6 pb-4 dark:border-neutral-800">
             <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
               Terms and Conditions
             </DialogTitle>
@@ -241,98 +247,118 @@ export default function RegisterForm() {
           <ScrollArea className="flex-1 px-6 py-4">
             <div className="space-y-6 text-sm text-gray-700 dark:text-gray-300">
               <section>
-                <h3 className="font-semibold text-gray-900 dark:text-white">1. Acceptance of Terms</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  1. Acceptance of Terms
+                </h3>
                 <p className="mt-2 leading-relaxed">
-                  By creating an account and using the EOTC Bible application, you agree to be bound by these Terms and Conditions.
-                  If you do not agree to these Terms, please do not use this Service.
+                  By creating an account and using the EOTC Bible application, you agree to be bound
+                  by these Terms and Conditions. If you do not agree to these Terms, please do not
+                  use this Service.
                 </p>
               </section>
 
               <section>
-                <h3 className="font-semibold text-gray-900 dark:text-white">2. Description of Service</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  2. Description of Service
+                </h3>
                 <p className="mt-2 leading-relaxed">
-                  EOTC Bible is a digital Bible platform providing access to Holy Scriptures in multiple languages including
-                  Amharic, Ge&apos;ez, Tigrigna, and Oromiffa. Features include reading plans, bookmarks, highlights, notes,
-                  and cross-device synchronization.
+                  EOTC Bible is a digital Bible platform providing access to Holy Scriptures in
+                  multiple languages including Amharic, Ge&apos;ez, Tigrigna, and Oromiffa. Features
+                  include reading plans, bookmarks, highlights, notes, and cross-device
+                  synchronization.
                 </p>
               </section>
 
               <section>
                 <h3 className="font-semibold text-gray-900 dark:text-white">3. User Accounts</h3>
                 <p className="mt-2 leading-relaxed">
-                  You must provide accurate and complete registration information. You are responsible for maintaining the
-                  security of your account and password. You must be at least 13 years old to use this Service.
+                  You must provide accurate and complete registration information. You are
+                  responsible for maintaining the security of your account and password. You must be
+                  at least 13 years old to use this Service.
                 </p>
               </section>
 
               <section>
                 <h3 className="font-semibold text-gray-900 dark:text-white">4. User Conduct</h3>
                 <p className="mt-2 leading-relaxed">
-                  You agree not to use the Service for any unlawful purpose, to harass or harm others, to impersonate any
-                  person or entity, or to interfere with the Service&apos;s functionality.
+                  You agree not to use the Service for any unlawful purpose, to harass or harm
+                  others, to impersonate any person or entity, or to interfere with the
+                  Service&apos;s functionality.
                 </p>
               </section>
 
               <section>
-                <h3 className="font-semibold text-gray-900 dark:text-white">5. Intellectual Property</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  5. Intellectual Property
+                </h3>
                 <p className="mt-2 leading-relaxed">
-                  The EOTC Bible application and its original content are protected by copyright and other intellectual property
-                  laws. Bible translations are provided under appropriate licenses from their respective copyright holders.
+                  The EOTC Bible application and its original content are protected by copyright and
+                  other intellectual property laws. Bible translations are provided under
+                  appropriate licenses from their respective copyright holders.
                 </p>
               </section>
 
               <section>
                 <h3 className="font-semibold text-gray-900 dark:text-white">6. Privacy</h3>
                 <p className="mt-2 leading-relaxed">
-                  Your privacy is important to us. Please review our Privacy Policy to understand how we collect and use
-                  your information.
+                  Your privacy is important to us. Please review our Privacy Policy to understand
+                  how we collect and use your information.
                 </p>
               </section>
 
               <section>
-                <h3 className="font-semibold text-gray-900 dark:text-white">7. Disclaimer of Warranties</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  7. Disclaimer of Warranties
+                </h3>
                 <p className="mt-2 leading-relaxed">
-                  THE SERVICE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+                  THE SERVICE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND, EITHER
+                  EXPRESS OR IMPLIED.
                 </p>
               </section>
 
               <section>
-                <h3 className="font-semibold text-gray-900 dark:text-white">8. Limitation of Liability</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  8. Limitation of Liability
+                </h3>
                 <p className="mt-2 leading-relaxed">
-                  TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE ETHIOPIAN ORTHODOX TEWAHEDO CHURCH SHALL NOT BE LIABLE FOR
-                  ANY INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.
+                  TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE ETHIOPIAN ORTHODOX TEWAHEDO CHURCH
+                  SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL
+                  DAMAGES.
                 </p>
               </section>
 
               <section>
                 <h3 className="font-semibold text-gray-900 dark:text-white">9. Changes to Terms</h3>
                 <p className="mt-2 leading-relaxed">
-                  We reserve the right to modify these Terms at any time. Continued use of the Service after changes
-                  constitutes acceptance of the new Terms.
+                  We reserve the right to modify these Terms at any time. Continued use of the
+                  Service after changes constitutes acceptance of the new Terms.
                 </p>
               </section>
 
               <section>
-                <h3 className="font-semibold text-gray-900 dark:text-white">10. Contact Information</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  10. Contact Information
+                </h3>
                 <p className="mt-2 leading-relaxed">
                   For questions about these Terms, contact us at:{' '}
-                  <a href="mailto:eotcopensource@gmail.com" className="text-red-700 underline dark:text-red-400">
+                  <a
+                    href="mailto:eotcopensource@gmail.com"
+                    className="text-red-700 underline dark:text-red-400"
+                  >
                     eotcopensource@gmail.com
                   </a>
                 </p>
               </section>
 
               <div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-neutral-800">
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  Last updated: April 2026
-                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Last updated: April 2026</p>
                 <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
                   For the complete Terms and Conditions, please visit our website.
                 </p>
               </div>
             </div>
           </ScrollArea>
-          <div className="flex justify-end gap-3 border-t dark:border-neutral-800 px-6 py-4 shrink-0 bg-white dark:bg-neutral-900">
+          <div className="flex shrink-0 justify-end gap-3 border-t bg-white px-6 py-4 dark:border-neutral-800 dark:bg-neutral-900">
             <button
               type="button"
               onClick={() => setShowTermsModal(false)}

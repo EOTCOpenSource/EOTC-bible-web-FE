@@ -40,11 +40,15 @@ export default function ReaderClient({
   const { progress, markChapterRead, syncVerseReadings, flushVerseQueue } = useProgressStore()
   const [animatedVerses, setAnimatedVerses] = useState<Set<number>>(new Set())
   const [searchQuery, setSearchQuery] = useState<string | null>(null)
-  
+
   const isOnline = useOfflineStore((s) => s.isOnline)
 
   // Helper to handle offline navigation safely
-  const handleOfflineNavigation = (targetBookId: string, targetChapter: number, e?: React.MouseEvent) => {
+  const handleOfflineNavigation = (
+    targetBookId: string,
+    targetChapter: number,
+    e?: React.MouseEvent,
+  ) => {
     if (!isOnline) {
       if (e) e.preventDefault()
       const newUrl = `/read-online/${targetBookId}/${targetChapter}`
@@ -52,7 +56,7 @@ export default function ReaderClient({
       window.dispatchEvent(
         new CustomEvent('offlineNavigate', {
           detail: { bookId: targetBookId, chapter: targetChapter.toString() },
-        })
+        }),
       )
       return true // Handled offline
     }
@@ -131,11 +135,11 @@ export default function ReaderClient({
         window.dispatchEvent(
           new CustomEvent('offlineNavigate', {
             detail: { bookId: targetBookId, chapter: nextPlanItem.chapter.toString() },
-          })
+          }),
         )
       } else {
         router.push(
-          `/read-online/${targetBookId}/${nextPlanItem.chapter}?planId=${planId}&planItemId=${nextPlanItem.id}`
+          `/read-online/${targetBookId}/${nextPlanItem.chapter}?planId=${planId}&planItemId=${nextPlanItem.id}`,
         )
       }
     } else {
@@ -215,14 +219,15 @@ export default function ReaderClient({
     // STRicter requirements to prevent false achievements:
     // - Require 20% of verses read (up from 12%)
     // - More verses for short chapters
-    const minVerses = Math.max(5, Math.min(15, Math.ceil(chapterTotalVerses * 0.20)))
+    const minVerses = Math.max(5, Math.min(15, Math.ceil(chapterTotalVerses * 0.2)))
 
     // Two paths to completion - both now stricter:
     // Path 1: User reached near bottom AND demonstrated meaningful reading (60s up from 45s)
     // Path 2: User stayed and read significantly more (180s up from 120s, for edge cases)
     const passViaBottom =
       chapterReadStatsRef.current.reachedBottom && activeMs >= 60_000 && uniqueVerses >= minVerses
-    const passViaTime = activeMs >= 180_000 && uniqueVerses >= Math.max(10, Math.ceil(minVerses * 2))
+    const passViaTime =
+      activeMs >= 180_000 && uniqueVerses >= Math.max(10, Math.ceil(minVerses * 2))
 
     if (!passViaBottom && !passViaTime) return
 
@@ -320,7 +325,6 @@ export default function ReaderClient({
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [bookId, chapterData.chapter])
-
 
   useEffect(() => {
     const hash = window.location.hash
@@ -531,12 +535,12 @@ export default function ReaderClient({
           <Link
             href={`/read-online/${bookId}/${prevChapter}`}
             onClick={(e) => handleOfflineNavigation(bookId, prevChapter, e)}
-            className="block rounded-md bg-gray-200 dark:bg-gray-300 p-2 hover:bg-gray-300 dark:hover:bg-white text-black transition-colors"
+            className="block rounded-md bg-gray-200 p-2 text-black transition-colors hover:bg-gray-300 dark:bg-gray-300 dark:hover:bg-white"
           >
             <ChevronLeft className="h-6 w-6" />
           </Link>
         ) : (
-          <div className="cursor-not-allowed rounded-md bg-gray-200 dark:bg-gray-300 p-2 opacity-50 text-black">
+          <div className="cursor-not-allowed rounded-md bg-gray-200 p-2 text-black opacity-50 dark:bg-gray-300">
             <ChevronLeft className="h-6 w-6" />
           </div>
         )}
@@ -564,7 +568,10 @@ export default function ReaderClient({
                 </h3>
               )}
 
-              <div id={sectionId} className="text-justify text-base sm:text-lg dark:text-gray-300 prose prose-gray dark:prose-invert max-w-none">
+              <div
+                id={sectionId}
+                className="prose prose-gray dark:prose-invert max-w-none text-justify text-base sm:text-lg dark:text-gray-300"
+              >
                 {section.verses.map((verse: any) => {
                   const isRead = isVerseRead(bookId, chapterData.chapter, verse.verse)
                   return (
@@ -599,10 +606,10 @@ export default function ReaderClient({
         })}
 
         {planId && planItemId && (
-          <div className="mt-8 mb-4 flex justify-center border-t border-gray-300 dark:border-gray-700 pt-6">
+          <div className="mt-8 mb-4 flex justify-center border-t border-gray-300 pt-6 dark:border-gray-700">
             <button
               onClick={handlePlanNext}
-              className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-[#4C0E0F] px-6 py-3 font-medium text-white transition-colors hover:bg-red-800"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#4C0E0F] px-6 py-3 font-medium text-white transition-colors hover:bg-red-800 sm:w-auto"
             >
               {nextPlanItem
                 ? `Next Plan Reading: ${nextPlanItem.bookId} ${nextPlanItem.chapter}`
@@ -624,12 +631,12 @@ export default function ReaderClient({
           <Link
             href={`/read-online/${bookId}/${nextChapter}`}
             onClick={(e) => handleOfflineNavigation(bookId, nextChapter, e)}
-            className="block rounded-md bg-gray-200 dark:bg-gray-300 p-2 hover:bg-gray-300 dark:hover:bg-white text-black transition-colors"
+            className="block rounded-md bg-gray-200 p-2 text-black transition-colors hover:bg-gray-300 dark:bg-gray-300 dark:hover:bg-white"
           >
             <ChevronRight className="h-6 w-6" />
           </Link>
         ) : (
-          <div className="cursor-not-allowed rounded-md bg-gray-200 dark:bg-gray-300 p-2 opacity-50 text-black">
+          <div className="cursor-not-allowed rounded-md bg-gray-200 p-2 text-black opacity-50 dark:bg-gray-300">
             <ChevronRight className="h-6 w-6" />
           </div>
         )}

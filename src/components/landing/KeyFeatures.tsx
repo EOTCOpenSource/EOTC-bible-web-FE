@@ -29,9 +29,11 @@ const Feature: React.FC<FeatureProps> = ({ title, description, image, link, reve
         <Link href={isLoggedIn ? link : '/login'} className="mt-8 flex w-fit">
           <button
             aria-label={`Try ${title} feature now`}
-            className="flex w-fit items-center space-x-2 rounded-lg border border-[#392D2D] dark:border-gray-600 bg-white dark:bg-neutral-800 py-2 pr-2 pl-6 text-lg text-[#4C0E0F] dark:text-gray-200 transition hover:bg-red-50 dark:hover:bg-neutral-700"
+            className="flex w-fit items-center space-x-2 rounded-lg border border-[#392D2D] bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F] transition hover:bg-red-50 dark:border-gray-600 dark:bg-neutral-800 dark:text-gray-200 dark:hover:bg-neutral-700"
           >
-            <span className="text-[#392D2D] dark:text-gray-200">{title.includes('Try') ? title : t('tryNow')}</span>
+            <span className="text-[#392D2D] dark:text-gray-200">
+              {title.includes('Try') ? title : t('tryNow')}
+            </span>
             <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#392D2D] p-1 text-white">
               <ArrowUpRight size={20} />
             </div>
@@ -95,7 +97,7 @@ const KeyFeatures: React.FC = () => {
   ]
 
   return (
-    <section id="features" className="bg-gray-50 dark:bg-neutral-900 py-20">
+    <section id="features" className="bg-gray-50 py-20 dark:bg-neutral-900">
       <div className="container mx-auto px-4">
         <h2 className="font-polysans mx-auto text-center text-[36px] leading-tight font-semibold md:h-[82px] md:w-[500px]">
           {t('sectionTitle')}
