@@ -29,7 +29,8 @@ export const useBibleStore = create<BibleState>()(
             if (!last) return s
             return { current: last, history: s.history.slice(0, -1) }
           }),
-        reset: (v = { book: 'Genesis', chapter: 1, verseStart: 1, verseCount: 1 }) => set({ current: v, history: [] }),
+        reset: (v = { book: 'Genesis', chapter: 1, verseStart: 1, verseCount: 1 }) =>
+          set({ current: v, history: [] }),
       }),
       {
         name: 'bible',

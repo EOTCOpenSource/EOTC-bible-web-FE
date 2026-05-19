@@ -20,7 +20,7 @@ export default function LoginForm() {
   const { loadSession } = useUserStore()
   const [localLoading, setLocalLoading] = useState(false)
   const isLoading = globalLoading || localLoading
-  const t = useTranslations('Auth.login');
+  const t = useTranslations('Auth.login')
   const {
     register,
     handleSubmit,
@@ -41,8 +41,7 @@ export default function LoginForm() {
       await loadSession()
       router.push('/dashboard')
     } catch (error: any) {
-      const msg =
-        error?.response?.data?.error || error?.message || 'Login failed'
+      const msg = error?.response?.data?.error || error?.message || 'Login failed'
       toast.error(msg)
     } finally {
       setLocalLoading(false)
@@ -63,7 +62,7 @@ export default function LoginForm() {
           {t('fields.email')}
         </label>
         <input
-          className="w-full rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white p-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full rounded-lg border bg-white p-2 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
           placeholder={t('placeholders.email')}
           id="email"
           type="email"
@@ -79,22 +78,26 @@ export default function LoginForm() {
           {t('fields.password')}
         </label>
         <input
-          className="w-full rounded-lg border dark:border-neutral-700 bg-white dark:bg-neutral-800 text-gray-900 dark:text-white p-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full rounded-lg border bg-white p-2 text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
           placeholder={t('placeholders.password')}
           type="password"
           id="password"
           disabled={isLoading}
           {...register('password', { required: t('validation.passwordRequired') })}
         />
-        {errors.password && (
-          <p className="text-sm text-red-600">{errors.password.message}</p>
-        )}
+        {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
       </div>
 
       {/* Remember me + Forgot password */}
       <div className="my-3 flex items-center justify-between text-gray-700 dark:text-gray-300">
         <div>
-          <input type="checkbox" name="checkbox" id="checkbox" className="dark:border-neutral-700 dark:bg-neutral-800" disabled={isLoading} />
+          <input
+            type="checkbox"
+            name="checkbox"
+            id="checkbox"
+            className="dark:border-neutral-700 dark:bg-neutral-800"
+            disabled={isLoading}
+          />
           <label htmlFor="checkbox"> {t('rememberMe')}</label>
         </div>
         <Link
@@ -108,7 +111,7 @@ export default function LoginForm() {
       {/* Submit */}
       <button
         disabled={isLoading}
-        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white hover:bg-[#471314] disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+        className="w-full cursor-pointer rounded-lg bg-[#621B1C] p-2 text-white transition-all duration-200 hover:bg-[#471314] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isLoading ? t('loading') : t('submit')}
       </button>
@@ -121,7 +124,7 @@ export default function LoginForm() {
 
       {/* Social Login Buttons */}
       <div className="space-y-3">
-        <div className="flex flex-col sm:flex-row gap-3 justify-center sm:justify-between">
+        <div className="flex flex-col justify-center gap-3 sm:flex-row sm:justify-between">
           <GoogleSignInButton />
           <FacebookSignInButton />
         </div>

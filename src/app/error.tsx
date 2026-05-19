@@ -28,32 +28,30 @@ export default function Error({
   }
 
   return (
-    <div className="flex min-h-[80vh] flex-col items-center justify-center text-center px-4">
-      <AlertTriangle className="w-14 h-14 text-red-500 mb-4" />
-      <h2 className="text-2xl font-semibold mb-2">{t('title')}</h2>
-      <p className="text-gray-600 mb-6 max-w-md">
-        {t('description')}
-      </p>
+    <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 text-center">
+      <AlertTriangle className="mb-4 h-14 w-14 text-red-500" />
+      <h2 className="mb-2 text-2xl font-semibold">{t('title')}</h2>
+      <p className="mb-6 max-w-md text-gray-600">{t('description')}</p>
 
       {/* Error message with copy button */}
-      <div className="bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-gray-200 rounded-xl p-3 px-4 text-sm flex items-center gap-3 mb-6 max-w-lg">
+      <div className="mb-6 flex max-w-lg items-center gap-3 rounded-xl bg-gray-100 p-3 px-4 text-sm text-gray-700 dark:bg-neutral-800 dark:text-gray-200">
         <span className="truncate">{error.message}</span>
         <button
           onClick={handleCopy}
-          className="relative flex items-center justify-center p-1 rounded-md hover:bg-gray-200 dark:hover:bg-neutral-700 transition"
+          className="relative flex items-center justify-center rounded-md p-1 transition hover:bg-gray-200 dark:hover:bg-neutral-700"
           aria-label="Copy error message"
         >
           {copied ? (
-            <CheckCircle2 className="w-5 h-5 text-green-500 animate-scaleIn" />
+            <CheckCircle2 className="animate-scaleIn h-5 w-5 text-green-500" />
           ) : (
-            <Copy className="w-5 h-5 text-gray-500" />
+            <Copy className="h-5 w-5 text-gray-500" />
           )}
         </button>
       </div>
 
       <button
         onClick={() => reset()}
-        className="rounded-full bg-black text-white px-5 py-2 text-sm hover:bg-neutral-800 transition"
+        className="rounded-full bg-black px-5 py-2 text-sm text-white transition hover:bg-neutral-800"
       >
         {t('tryAgain')}
       </button>

@@ -37,7 +37,7 @@ export const ProfileSidebar = () => {
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
   const router = useRouter()
   const currentLocale = useLocale()
-  
+
   const [mounted, setMounted] = useState(false)
 
   // Fetch notification status on mount
@@ -47,7 +47,13 @@ export const ProfileSidebar = () => {
   }, [loadNotificationStatus])
 
   const currentLanguage = languageNames[currentLocale] || 'English'
-  const displayTheme = mounted ? (nextTheme === 'system' ? 'System' : (resolvedTheme === 'dark' ? 'Dark' : 'Light')) : ''
+  const displayTheme = mounted
+    ? nextTheme === 'system'
+      ? 'System'
+      : resolvedTheme === 'dark'
+        ? 'Dark'
+        : 'Light'
+    : ''
 
   const handleNotificationToggle = async () => {
     if (notificationsLoading) return
@@ -96,37 +102,37 @@ export const ProfileSidebar = () => {
       label: t('myProfile'),
       icon: User,
       active: true,
-      onClick: () => { }
+      onClick: () => {},
     },
     {
       id: 'notifications',
       label: t('notifications'),
       icon: Bell,
       hasSwitch: true,
-      onClick: handleNotificationToggle
+      onClick: handleNotificationToggle,
     },
     {
       id: 'theme',
       label: t('profile.theme'),
       icon: mounted && resolvedTheme === 'dark' ? Moon : Sun,
       value: displayTheme,
-      onClick: () => setIsThemeDropdownOpen(!isThemeDropdownOpen)
+      onClick: () => setIsThemeDropdownOpen(!isThemeDropdownOpen),
     },
     {
       id: 'language',
       label: tNav('language'),
       icon: Globe,
       value: currentLanguage,
-      onClick: () => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+      onClick: () => setIsLanguageDropdownOpen(!isLanguageDropdownOpen),
     },
   ]
 
   return (
-    <div className="flex flex-col gap-6 w-full md:w-[318px] min-h-[475px] h-auto">
-      <div className="bg-white dark:bg-[#2A2020] rounded-[20px] p-6 border border-gray-100 dark:border-[#3D2D2D] shadow-sm flex flex-col h-full">
+    <div className="flex h-auto min-h-[475px] w-full flex-col gap-6 md:w-[318px]">
+      <div className="flex h-full flex-col rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm dark:border-[#3D2D2D] dark:bg-[#2A2020]">
         {/* User Info */}
-        <div className="flex items-center gap-4 mb-8">
-          <div className="h-16 w-16 min-w-[64px] hidden md:flex rounded-full bg-gray-100 dark:bg-neutral-700 items-center justify-center overflow-hidden border border-gray-100 dark:border-neutral-600">
+        <div className="mb-8 flex items-center gap-4">
+          <div className="hidden h-16 w-16 min-w-[64px] items-center justify-center overflow-hidden rounded-full border border-gray-100 bg-gray-100 md:flex dark:border-neutral-600 dark:bg-neutral-700">
             {user?.avatarUrl ? (
               <Image
                 src={user.avatarUrl}
@@ -140,30 +146,44 @@ export const ProfileSidebar = () => {
             )}
           </div>
           <div className="overflow-hidden">
-            <h3 className="font-bold text-lg text-[#1F2937] dark:text-white truncate">{user?.name || 'John Doe'}</h3>
-            <p className="text-sm text-[#6B7280] dark:text-gray-400 truncate">{user?.email || 'johndoe@gmail.com'}</p>
+            <h3 className="truncate text-lg font-bold text-[#1F2937] dark:text-white">
+              {user?.name || 'John Doe'}
+            </h3>
+            <p className="truncate text-sm text-[#6B7280] dark:text-gray-400">
+              {user?.email || 'johndoe@gmail.com'}
+            </p>
           </div>
         </div>
 
         {/* Navigation Menu */}
-        <nav className="flex flex-col gap-1 flex-1">
+        <nav className="flex flex-1 flex-col gap-1">
           {menuItems.map((item) => (
             <div key={item.id} className="relative">
               <div
                 onClick={item.onClick}
                 className={cn(
-                  "flex items-center justify-between px-4 py-3.5 rounded-xl cursor-pointer transition-all",
-                  item.active ? "bg-[#F9FAFB] dark:bg-[#3D2D2D]" : "hover:bg-gray-50 dark:hover:bg-[#3D2D2D]"
+                  'flex cursor-pointer items-center justify-between rounded-xl px-4 py-3.5 transition-all',
+                  item.active
+                    ? 'bg-[#F9FAFB] dark:bg-[#3D2D2D]'
+                    : 'hover:bg-gray-50 dark:hover:bg-[#3D2D2D]',
                 )}
               >
                 <div className="flex items-center gap-3">
-                  <item.icon size={20} className="text-[#1F2937] dark:text-gray-200" strokeWidth={1.5} />
+                  <item.icon
+                    size={20}
+                    className="text-[#1F2937] dark:text-gray-200"
+                    strokeWidth={1.5}
+                  />
                   <span className="font-medium text-[#1F2937] dark:text-gray-200">
                     {item.label}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  {item.value && <span className="text-sm text-[#6B7280] dark:text-gray-400 font-medium">{item.value}</span>}
+                  {item.value && (
+                    <span className="text-sm font-medium text-[#6B7280] dark:text-gray-400">
+                      {item.value}
+                    </span>
+                  )}
                   {item.hasSwitch && (
                     <button
                       onClick={(e) => {
@@ -172,8 +192,10 @@ export const ProfileSidebar = () => {
                       }}
                       disabled={notificationsLoading}
                       className={cn(
-                        "w-9 h-5 rounded-full relative transition-colors focus:outline-none disabled:opacity-50",
-                        dailyReadingEnabled ? "bg-black dark:bg-white" : "bg-gray-300 dark:bg-gray-600"
+                        'relative h-5 w-9 rounded-full transition-colors focus:outline-none disabled:opacity-50',
+                        dailyReadingEnabled
+                          ? 'bg-black dark:bg-white'
+                          : 'bg-gray-300 dark:bg-gray-600',
                       )}
                     >
                       {notificationsLoading ? (
@@ -181,60 +203,76 @@ export const ProfileSidebar = () => {
                           <Loader2 size={12} className="animate-spin text-gray-500" />
                         </div>
                       ) : (
-                        <div className={cn(
-                          "w-3.5 h-3.5 bg-white dark:bg-black rounded-full absolute top-0.5 transition-all shadow-sm",
-                          dailyReadingEnabled ? "right-0.5" : "left-0.5"
-                        )} />
+                        <div
+                          className={cn(
+                            'absolute top-0.5 h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-all dark:bg-black',
+                            dailyReadingEnabled ? 'right-0.5' : 'left-0.5',
+                          )}
+                        />
                       )}
                     </button>
                   )}
                   {!item.hasSwitch && item.id !== 'notifications' && (
                     <ChevronRight size={16} className="text-[#9CA3AF]" />
                   )}
-
                 </div>
               </div>
 
               {/* Theme Dropdown */}
               {item.id === 'theme' && isThemeDropdownOpen && (
                 <>
-                  <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-[#2A2020] rounded-xl border border-gray-100 dark:border-[#3D2D2D] shadow-xl overflow-hidden p-1">
+                  <div className="absolute top-full right-0 left-0 z-50 mt-2 overflow-hidden rounded-xl border border-gray-100 bg-white p-1 shadow-xl dark:border-[#3D2D2D] dark:bg-[#2A2020]">
                     {(['light', 'dark', 'system'] as const).map((themeOption) => (
                       <button
                         key={themeOption}
                         onClick={() => handleThemeChange(themeOption)}
-                        className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg hover:bg-gray-50 dark:hover:bg-[#3D2D2D] transition-colors"
+                        className="flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm transition-colors hover:bg-gray-50 dark:hover:bg-[#3D2D2D]"
                       >
-                        <span className="capitalize text-gray-700 dark:text-white font-medium">{themeOption}</span>
-                        {nextTheme === themeOption && <Check size={16} className="text-black dark:text-white" />}
+                        <span className="font-medium text-gray-700 capitalize dark:text-white">
+                          {themeOption}
+                        </span>
+                        {nextTheme === themeOption && (
+                          <Check size={16} className="text-black dark:text-white" />
+                        )}
                       </button>
                     ))}
                   </div>
-                  <div className="fixed inset-0 z-40" onClick={() => setIsThemeDropdownOpen(false)} />
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setIsThemeDropdownOpen(false)}
+                  />
                 </>
               )}
 
               {/* Language Dropdown */}
               {item.id === 'language' && isLanguageDropdownOpen && (
                 <>
-                  <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-white dark:bg-[#2A2020] rounded-xl border border-gray-100 dark:border-[#3D2D2D] shadow-xl overflow-hidden p-1">
+                  <div className="absolute top-full right-0 left-0 z-50 mt-2 overflow-hidden rounded-xl border border-gray-100 bg-white p-1 shadow-xl dark:border-[#3D2D2D] dark:bg-[#2A2020]">
                     {Object.entries(languageNames).map(([locale, name]) => {
                       // const isAvailable = locale === 'en' || locale === 'am'
                       return (
-                      <button
-                        key={locale}
-                        onClick={() => handleLanguageChange(locale)}
-                        // disabled={!isAvailable}
-                        className={cn("flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-lg transition-colors")}
-                      >
-                        <span className="text-gray-700 dark:text-gray-200 font-medium">{name}</span>
-                        {/* {!isAvailable ? (
+                        <button
+                          key={locale}
+                          onClick={() => handleLanguageChange(locale)}
+                          // disabled={!isAvailable}
+                          className={cn(
+                            'flex w-full items-center justify-between rounded-lg px-4 py-2.5 text-sm transition-colors',
+                          )}
+                        >
+                          <span className="font-medium text-gray-700 dark:text-gray-200">
+                            {name}
+                          </span>
+                          {/* {!isAvailable ? (
                           <span className="text-xs text-gray-500">Coming soon</span>
                         ) : locale === currentLocale && <Check size={16} className="text-black dark:text-white" />} */}
-                      </button>
-                    )})}
+                        </button>
+                      )
+                    })}
                   </div>
-                  <div className="fixed inset-0 z-40" onClick={() => setIsLanguageDropdownOpen(false)} />
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setIsLanguageDropdownOpen(false)}
+                  />
                 </>
               )}
             </div>
@@ -249,11 +287,13 @@ export const ProfileSidebar = () => {
               await logout()
               router.push('/login')
             }}
-            className="w-[107px] h-[42px] border border-[#392D2D] dark:border-gray-600 bg-white dark:bg-[#3D2D2D] hover:bg-gray-50 dark:hover:bg-neutral-700 text-gray-700 pt-[5px] pb-[5px] pl-[10px] pr-[4px] rounded-[8px] font-medium flex items-center justify-between gap-[6px] transition-all group"
+            className="group flex h-[42px] w-[107px] items-center justify-between gap-[6px] rounded-[8px] border border-[#392D2D] bg-white pt-[5px] pr-[4px] pb-[5px] pl-[10px] font-medium text-gray-700 transition-all hover:bg-gray-50 dark:border-gray-600 dark:bg-[#3D2D2D] dark:hover:bg-neutral-700"
           >
-            <span className="text-[16px] leading-[100%] font-normal text-[#392D2D] dark:text-gray-200">{t('logOut')}</span>
-            <div className="bg-[#2A2A2A] rounded-full p-1 group-hover:bg-[#F9FAFB] dark:group-hover:bg-[#3D2D2D] transition-colors">
-              <LogOut size={14} className="text-white ml-0.5" />
+            <span className="text-[16px] leading-[100%] font-normal text-[#392D2D] dark:text-gray-200">
+              {t('logOut')}
+            </span>
+            <div className="rounded-full bg-[#2A2A2A] p-1 transition-colors group-hover:bg-[#F9FAFB] dark:group-hover:bg-[#3D2D2D]">
+              <LogOut size={14} className="ml-0.5 text-white" />
             </div>
           </button>
         </div>

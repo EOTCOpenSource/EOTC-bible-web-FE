@@ -16,8 +16,16 @@ export default function OtpForm() {
   const router = useRouter()
   const { loadSession } = useUserStore()
 
-  const { otpStatus, otpCountdown, error, success, verifyOtp, resendOtp, startCountdown, isLoading } =
-    useAuthStore()
+  const {
+    otpStatus,
+    otpCountdown,
+    error,
+    success,
+    verifyOtp,
+    resendOtp,
+    startCountdown,
+    isLoading,
+  } = useAuthStore()
 
   const { control, handleSubmit, watch } = useForm<OtpFormData>({
     defaultValues: { otp: '' },
@@ -44,11 +52,11 @@ export default function OtpForm() {
     }
   }, [otpStatus, loadSession, router])
 
-   useEffect(() => {
-      if (success) toast.success(success)
-      if (error) toast.error(error)
-    }, [success, error])
-  
+  useEffect(() => {
+    if (success) toast.success(success)
+    if (error) toast.error(error)
+  }, [success, error])
+
   const onSubmit = async (data: OtpFormData) => {
     await verifyOtp(clientEmail, data.otp)
   }
@@ -74,9 +82,9 @@ export default function OtpForm() {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-between gap-[10px] text-center">
-      <div className="flex flex-col gap-[10px] mb-6">
+      <div className="mb-6 flex flex-col gap-[10px]">
         <h2 className="text-3xl font-semibold text-[#1F2937] dark:text-white">{t('title')}</h2>
-        <p className="text-md font-normal dark:text-gray-300 max-w-[330px]">
+        <p className="text-md max-w-[330px] font-normal dark:text-gray-300">
           {t('subtitle')}{' '}
           <span className="font-bold">{clientEmail ? maskEmail(clientEmail) : ''}</span>
         </p>
@@ -88,32 +96,37 @@ export default function OtpForm() {
           name="otp"
           rules={{ required: true, minLength: 6, maxLength: 6 }}
           render={({ field }) => (
-            <div className={isLoading ? 'opacity-50 pointer-events-none' : ''}>
-                <InputOTP maxLength={6} {...field} containerClassName="gap-[10px]" disabled={isLoading}>
+            <div className={isLoading ? 'pointer-events-none opacity-50' : ''}>
+              <InputOTP
+                maxLength={6}
+                {...field}
+                containerClassName="gap-[10px]"
+                disabled={isLoading}
+              >
                 <InputOTPGroup className="gap-[10px]">
-                    {[...Array(6)].map((_, i) => (
+                  {[...Array(6)].map((_, i) => (
                     <InputOTPSlot
-                        key={i}
-                        index={i}
-                        className="h-[60px] w-[60px] rounded-[8px] border border-gray-300 dark:border-neutral-600 dark:bg-neutral-800 dark:text-white"
-                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, i)}
-                        ref={(el) => {
+                      key={i}
+                      index={i}
+                      className="h-[60px] w-[60px] rounded-[8px] border border-gray-300 dark:border-neutral-600 dark:bg-neutral-800 dark:text-white"
+                      onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, i)}
+                      ref={(el) => {
                         inputRefs.current[i] = el as HTMLInputElement
-                        }}
+                      }}
                     />
-                    ))}
+                  ))}
                 </InputOTPGroup>
-                </InputOTP>
+              </InputOTP>
             </div>
           )}
         />
-        
+
         <button
           type="submit"
           disabled={isLoading || otpValue.length !== 6}
           className={`h-[48px] w-full rounded-md py-3 text-base font-medium text-white transition-colors duration-200 ${
             isLoading || otpValue.length !== 6
-              ? 'cursor-not-allowed bg-gray-300 dark:bg-neutral-700 dark:text-neutral-400 opacity-50'
+              ? 'cursor-not-allowed bg-gray-300 opacity-50 dark:bg-neutral-700 dark:text-neutral-400'
               : 'cursor-pointer bg-[#7B1D1D] hover:bg-[#5f1515] dark:bg-[#992424] dark:hover:bg-[#b02929]'
           }`}
         >
@@ -133,7 +146,7 @@ export default function OtpForm() {
               type="button"
               disabled={isLoading}
               onClick={handleResendOtp}
-              className="cursor-pointer text-sm font-medium text-[#7B1D1D] hover:underline dark:text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="cursor-pointer text-sm font-medium text-[#7B1D1D] hover:underline disabled:cursor-not-allowed disabled:opacity-50 dark:text-red-400"
             >
               {t('buttons.resend')}
             </button>

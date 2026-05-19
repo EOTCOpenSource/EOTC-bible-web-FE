@@ -14,10 +14,10 @@ const StatsRow = () => {
   const { progress, loadProgress } = useProgressStore()
 
   useEffect(() => {
-    loadBookmarks().catch(() => { })
-    loadHighlights().catch(() => { })
-    fetchNotes().catch(() => { })
-    loadProgress().catch(() => { })
+    loadBookmarks().catch(() => {})
+    loadHighlights().catch(() => {})
+    fetchNotes().catch(() => {})
+    loadProgress().catch(() => {})
   }, [loadBookmarks, loadHighlights, fetchNotes, loadProgress])
 
   const todayReadingCount = Object.values(progress.chaptersRead || {}).reduce((total, chapters) => {
@@ -25,7 +25,7 @@ const StatsRow = () => {
   }, 0)
 
   return (
-    <div className='grid grid-cols-4 gap-1 sm:gap-3 w-full'>
+    <div className="grid w-full grid-cols-4 gap-1 sm:gap-3">
       <DashboardWidget name="Today Reading" amount={todayReadingCount} />
       <DashboardWidget name="Highlight" amount={highlights.length} href="/dashboard/highlights" />
       <DashboardWidget name="Notes" amount={notes.length} href="/dashboard/notes" />

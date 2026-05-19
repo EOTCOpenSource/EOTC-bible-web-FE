@@ -10,7 +10,7 @@ const getAuthToken = async () => {
 
 const unauthorizedResponse = NextResponse.json(
   { error: 'Unauthorized. Please login first.' },
-  { status: 401 }
+  { status: 401 },
 )
 
 export async function GET(req: NextRequest) {
@@ -36,9 +36,12 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to fetch highlights',
+        error:
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          'Failed to fetch highlights',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }
@@ -65,9 +68,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to add highlight',
+        error:
+          error.response?.data?.error || error.response?.data?.message || 'Failed to add highlight',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }

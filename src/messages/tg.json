@@ -117,6 +117,7 @@
         "confirmPassword": "ፓስዎርድካ ደጊምካ ኣእቱ"
       },
       "password": {
+        "lowercase": "ብውሕዱ 1 ንእሽቶ ፊደል",
         "uppercase": "ብውሕዱ 1 ዓቢ ፊደል",
         "number": "ብውሕዱ 1 ቑጽሪ",
         "special": "ብውሕዱ 1 ፍሉይ ምልክት",

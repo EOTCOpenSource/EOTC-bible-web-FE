@@ -10,7 +10,7 @@ const getAuthToken = async () => {
 
 const unauthorizedResponse = NextResponse.json(
   { error: 'Unauthorized. Please login first.' },
-  { status: 401 }
+  { status: 401 },
 )
 
 export async function GET() {
@@ -28,7 +28,7 @@ export async function GET() {
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to fetch progress' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -36,9 +36,12 @@ export async function GET() {
   } catch (error: any) {
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to fetch progress',
+        error:
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          'Failed to fetch progress',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }
@@ -60,7 +63,7 @@ export async function POST(req: NextRequest) {
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to log reading' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -68,9 +71,10 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to log reading',
+        error:
+          error.response?.data?.error || error.response?.data?.message || 'Failed to log reading',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }

@@ -3,7 +3,6 @@ import { ENV } from '@/lib/env'
 import { cookies } from 'next/headers'
 import serverAxiosInstance from '@/lib/server-axios'
 
-
 // CREATE reading plan or GET all reading plans
 export async function POST(req: NextRequest) {
   try {

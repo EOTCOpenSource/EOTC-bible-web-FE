@@ -36,11 +36,11 @@ const About: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-start">
           {/* Hero Section */}
           <div className="flex h-auto w-full flex-col-reverse md:h-[430px] md:w-1/3 md:flex-col">
-            <h2 className="mb-2 w-full text-left text-[36px] font-semibold leading-[115%] tracking-[-0.03em] text-white md:mb-4 md:w-[466px]">
+            <h2 className="mb-2 w-full text-left text-[36px] leading-[115%] font-semibold tracking-[-0.03em] text-white md:mb-4 md:w-[466px]">
               {about.hero.title.line1} <br className="md:hidden" />
               {about.hero.title.line2} <br className="hidden md:block" />
               {about.hero.title.line3}{' '}
-              <span className="font-playfair font-semibold italic tracking-[-0.03em] text-yellow-400">
+              <span className="font-playfair font-semibold tracking-[-0.03em] text-yellow-400 italic">
                 {about.hero.title.highlight}
               </span>
             </h2>
@@ -78,7 +78,7 @@ const About: React.FC = () => {
                 {allCards.map((card, index) => (
                   <div
                     key={`${card.title}-${index}`}
-                    className="h-[188px] w-full flex-shrink-0 snap-center rounded-lg bg-white dark:bg-neutral-800 p-6 text-left shadow-md sm:w-[303px]"
+                    className="h-[188px] w-full flex-shrink-0 snap-center rounded-lg bg-white p-6 text-left shadow-md sm:w-[303px] dark:bg-neutral-800"
                   >
                     <h3 className="font-bold text-amber-900 dark:text-amber-400">{card.title}</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-300">{card.description}</p>

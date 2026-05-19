@@ -55,20 +55,24 @@ For detailed frontend architecture, authentication flow, and proxy usage, see th
 
 1. Make your changes following existing code patterns
 2. Add tests for new functionality
-3. Make sure the page is localized  with EN, AM, GEEZ, TG and OR if your are deleoping page  or component
+3. Make sure the page is localized with EN, AM, GEEZ, TG and OR if your are deleoping page or component
 4. Verify all tests pass:
    ```bash
    npm test
    ```
 5. Make sure to check code formatting before you commit changes
-   - #### check the files need formatting 
+   - #### check the files need formatting
+
    ```bash
    npm run format:check
    ```
+
    - #### format the entire files you checked
+
    ```bash
    npm run format
-   ``` 
+   ```
+
 6. Commit with descriptive messages:
    ```bash
    git commit -m "feat: add [feature description]"

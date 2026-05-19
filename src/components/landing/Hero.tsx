@@ -9,28 +9,28 @@ const Hero = () => {
   const t = useTranslations('Hero')
 
   return (
-    <section className="relative min-h-screen w-full text-white overflow-hidden">
+    <section className="relative min-h-screen w-full overflow-hidden text-white">
       <Image
         src="/hero-image.png"
         alt="Hero Background"
         fill
         priority
-        className="object-cover object-top -z-20"
+        className="-z-20 object-cover object-top"
         sizes="100vw"
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[rgba(127,29,29,0.9)] via-[rgba(127,29,29,0.7)] via-28% to-transparent"></div>
       <div className="relative container mx-auto flex h-full min-h-[766px] flex-col justify-center px-4">
         <div className="mt-48 w-full text-left md:absolute md:top-[319px] md:left-[48px] md:mt-0 md:w-[554px]">
-          <p className="inline-block rounded-full bg-[#41101085] px-3 py-1 text-[14px] italic text-[#FFD2D2] leading-none">
+          <p className="inline-block rounded-full bg-[#41101085] px-3 py-1 text-[14px] leading-none text-[#FFD2D2] italic">
             {t('developedBy')} &gt;
           </p>
-          <h1 className="mt-2 text-[40px] font-semibold leading-[91%] tracking-[-0.03em] md:text-[84px] [text-shadow:0px_4px_7px_rgba(62,49,49,0.14)]">
+          <h1 className="mt-2 text-[40px] leading-[91%] font-semibold tracking-[-0.03em] [text-shadow:0px_4px_7px_rgba(62,49,49,0.14)] md:text-[84px]">
             {t.rich('title', {
               eth: (chunks) => (
-                <span className="font-playfair font-semibold italic tracking-[-0.04em] text-yellow-400">
+                <span className="font-playfair font-semibold tracking-[-0.04em] text-yellow-400 italic">
                   {chunks}
                 </span>
-              )
+              ),
             })}
           </h1>
           <p className="mt-4 text-lg">{t('description')}</p>
@@ -45,11 +45,17 @@ const Hero = () => {
         </div>
 
         {/* APP DOWNLOAD CARD */}
-        <div className="mx-auto mt-8 mb-8 w-full max-w-md rounded-lg bg-gradient-to-t from-gray-100 to-white dark:from-neutral-800 dark:to-neutral-900 p-6 text-black dark:text-white shadow-lg md:absolute md:right-6 md:bottom-4 md:mb-0 md:w-[480px]">
+        <div className="mx-auto mt-8 mb-8 w-full max-w-md rounded-lg bg-gradient-to-t from-gray-100 to-white p-6 text-black shadow-lg md:absolute md:right-6 md:bottom-4 md:mb-0 md:w-[480px] dark:from-neutral-800 dark:to-neutral-900 dark:text-white">
           {/* MOBILE LAYOUT */}
           <div className="block text-center md:hidden">
             <div className="flex items-center justify-center">
-              <Image src="/app-icon.png" alt={t('appCard.appIconAlt')} className="mr-3 h-10 w-10" width={40} height={40} />
+              <Image
+                src="/app-icon.png"
+                alt={t('appCard.appIconAlt')}
+                className="mr-3 h-10 w-10"
+                width={40}
+                height={40}
+              />
               <h3 className="text-lg font-bold">{t('appCard.mobileTitle')}</h3>
             </div>
             <p className="mt-2 text-sm">{t('appCard.mobileDescription')}</p>
@@ -61,7 +67,7 @@ const Hero = () => {
                   alt="Google play badge"
                   width={128}
                   height={40}
-                  className="w-32 md:w-32 grayscale pointer-events-none"
+                  className="pointer-events-none w-32 grayscale md:w-32"
                 />
               </div>
               <div className="cursor-not-allowed opacity-50">
@@ -71,7 +77,7 @@ const Hero = () => {
                   alt="App store badge"
                   width={128}
                   height={40}
-                  className="w-32 md:w-32 grayscale pointer-events-none"
+                  className="pointer-events-none w-32 grayscale md:w-32"
                 />
               </div>
             </div>
@@ -95,7 +101,13 @@ const Hero = () => {
             </div>
             <div className="flex-1">
               <div className="flex items-center">
-                <Image src="/app-icon.png" alt={t('appCard.appIconAlt')} className="mr-3 h-10 w-10" width={40} height={40} />
+                <Image
+                  src="/app-icon.png"
+                  alt={t('appCard.appIconAlt')}
+                  className="mr-3 h-10 w-10"
+                  width={40}
+                  height={40}
+                />
                 <h3 className="text-lg font-bold">{t('appCard.mobileTitle')}</h3>
               </div>
               <p className="mt-2 text-sm">{t('appCard.mobileDescription')}</p>
@@ -103,19 +115,19 @@ const Hero = () => {
                 <div className="cursor-not-allowed opacity-50">
                   <Image
                     src="/google-play-badge.svg"
-                    alt='Google play badge'
+                    alt="Google play badge"
                     width={128}
                     height={40}
-                    className="w-32 md:w-32 grayscale pointer-events-none"
+                    className="pointer-events-none w-32 grayscale md:w-32"
                   />
                 </div>
                 <div className="cursor-not-allowed opacity-50">
                   <Image
                     src="/app-store-badge.png"
-                    alt='App store badge'
+                    alt="App store badge"
                     width={128}
                     height={40}
-                    className="w-32 md:w-32 grayscale pointer-events-none"
+                    className="pointer-events-none w-32 grayscale md:w-32"
                   />
                 </div>
               </div>

@@ -17,18 +17,15 @@ export async function GET(_: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const res = await serverAxiosInstance.get(
-      `/reading-plans/${id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        validateStatus: () => true,
-      }
-    )
+    const res = await serverAxiosInstance.get(`/reading-plans/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      validateStatus: () => true,
+    })
 
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to fetch plan' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -50,19 +47,15 @@ export async function PUT(req: NextRequest, { params }: Params) {
     }
 
     const body = await req.json()
-    const res = await serverAxiosInstance.put(
-      `/reading-plans/${id}`,
-      body,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        validateStatus: () => true,
-      }
-    )
+    const res = await serverAxiosInstance.put(`/reading-plans/${id}`, body, {
+      headers: { Authorization: `Bearer ${token}` },
+      validateStatus: () => true,
+    })
 
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to update plan' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 
@@ -83,18 +76,15 @@ export async function DELETE(_: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const res = await serverAxiosInstance.delete(
-      `/reading-plans/${id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        validateStatus: () => true,
-      }
-    )
+    const res = await serverAxiosInstance.delete(`/reading-plans/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      validateStatus: () => true,
+    })
 
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(
         { error: res.data?.message || 'Failed to delete plan' },
-        { status: res.status }
+        { status: res.status },
       )
     }
 

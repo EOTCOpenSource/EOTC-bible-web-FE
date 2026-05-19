@@ -29,14 +29,13 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Bible Reading Plans | EOTC Bible',
-    description:
-      'Discover guided reading plans for the Ethiopian Orthodox Tewahedo Church Bible.',
+    description: 'Discover guided reading plans for the Ethiopian Orthodox Tewahedo Church Bible.',
   },
 }
 
 export default function PlansExplorePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="bg-background text-foreground min-h-screen">
       <Navbar />
       <main className="w-full pt-24">
         <PlansExploreClient />

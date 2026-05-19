@@ -86,7 +86,10 @@ const getPsalmLocationForEthiopianDate = (etMonth: number, etDay: number): Verse
 // Fixed yearly feasts (Ethiopian month/day).
 const FIXED_FEASTS_BY_ETH_MM_DD: Record<string, VerseSelection> = {
   // Meskerem 1: Lideta (Nativity of Mary) + some traditions commemorate St. John the Baptist.
-  '1-1': { loc: { bookNameEn: 'Luke', chapter: 1, verse: 28 }, occasion: 'Meskerem 1 (Lideta / Commemoration)' },
+  '1-1': {
+    loc: { bookNameEn: 'Luke', chapter: 1, verse: 28 },
+    occasion: 'Meskerem 1 (Lideta / Commemoration)',
+  },
   // Meskel (Finding of the True Cross) - Meskerem 17
   '1-17': { loc: { bookNameEn: 'Galatians', chapter: 6, verse: 14 }, occasion: 'Meskel' },
   // Gena (Nativity) - Tahsas 29
@@ -94,9 +97,15 @@ const FIXED_FEASTS_BY_ETH_MM_DD: Record<string, VerseSelection> = {
   // Timkat (Theophany) - Tir 11
   '5-11': { loc: { bookNameEn: 'Matthew', chapter: 3, verse: 16 }, occasion: 'Timkat' },
   // Kidane Mehret (annual commemoration) - Yekatit 16
-  '6-16': { loc: { bookNameEn: 'Lamentations', chapter: 3, verse: 22 }, occasion: 'Kidane Mehret (Yekatit 16)' },
+  '6-16': {
+    loc: { bookNameEn: 'Lamentations', chapter: 3, verse: 22 },
+    occasion: 'Kidane Mehret (Yekatit 16)',
+  },
   // St. George (annual) - Ginbot 23
-  '9-23': { loc: { bookNameEn: '2 Timothy', chapter: 4, verse: 7 }, occasion: 'Georgis (Ginbot 23)' },
+  '9-23': {
+    loc: { bookNameEn: '2 Timothy', chapter: 4, verse: 7 },
+    occasion: 'Georgis (Ginbot 23)',
+  },
 }
 
 // Holy Week + moveable feasts relative to Orthodox Easter Sunday (offset days).
@@ -209,15 +218,24 @@ const DAILY_COMM_ETY_DAY: Record<number, VerseSelection[]> = {
   ],
   16: [{ loc: { bookNameEn: 'Lamentations', chapter: 3, verse: 22 }, occasion: 'Kidane Mehret' }],
   19: [{ loc: { bookNameEn: 'Luke', chapter: 1, verse: 19 }, occasion: 'Gabriel the Archangel' }],
-  21: [{ loc: { bookNameEn: 'Luke', chapter: 1, verse: 28 }, occasion: 'Holy Virgin Mary (Monthly)' }],
-  23: [{ loc: { bookNameEn: '2 Timothy', chapter: 4, verse: 7 }, occasion: 'Georgis (St. George)' }],
+  21: [
+    { loc: { bookNameEn: 'Luke', chapter: 1, verse: 28 }, occasion: 'Holy Virgin Mary (Monthly)' },
+  ],
+  23: [
+    { loc: { bookNameEn: '2 Timothy', chapter: 4, verse: 7 }, occasion: 'Georgis (St. George)' },
+  ],
   26: [{ loc: { bookNameEn: 'John', chapter: 20, verse: 28 }, occasion: 'Thomas the Apostle' }],
   27: [{ loc: { bookNameEn: 'John', chapter: 3, verse: 17 }, occasion: 'Medhane Alem' }],
   29: [{ loc: { bookNameEn: 'Luke', chapter: 2, verse: 11 }, occasion: 'Lideta Christ (Monthly)' }],
   30: [{ loc: { bookNameEn: 'Mark', chapter: 16, verse: 15 }, occasion: 'Markos (St. Mark)' }],
 }
 
-const pickDeterministic = (choices: VerseSelection[], etYear: number, etMonth: number, etDay: number) => {
+const pickDeterministic = (
+  choices: VerseSelection[],
+  etYear: number,
+  etMonth: number,
+  etDay: number,
+) => {
   if (choices.length === 1) return choices[0]
   const idx = (etYear + etMonth + etDay) % choices.length
   return choices[idx]
@@ -228,10 +246,19 @@ const WEEKDAY_OBSERVANCE: Record<number, VerseSelection> = {
   0: { loc: { bookNameEn: 'Psalms', chapter: 122, verse: 1 }, occasion: 'Sunday (Senbete)' },
   1: { loc: { bookNameEn: 'Psalms', chapter: 5, verse: 3 }, occasion: 'Monday (Sagno)' },
   2: { loc: { bookNameEn: 'Revelation', chapter: 2, verse: 10 }, occasion: 'Tuesday (Maksagno)' },
-  3: { loc: { bookNameEn: 'Matthew', chapter: 4, verse: 17 }, occasion: 'Wednesday (Fasting/Repentance)' },
+  3: {
+    loc: { bookNameEn: 'Matthew', chapter: 4, verse: 17 },
+    occasion: 'Wednesday (Fasting/Repentance)',
+  },
   4: { loc: { bookNameEn: 'Hebrews', chapter: 13, verse: 16 }, occasion: 'Thursday (Hamus)' },
-  5: { loc: { bookNameEn: 'Isaiah', chapter: 53, verse: 5 }, occasion: 'Friday (Crucifixion fast)' },
-  6: { loc: { bookNameEn: 'Hebrews', chapter: 4, verse: 9 }, occasion: 'Saturday (Qadamit Sanbat)' },
+  5: {
+    loc: { bookNameEn: 'Isaiah', chapter: 53, verse: 5 },
+    occasion: 'Friday (Crucifixion fast)',
+  },
+  6: {
+    loc: { bookNameEn: 'Hebrews', chapter: 4, verse: 9 },
+    occasion: 'Saturday (Qadamit Sanbat)',
+  },
 }
 
 const resolveDailyVerseSelection = (): VerseSelection => {
@@ -257,29 +284,44 @@ const resolveDailyVerseSelection = (): VerseSelection => {
   // Great Lent starts at offset -55, so Nineveh is roughly -76..-74 (3 days).
   if (offset >= -76 && offset <= -74) {
     const idx = offset - -76 // 0..2
-    return { loc: NINEVEH_FAST_VERSES[idx % NINEVEH_FAST_VERSES.length], occasion: 'Fast of Nineveh' }
+    return {
+      loc: NINEVEH_FAST_VERSES[idx % NINEVEH_FAST_VERSES.length],
+      occasion: 'Fast of Nineveh',
+    }
   }
 
   // 3) Great Lent (Hudade): 55 days leading up to Fasika, excluding Holy Week.
   if (offset >= -55 && offset < -7) {
     const dayIndex = offset - -55 // 0..47
-    return { loc: GREAT_LENT_VERSES[dayIndex % GREAT_LENT_VERSES.length], occasion: 'Great Lent (Hudade)' }
+    return {
+      loc: GREAT_LENT_VERSES[dayIndex % GREAT_LENT_VERSES.length],
+      occasion: 'Great Lent (Hudade)',
+    }
   }
 
   // 4) Pascha season (up to 50 days after Fasika)
   if (offset > 0 && offset <= 50) {
-    return { loc: PASCHA_SEASON_VERSES[(offset - 1) % PASCHA_SEASON_VERSES.length], occasion: 'Pascha Season' }
+    return {
+      loc: PASCHA_SEASON_VERSES[(offset - 1) % PASCHA_SEASON_VERSES.length],
+      occasion: 'Pascha Season',
+    }
   }
 
   // 4.5) Fast of the Apostles (after Pentecost). Length varies (10-40 days); we cap at 40 here.
   if (offset >= 50 && offset <= 89) {
-    return { loc: APOSTLES_FAST_VERSES[(offset - 50) % APOSTLES_FAST_VERSES.length], occasion: 'Fast of the Apostles' }
+    return {
+      loc: APOSTLES_FAST_VERSES[(offset - 50) % APOSTLES_FAST_VERSES.length],
+      occasion: 'Fast of the Apostles',
+    }
   }
 
   // 4.6) Fast of the Assumption (Filseta): Nehase 1-16
   if (et.month === 12 && et.day >= 1 && et.day <= 16) {
     const idx = (et.day - 1) % FILSETA_FAST_VERSES.length
-    return { loc: FILSETA_FAST_VERSES[idx], occasion: et.day === 16 ? 'Filseta (Assumption)' : 'Fast of Filseta' }
+    return {
+      loc: FILSETA_FAST_VERSES[idx],
+      occasion: et.day === 16 ? 'Filseta (Assumption)' : 'Fast of Filseta',
+    }
   }
 
   // 4.7) Fast of the Prophets (Advent): 40 days before Gena (Tahsas 29)
@@ -434,7 +476,7 @@ export const useDailyVerseStore = create<DailyVerseState>()(
           }
           return persisted
         },
-      }
-    )
-  )
+      },
+    ),
+  ),
 )

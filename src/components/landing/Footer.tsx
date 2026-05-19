@@ -22,27 +22,27 @@ const Footer = () => {
               </div>
               <p className="text-gray-400">{t('description')}</p>
               <div className="mt-8 flex justify-center space-x-4 md:justify-start">
-                                <div className="cursor-not-allowed opacity-50">
-                                  <Image
-                                    src="/google-play-badge.svg"
-                                    // alt={t('googl ePlayAlt')}
-                                    alt='Google play badge'
-                                    width={128}
-                                    height={40}
-                                    className="w-32 md:w-32 grayscale pointer-events-none"
-                                  />
-                                </div>
-                                <div className="cursor-not-allowed opacity-50">
-                                  <Image
-                                    src="/app-store-badge.png"
-                                    // alt={t('appStoreAlt')}
-                                    alt='App store badge'
-                                    width={128}
-                                    height={40}
-                                    className="w-32 md:w-32 grayscale pointer-events-none"
-                                  />
-                                </div>
-                              </div>
+                <div className="cursor-not-allowed opacity-50">
+                  <Image
+                    src="/google-play-badge.svg"
+                    // alt={t('googl ePlayAlt')}
+                    alt="Google play badge"
+                    width={128}
+                    height={40}
+                    className="pointer-events-none w-32 grayscale md:w-32"
+                  />
+                </div>
+                <div className="cursor-not-allowed opacity-50">
+                  <Image
+                    src="/app-store-badge.png"
+                    // alt={t('appStoreAlt')}
+                    alt="App store badge"
+                    width={128}
+                    height={40}
+                    className="pointer-events-none w-32 grayscale md:w-32"
+                  />
+                </div>
+              </div>
             </div>
             <div>
               <div className="flex flex-col gap-4">
@@ -84,23 +84,23 @@ const Footer = () => {
                       href="https://t.me/EOTCOpenSource"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-white transition-colors"
+                      className="text-gray-400 transition-colors hover:text-white"
                     >
                       {t('telegram')}
                     </a>
                   </li>
                   <li>
-                    <span className="text-gray-600 cursor-default" title="Coming soon!">
+                    <span className="cursor-default text-gray-600" title="Coming soon!">
                       {t('instagram')}
                     </span>
                   </li>
                   <li>
-                    <span className="text-gray-600 cursor-default" title="Coming soon!">
+                    <span className="cursor-default text-gray-600" title="Coming soon!">
                       {t('tiktok')}
                     </span>
                   </li>
                   <li>
-                    <span className="text-gray-600 cursor-default" title="Coming soon!">
+                    <span className="cursor-default text-gray-600" title="Coming soon!">
                       {t('facebook')}
                     </span>
                   </li>
@@ -112,18 +112,19 @@ const Footer = () => {
             <div className="flex flex-col md:gap-4">
               <h3 className="text-lg font-bold">Contact Info</h3>
               <p className="text-gray-400">+251 91 225 2354</p>
-              <a href="mailto:eotcopensource@gmail.com" className="text-gray-400 hover:text-white transition-colors">
+              <a
+                href="mailto:eotcopensource@gmail.com"
+                className="text-gray-400 transition-colors hover:text-white"
+              >
                 eotcopensource@gmail.com
               </a>
               <p className="text-gray-400">Addis Ababa, Ethiopia</p>
               <a
                 href="mailto:eotcopensource@gmail.com"
-                className="mt-2 mb-8 flex w-fit items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F] md:mt-8 hover:bg-gray-100 transition-colors cursor-pointer"
+                className="mt-2 mb-8 flex w-fit cursor-pointer items-center space-x-2 rounded-lg bg-white py-2 pr-2 pl-6 text-lg text-[#4C0E0F] transition-colors hover:bg-gray-100 md:mt-8"
               >
                 <span>{t('contactUs')}</span>
-                <div
-                  className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#4C0E0F] p-1 text-white"
-                >
+                <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#4C0E0F] p-1 text-white">
                   <ArrowUpRight size={20} />
                 </div>
               </a>

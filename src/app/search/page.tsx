@@ -82,11 +82,15 @@ const SearchPageContent = () => {
 
   if (!query) {
     return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-neutral-900">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-neutral-900">
         <div className="text-center">
           <Search size={48} className="mx-auto mb-4 text-gray-400" />
-          <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200">No search query</h2>
-          <p className="mt-2 text-gray-500 dark:text-gray-400">Enter a search term to find verses</p>
+          <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200">
+            No search query
+          </h2>
+          <p className="mt-2 text-gray-500 dark:text-gray-400">
+            Enter a search term to find verses
+          </p>
           <button
             onClick={() => router.push('/')}
             className="mt-4 rounded-lg bg-[#4C0E0F] px-4 py-2 text-white hover:bg-red-800"
@@ -110,7 +114,9 @@ const SearchPageContent = () => {
               <ArrowLeft size={24} className="text-gray-600 dark:text-gray-300" />
             </button>
             <div className="flex-1">
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">Search Results for &quot;{query}&quot;</h1>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                Search Results for &quot;{query}&quot;
+              </h1>
               {!isLoading && (
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Found in <strong>{totalMatches.toLocaleString()}</strong> verses across the Bible
@@ -133,10 +139,11 @@ const SearchPageContent = () => {
                     setSelectedBook(null)
                     setDisplayLimit(50)
                   }}
-                  className={`rounded px-3 py-1 text-sm font-medium transition-colors ${selectedTestament === test
+                  className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
+                    selectedTestament === test
                       ? 'bg-[#4C0E0F] text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-neutral-800 dark:text-gray-300 dark:hover:bg-neutral-700'
-                    }`}
+                  }`}
                 >
                   {test === 'all' ? 'All' : test === 'old' ? 'Old Testament' : 'New Testament'}
                 </button>
@@ -172,7 +179,10 @@ const SearchPageContent = () => {
               {isLoading ? (
                 <div className="space-y-2">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="h-8 animate-pulse rounded bg-gray-100 dark:bg-neutral-700" />
+                    <div
+                      key={i}
+                      className="h-8 animate-pulse rounded bg-gray-100 dark:bg-neutral-700"
+                    />
                   ))}
                 </div>
               ) : (
@@ -187,10 +197,11 @@ const SearchPageContent = () => {
                           setSelectedBook(book.bookNumber)
                           setDisplayLimit(50)
                         }}
-                        className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm transition-colors ${selectedBook === book.bookNumber
+                        className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm transition-colors ${
+                          selectedBook === book.bookNumber
                             ? 'bg-red-100 text-[#4C0E0F] dark:bg-red-900/40 dark:text-red-300'
-                            : 'hover:bg-gray-100 dark:hover:bg-neutral-700 dark:text-gray-200'
-                          }`}
+                            : 'hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-neutral-700'
+                        }`}
                       >
                         <span className="truncate">{book.bookName}</span>
                         <span className="ml-2 flex-shrink-0 rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900/30 dark:text-red-400">
@@ -223,8 +234,12 @@ const SearchPageContent = () => {
             ) : results.length === 0 ? (
               <div className="rounded-lg border bg-white p-8 text-center dark:border-neutral-700 dark:bg-neutral-800">
                 <div className="mb-4 text-4xl">📖</div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">No results found</h3>
-                <p className="mt-2 text-gray-500 dark:text-gray-400">Try different keywords or adjust your filters</p>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  No results found
+                </h3>
+                <p className="mt-2 text-gray-500 dark:text-gray-400">
+                  Try different keywords or adjust your filters
+                </p>
               </div>
             ) : (
               <div className="rounded-lg border bg-white dark:border-neutral-700 dark:bg-neutral-800">
@@ -249,7 +264,9 @@ const SearchPageContent = () => {
                         <div className="flex items-center justify-between">
                           <div>
                             <div className="text-lg font-semibold text-[#4C0E0F] dark:text-red-400">
-                              {locale === 'am' && result.book_name_am ? result.book_name_am : result.book_name_en}
+                              {locale === 'am' && result.book_name_am
+                                ? result.book_name_am
+                                : result.book_name_en}
                             </div>
                             {result.book_name_am && locale !== 'am' && (
                               <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">
@@ -272,7 +289,10 @@ const SearchPageContent = () => {
                         <div className="space-y-2">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="font-bold text-[#4C0E0F] dark:text-red-400">
-                              {locale === 'am' && result.book_name_am ? result.book_name_am : result.book_name_en} {result.chapter}:{result.verse}
+                              {locale === 'am' && result.book_name_am
+                                ? result.book_name_am
+                                : result.book_name_en}{' '}
+                              {result.chapter}:{result.verse}
                             </span>
                             {result.section_title && (
                               <span className="rounded bg-red-50 px-2 py-0.5 text-xs text-red-700 dark:bg-red-900/30 dark:text-red-400">
@@ -280,7 +300,9 @@ const SearchPageContent = () => {
                               </span>
                             )}
                           </div>
-                          <div className="leading-relaxed text-gray-700 dark:text-gray-300">{result.text}</div>
+                          <div className="leading-relaxed text-gray-700 dark:text-gray-300">
+                            {result.text}
+                          </div>
                         </div>
                       )}
                     </div>

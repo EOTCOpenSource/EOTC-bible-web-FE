@@ -3,10 +3,7 @@ import { cookies } from 'next/headers'
 import { ENV } from '@/lib/env'
 import serverAxiosInstance from '@/lib/server-axios'
 
-export async function GET(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const cookieStore = await cookies()
   const { id } = await params
   const token = cookieStore.get(ENV.jwtCookieName)?.value
@@ -14,13 +11,10 @@ export async function GET(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const res = await serverAxiosInstance.get(
-    `/reading-plans/${id}/progress`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      validateStatus: () => true,
-    }
-  )
+  const res = await serverAxiosInstance.get(`/reading-plans/${id}/progress`, {
+    headers: { Authorization: `Bearer ${token}` },
+    validateStatus: () => true,
+  })
 
   return NextResponse.json(res.data, { status: res.status })
 }

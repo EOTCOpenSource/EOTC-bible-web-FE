@@ -128,14 +128,14 @@ export interface ReadingPlanCreateData {
   durationInDays: number
 }
 export interface ReadingItem {
-    id: string
-    isCompleted: boolean
-    bookId: string
-    title?: string
-    day?: number
-    bookName?: string
-    chapter: number
-    description?: string
+  id: string
+  isCompleted: boolean
+  bookId: string
+  title?: string
+  day?: number
+  bookName?: string
+  chapter: number
+  description?: string
 }
 
 export interface PlanDialogFormProps {

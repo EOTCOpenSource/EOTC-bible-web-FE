@@ -43,8 +43,19 @@ interface NotesState {
     hasNextPage: boolean
     hasPrevPage: boolean
   } | null
-  fetchPublicNotes: (params?: { page?: number; limit?: number; search?: string; bookId?: string; chapter?: number }) => Promise<void>
-  fetchPublicNotesByVerse: (params: { bookId: string; chapter: number; verseStart: number; verseEnd: number }) => Promise<void>
+  fetchPublicNotes: (params?: {
+    page?: number
+    limit?: number
+    search?: string
+    bookId?: string
+    chapter?: number
+  }) => Promise<void>
+  fetchPublicNotesByVerse: (params: {
+    bookId: string
+    chapter: number
+    verseStart: number
+    verseEnd: number
+  }) => Promise<void>
 }
 
 export const useNotesStore = create<NotesState>()(
@@ -109,7 +120,8 @@ export const useNotesStore = create<NotesState>()(
 
           const res = await fetch(`/api/notes/public/verse?${query.toString()}`)
           const data = await res.json()
-          if (!res.ok) throw new Error(data.message || data.error || 'Failed to fetch public verse notes')
+          if (!res.ok)
+            throw new Error(data.message || data.error || 'Failed to fetch public verse notes')
 
           const notesArray = data.data?.notes || []
           // Transform notes
@@ -138,9 +150,13 @@ export const useNotesStore = create<NotesState>()(
           const data = await res.json()
           if (!res.ok) throw new Error(data.message || data.error || 'Failed to fetch notes')
 
-
           // Align with backend response: check data.data, data.notes, or data.data.notes
-          const notesArray = data.data?.data || data.data?.notes || data.notes || (Array.isArray(data.data) ? data.data : []) || (Array.isArray(data) ? data : [])
+          const notesArray =
+            data.data?.data ||
+            data.data?.notes ||
+            data.notes ||
+            (Array.isArray(data.data) ? data.data : []) ||
+            (Array.isArray(data) ? data : [])
 
           // Transform notes to extract title from content if title doesn't exist
           const transformedNotes = notesArray.map((note: any) => {
@@ -153,7 +169,7 @@ export const useNotesStore = create<NotesState>()(
               return {
                 ...note,
                 title: parts[0].trim(),
-                content: parts.slice(1).join('\n\n')
+                content: parts.slice(1).join('\n\n'),
               }
             }
             // If no title found, use first line or "Untitled"
@@ -161,7 +177,7 @@ export const useNotesStore = create<NotesState>()(
             return {
               ...note,
               title: firstLine || 'Untitled',
-              content: note.content || ''
+              content: note.content || '',
             }
           })
 
@@ -182,7 +198,7 @@ export const useNotesStore = create<NotesState>()(
             verseStart: note.verseStart || 1,
             verseCount: note.verseCount || 1,
             content: note.title ? `${note.title}\n\n${note.content}` : note.content,
-            visibility: note.visibility || 'private'
+            visibility: note.visibility || 'private',
           }
           const res = await fetch('/api/notes', {
             method: 'POST',
@@ -200,14 +216,14 @@ export const useNotesStore = create<NotesState>()(
               transformedNote = {
                 ...newNote,
                 title: parts[0].trim(),
-                content: parts.slice(1).join('\n\n')
+                content: parts.slice(1).join('\n\n'),
               }
             } else {
               const firstLine = newNote.content.split('\n')[0]?.trim()
               transformedNote = {
                 ...newNote,
                 title: firstLine || 'Untitled',
-                content: newNote.content
+                content: newNote.content,
               }
             }
           }
@@ -225,7 +241,7 @@ export const useNotesStore = create<NotesState>()(
         try {
           const payload = {
             content: note.title ? `${note.title}\n\n${note.content}` : note.content,
-            visibility: note.visibility || 'private'
+            visibility: note.visibility || 'private',
           }
           const res = await fetch(`/api/notes/${id}`, {
             method: 'PUT',
@@ -243,20 +259,20 @@ export const useNotesStore = create<NotesState>()(
               transformedNote = {
                 ...updatedNote,
                 title: parts[0].trim(),
-                content: parts.slice(1).join('\n\n')
+                content: parts.slice(1).join('\n\n'),
               }
             } else {
               const firstLine = updatedNote.content.split('\n')[0]?.trim()
               transformedNote = {
                 ...updatedNote,
                 title: firstLine || 'Untitled',
-                content: updatedNote.content
+                content: updatedNote.content,
               }
             }
           }
 
           set({
-            notes: get().notes.map((n) => ((n.id === id || n._id === id) ? transformedNote : n)),
+            notes: get().notes.map((n) => (n.id === id || n._id === id ? transformedNote : n)),
             error: null,
           })
         } catch (error: any) {
@@ -290,8 +306,8 @@ export const useNotesStore = create<NotesState>()(
     {
       name: 'notes-storage',
       skipHydration: false,
-    }
-  )
+    },
+  ),
 )
 
 // Extend the store with public notes types (merged into main store for simplicity, or could be separate slice)
@@ -301,4 +317,3 @@ export const useNotesStore = create<NotesState>()(
 // But actually, I can just modify the Interface and the implementation in one block if they are close, or I might need to use multi_replace.
 //
 // The file is small enough (200 lines). I'll use multi_replace to be safe and clean.
-

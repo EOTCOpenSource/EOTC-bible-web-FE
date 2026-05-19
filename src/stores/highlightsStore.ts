@@ -38,11 +38,11 @@ const normalizeHighlight = (
   )
   const verseStart = Number(
     sourceVerse.verseStart ??
-    sourceVerse.verse ??
-    raw.verseStart ??
-    raw.verse ??
-    fallback?.verseRef?.verseStart ??
-    Number.NaN,
+      sourceVerse.verse ??
+      raw.verseStart ??
+      raw.verse ??
+      fallback?.verseRef?.verseStart ??
+      Number.NaN,
   )
   const verseCount = Number(
     sourceVerse.verseCount ?? raw.verseCount ?? fallback?.verseRef?.verseCount ?? 1,
@@ -63,7 +63,7 @@ const normalizeHighlight = (
     },
     color,
     createdAt: raw.createdAt || new Date().toISOString(),
-    text: raw.text || raw.content
+    text: raw.text || raw.content,
   }
 }
 
@@ -114,8 +114,8 @@ export const useHighlightsStore = create<HighlightsState>()(
 
         const transformedHighlights: Highlight[] = Array.isArray(highlightsArray)
           ? highlightsArray
-            .map((raw: RawHighlight) => normalizeHighlight(raw))
-            .filter((h): h is Highlight => Boolean(h))
+              .map((raw: RawHighlight) => normalizeHighlight(raw))
+              .filter((h): h is Highlight => Boolean(h))
           : []
 
         set({ highlights: transformedHighlights, isLoading: false })
@@ -283,14 +283,14 @@ export const useHighlightsStore = create<HighlightsState>()(
             console.error('Failed to fetch text for highlight', h._id, e)
           }
           return null
-        })
+        }),
       )
 
       set((state) => ({
         highlights: state.highlights.map((h) => {
           const update = updates.find((u) => u && u.id === h._id)
           return update ? { ...h, text: update.text } : h
-        })
+        }),
       }))
     },
   })),

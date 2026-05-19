@@ -10,7 +10,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-britti-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    var(--font-britti-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-heading: var(--font-polysans), ui-sans-serif, system-ui, sans-serif;
   --font-playfair: var(--font-playfair), serif;
 
@@ -75,23 +77,23 @@
 
 :root {
   /* Neutral Colors */
-  --neutral-50: #FFFFFF;
-  --neutral-100: #FFFDF8;
-  --neutral-200: #F9F7F1;
-  --neutral-300: #F2EFE8;
-  --neutral-800: #392D2D;
-  --neutral-900: #1A1A19;
+  --neutral-50: #ffffff;
+  --neutral-100: #fffdf8;
+  --neutral-200: #f9f7f1;
+  --neutral-300: #f2efe8;
+  --neutral-800: #392d2d;
+  --neutral-900: #1a1a19;
 
   /* Primary Colors */
-  --primary-100: #FAF0EA;
+  --primary-100: #faf0ea;
   --primary-400: hsl(359, 57%, 25%);
-  --primary-800: #4C0E0F;
-  --primary-900: #06102B;
+  --primary-800: #4c0e0f;
+  --primary-900: #06102b;
 
   /* Secondary Colors */
-  --secondary-200: #FFF6D2;
-  --secondary-300: #FFEFB0;
-  --secondary-400: #FFE062;
+  --secondary-200: #fff6d2;
+  --secondary-300: #ffefb0;
+  --secondary-400: #ffe062;
 
   --radius: 0.625rem;
   --background: var(--neutral-50);
@@ -237,7 +239,6 @@
 
 /* Search word highlight flash animation */
 @keyframes search-word-flash {
-
   0%,
   100% {
     background-color: rgba(255, 215, 0, 0.8);
@@ -259,14 +260,18 @@
 
 /* Search page background */
 .search-page-bg {
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.9)), url('/hero-image.png');
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.9)),
+    url('/hero-image.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }
 
 .dark .search-page-bg {
-  background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.95), rgba(10, 10, 10, 0.9)), url('/hero-image.png');
+  background-image:
+    linear-gradient(to bottom, rgba(23, 23, 23, 0.95), rgba(10, 10, 10, 0.9)),
+    url('/hero-image.png');
 }
 
 /* Verse of the Day: heart confetti burst */
@@ -319,7 +324,7 @@
 
 /* Streak day: dark circle */
 .streak-day button {
-  background-color: #4C0E0F !important;
+  background-color: #4c0e0f !important;
   color: white !important;
   border-radius: 9999px !important;
   position: relative;
@@ -346,7 +351,7 @@
   top: 50%;
   width: 50%;
   height: 3px;
-  background-color: #4C0E0F;
+  background-color: #4c0e0f;
   transform: translateY(-50%);
   z-index: 1;
 }
@@ -363,7 +368,7 @@
   top: 50%;
   width: 50%;
   height: 3px;
-  background-color: #4C0E0F;
+  background-color: #4c0e0f;
   transform: translateY(-50%);
   z-index: 1;
 }

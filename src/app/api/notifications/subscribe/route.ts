@@ -5,13 +5,9 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
 
-    const res = await serverAxiosInstance.post(
-      `/notifications/subscribe`,
-      body,
-      {
-        validateStatus: () => true,
-      },
-    )
+    const res = await serverAxiosInstance.post(`/notifications/subscribe`, body, {
+      validateStatus: () => true,
+    })
 
     if (res.status < 200 || res.status >= 300) {
       return NextResponse.json(

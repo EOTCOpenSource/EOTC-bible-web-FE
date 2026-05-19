@@ -14,7 +14,7 @@ const getAuthToken = async () => {
 
 const unauthorizedResponse = NextResponse.json(
   { error: 'Unauthorized. Please login first.' },
-  { status: 401 }
+  { status: 401 },
 )
 
 const notFoundResponse = NextResponse.json({ error: 'Highlight ID is required' }, { status: 400 })
@@ -44,9 +44,12 @@ export async function GET(_: NextRequest, { params }: Params) {
 
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to fetch highlight',
+        error:
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          'Failed to fetch highlight',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }
@@ -78,9 +81,12 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to update highlight',
+        error:
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          'Failed to update highlight',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }
@@ -110,9 +116,12 @@ export async function DELETE(_: NextRequest, { params }: Params) {
 
     return NextResponse.json(
       {
-        error: error.response?.data?.error || error.response?.data?.message || 'Failed to delete highlight',
+        error:
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          'Failed to delete highlight',
       },
-      { status: error.response?.status || 500 }
+      { status: error.response?.status || 500 },
     )
   }
 }

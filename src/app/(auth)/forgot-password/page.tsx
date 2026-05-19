@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
-import { useTranslations } from 'next-intl' 
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 type ForgotPasswordForm = {
@@ -26,11 +26,11 @@ export default function ForgotPasswordPage() {
 
   function maskEmail(email: string) {
     const [localPart, domain] = email.split('@')
-    if (!domain || localPart.length < 3) return email 
+    if (!domain || localPart.length < 3) return email
 
     const start = localPart.slice(0, 2)
     const end = localPart.slice(-2)
-    const masked = '*'.repeat(Math.max(localPart.length - 4, 3)) 
+    const masked = '*'.repeat(Math.max(localPart.length - 4, 3))
 
     return `${start}${masked}${end}@${domain}`
   }
@@ -71,16 +71,17 @@ export default function ForgotPasswordPage() {
 
   return (
     <section className="flex min-h-screen items-center justify-center p-4 dark:bg-neutral-900">
-      <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 text-center shadow-lg dark:bg-neutral-800 dark:border dark:border-neutral-700">
+      <div className="w-full max-w-md rounded-xl bg-gray-300 p-8 text-center shadow-lg dark:border dark:border-neutral-700 dark:bg-neutral-800">
         {!emailSent ? (
           <>
             <h1 className="text-2xl font-bold dark:text-white">{t('title')}</h1>
-            <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-              {t('description')}
-            </p>
+            <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">{t('description')}</p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-2">
-              <label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 {t('fields.emailAddress')}
               </label>
               <Input
@@ -135,7 +136,10 @@ export default function ForgotPasswordPage() {
               </button>
               <br />
               {t('emailSent.wrongEmail')}{' '}
-              <button onClick={handleChangeEmail} className="ml-1 text-[#621B1C] underline dark:text-red-400">
+              <button
+                onClick={handleChangeEmail}
+                className="ml-1 text-[#621B1C] underline dark:text-red-400"
+              >
                 {t('buttons.changeEmail')}
               </button>
             </p>

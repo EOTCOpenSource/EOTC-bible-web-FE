@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-const makeStorageKey = (userId?: string | null) =>
-  `planTemplateBookmarks:v1:${userId || 'guest'}`
+const makeStorageKey = (userId?: string | null) => `planTemplateBookmarks:v1:${userId || 'guest'}`
 
 const readSlugs = (key: string): string[] => {
   try {
@@ -31,10 +30,7 @@ export const usePlanTemplateBookmarks = (userId?: string | null) => {
     setIsReady(true)
   }, [storageKey])
 
-  const isBookmarked = useCallback(
-    (slug: string) => slugs.includes(slug),
-    [slugs],
-  )
+  const isBookmarked = useCallback((slug: string) => slugs.includes(slug), [slugs])
 
   const toggleBookmark = useCallback(
     (slug: string) => {
@@ -49,4 +45,3 @@ export const usePlanTemplateBookmarks = (userId?: string | null) => {
 
   return { isReady, slugs, isBookmarked, toggleBookmark }
 }
-

@@ -96,7 +96,7 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
         <div className="space-y-4 py-4">
           {/* Source tag — non-editable, shows where the note came from */}
           {sourceLabel && (
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 dark:bg-amber-950/40 px-3 py-1 text-xs font-medium text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700 dark:border-amber-800/50 dark:bg-amber-950/40 dark:text-amber-400">
               <BookOpen size={12} />
               <span>{sourceLabel}</span>
             </div>
@@ -110,13 +110,13 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter a title for your note..."
-              className="w-full rounded-md border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4C0E0F]/20 dark:focus:ring-amber-500/20 focus:outline-none"
+              className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-[#4C0E0F]/20 focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder-gray-500 dark:focus:ring-amber-500/20"
             />
           </div>
 
           {/* Quoted verse text for context */}
           {verseContext && (
-            <div className="rounded-lg border border-gray-100 dark:border-neutral-700 bg-gray-50 dark:bg-neutral-800/50 p-3 text-sm text-gray-600 dark:text-gray-400">
+            <div className="rounded-lg border border-gray-100 bg-gray-50 p-3 text-sm text-gray-600 dark:border-neutral-700 dark:bg-neutral-800/50 dark:text-gray-400">
               <p className="mb-1 font-semibold text-gray-700 dark:text-gray-300">
                 {verseContext.book} {verseContext.chapter}:{verseContext.verse}
               </p>
@@ -132,7 +132,7 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
               onChange={(e) => setContent(e.target.value)}
               placeholder="Write your note here..."
               rows={5}
-              className="w-full resize-none rounded-md border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4C0E0F]/20 dark:focus:ring-amber-500/20 focus:outline-none"
+              className="w-full resize-none rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-[#4C0E0F]/20 focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:placeholder-gray-500 dark:focus:ring-amber-500/20"
             />
           </div>
 
@@ -144,7 +144,7 @@ export const AddNoteModal = ({ isOpen, onClose, verseContext }: AddNoteModalProp
             />
             <label
               htmlFor="public-note"
-              className="cursor-pointer text-sm text-gray-700 dark:text-gray-300 select-none"
+              className="cursor-pointer text-sm text-gray-700 select-none dark:text-gray-300"
             >
               Make this note public
             </label>

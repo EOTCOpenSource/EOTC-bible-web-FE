@@ -117,6 +117,7 @@
         "confirmPassword": "Jecha iccitii kee irra deebi'ii galchi"
       },
       "password": {
+        "lowercase": "Yoo xiqqaate qubee xiqqaa 1",
         "uppercase": "Yoo xiqqaate qubee guddaa 1",
         "number": "Yoo xiqqaate lakkoofsa 1",
         "special": "Yoo xiqqaate mallattoo addaa 1",

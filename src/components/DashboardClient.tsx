@@ -44,10 +44,10 @@ export default function DashboardClient() {
     }
 
     fetchProfile()
-    flushVerseQueue().catch(() => { })
-    loadProgress().catch(() => { })
-    loadBookmarks().catch(() => { })
-    loadAchievements().catch(() => { })
+    flushVerseQueue().catch(() => {})
+    loadProgress().catch(() => {})
+    loadBookmarks().catch(() => {})
+    loadAchievements().catch(() => {})
   }, [t, flushVerseQueue, loadProgress, loadBookmarks, loadAchievements])
 
   if (loading)
@@ -96,7 +96,8 @@ export default function DashboardClient() {
 
   const totalAchievements = achievements.length
   const achievementsUnlocked = achievements.filter((a: any) => a.unlocked).length
-  const achievementPct = totalAchievements > 0 ? Math.round((achievementsUnlocked / totalAchievements) * 100) : 0
+  const achievementPct =
+    totalAchievements > 0 ? Math.round((achievementsUnlocked / totalAchievements) * 100) : 0
 
   const lastRead = progress.lastRead
 
@@ -107,7 +108,7 @@ export default function DashboardClient() {
       bookId: lastRead.book,
       chapter: lastRead.chapter,
       verseStart: lastRead.verseStart,
-      subtitle: 'Click to continue reading'
+      subtitle: 'Click to continue reading',
     })
   } else if (progress.chaptersRead && Object.keys(progress.chaptersRead).length > 0) {
     // Fallback to recent chapters from tracking if lastRead is not explicitly set
@@ -120,7 +121,7 @@ export default function DashboardClient() {
           bookId: book,
           chapter: chapters[chapters.length - 1],
           verseStart: 1,
-          subtitle: 'Click to read'
+          subtitle: 'Click to read',
         })
       }
       if (recentlyReadItems.length >= 3) break
@@ -135,7 +136,7 @@ export default function DashboardClient() {
         bookId: bookmark.bookId,
         chapter: bookmark.chapter,
         verseStart: bookmark.verseStart,
-        subtitle: 'Click to read'
+        subtitle: 'Click to read',
       })
     })
   }
@@ -146,8 +147,8 @@ export default function DashboardClient() {
 
   return (
     <div className="flex w-full flex-col gap-6 py-8">
-      <div className="rounded-xl border border-gray-400 dark:border-neutral-800 p-2 sm:p-6">
-        <div className="mb-4 flex items-center gap-1 p-2 text-[#4C0E0F] dark:text-red-400 sm:p-0">
+      <div className="rounded-xl border border-gray-400 p-2 sm:p-6 dark:border-neutral-800">
+        <div className="mb-4 flex items-center gap-1 p-2 text-[#4C0E0F] sm:p-0 dark:text-red-400">
           <BookOpen size={20} />
           <h4 className="text-lg font-medium text-black dark:text-white">Recently Read</h4>
         </div>
@@ -156,15 +157,14 @@ export default function DashboardClient() {
             recentlyReadItems.map((item) => (
               <div
                 key={item.id}
-                onClick={() =>
-                  handleReadBook(item.bookId, item.chapter, item.verseStart)
-                }
-                className="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 dark:border-neutral-800 p-1 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors md:rounded-2xl md:px-6 md:py-2"
+                onClick={() => handleReadBook(item.bookId, item.chapter, item.verseStart)}
+                className="flex cursor-pointer items-center justify-between rounded-lg border border-gray-300 p-1 transition-colors hover:bg-gray-50 md:rounded-2xl md:px-6 md:py-2 dark:border-neutral-800 dark:hover:bg-neutral-800/50"
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="flex flex-col gap-0">
-                    <p className="text-sm md:text-lg text-black dark:text-white capitalize">
-                      {item.bookId.replace(/-/g, ' ')} {item.chapter}{item.verseStart && item.id === 'last-read' ? `:${item.verseStart}` : ''}
+                    <p className="text-sm text-black capitalize md:text-lg dark:text-white">
+                      {item.bookId.replace(/-/g, ' ')} {item.chapter}
+                      {item.verseStart && item.id === 'last-read' ? `:${item.verseStart}` : ''}
                     </p>
                     <span className="text-xs font-light text-gray-500 md:text-base">
                       {item.subtitle}
@@ -175,28 +175,30 @@ export default function DashboardClient() {
               </div>
             ))
           ) : (
-            <div className="p-4 text-center text-sm md:text-base text-gray-500 dark:text-gray-400">
+            <div className="p-4 text-center text-sm text-gray-500 md:text-base dark:text-gray-400">
               You haven't read any chapters yet. Start your journey!
             </div>
           )}
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center rounded-xl border border-gray-400 dark:border-neutral-800 px-8 pt-6 pb-3 text-center md:px-20 md:pb-10">
+      <div className="flex flex-col items-center justify-center rounded-xl border border-gray-400 px-8 pt-6 pb-3 text-center md:px-20 md:pb-10 dark:border-neutral-800">
         <div className="flex flex-col items-center justify-center text-[#4C0E0F] dark:text-red-400">
           <div className="h-6 w-6 md:h-15 md:w-15">
             <Award className="h-full w-full" />
           </div>
-          <h4 className="text-xs font-medium md:text-2xl text-black dark:text-white mt-2">Great Progress!</h4>
+          <h4 className="mt-2 text-xs font-medium text-black md:text-2xl dark:text-white">
+            Great Progress!
+          </h4>
         </div>
-        <p className="text-[10px] sm:text-[12px] font-light md:text-sm text-gray-600 dark:text-gray-400 mt-1">
+        <p className="mt-1 text-[10px] font-light text-gray-600 sm:text-[12px] md:text-sm dark:text-gray-400">
           {achievementsUnlocked > 0
             ? `You've unlocked ${achievementsUnlocked} out of ${totalAchievements} achievements. Keep going!`
             : 'Start reading to track your progress and unlock achievements!'}
         </p>
-        <div className="relative my-2 h-1 w-full rounded-xl bg-gray-300 dark:bg-neutral-800 sm:my-5 sm:h-2">
+        <div className="relative my-2 h-1 w-full rounded-xl bg-gray-300 sm:my-5 sm:h-2 dark:bg-neutral-800">
           <span
-            className="absolute flex h-full rounded-xl bg-[#4C0E0F] dark:bg-red-500 transition-all duration-1000"
+            className="absolute flex h-full rounded-xl bg-[#4C0E0F] transition-all duration-1000 dark:bg-red-500"
             style={{ width: `${achievementPct}%` }}
           ></span>
         </div>

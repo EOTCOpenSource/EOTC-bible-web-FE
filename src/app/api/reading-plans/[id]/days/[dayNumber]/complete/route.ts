@@ -5,7 +5,7 @@ import serverAxiosInstance from '@/lib/server-axios'
 
 export async function PATCH(
   _: Request,
-  { params }: { params: Promise<{ id: string; dayNumber: string }> }
+  { params }: { params: Promise<{ id: string; dayNumber: string }> },
 ) {
   const cookieStore = await cookies()
   const { id, dayNumber } = await params
@@ -20,7 +20,7 @@ export async function PATCH(
     {
       headers: { Authorization: `Bearer ${token}` },
       validateStatus: () => true,
-    }
+    },
   )
 
   return NextResponse.json(res.data, { status: res.status })

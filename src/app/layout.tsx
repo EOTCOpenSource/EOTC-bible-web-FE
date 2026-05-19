@@ -85,8 +85,8 @@ export async function generateMetadata() {
     alternates: {
       canonical: 'https://nehemiah-osc.org',
       languages: {
-        'en': 'https://nehemiah-osc.org',
-        'am': 'https://nehemiah-osc.org',
+        en: 'https://nehemiah-osc.org',
+        am: 'https://nehemiah-osc.org',
         'x-default': 'https://nehemiah-osc.org',
       },
     },
@@ -160,11 +160,14 @@ export default async function LocaleLayout({ children }: Props) {
         )}
       >
         <NextIntlClientProvider locale={resolvedLocale} messages={messages}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <OfflineStatusProvider />
-            <GoogleAuthProvider>
-              {children}
-            </GoogleAuthProvider>
+            <GoogleAuthProvider>{children}</GoogleAuthProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
 
