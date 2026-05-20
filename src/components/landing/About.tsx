@@ -1,9 +1,11 @@
 'use client'
 
 import { useUIStore } from '@/stores/uiStore'
-import { ArrowUpRight, MoveLeft, MoveRight } from 'lucide-react'
+import { ArrowUpRight, MoveLeft, MoveRight, Book, Bird, Church, History, Globe, ScrollText } from 'lucide-react'
 import React from 'react'
 import Image from 'next/image'
+
+const cardIcons = [Book, Bird, Church, History, Globe, ScrollText]
 
 import { useLocalizedContent } from '@/hooks/use-localized-context'
 import amLocale from '../../messages/am.json'
@@ -25,22 +27,42 @@ const aboutMap: Record<string, AboutContent> = {
 const About: React.FC = () => {
   const { setAboutScrollRef, scrollAboutLeft, scrollAboutRight } = useUIStore()
   const about = useLocalizedContent(aboutMap)
-  const allCards = [...about.cards, ...about.cards]
+  const allCards = about.cards
 
   return (
     <section
       id="about"
-      className="flex w-full flex-col items-center justify-center gap-10 bg-gradient-to-r from-[#4C0E0F] to-[#2C0607] py-20"
+      className="flex w-full flex-col items-center justify-center bg-gradient-to-r from-[#4C0E0F] to-[#2C0607]"
     >
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row md:items-start">
+      {/* Marquee Banner */}
+      <div className="flex w-full overflow-hidden bg-[#FAF0EA] py-3 border-y border-[#4C0E0F]/20">
+        <div className="flex whitespace-nowrap animate-marquee items-center shrink-0">
+          {[...Array(15)].map((_, i) => (
+            <React.Fragment key={i}>
+              <span className="text-[#1A1A19] font-sans font-semibold text-[34px] leading-[0.8] tracking-[-0.03em] px-6">About EOTC Bible</span>
+              <span className="text-[#4C0E0F] text-[34px] px-2 leading-[0.8]">☨</span>
+            </React.Fragment>
+          ))}
+        </div>
+        <div className="flex whitespace-nowrap animate-marquee items-center shrink-0">
+          {[...Array(15)].map((_, i) => (
+            <React.Fragment key={i}>
+              <span className="text-[#1A1A19] font-sans font-semibold text-[34px] leading-[0.8] tracking-[-0.03em] px-6">About EOTC Bible</span>
+              <span className="text-[#4C0E0F] text-[34px] px-2 leading-[0.8]">☨</span>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-20">
+        <div className="flex flex-col lg:flex-row lg:items-start">
           {/* Hero Section */}
-          <div className="flex h-auto w-full flex-col-reverse md:h-[430px] md:w-1/3 md:flex-col">
-            <h2 className="mb-2 w-full text-left text-[36px] font-semibold leading-[115%] tracking-[-0.03em] text-white md:mb-4 md:w-[466px]">
-              {about.hero.title.line1} <br className="md:hidden" />
-              {about.hero.title.line2} <br className="hidden md:block" />
+          <div className="flex h-auto w-full flex-col-reverse lg:h-[430px] lg:w-1/3 lg:flex-col">
+            <h2 className="mb-2 w-full text-left text-[36px] font-semibold leading-[115%] tracking-[-0.03em] text-white lg:mb-4 lg:w-[466px]">
+              {about.hero.title.line1} <br className="lg:hidden" />
+              {about.hero.title.line2} <br className="hidden lg:block" />
               {about.hero.title.line3}{' '}
-              <span className="font-playfair font-semibold italic tracking-[-0.03em] text-yellow-400">
+              <span className="font-migra-semibold tracking-[-0.03em] text-secondary">
                 {about.hero.title.highlight}
               </span>
             </h2>
@@ -49,14 +71,14 @@ const About: React.FC = () => {
               alt={about.hero.imageAlt || 'Unique Scriptures'}
               width={600}
               height={400}
-              className="mb-8 h-auto w-full rounded-lg object-cover shadow-lg sm:h-96 md:mb-0"
+              className="mb-8 h-auto w-full rounded-lg object-cover shadow-lg sm:h-96 lg:mb-0"
               sizes="(max-width: 768px) 100vw, 600px"
             />
           </div>
 
           {/* Description + CTA + Cards */}
-          <div className="mt-0 w-full md:mt-0 md:w-2/3 md:pl-12">
-            <p className="text-gray-200 md:w-2/3">{about.hero.description}</p>
+          <div className="mt-0 w-full lg:mt-0 lg:w-2/3 lg:pl-12">
+            <p className="text-gray-200 lg:w-2/3">{about.hero.description}</p>
 
             {/* CTA Button */}
             <a
@@ -72,22 +94,28 @@ const About: React.FC = () => {
             {/* Cards Carousel */}
             <div className="relative mt-28">
               <div
-                className="scrollbar-hide flex snap-x snap-mandatory scroll-px-4 flex-nowrap gap-4 overflow-x-hidden pb-4"
+                className="scrollbar-hide flex snap-x snap-mandatory scroll-px-4 flex-nowrap gap-4 overflow-x-auto lg:overflow-x-hidden pb-4"
                 ref={setAboutScrollRef}
               >
-                {allCards.map((card, index) => (
-                  <div
-                    key={`${card.title}-${index}`}
-                    className="h-[188px] w-full flex-shrink-0 snap-center rounded-lg bg-white dark:bg-neutral-800 p-6 text-left shadow-md sm:w-[303px]"
-                  >
-                    <h3 className="font-bold text-amber-900 dark:text-amber-400">{card.title}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">{card.description}</p>
-                  </div>
-                ))}
+                {allCards.map((card, index) => {
+                  const Icon = cardIcons[index % cardIcons.length]
+                  return (
+                    <div
+                      key={`${card.title}-${index}`}
+                      className="flex h-[188px] w-full flex-col flex-shrink-0 snap-center rounded-lg bg-white dark:bg-neutral-800 p-6 text-left shadow-md sm:w-[303px]"
+                    >
+                      <div className="mb-4 flex h-8 w-8 items-center justify-center rounded-md border border-[#4C0E0F]/20 bg-[#FAF0EA] text-[#4C0E0F] dark:border-[#FAF0EA]/20 dark:bg-[#4C0E0F]/40 dark:text-[#FAF0EA]">
+                        <Icon size={18} strokeWidth={1.5} />
+                      </div>
+                      <h3 className="font-bold text-amber-900 dark:text-amber-400">{card.title}</h3>
+                      <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{card.description}</p>
+                    </div>
+                  )
+                })}
               </div>
 
               {/* Navigation Buttons */}
-              <div className="mt-4 flex justify-start space-x-0.5 md:absolute md:-top-20 md:right-0">
+              <div className="mt-4 flex justify-start space-x-0.5 lg:absolute lg:-top-20 lg:right-0">
                 <button
                   onClick={scrollAboutLeft}
                   className="rounded-xs bg-yellow-400 p-2 text-[#4C0E0F] shadow-md"

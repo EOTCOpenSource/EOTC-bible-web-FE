@@ -19,11 +19,11 @@ const Feature: React.FC<FeatureProps> = ({ title, description, image, link, reve
   const { isLoggedIn } = useUserStore()
   return (
     <div
-      className={`mx-auto flex w-full flex-col-reverse items-center justify-center gap-8 md:h-[405px] md:max-w-[1065px] md:flex-row md:justify-between md:gap-0 ${
-        reverse ? 'md:flex-row-reverse' : ''
+      className={`mx-auto flex w-full flex-col-reverse items-center justify-center gap-8 lg:h-[405px] lg:max-w-[1065px] lg:flex-row lg:justify-between lg:gap-0 ${
+        reverse ? 'lg:flex-row-reverse' : ''
       }`}
     >
-      <div className="flex flex-col justify-center md:w-[365px]">
+      <div className="flex flex-col justify-center lg:w-[365px]">
         <h3 className="text-2xl font-bold text-[#1A1A19] dark:text-white">{title}</h3>
         <p className="mt-4 text-gray-600 dark:text-gray-300">{description}</p>
         <Link href={isLoggedIn ? link : '/login'} className="mt-8 flex w-fit">
@@ -39,7 +39,7 @@ const Feature: React.FC<FeatureProps> = ({ title, description, image, link, reve
         </Link>
       </div>
 
-      <div className="w-full md:h-[405px] md:w-[546px]">
+      <div className="w-full lg:h-[405px] lg:w-[546px]">
         <Image
           src={image}
           alt={title}

@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get(ENV.jwtCookieName)?.value
@@ -49,7 +49,10 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const res = await serverAxiosInstance.get(`/reading-plans`, {
+    const searchParams = req.nextUrl.searchParams.toString()
+    const endpoint = searchParams ? `/reading-plans?${searchParams}` : `/reading-plans`
+
+    const res = await serverAxiosInstance.get(endpoint, {
       headers: { Authorization: `Bearer ${token}` },
       validateStatus: () => true,
     })

@@ -123,3 +123,14 @@
     @apply bg-background text-foreground;
   }
 } */
+
+/* Site name styling used in the navbar */
+.site-name {
+  font-family: var(--font-britti-sans);
+  font-weight: 600;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 90%;
+  color: #3A0D0E;
+  display: inline-block;
+}

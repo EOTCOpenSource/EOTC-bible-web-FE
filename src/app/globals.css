@@ -11,8 +11,12 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-britti-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-heading: var(--font-polysans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-polysans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-polysans-wide: var(--font-polysans-wide), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-amharic: var(--font-abyssinica), "Noto Sans Ethiopic", serif;
   --font-playfair: var(--font-playfair), serif;
+  --font-migra: var(--font-migra-local), serif;
+  --font-migra-semibold: var(--font-migra-semibold-local), serif;
 
   /* Neutral */
   --color-neutral-50: var(--neutral-50);
@@ -228,6 +232,15 @@
 
 .highlight-verse-animation {
   animation: highlight-verse 2s ease-out;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
 }
 
 .verse-scroll-margin {

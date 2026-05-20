@@ -158,8 +158,8 @@ const VerseOfTheDay = () => {
         <div className="absolute inset-0 bg-white/20 dark:bg-[#0A0A0A]/85" />
       </div>
 
-      <div className="container relative z-10 mx-auto flex flex-col items-center px-4 md:flex-row">
-        <div className="w-full md:w-1/2 md:pr-12">
+      <div className="container relative z-10 mx-auto flex flex-col items-center px-4 lg:flex-row">
+        <div className="w-full lg:w-1/2 lg:pr-12">
           <div className="mb-4 flex items-center">
             <Sun className="mr-3 text-[#621B1C] dark:text-red-400" size={32} />
             <h2 className="text-3xl font-bold text-[#621B1C] dark:text-red-400">{t('title')}</h2>
@@ -241,7 +241,7 @@ const VerseOfTheDay = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-8 w-full md:mt-0 md:w-1/2">
+        <div className="mt-8 w-full lg:mt-0 lg:w-1/2">
           <Image
             src="/verse-of-the-day-image.png"
             alt={t('alt')}

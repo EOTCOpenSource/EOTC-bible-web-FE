@@ -181,7 +181,7 @@ export const SearchInput = ({
         <div className="flex h-full items-center bg-[#392D2D] p-3">
           <Search className="text-white" size={variant === 'compact' ? 18 : 20} />
         </div>
-        <div className="relative flex h-full flex-1 items-center">
+        <div className="relative flex h-full flex-1 items-center bg-gray-100 dark:bg-neutral-800">
           <input
             ref={inputRef}
             type="text"
@@ -191,7 +191,7 @@ export const SearchInput = ({
             onFocus={handleFocus}
             placeholder={placeholder}
             className={cn(
-              'h-full flex-1 bg-gray-100 dark:bg-neutral-800 dark:text-white dark:placeholder-gray-400 px-2 sm:px-3 md:px-4 py-2 focus:outline-none',
+              'h-full flex-1 bg-transparent dark:text-white dark:placeholder-gray-400 px-2 sm:px-3 md:px-4 py-2 focus:outline-none w-full',
               className,
             )}
           />

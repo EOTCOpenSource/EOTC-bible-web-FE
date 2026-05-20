@@ -123,7 +123,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-8">
               <Link href="/" className="flex items-center space-x-2">
                 <Image src="/logo.png" alt="EOTCBible Logo" className="h-8 w-8" width={32} height={32} />
-                <span className="text-xl font-bold">{t('siteName')}</span>
+                <span className="site-name ">{t('siteName')}</span>
               </Link>
               <div className="hidden items-center space-x-8 md:flex">
                 <Link href="/read-online" className="text-black dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">

@@ -2,7 +2,8 @@ import { getLocaleFromCookie } from '@/i18n/locale'
 import { cn } from '@/lib/utils'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { Abyssinica_SIL, Inter, Manrope, Playfair_Display } from 'next/font/google'
+import { Abyssinica_SIL, Playfair_Display } from 'next/font/google'
+import localFont from 'next/font/local'
 import Script from 'next/script'
 import { ReactNode } from 'react'
 import './globals.css'
@@ -17,15 +18,56 @@ const abyssinicaFont = Abyssinica_SIL({
   weight: '400',
 })
 
-const interFont = Inter({
-  subsets: ['latin'],
-  variable: '--font-britti-sans', // Substitute for Britti Sans
+const brittiSansFont = localFont({
+  src: [
+    {
+      path: '../fonts/BrittiSans-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/BrittiSans-SemiBold.otf',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-britti-sans',
   display: 'swap',
 })
 
-const manropeFont = Manrope({
-  subsets: ['latin'],
-  variable: '--font-polysans', // Substitute for PolySans
+const polySansFont = localFont({
+  src: [
+    {
+      path: '../fonts/PolySans-Median.otf',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-polysans',
+  display: 'swap',
+})
+
+const polySansWideFont = localFont({
+  src: [
+    {
+      path: '../fonts/PolySans-NeutralMono.otf',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-polysans-wide',
+  display: 'swap',
+})
+
+const migraFont = localFont({
+  src: '../fonts/Migra-MediumItalic.otf',
+  variable: '--font-migra-local',
+  display: 'swap',
+})
+
+const migraSemiboldFont = localFont({
+  src: '../fonts/Migra-SemiboldItalic.otf',
+  variable: '--font-migra-semibold-local',
   display: 'swap',
 })
 
@@ -154,9 +196,12 @@ export default async function LocaleLayout({ children }: Props) {
         className={cn(
           'bg-background min-h-screen font-sans antialiased',
           abyssinicaFont.variable,
-          interFont.variable,
-          manropeFont.variable,
+          brittiSansFont.variable,
+          polySansFont.variable,
+          migraFont.variable,
+          migraSemiboldFont.variable,
           playfairFont.variable,
+          polySansWideFont.variable,
         )}
       >
         <NextIntlClientProvider locale={resolvedLocale} messages={messages}>

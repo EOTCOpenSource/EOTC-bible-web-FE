@@ -89,13 +89,13 @@ export default function OtpForm() {
           rules={{ required: true, minLength: 6, maxLength: 6 }}
           render={({ field }) => (
             <div className={isLoading ? 'opacity-50 pointer-events-none' : ''}>
-                <InputOTP maxLength={6} {...field} containerClassName="gap-[10px]" disabled={isLoading}>
-                <InputOTPGroup className="gap-[10px]">
+                <InputOTP maxLength={6} {...field} containerClassName="gap-[6px] sm:gap-[10px]" disabled={isLoading}>
+                <InputOTPGroup className="gap-[6px] sm:gap-[10px]">
                     {[...Array(6)].map((_, i) => (
                     <InputOTPSlot
                         key={i}
                         index={i}
-                        className="h-[60px] w-[60px] rounded-[8px] border border-gray-300 dark:border-neutral-600 dark:bg-neutral-800 dark:text-white"
+                        className="h-[50px] w-[50px] sm:h-[60px] sm:w-[60px] rounded-[8px] border border-gray-300 dark:border-neutral-600 dark:bg-neutral-800 dark:text-white"
                         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, i)}
                         ref={(el) => {
                         inputRefs.current[i] = el as HTMLInputElement

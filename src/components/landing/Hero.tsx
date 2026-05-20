@@ -1,15 +1,17 @@
 'use client'
 import React from 'react'
 import { ArrowUpRight } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 
 const Hero = () => {
   const t = useTranslations('Hero')
+  const locale = useLocale()
+  const isAmharic = locale === 'am'
 
   return (
-    <section className="relative min-h-screen w-full text-white overflow-hidden">
+    <section className={`relative min-h-screen w-full text-white overflow-hidden ${isAmharic ? 'md:min-h-[950px]' : ''}`}>
       <Image
         src="/hero-image.png"
         alt="Hero Background"
@@ -19,15 +21,15 @@ const Hero = () => {
         sizes="100vw"
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[rgba(127,29,29,0.9)] via-[rgba(127,29,29,0.7)] via-28% to-transparent"></div>
-      <div className="relative container mx-auto flex h-full min-h-[766px] flex-col justify-center px-4">
-        <div className="mt-48 w-full text-left md:absolute md:top-[319px] md:left-[48px] md:mt-0 md:w-[554px]">
+      <div className={`relative container mx-auto flex h-full flex-col justify-center px-4 ${isAmharic ? 'min-h-[950px]' : 'min-h-[766px]'}`}>
+        <div className={`mt-48 w-full text-left md:absolute md:top-[319px] md:left-[48px] md:mt-0 ${isAmharic ? 'md:w-[650px] md:max-w-[55%]' : 'md:w-[554px]'}`}>
           <p className="inline-block rounded-full bg-[#41101085] px-3 py-1 text-[14px] italic text-[#FFD2D2] leading-none">
             {t('developedBy')} &gt;
           </p>
-          <h1 className="mt-2 text-[40px] font-semibold leading-[91%] tracking-[-0.03em] md:text-[84px] [text-shadow:0px_4px_7px_rgba(62,49,49,0.14)]">
+          <h1 className={`mt-2 font-semibold leading-[91%] tracking-[-0.03em] [text-shadow:0px_4px_7px_rgba(62,49,49,0.14)] ${isAmharic ? 'text-[32px] md:text-[64px]' : 'text-[40px] md:text-[84px]'}`}>
             {t.rich('title', {
               eth: (chunks) => (
-                <span className="font-playfair font-semibold italic tracking-[-0.04em] text-yellow-400">
+                <span className="font-migra font-normal text-secondary">
                   {chunks}
                 </span>
               )
@@ -45,7 +47,7 @@ const Hero = () => {
         </div>
 
         {/* APP DOWNLOAD CARD */}
-        <div className="mx-auto mt-8 mb-8 w-full max-w-md rounded-lg bg-gradient-to-t from-gray-100 to-white dark:from-neutral-800 dark:to-neutral-900 p-6 text-black dark:text-white shadow-lg md:absolute md:right-6 md:bottom-4 md:mb-0 md:w-[480px]">
+        <div className={`mx-auto mt-8 mb-8 w-full max-w-md rounded-lg bg-gradient-to-b from-white to-[#FFF5F5] dark:bg-none dark:bg-neutral-900 dark:[background-image:none] border border-[#FFCECE85] dark:border-neutral-600 p-6 text-black dark:text-white shadow-lg md:absolute md:right-6 md:bottom-4 md:mb-0 md:w-[480px] ${isAmharic ? 'md:max-w-[40%] lg:max-w-none' : ''}`}>
           {/* MOBILE LAYOUT */}
           <div className="block text-center md:hidden">
             <div className="flex items-center justify-center">

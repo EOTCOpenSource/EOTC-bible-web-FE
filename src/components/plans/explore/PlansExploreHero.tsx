@@ -19,7 +19,7 @@ export function PlansExploreHero({ onExploreClick }: Props) {
       <div className="mx-auto w-full max-w-6xl px-4 pt-10 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div className="min-w-0">
-            <h1 className="text-[#1A1A19] dark:text-neutral-100 font-heading tracking-tight leading-[0.95] text-5xl md:text-6xl">
+            <h1 className="text-[#1A1A19] dark:text-neutral-100 font-polysans-wide font-normal tracking-tight leading-[0.95] text-5xl md:text-6xl">
               {t.rich('heroTitle', {
                 br: () => <br />
               })}

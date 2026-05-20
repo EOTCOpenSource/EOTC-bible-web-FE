@@ -4,6 +4,8 @@ import { SimilarPlansCarousel } from '@/components/plans/plan-details/SimilarPla
 import Navbar from '@/components/landing/Navbar'
 import Footer from '@/components/landing/Footer'
 import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
+import { getTranslations as getPlanTranslations } from 'next-intl/server'
 
 export default async function PlanDetailsPage({
   params,
@@ -11,19 +13,37 @@ export default async function PlanDetailsPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const template = getPlanTemplateBySlug(slug)
+  const templateBase = getPlanTemplateBySlug(slug)
 
-  if (!template) {
+  if (!templateBase) {
     return (
       <main className="container mx-auto px-4 py-12">
-        <h1 className="text-2xl font-bold">Plan not found</h1>
-        <p className="mt-2 text-muted-foreground">This plan does not exist.</p>
+        <h1 className="text-2xl font-bold">{pd('notFound.title')}</h1>
+        <p className="mt-2 text-muted-foreground">{pd('notFound.description')}</p>
       </main>
     )
   }
 
+  const t = await getTranslations('DiscoverPlans')
+  const fallbackPlans: any[] = t.raw('fallbackPlans')
+  const pd = await getPlanTranslations('PlanDetail')
+  
+  const template = { ...templateBase }
+  const translatedPlan = fallbackPlans.find((p) => p.slug === slug)
+  if (translatedPlan) {
+    template.title = translatedPlan.title
+    template.description = translatedPlan.description
+  }
+
   const usePlanHref = `/dashboard/plans?template=${encodeURIComponent(template.slug)}`
-  const similar = PLAN_TEMPLATES.filter((p) => p.slug !== template.slug).slice(0, 5)
+  const similarBase = PLAN_TEMPLATES.filter((p) => p.slug !== template.slug).slice(0, 5)
+  const similar = similarBase.map(p => {
+    const tPlan = fallbackPlans.find(tp => tp.slug === p.slug)
+    if (tPlan) {
+      return { ...p, title: tPlan.title, description: tPlan.description }
+    }
+    return p
+  })
 
   return (
     <main className="bg-background w-full">
@@ -35,7 +55,7 @@ export default async function PlanDetailsPage({
 
         <div className="flex w-full px-0 md:px-12 items-end justify-between py-4 mt-6">
           <div className="relative w-fit font-semibold text-[#1a1918] dark:text-neutral-100 text-3xl tracking-[-0.90px] leading-6 whitespace-nowrap">
-            Similar Plans
+            {pd('similarPlans')}
           </div>
           <Image alt="" src="/figmaAssets/frame-118.svg" width={80} height={40} className="dark:invert" />
         </div>
