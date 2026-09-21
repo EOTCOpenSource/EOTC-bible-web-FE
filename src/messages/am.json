@@ -265,6 +265,8 @@
     "contactInfo": "አድራሻ እና ስልክ",
     "address": "አዲስ አበባ፣ ኢትዮጵያ",
     "contactUs": "አግኙን",
+    "privacyPolicy": "የግላዊነት ፖሊሲ (Privacy Policy)",
+    "termsOfService": "የአገልግሎት ውሎች (Terms of Service)",
     "copyright": "© {year} የኢ.ኦ.ተ.ቤ መጽሐፍ ቅዱስ:: ሁሉም መብቶች የተጠበቁ ናቸው።"
   },
   "Subscription": {

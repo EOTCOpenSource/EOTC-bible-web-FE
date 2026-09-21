@@ -13,15 +13,17 @@ export default function TermsAndConditionsPage() {
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8 text-center">
-          <Link
-            href="/register"
-            className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-          >
-            <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Registration
-          </Link>
+          <div className="flex items-center justify-start mb-4">
+            <Link
+              href="/"
+              className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+            >
+              <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Home
+            </Link>
+          </div>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl">
             Terms and Conditions
           </h1>
@@ -311,6 +313,9 @@ export default function TermsAndConditionsPage() {
 
         {/* Footer Links */}
         <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+          <Link href="/" className="hover:text-gray-900 dark:hover:text-white">
+            Home
+          </Link>
           <Link href="/privacy-policy" className="hover:text-gray-900 dark:hover:text-white">
             Privacy Policy
           </Link>

@@ -129,10 +129,25 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <p className="text-center text-gray-400">
-            {' '}
-            {t('copyright', { year: formatNumber(2026) })}
-          </p>
+          <div className="mt-8 border-t border-neutral-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+            <p className="text-center sm:text-left">
+              {t('copyright', { year: formatNumber(2026) })}
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              <Link
+                href="/privacy-policy"
+                className="hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                {t('privacyPolicy')}
+              </Link>
+              <Link
+                href="/terms-and-conditions"
+                className="hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                {t('termsOfService')}
+              </Link>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

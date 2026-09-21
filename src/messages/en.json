@@ -265,6 +265,8 @@
     "contactInfo": "Contact Info",
     "address": "Addis Ababa, Ethiopia",
     "contactUs": "Contact Us",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
     "copyright": "© {year} EOTCBible. All rights reserved."
   },
   "Subscription": {
