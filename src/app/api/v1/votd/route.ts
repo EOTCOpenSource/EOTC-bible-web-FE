@@ -9,8 +9,25 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 }
 
-const CACHE_HEADERS = {
-  'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400',
+function getCacheHeaders(isSpecificDateQuery: boolean) {
+  if (isSpecificDateQuery) {
+    return {
+      'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=86400',
+    }
+  }
+
+  // Calculate seconds remaining until next midnight in Ethiopia (Africa/Addis_Ababa, UTC+3)
+  const nowEth = new Date(new Date().toLocaleString('en-US', { timeZone: 'Africa/Addis_Ababa' }))
+  const nextMidnightEth = new Date(nowEth)
+  nextMidnightEth.setHours(24, 0, 0, 0)
+  const secondsUntilMidnight = Math.max(
+    60,
+    Math.floor((nextMidnightEth.getTime() - nowEth.getTime()) / 1000),
+  )
+
+  return {
+    'Cache-Control': `public, max-age=${secondsUntilMidnight}, s-maxage=${secondsUntilMidnight}, stale-while-revalidate=300`,
+  }
 }
 
 export async function OPTIONS() {
@@ -37,6 +54,8 @@ export async function GET(req: NextRequest) {
       searchParams.get('eth') ||
       (isEthCalendar ? dateParam : undefined)
 
+    const isSpecificDateQuery = Boolean(dateParam || ethDateParam)
+
     const result = await getVerseOfTheDay({
       date: isEthCalendar ? undefined : dateParam,
       ethDate: ethDateParam,
@@ -46,7 +65,7 @@ export async function GET(req: NextRequest) {
       status: 200,
       headers: {
         ...CORS_HEADERS,
-        ...CACHE_HEADERS,
+        ...getCacheHeaders(isSpecificDateQuery),
       },
     })
   } catch (error: any) {

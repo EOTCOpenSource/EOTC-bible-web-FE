@@ -200,8 +200,11 @@ export async function getVerseOfTheDay(options?: VotdOptions): Promise<VotdRespo
     }
     kenatInstance = new Kenat(d)
   } else {
-    // Current time in Africa/Addis_Ababa
-    kenatInstance = Kenat.now()
+    // Current time strictly in Africa/Addis_Ababa (East Africa Time, UTC+3)
+    const nowInEthiopia = new Date(
+      new Date().toLocaleString('en-US', { timeZone: 'Africa/Addis_Ababa' }),
+    )
+    kenatInstance = new Kenat(nowInEthiopia)
   }
 
   const et = kenatInstance.ethiopian
