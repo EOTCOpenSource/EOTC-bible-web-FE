@@ -23,9 +23,24 @@ export async function OPTIONS() {
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams
-    const dateParam = searchParams.get('date') || undefined
+    const isEthCalendar =
+      searchParams.get('calendar')?.toLowerCase() === 'ethiopian' ||
+      searchParams.get('cal')?.toLowerCase() === 'eth' ||
+      searchParams.has('eth') ||
+      searchParams.has('eth_date') ||
+      searchParams.has('ethDate')
 
-    const result = await getVerseOfTheDay({ date: dateParam })
+    const dateParam = searchParams.get('date') || undefined
+    const ethDateParam =
+      searchParams.get('eth_date') ||
+      searchParams.get('ethDate') ||
+      searchParams.get('eth') ||
+      (isEthCalendar ? dateParam : undefined)
+
+    const result = await getVerseOfTheDay({
+      date: isEthCalendar ? undefined : dateParam,
+      ethDate: ethDateParam,
+    })
 
     return NextResponse.json(result, {
       status: 200,

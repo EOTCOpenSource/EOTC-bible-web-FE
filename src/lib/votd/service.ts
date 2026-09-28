@@ -2,267 +2,30 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import Kenat from 'kenat'
 import { books } from '@/data/data'
+import { VerseLocation, VerseSelection, VotdResponse, VotdOptions } from './types'
+import {
+  ETHIOPIAN_MONTHS_AM,
+  FIXED_FEASTS_BY_ETH_MM_DD,
+  HOLY_WEEK_BY_EASTER_OFFSET,
+  GREAT_LENT_VERSES,
+  PASCHA_SEASON_VERSES,
+  ADVENT_FAST_VERSES,
+  FILSETA_FAST_VERSES,
+  NINEVEH_FAST_VERSES,
+  APOSTLES_FAST_VERSES,
+  DAILY_COMM_ETY_DAY,
+  WEEKDAY_OBSERVANCE,
+} from './constants'
 
-export type VerseLocation = {
-  bookNameEn: string
-  chapter: number
-  verse: number
-}
+export type { VerseLocation, VerseSelection, VotdResponse, VotdOptions }
+export { ETHIOPIAN_MONTHS_AM }
 
-export type VerseSelection = {
-  loc: VerseLocation
-  occasion: string
-  occasionAm: string
-}
-
-export type VotdResponse = {
-  status: 'success'
-  data: {
-    date: {
-      gregorian: string
-      ethiopian: {
-        year: number
-        month: number
-        day: number
-        monthNameAm: string
-        formattedAm: string
-      }
-    }
-    liturgical: {
-      occasion: string
-      occasionAm: string
-    }
-    verse: {
-      book: string
-      bookShort: string
-      bookId: string
-      chapter: number
-      verse: number
-      reference: string
-      text: string
-    }
-    url: string
-  }
-}
-
-export const ETHIOPIAN_MONTHS_AM = [
-  'መስከረም',
-  'ጥቅምት',
-  'ኅዳር',
-  'ታኅሣሥ',
-  'ጥር',
-  'የካቲት',
-  'መጋቢት',
-  'ሚያዝያ',
-  'ግንቦት',
-  'ሰኔ',
-  'ሐምሌ',
-  'ነሐሴ',
-  'ጳጉሜ',
-]
-
-// Fixed yearly feasts (Ethiopian month-day)
-const FIXED_FEASTS_BY_ETH_MM_DD: Record<string, VerseSelection> = {
-  '1-1': {
-    loc: { bookNameEn: 'Luke', chapter: 1, verse: 28 },
-    occasion: 'Meskerem 1 (Lideta / Commemoration)',
-    occasionAm: 'ልደታ ለማርያም / ቅዱስ ዮሐንስ መጥምቅ',
-  },
-  '1-17': {
-    loc: { bookNameEn: 'Galatians', chapter: 6, verse: 14 },
-    occasion: 'Meskel (Finding of the True Cross)',
-    occasionAm: 'በዓለ መስቀል (መስከረም 17)',
-  },
-  '4-29': {
-    loc: { bookNameEn: 'Luke', chapter: 2, verse: 11 },
-    occasion: 'Gena (Nativity of Christ)',
-    occasionAm: 'በዓለ ልደት (ገና)',
-  },
-  '5-11': {
-    loc: { bookNameEn: 'Matthew', chapter: 3, verse: 16 },
-    occasion: 'Timkat (Epiphany)',
-    occasionAm: 'በዓለ ጥምቀት',
-  },
-  '6-16': {
-    loc: { bookNameEn: 'Lamentations', chapter: 3, verse: 22 },
-    occasion: 'Kidane Mehret (Annual)',
-    occasionAm: 'ኪዳነ ምሕረት (የካቲት 16)',
-  },
-  '9-23': {
-    loc: { bookNameEn: '2 Timothy', chapter: 4, verse: 7 },
-    occasion: 'St. George (Annual)',
-    occasionAm: 'ቅዱስ ጊዮርጊስ (ግንቦት 23)',
-  },
-}
-
-// Holy Week & Moveable feasts relative to Fasika (Easter Sunday)
-const HOLY_WEEK_BY_EASTER_OFFSET: Record<number, VerseSelection> = {
-  [-7]: {
-    loc: { bookNameEn: 'John', chapter: 12, verse: 13 },
-    occasion: 'Hosanna (Palm Sunday)',
-    occasionAm: 'ሆሣዕና',
-  },
-  [-6]: {
-    loc: { bookNameEn: 'Matthew', chapter: 21, verse: 9 },
-    occasion: 'Holy Week (Monday)',
-    occasionAm: 'ሰሙነ ሕማማት (ሰኞ)',
-  },
-  [-5]: {
-    loc: { bookNameEn: 'Mark', chapter: 11, verse: 15 },
-    occasion: 'Holy Week (Tuesday)',
-    occasionAm: 'ሰሙነ ሕማማት (ማክሰኞ)',
-  },
-  [-4]: {
-    loc: { bookNameEn: 'John', chapter: 12, verse: 24 },
-    occasion: 'Holy Week (Wednesday)',
-    occasionAm: 'ሰሙነ ሕማማት (ረቡዕ)',
-  },
-  [-3]: {
-    loc: { bookNameEn: 'John', chapter: 13, verse: 34 },
-    occasion: 'Holy Thursday (Maundy Thursday)',
-    occasionAm: 'ጸሎተ ሐሙስ',
-  },
-  [-2]: {
-    loc: { bookNameEn: 'Isaiah', chapter: 53, verse: 5 },
-    occasion: 'Siklet (Good Friday)',
-    occasionAm: 'ስቅለት (ዓርብ)',
-  },
-  [-1]: {
-    loc: { bookNameEn: 'Matthew', chapter: 27, verse: 60 },
-    occasion: 'Holy Saturday',
-    occasionAm: 'ቀዳም ስዑር',
-  },
-  [0]: {
-    loc: { bookNameEn: 'Matthew', chapter: 28, verse: 6 },
-    occasion: 'Fasika (Easter Resurrection)',
-    occasionAm: 'በዓለ ትንሣኤ (ፋሲካ)',
-  },
-  [39]: {
-    loc: { bookNameEn: 'Acts', chapter: 1, verse: 9 },
-    occasion: 'Ascension of Christ',
-    occasionAm: 'ዕርገት',
-  },
-  [49]: {
-    loc: { bookNameEn: 'Acts', chapter: 2, verse: 4 },
-    occasion: 'Pentecost (Descent of Holy Spirit)',
-    occasionAm: 'ጰራቅሊጦስ (በዓለ ኀምሳ)',
-  },
-}
-
-const GREAT_LENT_VERSES: VerseLocation[] = [
-  { bookNameEn: 'Matthew', chapter: 4, verse: 4 },
-  { bookNameEn: 'Matthew', chapter: 6, verse: 6 },
-  { bookNameEn: 'Matthew', chapter: 6, verse: 16 },
-  { bookNameEn: 'Matthew', chapter: 6, verse: 33 },
-  { bookNameEn: 'Matthew', chapter: 7, verse: 7 },
-  { bookNameEn: 'John', chapter: 3, verse: 16 },
-  { bookNameEn: 'John', chapter: 6, verse: 35 },
-  { bookNameEn: 'John', chapter: 8, verse: 12 },
-  { bookNameEn: 'Hebrews', chapter: 4, verse: 16 },
-  { bookNameEn: 'Hebrews', chapter: 12, verse: 2 },
-  { bookNameEn: 'Galatians', chapter: 2, verse: 20 },
-  { bookNameEn: '2 Corinthians', chapter: 5, verse: 17 },
-  { bookNameEn: 'Romans', chapter: 12, verse: 1 },
-  { bookNameEn: 'Romans', chapter: 12, verse: 2 },
-  { bookNameEn: 'Romans', chapter: 5, verse: 8 },
-  { bookNameEn: '1 Corinthians', chapter: 10, verse: 13 },
-  { bookNameEn: '1 Corinthians', chapter: 1, verse: 18 },
-  { bookNameEn: '1 Peter', chapter: 5, verse: 7 },
-  { bookNameEn: 'James', chapter: 4, verse: 8 },
-  { bookNameEn: 'James', chapter: 1, verse: 5 },
-  { bookNameEn: 'Proverbs', chapter: 3, verse: 5 },
-  { bookNameEn: 'Psalms', chapter: 51, verse: 10 },
-  { bookNameEn: 'Psalms', chapter: 23, verse: 1 },
-  { bookNameEn: 'Psalms', chapter: 27, verse: 1 },
-  { bookNameEn: 'Psalms', chapter: 46, verse: 1 },
-  { bookNameEn: 'Psalms', chapter: 119, verse: 105 },
-  { bookNameEn: 'Isaiah', chapter: 55, verse: 6 },
-  { bookNameEn: 'Jonah', chapter: 2, verse: 2 },
-  { bookNameEn: 'Daniel', chapter: 9, verse: 19 },
-  { bookNameEn: 'Acts', chapter: 3, verse: 19 },
-]
-
-const PASCHA_SEASON_VERSES: VerseLocation[] = [
-  { bookNameEn: 'John', chapter: 11, verse: 25 },
-  { bookNameEn: 'John', chapter: 20, verse: 29 },
-  { bookNameEn: 'Matthew', chapter: 28, verse: 19 },
-  { bookNameEn: 'Acts', chapter: 1, verse: 8 },
-  { bookNameEn: 'Acts', chapter: 2, verse: 4 },
-  { bookNameEn: 'Acts', chapter: 4, verse: 12 },
-  { bookNameEn: 'Romans', chapter: 6, verse: 4 },
-  { bookNameEn: 'Romans', chapter: 8, verse: 11 },
-  { bookNameEn: '1 Corinthians', chapter: 15, verse: 20 },
-  { bookNameEn: '1 Corinthians', chapter: 15, verse: 57 },
-  { bookNameEn: 'Galatians', chapter: 5, verse: 1 },
-  { bookNameEn: 'Philippians', chapter: 4, verse: 4 },
-  { bookNameEn: 'Hebrews', chapter: 13, verse: 8 },
-  { bookNameEn: '1 Peter', chapter: 1, verse: 3 },
-  { bookNameEn: 'Psalms', chapter: 118, verse: 24 },
-]
-
-const ADVENT_FAST_VERSES: VerseLocation[] = [
-  { bookNameEn: 'Isaiah', chapter: 9, verse: 6 },
-  { bookNameEn: 'Isaiah', chapter: 40, verse: 3 },
-  { bookNameEn: 'Luke', chapter: 1, verse: 37 },
-  { bookNameEn: 'Luke', chapter: 1, verse: 46 },
-  { bookNameEn: 'Matthew', chapter: 1, verse: 23 },
-  { bookNameEn: 'John', chapter: 1, verse: 14 },
-]
-
-const FILSETA_FAST_VERSES: VerseLocation[] = [
-  { bookNameEn: 'Luke', chapter: 1, verse: 48 },
-  { bookNameEn: 'Luke', chapter: 1, verse: 28 },
-  { bookNameEn: 'John', chapter: 19, verse: 27 },
-  { bookNameEn: 'Revelation', chapter: 12, verse: 1 },
-]
-
-const NINEVEH_FAST_VERSES: VerseLocation[] = [
-  { bookNameEn: 'Jonah', chapter: 3, verse: 10 },
-  { bookNameEn: 'Jonah', chapter: 3, verse: 5 },
-  { bookNameEn: 'Psalms', chapter: 51, verse: 17 },
-]
-
-const APOSTLES_FAST_VERSES: VerseLocation[] = [
-  { bookNameEn: 'Acts', chapter: 1, verse: 8 },
-  { bookNameEn: 'Matthew', chapter: 28, verse: 19 },
-  { bookNameEn: 'Romans', chapter: 10, verse: 15 },
-  { bookNameEn: '2 Timothy', chapter: 4, verse: 2 },
-]
-
-// Daily/monthly commemorations keyed by Ethiopian day-of-month (Senksar)
-const DAILY_COMM_ETY_DAY: Record<number, VerseSelection[]> = {
-  1: [
-    { loc: { bookNameEn: 'Luke', chapter: 1, verse: 48 }, occasion: 'Lideta (Birth of Mary)', occasionAm: 'ልደታ ለማርያም' },
-    { loc: { bookNameEn: '1 Kings', chapter: 18, verse: 36 }, occasion: 'Elias (Elijah)', occasionAm: 'ቅዱስ ኤልያስ' },
-  ],
-  5: [{ loc: { bookNameEn: 'Matthew', chapter: 16, verse: 18 }, occasion: 'Petros and Paulos', occasionAm: 'ቅዱሳን ጴጥሮስ ወጳውሎስ' }],
-  7: [{ loc: { bookNameEn: 'Matthew', chapter: 28, verse: 19 }, occasion: 'Holy Trinity', occasionAm: 'ሥላሴ' }],
-  12: [
-    { loc: { bookNameEn: 'Daniel', chapter: 12, verse: 1 }, occasion: 'Michael the Archangel', occasionAm: 'ቅዱስ ሚካኤል ሊቀ መላእክት' },
-    { loc: { bookNameEn: '1 Samuel', chapter: 3, verse: 10 }, occasion: 'Samuel', occasionAm: 'ነቢዩ ሳሙኤል' },
-    { loc: { bookNameEn: 'Psalms', chapter: 150, verse: 6 }, occasion: 'Yared (Praise)', occasionAm: 'ቅዱስ ያሬድ' },
-  ],
-  16: [{ loc: { bookNameEn: 'Lamentations', chapter: 3, verse: 22 }, occasion: 'Kidane Mehret', occasionAm: 'ኪዳነ ምሕረት' }],
-  19: [{ loc: { bookNameEn: 'Luke', chapter: 1, verse: 19 }, occasion: 'Gabriel the Archangel', occasionAm: 'ቅዱስ ገብርኤል ሊቀ መላእክት' }],
-  21: [{ loc: { bookNameEn: 'Luke', chapter: 1, verse: 28 }, occasion: 'Holy Virgin Mary (Monthly)', occasionAm: 'ቅድስት ድንግል ማርያም' }],
-  23: [{ loc: { bookNameEn: '2 Timothy', chapter: 4, verse: 7 }, occasion: 'Georgis (St. George)', occasionAm: 'ቅዱስ ጊዮርጊስ' }],
-  26: [{ loc: { bookNameEn: 'John', chapter: 20, verse: 28 }, occasion: 'Thomas the Apostle', occasionAm: 'ቅዱስ ቶማስ' }],
-  27: [{ loc: { bookNameEn: 'John', chapter: 3, verse: 17 }, occasion: 'Medhane Alem', occasionAm: 'መድኃኔ ዓለም' }],
-  29: [{ loc: { bookNameEn: 'Luke', chapter: 2, verse: 11 }, occasion: 'Lideta Christ (Monthly)', occasionAm: 'በዓለ ወልድ' }],
-  30: [{ loc: { bookNameEn: 'Mark', chapter: 16, verse: 15 }, occasion: 'Markos (St. Mark)', occasionAm: 'ቅዱስ ማርቆስ ዘአንበሳ' }],
-}
-
-const WEEKDAY_OBSERVANCE: Record<number, VerseSelection> = {
-  0: { loc: { bookNameEn: 'Psalms', chapter: 122, verse: 1 }, occasion: 'Sunday (Senbete)', occasionAm: 'ሰንበተ ክርስቲያን (እሑድ)' },
-  1: { loc: { bookNameEn: 'Psalms', chapter: 5, verse: 3 }, occasion: 'Monday (Sagno)', occasionAm: 'ሰኞ' },
-  2: { loc: { bookNameEn: 'Revelation', chapter: 2, verse: 10 }, occasion: 'Tuesday (Maksagno)', occasionAm: 'ማክሰኞ' },
-  3: { loc: { bookNameEn: 'Matthew', chapter: 4, verse: 17 }, occasion: 'Wednesday (Fasting/Repentance)', occasionAm: 'ጾመ ረቡዕ' },
-  4: { loc: { bookNameEn: 'Hebrews', chapter: 13, verse: 16 }, occasion: 'Thursday (Hamus)', occasionAm: 'ሐሙስ' },
-  5: { loc: { bookNameEn: 'Isaiah', chapter: 53, verse: 5 }, occasion: 'Friday (Crucifixion Fast)', occasionAm: 'ጾመ ዓርብ' },
-  6: { loc: { bookNameEn: 'Hebrews', chapter: 4, verse: 9 }, occasion: 'Saturday (Qadamit Sanbat)', occasionAm: 'ቀዳሚት ሰንበት (ቅዳሜ)' },
-}
-
-const pickDeterministic = (choices: VerseSelection[], etYear: number, etMonth: number, etDay: number): VerseSelection => {
+const pickDeterministic = (
+  choices: VerseSelection[],
+  etYear: number,
+  etMonth: number,
+  etDay: number,
+): VerseSelection => {
   if (choices.length === 1) return choices[0]
   const idx = Math.abs(etYear + etMonth + etDay) % choices.length
   return choices[idx]
@@ -286,7 +49,7 @@ export const resolveDailyVerseSelection = (kenatInstance: any): VerseSelection =
   const fixed = FIXED_FEASTS_BY_ETH_MM_DD[`${et.month}-${et.day}`]
   if (fixed) return fixed
 
-  // 2) Moveable feasts (relative to Fasika)
+  // 2) Moveable feasts (relative to Fasika via Bahire Hasab)
   const bh = kenatInstance.getBahireHasab()
   const easterEt = bh.movableFeasts.fasika.ethiopian
   const easterKenat = new Kenat({ year: easterEt.year, month: easterEt.month, day: easterEt.day })
@@ -295,7 +58,7 @@ export const resolveDailyVerseSelection = (kenatInstance: any): VerseSelection =
   const moveable = HOLY_WEEK_BY_EASTER_OFFSET[offset]
   if (moveable) return moveable
 
-  // 2.5) Fast of Nineveh (3-day fast about 3 weeks before Great Lent starts)
+  // 2.5) Fast of Nineveh (3-day fast)
   if (offset >= -76 && offset <= -74) {
     const idx = Math.abs(offset - -76)
     return {
@@ -305,7 +68,7 @@ export const resolveDailyVerseSelection = (kenatInstance: any): VerseSelection =
     }
   }
 
-  // 3) Great Lent (Hudade): 55 days leading up to Fasika, excluding Holy Week
+  // 3) Great Lent (Hudade): 55 days leading up to Fasika
   if (offset >= -55 && offset < -7) {
     const dayIndex = Math.abs(offset - -55)
     return {
@@ -385,7 +148,9 @@ export const resolveDailyVerseSelection = (kenatInstance: any): VerseSelection =
   return getPsalmLocationForEthiopianDate(et.month, et.day)
 }
 
-const getVerseText = async (loc: VerseLocation): Promise<{ text: string; book: (typeof books)[0] }> => {
+const getVerseText = async (
+  loc: VerseLocation,
+): Promise<{ text: string; book: (typeof books)[0] }> => {
   const book = books.find((b) => b.book_name_en === loc.bookNameEn)
   if (!book) throw new Error(`Unknown book name: ${loc.bookNameEn}`)
 
@@ -412,10 +177,23 @@ const getVerseText = async (loc: VerseLocation): Promise<{ text: string; book: (
 /**
  * Resolves Verse of the Day strictly in Amharic with Ethiopian liturgical details.
  */
-export async function getVerseOfTheDay(options?: { date?: string | Date }): Promise<VotdResponse> {
+export async function getVerseOfTheDay(options?: VotdOptions): Promise<VotdResponse> {
   let kenatInstance: any
 
-  if (options?.date) {
+  if (options?.ethDate) {
+    let ethObj: { year: number; month: number; day: number }
+    if (typeof options.ethDate === 'string') {
+      const parts = options.ethDate.split(/[-/]/).map(Number)
+      if (parts.length === 3 && !parts.some(isNaN)) {
+        ethObj = { year: parts[0], month: parts[1], day: parts[2] }
+      } else {
+        throw new Error('Invalid Ethiopian date parameter. Use YYYY-MM-DD (e.g. 2018-03-12).')
+      }
+    } else {
+      ethObj = options.ethDate
+    }
+    kenatInstance = new Kenat(ethObj)
+  } else if (options?.date) {
     const d = typeof options.date === 'string' ? new Date(options.date) : options.date
     if (isNaN(d.getTime())) {
       throw new Error('Invalid date parameter. Use YYYY-MM-DD.')
@@ -441,7 +219,6 @@ export async function getVerseOfTheDay(options?: { date?: string | Date }): Prom
   try {
     textResult = await getVerseText(selection.loc)
   } catch {
-    // Safe fallback to Psalm 23:1 if target verse extraction fails
     const fallbackSelection = {
       loc: { bookNameEn: 'Psalms', chapter: 23, verse: 1 },
       occasion: 'Daily Reading',
@@ -452,12 +229,12 @@ export async function getVerseOfTheDay(options?: { date?: string | Date }): Prom
   }
 
   const { text, book } = textResult
-  const bookId = book.book_name_en.toLowerCase().replace(/ /g, '-')
   const bookNameAm = book.book_name_am
   const bookShortAm = book.book_short_name_am || book.book_name_am
   const referenceAm = `${bookShortAm} ${selection.loc.chapter}:${selection.loc.verse}`
-  const monthNameAm = ETHIOPIAN_MONTHS_AM[et.month - 1] || `ወር ${et.month}`
+  const monthNameAm = ETHIOPIAN_MONTHS_AM[et.month - 1] || 'መስከረም'
   const formattedEthAm = `${monthNameAm} ${et.day} ቀን ${et.year} ዓ.ም.`
+  const bookId = book.book_name_en.toLowerCase().replace(/\s+/g, '-')
 
   return {
     status: 'success',

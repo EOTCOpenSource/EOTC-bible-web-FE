@@ -7,27 +7,23 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { getTranslations as getPlanTranslations } from 'next-intl/server'
 
-export default async function PlanDetailsPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export default async function PlanDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const templateBase = getPlanTemplateBySlug(slug)
+  const pd = await getPlanTranslations('PlanDetail')
 
   if (!templateBase) {
     return (
       <main className="container mx-auto px-4 py-12">
         <h1 className="text-2xl font-bold">{pd('notFound.title')}</h1>
-        <p className="mt-2 text-muted-foreground">{pd('notFound.description')}</p>
+        <p className="text-muted-foreground mt-2">{pd('notFound.description')}</p>
       </main>
     )
   }
 
   const t = await getTranslations('DiscoverPlans')
   const fallbackPlans: any[] = t.raw('fallbackPlans')
-  const pd = await getPlanTranslations('PlanDetail')
-  
+
   const template = { ...templateBase }
   const translatedPlan = fallbackPlans.find((p) => p.slug === slug)
   if (translatedPlan) {
@@ -37,8 +33,8 @@ export default async function PlanDetailsPage({
 
   const usePlanHref = `/dashboard/plans?template=${encodeURIComponent(template.slug)}`
   const similarBase = PLAN_TEMPLATES.filter((p) => p.slug !== template.slug).slice(0, 5)
-  const similar = similarBase.map(p => {
-    const tPlan = fallbackPlans.find(tp => tp.slug === p.slug)
+  const similar = similarBase.map((p) => {
+    const tPlan = fallbackPlans.find((tp) => tp.slug === p.slug)
     if (tPlan) {
       return { ...p, title: tPlan.title, description: tPlan.description }
     }
@@ -48,21 +44,27 @@ export default async function PlanDetailsPage({
   return (
     <main className="bg-background w-full">
       <Navbar />
-      <div className="w-full max-w-[1440px] mx-auto flex flex-col px-4 pt-24">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col px-4 pt-24">
         <div className="mt-6">
           <FeaturedPlanCard plan={template} usePlanHref={usePlanHref} />
         </div>
 
-        <div className="flex w-full px-0 md:px-12 items-end justify-between py-4 mt-6">
-          <div className="relative w-fit font-semibold text-[#1a1918] dark:text-neutral-100 text-3xl tracking-[-0.90px] leading-6 whitespace-nowrap">
+        <div className="mt-6 flex w-full items-end justify-between px-0 py-4 md:px-12">
+          <div className="relative w-fit text-3xl leading-6 font-semibold tracking-[-0.90px] whitespace-nowrap text-[#1a1918] dark:text-neutral-100">
             {pd('similarPlans')}
           </div>
-          <Image alt="" src="/figmaAssets/frame-118.svg" width={80} height={40} className="dark:invert" />
+          <Image
+            alt=""
+            src="/figmaAssets/frame-118.svg"
+            width={80}
+            height={40}
+            className="dark:invert"
+          />
         </div>
 
         <div className="relative w-full">
           <SimilarPlansCarousel plans={similar} />
-          <div className="absolute top-0 right-0 w-[145px] h-full bg-[linear-gradient(270deg,rgba(255,253,248,1)_0%,rgba(255,253,248,0)_100%)] dark:bg-[linear-gradient(270deg,rgba(26,26,25,1)_0%,rgba(26,26,25,0)_100%)] pointer-events-none" />
+          <div className="pointer-events-none absolute top-0 right-0 h-full w-[145px] bg-[linear-gradient(270deg,rgba(255,253,248,1)_0%,rgba(255,253,248,0)_100%)] dark:bg-[linear-gradient(270deg,rgba(26,26,25,1)_0%,rgba(26,26,25,0)_100%)]" />
         </div>
       </div>
       <Footer />
