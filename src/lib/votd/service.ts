@@ -1,5 +1,6 @@
 import path from 'path'
 import { promises as fs } from 'fs'
+import fsSync from 'fs'
 import Kenat from 'kenat'
 import { books } from '@/data/data'
 import { VerseLocation, VerseSelection, VotdResponse, VotdOptions } from './types'
@@ -19,6 +20,19 @@ import {
 
 export type { VerseLocation, VerseSelection, VotdResponse, VotdOptions }
 export { ETHIOPIAN_MONTHS_AM }
+
+function getBibleDataFilePath(fileName: string): string {
+  const candidates = [
+    path.join(process.cwd(), 'src', 'data', 'bible-data', `${fileName}.json`),
+    path.join(process.cwd(), 'EOTC-bible-web-FE', 'src', 'data', 'bible-data', `${fileName}.json`),
+  ]
+  for (const candidate of candidates) {
+    if (fsSync.existsSync(candidate)) {
+      return candidate
+    }
+  }
+  return candidates[0]
+}
 
 const pickDeterministic = (
   choices: VerseSelection[],
@@ -148,15 +162,29 @@ export const resolveDailyVerseSelection = (kenatInstance: any): VerseSelection =
   return getPsalmLocationForEthiopianDate(et.month, et.day)
 }
 
+// In-memory cache for parsed Bible book JSONs to eliminate repetitive disk I/O
+const bookDataCache = new Map<string, any>()
+
+// In-memory cache for resolved VOTD responses
+interface VotdCacheEntry {
+  response: VotdResponse
+  expiresAt: number
+}
+const votdCache = new Map<string, VotdCacheEntry>()
+
 const getVerseText = async (
   loc: VerseLocation,
 ): Promise<{ text: string; book: (typeof books)[0] }> => {
   const book = books.find((b) => b.book_name_en === loc.bookNameEn)
   if (!book) throw new Error(`Unknown book name: ${loc.bookNameEn}`)
 
-  const filePath = path.join(process.cwd(), 'src', 'data', 'bible-data', `${book.file_name}.json`)
-  const content = await fs.readFile(filePath, 'utf8')
-  const bookData = JSON.parse(content)
+  let bookData = bookDataCache.get(book.file_name)
+  if (!bookData) {
+    const filePath = getBibleDataFilePath(book.file_name)
+    const content = await fs.readFile(filePath, 'utf8')
+    bookData = JSON.parse(content)
+    bookDataCache.set(book.file_name, bookData)
+  }
 
   const chapterData = bookData.chapters?.find((c: any) => c.chapter === loc.chapter)
   if (!chapterData) {
@@ -178,6 +206,46 @@ const getVerseText = async (
  * Resolves Verse of the Day strictly in Amharic with Ethiopian liturgical details.
  */
 export async function getVerseOfTheDay(options?: VotdOptions): Promise<VotdResponse> {
+  // Derive cache key and expiration
+  let cacheKey: string
+  let expiresAt: number
+
+  const nowInEthiopia = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'Africa/Addis_Ababa' }),
+  )
+
+  if (options?.ethDate) {
+    const ethStr =
+      typeof options.ethDate === 'string'
+        ? options.ethDate
+        : `${options.ethDate.year}-${options.ethDate.month}-${options.ethDate.day}`
+    cacheKey = `eth_${ethStr}`
+    expiresAt = Date.now() + 86400 * 1000
+  } else if (options?.date) {
+    const dStr =
+      typeof options.date === 'string'
+        ? options.date
+        : options.date.toISOString().split('T')[0]
+    cacheKey = `greg_${dStr}`
+    expiresAt = Date.now() + 86400 * 1000
+  } else {
+    // Current day in Ethiopia: expires at next Ethiopian midnight
+    const year = nowInEthiopia.getFullYear()
+    const month = String(nowInEthiopia.getMonth() + 1).padStart(2, '0')
+    const day = String(nowInEthiopia.getDate()).padStart(2, '0')
+    cacheKey = `today_${year}-${month}-${day}`
+
+    const nextMidnightEth = new Date(nowInEthiopia)
+    nextMidnightEth.setHours(24, 0, 0, 0)
+    expiresAt = nextMidnightEth.getTime()
+  }
+
+  // Check in-memory cache
+  const cached = votdCache.get(cacheKey)
+  if (cached && Date.now() < cached.expiresAt) {
+    return cached.response
+  }
+
   let kenatInstance: any
 
   if (options?.ethDate) {
@@ -200,10 +268,6 @@ export async function getVerseOfTheDay(options?: VotdOptions): Promise<VotdRespo
     }
     kenatInstance = new Kenat(d)
   } else {
-    // Current time strictly in Africa/Addis_Ababa (East Africa Time, UTC+3)
-    const nowInEthiopia = new Date(
-      new Date().toLocaleString('en-US', { timeZone: 'Africa/Addis_Ababa' }),
-    )
     kenatInstance = new Kenat(nowInEthiopia)
   }
 
@@ -239,7 +303,7 @@ export async function getVerseOfTheDay(options?: VotdOptions): Promise<VotdRespo
   const formattedEthAm = `${monthNameAm} ${et.day} ቀን ${et.year} ዓ.ም.`
   const bookId = book.book_name_en.toLowerCase().replace(/\s+/g, '-')
 
-  return {
+  const response: VotdResponse = {
     status: 'success',
     data: {
       date: {
@@ -268,4 +332,19 @@ export async function getVerseOfTheDay(options?: VotdOptions): Promise<VotdRespo
       url: `https://nehemiah-osc.org/read-online/${bookId}/${selection.loc.chapter}#v${selection.loc.verse}`,
     },
   }
+
+  // Prune cache if it grows past 100 items (prevent memory leaks)
+  if (votdCache.size > 100) {
+    const now = Date.now()
+    for (const [k, v] of votdCache.entries()) {
+      if (v.expiresAt <= now) {
+        votdCache.delete(k)
+      }
+    }
+  }
+
+  // Save to in-memory cache
+  votdCache.set(cacheKey, { response, expiresAt })
+
+  return response
 }
