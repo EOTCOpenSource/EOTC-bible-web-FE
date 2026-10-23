@@ -39,7 +39,7 @@
     "input-otp": "^1.4.2",
     "kenat": "^3.2.0",
     "lucide-react": "^0.544.0",
-    "next": "^16.2.1",
+    "next": "^16.2.4",
     "next-intl": "^4.3.12",
     "next-themes": "^0.4.6",
     "react": "19.1.0",
@@ -73,6 +73,11 @@
     },
     "@sentry/nextjs": {
       "next": "$next"
-    }
+    },
+    "tar": "^7.5.21",
+    "postcss": "^8.5.23",
+    "serialize-javascript": "^7.0.5",
+    "source-map-js": "^1.2.2",
+    "picomatch": "^4.0.4"
   }
 }
