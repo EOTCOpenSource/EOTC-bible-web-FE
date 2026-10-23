@@ -79,5 +79,9 @@
     "serialize-javascript": "^7.0.5",
     "source-map-js": "^1.2.2",
     "picomatch": "^4.0.4"
+  },
+  "engines": {
+    "node": "22.x",
+    "npm": ">=10.0.0"
   }
 }
